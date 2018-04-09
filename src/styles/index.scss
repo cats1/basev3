@@ -1,0 +1,67 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.login-container {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: #2d3a4b;
+  .login-form {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 520px;
+    padding: 35px 35px 15px 35px;
+    margin: 120px auto;
+  }
+  .el-form-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #454545;
+  }
+  .svg-container {
+    font-size: 20px;
+    padding: 6px 5px 6px 15px;
+    color: #889aa4;
+    vertical-align: middle;
+    width: 30px;
+    display: inline-block;
+  }
+  .el-input {
+    display: inline-block;
+    height: 47px;
+    width: 85%;
+    input {
+      background: transparent;
+      border: 0px;
+      -webkit-appearance: none;
+      border-radius: 0px;
+      padding: 12px 5px 12px 15px;
+      color: #eee;
+      height: 47px;
+    }
+  }
+  .show-pwd{
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    font-size: 16px;
+    color: #889aa4;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+}
+
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
