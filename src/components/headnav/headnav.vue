@@ -20,6 +20,19 @@
 				  </template>
 				</el-menu>
 		    </div>
+		    <div class="menuright">
+		    	<a :href="$t('homepage.link')" class="gohomepage">{{$t('homepage.name')}}</a>
+		    	<el-dropdown>
+				  <span class="el-dropdown-link">
+				    <span class="useravater">p</span><span class="username">lana</span><i class="el-icon-arrow-down el-icon--right"></i>
+				  </span>
+				  <el-dropdown-menu slot="dropdown">
+				  	<template v-for="item in downlist">
+				  		<el-dropdown-item><a :href="item.link">{{item.name}}</a></el-dropdown-item>
+				  	</template>
+				  </el-dropdown-menu>
+				</el-dropdown>
+		    </div>
 	    </div>
 	</div>
 </template>
@@ -29,7 +42,8 @@ export default {
     props: ['activeIndex'],
     data() {
       return {
-        navlist: this.$t('navlist')
+        navlist: this.$t('navlist'),
+        downlist: this.$t('downlist')
       }
     },
     methods: {

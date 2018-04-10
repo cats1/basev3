@@ -70,5 +70,18 @@ export default {
       link: 'key.html',
       children: []
     }]
-  },]
+  }],
+  homepage:{
+    name: '官网首页',
+    link: '#'
+  },
+  downlist:[{
+      name: '账号管理',
+      dirname: 'account',
+      link: 'account.html'
+    },{
+      name: '退出账号',
+      dirname: null,
+      link: null
+    }]
 }
