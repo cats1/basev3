@@ -1,15 +1,30 @@
 import { managerLogin, getCode, isCodeTrue } from '@/api/login'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 const user = {
 	state: {
-		user: '',
-		token: ''
+		userid: '',
+		token: getToken(),
+
 	},
-	mutations: {},
+	mutations: {
+		SET_USERID: (state, userid) => {
+           state.userid = userid
+		},
+		SET_TOKEN: (state, token) => {
+           state.token = token
+		}
+	},
 	actions: {
 		managerLogin({ commit }, userInfo) {
 			return new Promise((resolve, reject) => {
 		        managerLogin(userInfo).then(response => {
-		        	console.log(response)
+		          console.log(response)
+		          let { status, result } = response
+		          if (status == 0) {
+                    commit('SET_USERID', result.userid)
+                    commit('SET_TOKEN', result.token)
+		          }
+		          setToken(result.token)
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)

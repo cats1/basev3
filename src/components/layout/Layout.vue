@@ -1,6 +1,5 @@
 <template>
   <div class="app-wrapper" >
-    layout
     <!-- <sidebar class="sidebar-container"></sidebar> -->
     <div class="main-container">
       <!-- <navbar></navbar>

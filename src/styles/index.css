@@ -57,4 +57,43 @@ body {
   fill: currentColor;
   overflow: hidden; }
 
+.mheader {
+  background: #545c64;
+  height: 60px; }
+  .mheader .headerwrap {
+    width: 90%;
+    margin: 0 auto;
+    padding: 0; }
+    .mheader .headerwrap .menuleft {
+      float: left; }
+      .mheader .headerwrap .menuleft .el-menu .el-menu-item {
+        padding: 0; }
+        .mheader .headerwrap .menuleft .el-menu .el-menu-item a {
+          display: block;
+          padding: 0 20px; }
+    .mheader .headerwrap .menuright {
+      float: right;
+      color: #fff; }
+      .mheader .headerwrap .menuright .gohomepage {
+        color: #fff;
+        display: inline-block;
+        height: 60px;
+        line-height: 60px;
+        padding: 0 10px;
+        border-left: 1px solid #777;
+        border-right: 1px solid #777; }
+      .mheader .headerwrap .menuright .el-dropdown {
+        color: #fff;
+        height: 60px;
+        line-height: 60px; }
+        .mheader .headerwrap .menuright .el-dropdown .useravater {
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          line-height: 40px;
+          display: inline-block;
+          background: #777; }
+        .mheader .headerwrap .menuright .el-dropdown .username {
+          margin: 0 5px; }
+
 /*# sourceMappingURL=index.css.map */

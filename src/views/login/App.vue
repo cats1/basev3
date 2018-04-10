@@ -110,7 +110,8 @@ export default {
           		console.log(lftDePwdRule(newForm.password))
           		this.$store.dispatch('managerLogin', this.loginForm).then((resp) => {
                   this.loading = false
-                  //window.location.href = 'index.html'
+                  console.log(this.$store)
+                  window.location.href = 'index.html'
 	          	}).catch(() => {
 	              this.loading = false
 	            })

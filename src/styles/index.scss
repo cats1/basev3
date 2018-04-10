@@ -1,3 +1,4 @@
+$baseBgColor: #545c64;
 body {
   padding: 0;
   margin: 0;
@@ -64,4 +65,54 @@ body {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+}
+.mheader {
+  background: $baseBgColor;
+  height: 60px;
+  .headerwrap {
+    width: 90%;
+    margin: 0 auto;
+    padding: 0;
+    .menuleft {
+      float: left;
+      .el-menu {
+        .el-menu-item {
+          padding: 0;
+          a {
+            display: block;
+            padding: 0 20px;
+          }
+        }
+      }
+    }
+    .menuright {
+      float: right;
+      color: #fff;
+      .gohomepage {
+        color: #fff;
+        display: inline-block;
+        height: 60px;
+        line-height: 60px;
+        padding: 0 10px;
+        border-left: 1px solid #777;
+        border-right: 1px solid #777;
+      }
+      .el-dropdown {
+        color: #fff;
+        height: 60px;
+        line-height: 60px;
+        .useravater {
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          line-height: 40px;
+          display: inline-block;
+          background: #777;
+        }
+        .username {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
 }

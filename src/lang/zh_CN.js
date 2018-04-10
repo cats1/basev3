@@ -19,5 +19,56 @@ export default {
     7: '无效的验证码',
     8: '昵称不可用',
     119: '验证码无效'
-  }
+  },
+  navlist: [{
+    name: '首页',
+    dirname: 'index',
+    link: 'index.html',
+    children: []
+  },{
+    name: '人员',
+    dirname: 'employee',
+    link: 'employee.html',
+    children: [{
+      name: '公司员工',
+      dirname: 'employee',
+      link: 'employee.html',
+      children: []
+    },{
+      name: '常驻访客',
+      dirname: 'visitlist',
+      link: 'visitlist.html',
+      children: []
+    },{
+      name: '黑名单',
+      dirname: 'blacklist',
+      link: 'blacklist.html',
+      children: []
+    }]
+  },{
+    name: '通知',
+    dirname: 'notice',
+    link: 'notice.html',
+    children: []
+  },{
+    name: '自定义设置',
+    dirname: 'setting',
+    link: 'setting.html',
+    children: [{
+      name: '前台设置',
+      dirname: 'pad',
+      link: 'pad.html',
+      children: []
+    },{
+      name: '预约邀请',
+      dirname: 'reserve',
+      link: 'reserve.html',
+      children: []
+    },{
+      name: '智能门禁',
+      dirname: 'key',
+      link: 'key.html',
+      children: []
+    }]
+  },]
 }
