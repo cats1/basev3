@@ -2,9 +2,10 @@
 	<div id="headnav" class="mheader">
 		<div class="headerwrap">
 			<div class="menuleft">
-				<el-menu :default-active="activeIndex" theme="dark" class="el-menu-demo" mode="horizontal" background-color="#545c64"
+				
+				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
 		  text-color="#fff"
-		  active-text-color="#409EFF">
+		  active-text-color="#ffd04b">
 				  <template v-for="(item,index) in navlist">
 				  	<template v-if="item.children.length === 0">
 				  		<el-menu-item :index="item.dirname"><a :href="item.link" target="_blank">{{item.name}}</a></el-menu-item>

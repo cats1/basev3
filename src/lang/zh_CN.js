@@ -70,18 +70,28 @@ export default {
       link: 'key.html',
       children: []
     }]
+  },{
+    name: '会议',
+    dirname: 'meeting',
+    link: 'meeting.html',
+    children: []
   }],
   homepage:{
     name: '官网首页',
     link: '#'
   },
   downlist:[{
-      name: '账号管理',
-      dirname: 'account',
-      link: 'account.html'
-    },{
-      name: '退出账号',
-      dirname: null,
-      link: null
-    }]
+    name: '账号管理',
+    dirname: 'account',
+    link: 'account.html'
+  },{
+    name: '退出账号',
+    dirname: null,
+    link: null
+  }],
+  footer: {
+    ftext1: '版权所有',
+    ftext2: '南京访客乐网络科技有限公司. 保留一切权利.',
+    flink: '苏ICP备15058768号' 
+  }
 }

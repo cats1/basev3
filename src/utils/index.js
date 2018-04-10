@@ -210,7 +210,55 @@ export function getTime(type) {
     return new Date(new Date().toDateString())
   }
 }
-
+function stringToArray (string) {
+  let reg = /,|=/
+  if (checkStringFlag(string)) {
+    return string.split(reg)
+  } else {
+    return []
+  }
+}
+function checkStringFlag (s) {
+  if (s === null || s === undefined) {
+    return false
+  }
+  return true
+}
+export function getYear(s, on, t){
+  if (checkStringFlag(s)) {
+    return setDateFormat(s, on, t)
+  } else {
+    return ''
+  }
+}
+function changeDouble (s) {
+  if (s < 10) {
+    return '0' + s
+  }
+  return s
+}
+function setDateFormat (str, join, t) {
+  let time = str === '' ? new Date() : new Date(str)
+  let y = time.getFullYear()
+  let mon = changeDouble(time.getMonth() + 1)
+  let d = changeDouble(time.getDate())
+  let h = changeDouble(time.getHours())
+  let m = changeDouble(time.getMinutes())
+  let s = changeDouble(time.getSeconds())
+  if (t === 0) {
+    return y + join + mon + join + d
+  } else if (t === 1) {
+    return y + join + mon + join + d + ' ' + h
+  } else if (t === 2) {
+    return y + join + mon + join + d + ' ' + h + ':' + m
+  } else if (t === 3) {
+    return y + join + mon + join + d + ' ' + h + ':' + m + ':' + s
+  } else if (t === 4) {
+    return y
+  } else {
+    return y
+  }
+}
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 

@@ -1,7 +1,35 @@
 $baseBgColor: #545c64;
+$baseFontSize: 14px;
+$baseFontColor: #606266;
+$baseBorderColor: #e7e8e9;
 body {
-  padding: 0;
   margin: 0;
+  padding: 0;
+  font-size: $baseFontSize;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: $baseFontColor;
+  position: relative;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  //color: #fff;
+  text-decoration: none;
+}
+ul,
+li,
+dt,
+dl,
+dd {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .login-container {
@@ -69,8 +97,9 @@ body {
 .mheader {
   background: $baseBgColor;
   height: 60px;
+  width:100%;
   .headerwrap {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     padding: 0;
     .menuleft {
@@ -113,6 +142,39 @@ body {
           margin: 0 5px;
         }
       }
+    }
+  }
+}
+.el-menu--horizontal{
+  .el-menu--popup{
+    li{
+     a{
+       color:#fff;
+     }
+    }
+  }
+}
+.el-dropdown-menu{
+  li{
+    a{
+      color: #000;
+    }
+  }
+}
+/* footer */
+
+.footerwrap {
+  background: $baseBgColor;
+  padding: 16px 0;
+  p {
+    text-align: center;
+    line-height: 28px;
+    margin: 0;
+    color: rgba(255, 255, 255, .4);
+    color: #ccc\9;
+    a {
+      color: rgba(255, 255, 255, .4);
+      color: #ccc\9;
     }
   }
 }

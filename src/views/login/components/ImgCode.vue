@@ -31,4 +31,4 @@ export default {
   mounted () {}
 }
 </script>
-<style rel="stylesheet/scss" lang="scss" scoped></style>
+<style scoped></style>

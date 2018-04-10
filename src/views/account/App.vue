@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-container">
-    <headnav active-index="index"></headnav>
+    <headnav active-index="account"></headnav>
+    99999
     <footbom></footbom>
   </div>
 </template>
