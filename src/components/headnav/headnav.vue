@@ -46,13 +46,7 @@ export default {
         downlist: this.$t('downlist')
       }
     },
-    methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      }
-    },
-    mounted(){
-    	console.log(this.navlist)
-    }
+    methods: {},
+    mounted(){}
   }
 </script>
