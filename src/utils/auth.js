@@ -13,3 +13,14 @@ export function setToken(token) {
 export function removeToken() {
   return Cookies.remove(TokenKey)
 }
+export function getCache(key) {
+  return Cookies.get(key)
+}
+
+export function setCache(key,value) {
+  return Cookies.set(key, value)
+}
+
+export function removeCache(key) {
+  return Cookies.remove(key)
+}

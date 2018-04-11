@@ -23,6 +23,7 @@
 		    </div>
 		    <div class="menuright">
 		    	<a :href="$t('homepage.link')" class="gohomepage">{{$t('homepage.name')}}</a>
+		    	<lang-select class="international right-menu-item"></lang-select>
 		    	<el-dropdown>
 				  <span class="el-dropdown-link">
 				    <span class="useravater">p</span><span class="username">lana</span><i class="el-icon-arrow-down el-icon--right"></i>
@@ -38,6 +39,7 @@
 	</div>
 </template>
 <script>
+import LangSelect from '@/components/LangSelect'
 export default {
 	name: 'headnav',
     props: ['activeIndex'],
@@ -47,6 +49,7 @@ export default {
         downlist: this.$t('downlist')
       }
     },
+    components: {LangSelect},
     methods: {},
     mounted(){}
   }

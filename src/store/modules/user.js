@@ -48,7 +48,15 @@ const user = {
 		          reject(error)
 		        })
 		    })
-		}
+		},
+		// 前端 登出
+	    signOut({ commit }) {
+	      return new Promise(resolve => {
+	        commit('SET_TOKEN', '')
+	        removeToken()
+	        resolve()
+	      })
+	    },
 	}
 }
 export default user

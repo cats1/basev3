@@ -1,0 +1,120 @@
+$bg:#343d49;
+$light_gray:#eee;
+$dark_gray:#889aa4;
+.login-container {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: #343d49;
+  .form-container{
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 520px;
+    margin: 65px auto;
+    .loginselectwrap{
+      color: #fff;
+      position: absolute;
+      top: 10px;
+      right: 0;
+      z-index: 999;
+      .el-dropdown-link{
+        color: #fff;
+      }
+    }
+  }
+  
+  .login-form {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .tips {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 10px;
+    span {
+      &:first-of-type {
+        margin-right: 16px;
+      }
+    }
+  }
+  .el-form-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #454545;
+  }
+  .svg-container {
+    padding: 6px 5px 6px 15px;
+    color: $dark_gray;
+    vertical-align: middle;
+    width: 30px;
+    display: inline-block;
+    &_login {
+      font-size: 20px;
+    }
+  }
+  .title-container {
+    position: relative;
+    .title {
+      font-size: 26px;
+      font-weight: 400;
+      color: $light_gray;
+      margin: 0px auto 40px auto;
+      text-align: center;
+      font-weight: bold;
+    }
+    .set-language {
+      color: #fff;
+      position: absolute;
+      top: 5px;
+      right: 0px;
+    }
+  }
+  .el-input {
+    display: inline-block;
+    height: 47px;
+    width: 85%;
+    input {
+      background: transparent;
+      border: 0px;
+      -webkit-appearance: none;
+      border-radius: 0px;
+      padding: 12px 5px 12px 15px;
+      color: $light_gray;
+      height: 47px;
+      &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
+        -webkit-text-fill-color: #fff !important;
+      }
+    }
+  }
+  .show-pwd {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    font-size: 16px;
+    color: #889aa4;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .codewrap{
+    .img-code-wrap{
+      img{
+        height: 37px;
+        margin: 5px 0 -13px 0;
+      }
+    }    
+  }
+  .or-line-wrap{
+    .or-value{
+      background: $bg;
+    }
+  }
+}

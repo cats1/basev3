@@ -8,7 +8,7 @@
 import headnav from '../../components/headnav/headnav'
 import footbom from '../../components/footer/footbom'
 export default {
-  name: 'index',
+  name: 'App',
   data () {
     return {}
   },

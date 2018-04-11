@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+//管理员登录
 export function managerLogin(data) {
   return request({
     url: '/Login',
@@ -34,4 +34,11 @@ export function getUserInfo(token) {
     params: { token }
   })
 }
-
+//超级账号管理员登录
+export function superAccountLogin(data) {
+  return request({
+    url: '/superAccountLogin',
+    method: 'post',
+    data
+  })
+}

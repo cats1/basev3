@@ -237,7 +237,7 @@ function changeDouble (s) {
   }
   return s
 }
-function setDateFormat (str, join, t) {
+export function setDateFormat (str, join, t) {
   let time = str === '' ? new Date() : new Date(str)
   let y = time.getFullYear()
   let mon = changeDouble(time.getMonth() + 1)

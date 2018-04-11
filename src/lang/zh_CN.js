@@ -1,7 +1,82 @@
 export default {
   test: '咳咳',
+  loginselect: [{
+    name: '管理员登录',
+    type: 0
+  },{
+    name: '超级管理员登录',
+    type: 1
+  },{
+    name: '入驻企业登录',
+    type: 2
+  },{
+    name: '员工登录',
+    type: 3
+  },{
+    name: '前台登录',
+    type: 4
+  }],
+  validPassword: {
+    tip1: '密码格式不正确',
+    tip2: '密码长度不小于6位'
+  },
+  validEmail: {
+    tip1: '邮箱格式不正确'
+  },
+  imgcode: {
+    tip1: '验证码不能为空'
+  },
+  validphone: {
+    tip1: '手机号格式不正确',
+    tip2: '手机号不能为空'
+  },
+  validStage: {
+    tip1: '账号不能为空'
+  },
   login: {
-    title: '系统登录',
+    title: '管理员登录',
+    logIn: '登录',
+    username: '账号',
+    password: '密码',
+    forgot: {
+      title: '忘记密码？'
+    },
+    or: '或者',
+    signup: '企业注册',
+    any: '随便填',
+    thirdparty: '第三方登录',
+    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
+  },
+  superLogin:{
+    title: '超级管理员登录',
+    logIn: '登录',
+    username: '账号',
+    password: '密码',
+    checkNameTip: '超级账号格式不正确,以LFT_开头',
+    any: '随便填',
+    thirdparty: '第三方登录',
+    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
+  },
+  companyLogin:{
+    title: '入驻企业登录',
+    logIn: '登录',
+    username: '账号',
+    password: '密码',
+    any: '随便填',
+    thirdparty: '第三方登录',
+    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
+  },
+  empLogin:{
+    title: '员工登录',
+    logIn: '登录',
+    username: '账号',
+    password: '密码',
+    any: '随便填',
+    thirdparty: '第三方登录',
+    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
+  },
+  stageLogin:{
+    title: '前台登录',
     logIn: '登录',
     username: '账号',
     password: '密码',
@@ -18,6 +93,7 @@ export default {
     6: '用户未更新',
     7: '无效的验证码',
     8: '昵称不可用',
+    27: '无效的token',
     119: '验证码无效'
   },
   navlist: [{
@@ -87,6 +163,15 @@ export default {
   },{
     name: '退出账号',
     dirname: null,
+    link: null
+  }],
+  superdown:[{
+    name: '修改密码',
+    dirname: null,
+    link: null
+  },{
+    name: '退出账号',
+    dirname: 'signout',
     link: null
   }],
   footer: {

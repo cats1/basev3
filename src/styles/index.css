@@ -1,31 +1,61 @@
-body {
-  padding: 0;
-  margin: 0; }
-
 .login-container {
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: #2d3a4b; }
-  .login-container .login-form {
+  background-color: #343d49; }
+  .login-container .form-container {
     position: absolute;
     left: 0;
     right: 0;
     width: 520px;
-    padding: 35px 35px 15px 35px;
-    margin: 120px auto; }
+    margin: 65px auto; }
+    .login-container .form-container .loginselectwrap {
+      color: #fff;
+      position: absolute;
+      top: 10px;
+      right: 0;
+      z-index: 999; }
+      .login-container .form-container .loginselectwrap .el-dropdown-link {
+        color: #fff; }
+  .login-container .login-form {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0 auto; }
+  .login-container .tips {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 10px; }
+    .login-container .tips span:first-of-type {
+      margin-right: 16px; }
   .login-container .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545; }
   .login-container .svg-container {
-    font-size: 20px;
     padding: 6px 5px 6px 15px;
     color: #889aa4;
     vertical-align: middle;
     width: 30px;
     display: inline-block; }
+    .login-container .svg-container_login {
+      font-size: 20px; }
+  .login-container .title-container {
+    position: relative; }
+    .login-container .title-container .title {
+      font-size: 26px;
+      font-weight: 400;
+      color: #eee;
+      margin: 0px auto 40px auto;
+      text-align: center;
+      font-weight: bold; }
+    .login-container .title-container .set-language {
+      color: #fff;
+      position: absolute;
+      top: 5px;
+      right: 0px; }
   .login-container .el-input {
     display: inline-block;
     height: 47px;
@@ -38,6 +68,9 @@ body {
       padding: 12px 5px 12px 15px;
       color: #eee;
       height: 47px; }
+      .login-container .el-input input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px #343d49 inset !important;
+        -webkit-text-fill-color: #fff !important; }
   .login-container .show-pwd {
     position: absolute;
     right: 10px;
@@ -49,6 +82,63 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
+  .login-container .codewrap .img-code-wrap img {
+    height: 37px;
+    margin: 5px 0 -13px 0; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  text-align: center;
+  color: #606266;
+  position: relative; }
+
+html {
+  height: 100%;
+  box-sizing: border-box; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit; }
+
+a {
+  text-decoration: none; }
+
+a:focus,
+a:active {
+  outline: none; }
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none; }
+
+div:focus {
+  outline: none; }
+
+ul,
+li,
+dt,
+dl,
+dd {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
+label {
+  font-weight: 700; }
 
 .svg-icon {
   width: 1em;
@@ -57,11 +147,22 @@ body {
   fill: currentColor;
   overflow: hidden; }
 
+.page-container-center {
+  width: 1200px;
+  margin: 0 auto; }
+
+.box-card {
+  text-align: left; }
+  .box-card .el-card__header {
+    padding: 5px 20px;
+    background: #eeeeee; }
+
 .mheader {
   background: #545c64;
-  height: 60px; }
+  height: 60px;
+  width: 100%; }
   .mheader .headerwrap {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     padding: 0; }
     .mheader .headerwrap .menuleft {
@@ -95,5 +196,25 @@ body {
           background: #777; }
         .mheader .headerwrap .menuright .el-dropdown .username {
           margin: 0 5px; }
+
+.el-menu--horizontal .el-menu--popup li a {
+  color: #fff; }
+
+.el-dropdown-menu li a {
+  color: #000; }
+
+/* footer */
+.footerwrap {
+  background: #545c64;
+  padding: 16px 0; }
+  .footerwrap p {
+    text-align: center;
+    line-height: 28px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.4);
+    color: #ccc\9; }
+    .footerwrap p a {
+      color: rgba(255, 255, 255, 0.4);
+      color: #ccc\9; }
 
 /*# sourceMappingURL=index.css.map */
