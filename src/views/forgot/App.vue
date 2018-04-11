@@ -6,6 +6,7 @@
   	</div>
 </template>
 <script>
+import { ManagerForgot } from './components'
 export default {
   
 }

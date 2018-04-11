@@ -39,7 +39,11 @@ export default {
     username: '账号',
     password: '密码',
     forgot: {
-      title: '忘记密码？'
+      title: '忘记密码？',
+      page: {
+        title: '忘记密码',
+        desc: '输入您的电子邮件地址，我们会送您如何重置密码的说明'
+      }
     },
     or: '或者',
     signup: '企业注册',
