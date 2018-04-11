@@ -20,7 +20,7 @@
 	     		<img-code @clickit="setCode"></img-code>
 	     	</el-col>
 	     </el-form-item>
-	     <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doLogin">{{$t('login.logIn')}}</el-button>
+	     <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doLogin">{{$t('login.forgot.page.btn')}}</el-button>
 	     </el-row>
     </el-form>
 </template>
