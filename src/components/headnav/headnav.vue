@@ -26,12 +26,18 @@
 		    	<lang-select class="international right-menu-item"></lang-select>
 		    	<el-dropdown>
 				  <span class="el-dropdown-link">
-				    <span class="useravater">p</span><span class="username">lana</span><i class="el-icon-arrow-down el-icon--right"></i>
+				    <span class="useravater">p</span><span class="username">{{username}}</span><i class="el-icon-arrow-down el-icon--right"></i>
 				  </span>
 				  <el-dropdown-menu slot="dropdown">
 				  	<template v-for="item in downlist">
-				  		<el-dropdown-item><a :href="item.link">{{item.name}}</a></el-dropdown-item>
+				  		<template v-if="item.link !== null">
+					  		<el-dropdown-item ><a :href="item.link">{{item.name}}</a></el-dropdown-item>
+					  	</template>
+					  	<template v-else>
+					  		<el-dropdown-item ><a href="jsvascript:void(0);" @click="doFunc(item.link,item.dirname)">{{item.name}}</a></el-dropdown-item>
+					  	</template>
 				  	</template>
+				  	
 				  </el-dropdown-menu>
 				</el-dropdown>
 		    </div>
@@ -40,17 +46,37 @@
 </template>
 <script>
 import LangSelect from '@/components/LangSelect'
+import { getCache } from '@/utils/auth'
 export default {
 	name: 'headnav',
     props: ['activeIndex'],
     data() {
       return {
         navlist: this.$t('navlist'),
-        downlist: this.$t('downlist')
+        downlist: this.$t('downlist'),
+        username: this.getCache('username')
       }
     },
     components: {LangSelect},
-    methods: {},
+    methods: {
+    	getCache: getCache,
+    	doFunc (link,dirname) {
+	      	if (dirname === 'signout') {
+	      		this.$confirm('确认退出吗?', '提示', {
+			        confirmButtonText: '确定',
+			        cancelButtonText: '取消',
+			        type: 'warning',
+			        center: true
+			    }).then(() => {
+			        this.$store.dispatch('signOut').then(res => {
+			        	window.location.href = 'login.html'
+			        })
+			        
+			    }).catch(() => { })
+	          
+	      	}
+        }
+    },
     mounted(){}
   }
 </script>

@@ -1,0 +1,52 @@
+.guide-container{
+	background: #f3f3f3;
+}
+.guidewrap {
+  width: 880px;
+  margin: 0 auto;
+  .guidelogo{
+  	text-align: left;
+  }
+  .guidecell {
+    background: #fff;
+    box-shadow: 0 3px 27px rgba(0, 0, 0, 0.03);
+  }
+  .guidetop {
+    padding: 60px 0;
+    text-align: center;
+    position:relative;
+    .guidesteps {
+      position: absolute;
+      top: 22px;
+      right: -21px;
+      //background: url('../assets/img/dr.png') no-repeat right;
+    }
+    .guide-top-title {
+      color: #777;
+      font-size: 40px;
+      line-height: 50px;
+      font-weight: 200;
+    }
+    .guide-top-desc {
+      font-size: 18px;
+      color: #999999;
+      width: 520px;
+      margin: 0 auto;
+    }
+  }
+  .guidebody {
+    background: #e7f1fb;
+    position: relative;
+    padding: 60px 180px;
+    text-align: left;
+    h2{
+    	font-size: 24px;
+        margin-bottom: 15px;
+        font-weight: 300;
+    }
+  }
+  .guidebom {
+    padding: 60px 0;
+    text-align: center;
+  }
+}

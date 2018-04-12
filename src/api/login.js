@@ -7,6 +7,14 @@ export function managerLogin(data) {
     data
   })
 }
+//注册
+export function Register(data) {
+  return request({
+    url: '/Register',
+    method: 'post',
+    data
+  })
+}
 export function getCode () {
   return request({
     url: '/getValidationCode',
@@ -38,6 +46,14 @@ export function getUserInfo(token) {
 export function superAccountLogin(data) {
   return request({
     url: '/superAccountLogin',
+    method: 'post',
+    data
+  })
+}
+//发送邮件重置
+export function RetrievePassword(data) {
+  return request({
+    url: '/RetrievePassword',
     method: 'post',
     data
   })

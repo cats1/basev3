@@ -13,3 +13,11 @@ export function checkEmpInfo(data) {
     data
   })
 }
+//获取员工列表
+export function GetEmpList(data) {
+  return request({
+    url: '/GetEmpList',
+    method: 'post',
+    data
+  })
+}

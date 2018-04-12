@@ -1,5 +1,81 @@
 export default {
   test: '咳咳',
+  signup: {
+    title: '注册',
+    desc: '马上体验更智能的访客管理系统',
+    button: '注册'
+  },
+  guide: {
+    guide1: {
+      title: '欢迎加入来访通',
+      desc: '您只需完成以下操作，即可对酷访通进行自定义设置。如需帮助，请点击页面右侧“问题咨询”',
+      inputTitle: '填写公司信息',
+      inputPlaceholder: '公司名备注（最多六个字）',
+      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
+      next: '接下来：添加员工',
+      btn: '下一步'
+    },
+    guide2: {
+      title: '添加员工信息',
+      desc: '添加员工后即能体验我们最强大的功能：自动通知员工有客来访。请至少添加一条员工信息。支持RTX、员工通讯录Excel表格导入，更推荐您尝试手动添加，直接将员工信息录入后台。',
+      inputTitle: '填写公司信息',
+      inputPlaceholder: '公司名备注（最多六个字）',
+      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
+      next: '接下来：登记设置',
+      btn: '下一步'
+    },
+    guide3: {
+      title: '登记内容设置',
+      desc: '您的访客将在iPad页面进行登记，我们为您提供以下登记内容，您可以对其进行个性化设置',
+      inputTitle: '填写公司信息',
+      inputPlaceholder: '公司名备注（最多六个字）',
+      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
+      next: '接下来：通知设置',
+      btn: '下一步'
+    },
+    guide4: {
+      title: '通知方式设置',
+      desc: '我们为您提供微信、邮件、钉钉、RTX、短信五种通知方式，点击右侧开关，设置员工接收通知方式',
+      inputTitle: '填写公司信息',
+      inputPlaceholder: '公司名备注（最多六个字）',
+      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
+      next: '接下来：迎接来访者',
+      btn: '下一步'
+    },
+    guide5: {
+      title: 'Pad端设置',
+      desc: '您的访客将在iPad页面进行登记，我们为您提供以下登记内容，您可以对其进行个性化设置',
+      inputTitle: '填写公司信息',
+      inputPlaceholder: '公司名备注（最多六个字）',
+      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
+      next: '接下来：迎接来访者',
+      btn: '进入后台管理'
+    }
+  },
+  formCheck: {
+    validPassword: {
+      tip1: '密码格式不正确',
+      tip2: '密码长度不小于6位',
+      tip3: '密码不能为空'
+    },
+    validEmail: {
+      tip1: '邮箱格式不正确',
+      success: '邮件发送成功！',
+      holder: '邮箱'
+    },
+    validphone: {
+      tip1: '手机号格式不正确',
+      tip2: '手机号不能为空',
+      holder: '手机号码'
+    },
+    validName: {
+      tip1: '不能为空',
+      tip2: '包含非法字符'
+    },
+    validEmpName: {
+      holder: '员工姓名'
+    }
+  },
   loginselect: [{
     name: '管理员登录',
     type: 0
@@ -21,7 +97,8 @@ export default {
     tip2: '密码长度不小于6位'
   },
   validEmail: {
-    tip1: '邮箱格式不正确'
+    tip1: '邮箱格式不正确',
+    success: '邮件发送成功！'
   },
   imgcode: {
     tip1: '验证码不能为空'
@@ -99,6 +176,7 @@ export default {
     7: '无效的验证码',
     8: '昵称不可用',
     27: '无效的token',
+    46: '公司已存在',
     119: '验证码无效'
   },
   navlist: [{
@@ -167,7 +245,7 @@ export default {
     link: 'account.html'
   },{
     name: '退出账号',
-    dirname: null,
+    dirname: 'signout',
     link: null
   }],
   superdown:[{

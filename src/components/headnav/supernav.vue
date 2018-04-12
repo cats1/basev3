@@ -14,7 +14,7 @@
 				  			<el-dropdown-item ><a :href="item.link">{{item.name}}</a></el-dropdown-item>
 				  		</template>
 				  		<template v-else>
-				  			<el-dropdown-item ><a href="jsvascript:void(0);" @click="dotest(item.link,item.dirname)">{{item.name}}</a></el-dropdown-item>
+				  			<el-dropdown-item ><a href="jsvascript:void(0);" @click="doFunc(item.link,item.dirname)">{{item.name}}</a></el-dropdown-item>
 				  		</template>
 				  	</template>
 				  </el-dropdown-menu>
@@ -35,9 +35,7 @@ export default {
     },
     components: {LangSelect},
     methods: {
-      dotest (link,dirname) {
-      	console.log(link)
-      	console.log(dirname)
+      doFunc (link,dirname) {
       	if (dirname === 'signout') {
       		this.$confirm('确认退出吗?', '提示', {
 		        confirmButtonText: '确定',

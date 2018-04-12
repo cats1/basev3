@@ -1,6 +1,7 @@
 .login-container {
   position: fixed;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
   width: 100%;
   background-color: #343d49; }
   .login-container .form-container {
@@ -51,6 +52,8 @@
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold; }
+    .login-container .title-container .desc {
+      color: #fff; }
     .login-container .title-container .set-language {
       color: #fff;
       position: absolute;
@@ -71,6 +74,8 @@
       .login-container .el-input input:-webkit-autofill {
         -webkit-box-shadow: 0 0 0px 1000px #343d49 inset !important;
         -webkit-text-fill-color: #fff !important; }
+  .login-container .smscodewrap .codebtn {
+    padding: 16px 20px; }
   .login-container .show-pwd {
     position: absolute;
     right: 10px;
@@ -85,6 +90,60 @@
   .login-container .codewrap .img-code-wrap img {
     height: 37px;
     margin: 5px 0 -13px 0; }
+  .login-container .or-line-wrap .or-value {
+    background: #343d49; }
+
+.smscodewrap {
+  position: relative; }
+  .smscodewrap .codebtn {
+    position: absolute;
+    right: 0;
+    top: 0; }
+
+.signup-container .el-input {
+  width: 100%; }
+
+.guide-container {
+  background: #f3f3f3; }
+
+.guidewrap {
+  width: 880px;
+  margin: 0 auto; }
+  .guidewrap .guidelogo {
+    text-align: left; }
+  .guidewrap .guidecell {
+    background: #fff;
+    box-shadow: 0 3px 27px rgba(0, 0, 0, 0.03); }
+  .guidewrap .guidetop {
+    padding: 60px 0;
+    text-align: center;
+    position: relative; }
+    .guidewrap .guidetop .guidesteps {
+      position: absolute;
+      top: 22px;
+      right: -21px; }
+    .guidewrap .guidetop .guide-top-title {
+      color: #777;
+      font-size: 40px;
+      line-height: 50px;
+      font-weight: 200; }
+    .guidewrap .guidetop .guide-top-desc {
+      font-size: 18px;
+      color: #999999;
+      width: 520px;
+      margin: 0 auto; }
+  .guidewrap .guidebody {
+    background: #e7f1fb;
+    position: relative;
+    padding: 60px 180px;
+    text-align: left; }
+    .guidewrap .guidebody h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      font-weight: 300; }
+  .guidewrap .guidebom {
+    padding: 60px 0;
+    text-align: center; }
 
 body {
   margin: 0;
@@ -99,7 +158,6 @@ body {
   position: relative; }
 
 html {
-  height: 100%;
   box-sizing: border-box; }
 
 * {
@@ -140,11 +198,27 @@ dd {
 label {
   font-weight: 700; }
 
+.left {
+  text-align: left; }
+
 .svg-icon {
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;
   fill: currentColor;
+  overflow: hidden; }
+
+/* page-container */
+.page-container {
+  clear: both;
+  width: 1200px;
+  margin: 0 auto;
+  text-align: left; }
+
+.box-section {
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0.5px 0.87px 4px 0 #b7bcc1;
   overflow: hidden; }
 
 .page-container-center {

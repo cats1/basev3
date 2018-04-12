@@ -6,6 +6,8 @@ import superApi from './modules/super'
 import company from './modules/company'
 import emp from './modules/emp'
 import stage from './modules/stage'
+import smscode from './modules/smscode'
+import meeting from './modules/meeting'
 import getters from './getters'
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -15,7 +17,9 @@ const store = new Vuex.Store({
     superApi,
     company,
     emp,
-    stage
+    stage,
+    smscode,
+    meeting
   },
   getters
 })

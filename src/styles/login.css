@@ -1,6 +1,7 @@
 .login-container {
   position: fixed;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
   width: 100%;
   background-color: #343d49; }
   .login-container .form-container {
@@ -51,6 +52,8 @@
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold; }
+    .login-container .title-container .desc {
+      color: #fff; }
     .login-container .title-container .set-language {
       color: #fff;
       position: absolute;
@@ -71,6 +74,8 @@
       .login-container .el-input input:-webkit-autofill {
         -webkit-box-shadow: 0 0 0px 1000px #343d49 inset !important;
         -webkit-text-fill-color: #fff !important; }
+  .login-container .smscodewrap .codebtn {
+    padding: 16px 20px; }
   .login-container .show-pwd {
     position: absolute;
     right: 10px;

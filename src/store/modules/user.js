@@ -1,5 +1,5 @@
-import { managerLogin, getCode, isCodeTrue } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { managerLogin, getCode, isCodeTrue, RetrievePassword, Register } from '@/api/login'
+import { getToken, setToken, removeToken, setCache, getCache } from '@/utils/auth'
 const user = {
 	state: {
 		userid: '',
@@ -21,8 +21,33 @@ const user = {
 		          console.log(response)
 		          let { status, result } = response
 		          if (status == 0) {
-                    commit('SET_USERID', result.userid)
-                    commit('SET_TOKEN', result.token)
+                    for (let key in result) {
+		          		if (key !== 'token') {
+		          	      setCache(key, result[key])
+		          		} else {
+		          		  setCache('token', result.userid + '-' + result.token)
+		          		}
+		            }
+		          }
+		          setToken(result.token)
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		Register({ commit }, userInfo) {
+			return new Promise((resolve, reject) => {
+		        Register(userInfo).then(response => {
+		          let { status, result } = response
+		          if (status == 0) {
+                    for (let key in result) {
+		          		if (key !== 'token') {
+		          	      setCache(key, result[key])
+		          		} else {
+		          		  setCache('token', userInfo.userid + '-' + result.token)
+		          		}
+		            }
 		          }
 		          setToken(result.token)
 		          resolve(response)
@@ -57,6 +82,16 @@ const user = {
 	        resolve()
 	      })
 	    },
+	    // 前端 登出
+	    RetrievePassword({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        RetrievePassword(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		}
 	}
 }
 export default user

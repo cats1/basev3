@@ -1,4 +1,4 @@
-import { empLogin, checkEmpInfo } from '@/api/emp'
+import { empLogin, checkEmpInfo, GetEmpList } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 
 const user = {
@@ -54,6 +54,15 @@ const user = {
 		checkEmpInfo({ commit }, userInfo) {
 			return new Promise((resolve, reject) => {
 		        checkEmpInfo(userInfo).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		GetEmpList({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        GetEmpList(info).then(response => {
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)
