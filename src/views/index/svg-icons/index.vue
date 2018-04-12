@@ -30,7 +30,7 @@ export default {
   mounted() {
     console.log(9999)
     const iconsMap = icons.state.iconsMap.map((i) => {
-      consoleloog(i)
+      console.log(i)
       return i.default.id.split('-')[1]
     })
     this.iconsMap = iconsMap

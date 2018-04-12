@@ -7,6 +7,7 @@
 	      placeholder="选择日期"
 	      :picker-options="pickerOptions1">
 	    </el-date-picker>
+	    <icon-svg icon-class="password" />
 	</div>
 </template>
 <script>
