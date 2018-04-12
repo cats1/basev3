@@ -8,6 +8,7 @@ import emp from './modules/emp'
 import stage from './modules/stage'
 import smscode from './modules/smscode'
 import meeting from './modules/meeting'
+import visitor from './modules/visitor'
 import getters from './getters'
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -19,7 +20,8 @@ const store = new Vuex.Store({
     emp,
     stage,
     smscode,
-    meeting
+    meeting,
+    visitor
   },
   getters
 })

@@ -3,7 +3,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '../../styles/index.scss'
 import App from './App'
-import '../../icons'
+import '@/icons'
 import store from '../../store'
 import i18n from '../../lang'
 Vue.use(ElementUI, {

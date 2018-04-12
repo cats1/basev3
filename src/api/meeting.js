@@ -15,3 +15,19 @@ export function addMeeting(data) {
     data
   })
 }
+//获取会议详情
+export function getMeetingById(data) {
+  return request({
+    url: '/getMeetingById',
+    method: 'post',
+    data
+  })
+}
+//getAppointmentByMid
+export function getAppointmentByMid(data) {
+  return request({
+    url: '/getAppointmentByMid',
+    method: 'post',
+    data
+  })
+}

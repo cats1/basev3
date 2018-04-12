@@ -1,8 +1,7 @@
 <template>
 	<div id="headnav" class="mheader">
 		<div class="headerwrap">
-			<div class="menuleft">
-				
+			<div class="menuleft">				
 				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
 		  text-color="#fff"
 		  active-text-color="#ffd04b">

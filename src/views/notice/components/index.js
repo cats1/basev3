@@ -1,0 +1,6 @@
+export {default as weixin} from './weixin'
+export {default as email} from './email'
+export {default as smsNotice} from './smsNotice'
+export {default as yuyin} from './yuyin'
+export {default as ddNotice} from './ddNotice'
+export {default as rtx} from './rtx'

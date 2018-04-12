@@ -2,6 +2,7 @@
 @import './login.scss';
 @import './signup.scss';
 @import './guide.scss';
+@import './notice.scss';
 @import './element-ui.scss';
 
 body {
@@ -84,6 +85,15 @@ label {
   width: 1200px;
   margin:0 auto;
   text-align: left;
+}
+.marginbom20{
+  margin-bottom:20px;
+}
+.margintop20{
+  margin-top:20px;
+}
+.tiplink{
+  line-height:36px;
 }
 .box-section{
   padding: 20px;

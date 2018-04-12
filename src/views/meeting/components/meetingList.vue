@@ -148,9 +148,20 @@ export default {
   },
   methods: {
   	getCache: getCache,
-  	meetEdit (index,row) {},
+  	meetEdit (index,row) {
+      this.$router.push({name:'mdetail',
+      	params: { 
+      		'mid': row.mid
+      	}})
+  	},
   	setEmp (val) {
   		console.log(val)
+  		let _self = this
+  		this.empList.forEach(function(ele,index){
+          if (ele.empid === val) {
+          	_self.form.phone = ele.empPhone
+          }
+  		})
   	},
   	initList () {
   	  let nfrom = {
@@ -178,9 +189,16 @@ export default {
   	  this.$refs.meetform.validate(valid => {
   	  	if (valid) {
   	  		this.$store.dispatch('addMeeting',this.form).then(res => {
-
+              let { status } = res
+              if (status === 0) {
+              	this.$message({
+		          message: '会议添加成功',
+		          type: 'success'
+		        })
+		        this.dialogVisible = false
+              }
             })
-  	  	} else {}
+  	  	}
   	  })
       
   	}

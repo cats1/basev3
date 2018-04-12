@@ -2,16 +2,16 @@
   <div id="app">
   	<div class="login-container signup-container">      
       <div class="form-container">
-        <default-signup></default-signup>
+        <sign-one></sign-one>
       </div>           
   	</div>
   </div>
 </template>
 
 <script>
-import { defaultSignup } from './components'
+import { signOne } from './components'
 export default {
-  components: { defaultSignup },
+  components: { signOne },
   name: 'App',
   data () {
   	return {

@@ -6,7 +6,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import '../../styles/index.scss'
 import App from './App'
 import router from '@/router/guide'
-import '../../icons'
+import '@/icons'
 import store from '../../store'
 import i18n from '../../lang' // Internationalization
 Vue.use(ElementUI, {

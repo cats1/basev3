@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {meetingList} from '@/views/meeting/components'
+import {meetingList,meetingDetail} from '@/views/meeting/components'
 Vue.use(Router)
 
 export default new Router({
@@ -8,5 +8,9 @@ export default new Router({
   routes: [{
   	path: '/',
   	component: meetingList
+  },{
+  	path: '/mdetail/:mid',
+  	name: 'mdetail',
+  	component: meetingDetail
   }]
 })

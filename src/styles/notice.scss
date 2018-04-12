@@ -1,0 +1,38 @@
+.noticewrap{
+  .noticeheader{
+    overflow: hidden;
+    padding: 30px 20px;
+    box-shadow: 0.5px 0.87px 4px 0 #b7bcc1;
+    position: relative;
+    .noticeicon{
+      width: 60px;
+      height: 60px;
+      display: inline-block;
+      position: absolute;
+      left: 20px;
+      top: 30px;
+      img{
+        width: 100%;
+      }
+    }
+    .noticetext{
+      float: left;
+      text-align: left;
+      padding:0 80px;
+      h3{
+        line-height: 28px;
+      }
+      p{
+        line-height: 28px;
+      }
+    }
+    .noticeswitch{
+      width: 60px;
+      display: inline-block;
+      position: absolute;
+      right: 20px;
+      top: 30px;
+      padding-top: 20px;
+    }
+  }
+}

@@ -5,8 +5,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '../../styles/index.scss'
 import App from './App'
+import "babel-polyfill"
 // import router from './router'
-import '../../icons'
+import '@/icons'
 import store from '../../store'
 import i18n from '../../lang' // Internationalization
 Vue.use(ElementUI, {
