@@ -6,7 +6,7 @@
         <el-col :span="4">
           <sider-bar>
             <h2>{{$t('key.siderBar.title')}}</h2>
-            <sider-bar-item>
+            <sider-bar-item :header="$t('key.siderBar.title')">
               8888
             </sider-bar-item>
           </sider-bar>
