@@ -76,6 +76,36 @@ export default {
       holder: '员工姓名'
     }
   },
+  moban: {
+    interview: {
+      title: '邀请函内容',
+      desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
+      defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">这里是{company}，感谢您对我公司的信任和选择。通过对您简历的认真审核，我们认为您已具备进入下一轮筛选的资格。为了进一步了解，现邀请您参加面试，具体安排如下：</p><br/>'
+    },
+    business: {
+      title: '邀请函内容',
+      desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
+      defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">我是{company}的{empid}，很高兴代表我司与您联系。为更好的沟通交流工作事宜，诚挚希望与您进行会面，期待您的来访！</p><br/>'
+    }
+  },
+  key: {
+    siderBar: {
+      title: '设备管理',
+      children: [{
+        name: '设备信息',
+        children: [{
+          name: '设备组员'
+        },{
+          name: '设备列表'
+        }]
+      },{
+        name: '开启日志',
+        children: [{
+          name: '设备开启记录'
+        }]
+      }]
+    }
+  },
   notice: {
     weixin: {
       title: '微信',
@@ -102,7 +132,31 @@ export default {
       title: 'RTX',
       desc: '当有访客签到时，通过RTX通知员工',
       tip: '如果要开启此项通知方式，请点击此处设置导入通讯录方式'
+    },
+    order: {
+      title: '预约授权',
+      desc: '开启后，访客预约拜访需要员工在“来访通”服务号中进行授权。'
+    },
+    invite: {
+      title: '邀请函模板',
+      desc: '员工在发送邀请短信时，点击打开邀请函查看具体面谈时间、地点、企业文化等信息，邀请函编辑后可成为所有员工'
+    },
+    stagetime: {
+      title: '前台验证有效期',
+      desc: '设置前台验证访客预约信息的时间范围，如果时间未到请让访客等候，过时请让访客重新预约'
+    },
+    codetime: {
+      title: '二维码有效期',
+      desc: '设置邀请函中二维码开门有效时间'
+    },
+    codesign: {
+      title: '二维码签到',
+      desc: '开启后，邀请函中出现“二维码”模块，可用于前台PC扫码枪（访客列表页面右侧进入）、手机验证端进行扫描验证。'
     }
+  },
+  btn: {
+    editBtn: '编辑',
+    shouBtn: '收起'
   },
   loginselect: [{
     name: '管理员登录',
@@ -205,6 +259,7 @@ export default {
     8: '昵称不可用',
     27: '无效的token',
     46: '公司已存在',
+    51: '钉钉设置失败',
     119: '验证码无效'
   },
   navlist: [{
@@ -214,12 +269,12 @@ export default {
     children: []
   },{
     name: '人员',
-    dirname: 'employee',
-    link: 'employee.html',
+    dirname: 'emp',
+    link: 'emp.html',
     children: [{
       name: '公司员工',
-      dirname: 'employee',
-      link: 'employee.html',
+      dirname: 'emp',
+      link: 'emp.html',
       children: []
     },{
       name: '常驻访客',
@@ -243,17 +298,17 @@ export default {
     link: 'setting.html',
     children: [{
       name: '前台设置',
-      dirname: 'pad',
+      dirname: 'setting',
       link: 'pad.html',
       children: []
     },{
       name: '预约邀请',
-      dirname: 'reserve',
+      dirname: 'setting',
       link: 'reserve.html',
       children: []
     },{
       name: '智能门禁',
-      dirname: 'key',
+      dirname: 'setting',
       link: 'key.html',
       children: []
     }]

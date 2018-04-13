@@ -3,6 +3,7 @@
 @import './signup.scss';
 @import './guide.scss';
 @import './notice.scss';
+@import './moban.scss';
 @import './element-ui.scss';
 
 body {
@@ -66,12 +67,27 @@ dd {
   padding: 0;
 }
 
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both
+}
+
 label {
   font-weight: 700;
 }
-.left{
-  text-align:left;
+.block{
+  display: block;
+  overflow: hidden;
 }
+.left {
+  text-align: left;
+}
+
 .svg-icon {
   width: 1em;
   height: 1em;
@@ -79,39 +95,54 @@ label {
   fill: currentColor;
   overflow: hidden;
 }
+
+
 /* page-container */
-.page-container{
+
+.page-container {
   clear: both;
   width: 1200px;
-  margin:0 auto;
+  margin: 0 auto;
   text-align: left;
 }
-.marginbom20{
-  margin-bottom:20px;
+
+.marginbom20 {
+  margin-bottom: 20px;
 }
-.margintop20{
-  margin-top:20px;
+
+.margintop20 {
+  margin-top: 20px;
 }
-.tiplink{
-  line-height:36px;
+
+.marginlr20 {
+  margin-left: 20px;
+  margin-right: 20px;
 }
-.box-section{
+
+.tiplink {
+  line-height: 36px;
+}
+
+.box-section {
   padding: 20px;
-  margin:20px 0;
+  margin: 20px 0;
   box-shadow: 0.5px 0.87px 4px 0 #b7bcc1;
   overflow: hidden;
 }
-.page-container-center{
+
+.page-container-center {
   width: 1200px;
-  margin:0 auto;
+  margin: 0 auto;
 }
-.box-card{
+
+.box-card {
   text-align: left;
-  .el-card__header{
+  .el-card__header {
     padding: 5px 20px;
-    background: rgb(238,238,238);
+    background: rgb(238, 238, 238);
   }
 }
+
 .mheader {
   background: $baseBgColor;
   height: 60px;
@@ -181,6 +212,7 @@ label {
     }
   }
 }
+
 
 
 

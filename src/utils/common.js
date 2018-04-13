@@ -40,3 +40,32 @@ export function codeDeBase(str) { //解密
   const destr = Base64.decode(str)
   return destr
 }
+//
+export function booleanToNumber (boo) {
+  return boo === true ? 1 : 0
+}
+//
+export function numberToBoolean (num) {
+  return parseInt(num) === 1 ? true : false
+}
+export function valueToString (value) {
+  console.log(value)
+  if (value === null) {
+    return ''
+  } else {
+    return value.toString()
+  }
+}
+export function replaceQuotation(value) {
+    return value.replace(/\"/g, '\\\"');
+}
+export function checkIsNull(str) {
+    if (str == null || str == 'null' || str == undefined || str == "") {
+        return ""
+    } else {
+        return str
+    }
+}
+export function replaceRemoveQuotation(value) {
+    return value.replace(/\\\"/g, '"');
+}

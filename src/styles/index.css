@@ -145,6 +145,73 @@
     padding: 60px 0;
     text-align: center; }
 
+.boxshadow {
+  box-shadow: 0.5px 0.87px 4px 0 #b7bcc1; }
+
+.padding0 {
+  padding: 0 !important; }
+
+.paddinglr30 {
+  padding: 0 30px; }
+
+.paddingbom20 {
+  padding-bottom: 20px; }
+
+.paddingtb20 {
+  padding-top: 20px;
+  padding-bottom: 20px; }
+
+.bordertop {
+  border-top: 1px solid #ccc; }
+
+.showblock {
+  display: block;
+  overflow: hidden; }
+
+.noticeshowwrap {
+  padding: 0; }
+
+.noticewrap .noticeheader {
+  overflow: hidden;
+  padding: 30px 20px;
+  position: relative; }
+  .noticewrap .noticeheader .noticeicon {
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    position: absolute;
+    left: 20px;
+    top: 30px; }
+    .noticewrap .noticeheader .noticeicon img {
+      width: 100%; }
+  .noticewrap .noticeheader .noticetext {
+    float: left;
+    text-align: left;
+    padding: 0 80px; }
+    .noticewrap .noticeheader .noticetext h3 {
+      line-height: 28px; }
+    .noticewrap .noticeheader .noticetext p {
+      line-height: 28px; }
+  .noticewrap .noticeheader .noticeswitch {
+    width: 60px;
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+    top: 30px;
+    padding-top: 20px; }
+
+.moban-tag {
+  display: inline-block;
+  border: 1px solid rgba(64, 158, 255, 0.2);
+  background-color: rgba(230, 162, 60, 0.1);
+  border-color: rgba(230, 162, 60, 0.2);
+  color: #e6a23c;
+  padding: 0 10px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  line-height: 36px;
+  font-size: 14px; }
+
 body {
   margin: 0;
   padding: 0;
@@ -195,8 +262,20 @@ dd {
   margin: 0;
   padding: 0; }
 
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: ""; }
+
+.clearfix:after {
+  clear: both; }
+
 label {
   font-weight: 700; }
+
+.block {
+  display: block;
+  overflow: hidden; }
 
 .left {
   text-align: left; }
@@ -214,6 +293,19 @@ label {
   width: 1200px;
   margin: 0 auto;
   text-align: left; }
+
+.marginbom20 {
+  margin-bottom: 20px; }
+
+.margintop20 {
+  margin-top: 20px; }
+
+.marginlr20 {
+  margin-left: 20px;
+  margin-right: 20px; }
+
+.tiplink {
+  line-height: 36px; }
 
 .box-section {
   padding: 20px;

@@ -1,8 +1,34 @@
+.boxshadow{
+  box-shadow: 0.5px 0.87px 4px 0 #b7bcc1;
+}
+.padding0{
+  padding: 0!important;
+}
+.paddinglr30{
+  padding: 0 30px;
+}
+.paddingbom20{
+  padding-bottom: 20px;
+}
+.paddingtb20{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.bordertop{
+  border-top: 1px solid #ccc;
+}
+.showblock{
+  display: block;
+  overflow: hidden;
+}
+.noticeshowwrap{
+  padding: 0;
+}
 .noticewrap{
   .noticeheader{
     overflow: hidden;
     padding: 30px 20px;
-    box-shadow: 0.5px 0.87px 4px 0 #b7bcc1;
+    //box-shadow: 0.5px 0.87px 4px 0 #b7bcc1;
     position: relative;
     .noticeicon{
       width: 60px;

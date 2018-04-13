@@ -1,0 +1,56 @@
+.boxshadow {
+  box-shadow: 0.5px 0.87px 4px 0 #b7bcc1; }
+
+.padding0 {
+  padding: 0 !important; }
+
+.paddinglr30 {
+  padding: 0 30px; }
+
+.paddingbom20 {
+  padding-bottom: 20px; }
+
+.paddingtb20 {
+  padding-top: 20px;
+  padding-bottom: 20px; }
+
+.bordertop {
+  border-top: 1px solid #ccc; }
+
+.showblock {
+  display: block;
+  overflow: hidden; }
+
+.noticeshowwrap {
+  padding: 0; }
+
+.noticewrap .noticeheader {
+  overflow: hidden;
+  padding: 30px 20px;
+  position: relative; }
+  .noticewrap .noticeheader .noticeicon {
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    position: absolute;
+    left: 20px;
+    top: 30px; }
+    .noticewrap .noticeheader .noticeicon img {
+      width: 100%; }
+  .noticewrap .noticeheader .noticetext {
+    float: left;
+    text-align: left;
+    padding: 0 80px; }
+    .noticewrap .noticeheader .noticetext h3 {
+      line-height: 28px; }
+    .noticewrap .noticeheader .noticetext p {
+      line-height: 28px; }
+  .noticewrap .noticeheader .noticeswitch {
+    width: 60px;
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+    top: 30px;
+    padding-top: 20px; }
+
+/*# sourceMappingURL=notice.css.map */
