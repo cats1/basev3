@@ -1,7 +1,8 @@
 <template>
   <el-dropdown trigger="click" class='international' @command="handleSetLanguage">
     <div>
-      <svg-icon class-name='international-icon' icon-class="language" />
+      切换
+      <!-- <svg-icon class-name='international-icon' icon-class="language" /> -->
     </div>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item command="zh" :disabled="language==='zh'">中文</el-dropdown-item>
@@ -21,7 +22,7 @@ export default {
       this.$i18n.locale = lang
       this.$store.dispatch('setLanguage', lang)
       this.$message({
-        message: 'switch language success',
+        message: '语言切换成功！',
         type: 'success'
       })
     }

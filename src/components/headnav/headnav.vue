@@ -1,7 +1,10 @@
 <template>
 	<div id="headnav" class="mheader">
 		<div class="headerwrap">
-			<div class="menuleft">				
+			<div class="menuleft">
+				<span class="head-logo">来访通</span>
+			</div>
+			<div class="menuleft">			
 				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
 		  text-color="#fff"
 		  active-text-color="#2274e6">
@@ -25,7 +28,7 @@
 		    	<lang-select class="international right-menu-item"></lang-select>
 		    	<el-dropdown>
 				  <span class="el-dropdown-link">
-				    <span class="useravater">p</span><span class="username">{{username}}</span><i class="el-icon-arrow-down el-icon--right"></i>
+				    <span class="useravater"><img :src="logo"></span><span class="username">{{username}}</span><i class="el-icon-arrow-down el-icon--right"></i>
 				  </span>
 				  <el-dropdown-menu slot="dropdown">
 				  	<template v-for="item in $t('downlist')">
@@ -54,6 +57,11 @@ export default {
         navlist: this.$t('navlist'),
         downlist: this.$t('downlist'),
         username: this.getCache('username')
+      }
+    },
+    computed: {
+      logo () {
+      	return getCache('logo')
       }
     },
     components: {LangSelect},
