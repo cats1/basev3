@@ -7,6 +7,7 @@ $dark_gray:#889aa4;
   min-height: 100%;
   width: 100%;
   background-color: #343d49;
+  overflow: auto;
   .form-container{
     position: absolute;
     left: 0;
@@ -70,6 +71,7 @@ $dark_gray:#889aa4;
     }
     .desc{
       color:#fff;
+      margin-bottom: 30px;
     }
     .set-language {
       color: #fff;

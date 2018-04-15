@@ -4,8 +4,8 @@
 			<div class="menuleft">				
 				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
 		  text-color="#fff"
-		  active-text-color="#ffd04b">
-				  <template v-for="(item,index) in navlist">
+		  active-text-color="#2274e6">
+				  <template v-for="(item,index) in $t('navlist')">
 				  	<template v-if="item.children.length === 0">
 				  		<el-menu-item :index="item.dirname"><a :href="item.link" target="_blank">{{item.name}}</a></el-menu-item>
 				  	</template>
@@ -28,7 +28,7 @@
 				    <span class="useravater">p</span><span class="username">{{username}}</span><i class="el-icon-arrow-down el-icon--right"></i>
 				  </span>
 				  <el-dropdown-menu slot="dropdown">
-				  	<template v-for="item in downlist">
+				  	<template v-for="item in $t('downlist')">
 				  		<template v-if="item.link !== null">
 					  		<el-dropdown-item ><a :href="item.link">{{item.name}}</a></el-dropdown-item>
 					  	</template>

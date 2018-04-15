@@ -94,19 +94,30 @@ export default {
       children: [{
         name: '设备信息',
         children: [{
-          name: '设备组员'
+          name: '设备组员',
+          index: 'group'
         },{
-          name: '设备列表'
+          name: '设备列表',
+          index: 'list'
         }]
       },{
         name: '开启日志',
         children: [{
-          name: '设备开启记录'
+          name: '设备开启记录',
+          index: 'record'
         }]
       }]
+    },
+    group: {
+      addtitle: '添加设备组',
+      edittitle: '修改设备组'
     }
   },
   notice: {
+    black: {
+      title: '黑名单开关',
+      desc: '黑名单功能打开后，黑名单中的人将无法进行预约，登记操作。',
+    },
     weixin: {
       title: '微信',
       desc: '当有访客签到时，通过微信服务号"来访通"通知员工,员工需提前在服务号使用通讯录中的手机号注册。',
@@ -152,11 +163,88 @@ export default {
     codesign: {
       title: '二维码签到',
       desc: '开启后，邀请函中出现“二维码”模块，可用于前台PC扫码枪（访客列表页面右侧进入）、手机验证端进行扫描验证。'
+    },
+    clogo: {
+      title: '企业LOGO',
+      desc: '我们将在Pad首屏展示您的企业LOGO',
+      tip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片'
+    },
+    vset: {
+      title: '访客登记设置',
+      desc: '您可以设置访客所需填写的信息'
+    },
+    vpaper: {
+      title: '访客贴纸选择',
+      desc: '您可以查看访客贴纸的样式、尺寸及展示内容'
+    },
+    safe: {
+      title: '安全协议',
+      desc: '点击编辑访问安全协议的内容，访客阅读并勾选“已阅读"后方能进入下一步。',
+      dialog: {
+        title: '安全协议设置'
+      }
+    },
+    once: {
+      title: '曾经来过',
+      desc: '访客再次到访时可以只输入手机号完成签到'
+    },
+    sos: {
+      title: '登出开关',
+      desc: '开启后Pad首页出现“登出”入口，访客离开时点击输入手机号完成签离。'
+    },
+    team: {
+      title: '团队到访',
+      desc: '您可以选择开启该功能，提高团队到访时的接待效率',
+      dialog: {
+        title: '默认头像'
+      }
+    },
+    pics: {
+      title: '首屏轮播图片',
+      desc: '选择2-5张企业形象图片，将在Pad首屏轮播展示'
+    },
+    themecolor: {
+      title: '企业颜色',
+      desc: '您可以自定义设置Pad客户端的外观颜色'
+    },
+    innerphoto: {
+      title: '内置头像设置',
+      desc: '当访客在拍照时选择“跳过”时，展示内置头像，您可设置企业形象相关的头像，如果内置头像全部删除，则访客无法跳过拍照流程。',
+      dialog: {
+        title: '默认头像'
+      }
+    },
+    facein: {
+      title: '刷脸签到',
+      desc: '开启后，邀请函中出现“刷脸签到”模块，访客上传照片后，可在前台Pad上的“已预约——刷脸签到”中进行刷脸签到。'
+    },
+    doorset: {
+      title: '门岗设置',
+      desc: '添加门卫操作',
+      dialog: {
+        title: '门岗信息设置',
+        add: '增加门岗'
+      }
+    },
+    worktime: {
+      title: '工作时间设置',
+      desc: '设置工作时间，以便访客在此时间段内才能开门，并在下班后提醒仍有访客未签出。',
+      dialog: {
+        title: '时间段设置',
+        upDuty: '上班时间填写',
+        offDuty: '下班时间填写'
+      }
     }
   },
   btn: {
     editBtn: '编辑',
-    shouBtn: '收起'
+    shouBtn: '收起',
+    saveBtn: '保存',
+    picBtn: '选择图片'
+  },
+  picTips: {
+    logotip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片',
+    slidetip: '提示：建议上传1536x2048像素的图片'
   },
   loginselect: [{
     name: '管理员登录',

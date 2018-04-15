@@ -21,3 +21,35 @@ export function GetEmpList(data) {
     data
   })
 }
+//getBlacklist
+export function getBlacklist(data) {
+  return request({
+    url: '/getBlacklist',
+    method: 'post',
+    data
+  })
+}
+//delBlacklist
+export function delBlacklist(data) {
+  return request({
+    url: '/delBlacklist',
+    method: 'post',
+    data
+  })
+}
+//getProject
+export function getProject(data) {
+  return request({
+    url: '/getProject',
+    method: 'post',
+    data
+  })
+}
+//getResidentVisitor
+export function getResidentVisitor(data) {
+  return request({
+    url: '/getResidentVisitor',
+    method: 'post',
+    data
+  })
+}

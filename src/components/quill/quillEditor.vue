@@ -25,6 +25,7 @@ export default {
   	onEditorFocus () {},
     onEditorChange () {
       console.log(this.dContent)
+      this.$emit('getcon',this.dContent)
     }
   }
 }

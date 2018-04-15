@@ -1,3 +1,4 @@
+import {getCache} from './auth'
 //const Base64 = require('./base64')
 let Base64 = require('js-base64').Base64;
 console.log(Base64)
@@ -68,4 +69,41 @@ export function checkIsNull(str) {
 }
 export function replaceRemoveQuotation(value) {
     return value.replace(/\\\"/g, '"');
+}
+export function groupStatusText(value) {
+    switch (value) {
+      case 0 :
+        return '停用'
+      case 1 : 
+        return '启用'
+      default:
+        return '启用'
+    }
+}
+export function stringToArray(value){
+  if (value && value != '') {
+    return value.split(',')
+  } else {
+    return []
+  }
+}
+export function arrayToString(value){
+  if (value.length > 0) {
+    return value.join(',')
+  } else {
+    return ''
+  }
+}
+export function getBarList (array) {
+  let list = []
+  array.forEach(function(element,index){
+    let obj = {
+      label: element.pName + '(' + element.pcount+ ')',
+      pid: element.pid,
+      pcount: element.pcount,
+      children: []
+    }
+    list.push(obj)
+  })
+  return list
 }

@@ -10,6 +10,8 @@ import smscode from './modules/smscode'
 import meeting from './modules/meeting'
 import visitor from './modules/visitor'
 import notice from './modules/notice'
+import key from './modules/key'
+import upload from './modules/upload'
 import getters from './getters'
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -23,7 +25,9 @@ const store = new Vuex.Store({
     smscode,
     meeting,
     visitor,
-    notice
+    notice,
+    key,
+    upload
   },
   getters
 })

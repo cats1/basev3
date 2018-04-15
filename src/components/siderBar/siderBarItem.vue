@@ -1,15 +1,12 @@
 <template>
 	<div class="sider-bar-item">
-		<div class="sider-bar-item-head">
-			{{header}}
-		</div>
-		<slot></slot>
+		<router-link :to="index" active-class="item-active"><slot></slot></router-link>
 	</div>
 </template>
 <script>
 export default {
   props: {
-  	header: {
+  	index: {
   		type: String,
   		default: ''
   	}
@@ -17,4 +14,8 @@ export default {
   name: 'siderBarItem'
 }
 </script>
-<style></style>
+<style lang="scss" scoped>
+.item-active{
+  color:red
+}
+</style>

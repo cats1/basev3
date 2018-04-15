@@ -1,4 +1,12 @@
 import request from '@/utils/request'
+//blackListSwitch
+export function updateblackListSwitch(data) {
+  return request({
+    url: '/updateblackListSwitch',
+    method: 'post',
+    data
+  })
+}
 //微信开关
 export function UpdateWxConf(data) {
   return request({
@@ -91,6 +99,54 @@ export function getUsertemplate(data) {
 export function updateTempEditSwitch(data) {
   return request({
     url: '/updateTempEditSwitch',
+    method: 'post',
+    data
+  })
+}
+//updateTempEditSwitch
+export function updateComeAgain(data) {
+  return request({
+    url: '/updateComeAgain',
+    method: 'post',
+    data
+  })
+}
+//updateSignOutSwitch
+export function updateSignOutSwitch(data) {
+  return request({
+    url: '/updateSignOutSwitch',
+    method: 'post',
+    data
+  })
+}
+//updateSignOutSwitch
+export function updateFaceScaner(data) {
+  return request({
+    url: '/updateFaceScaner',
+    method: 'post',
+    data
+  })
+}
+//updateOffDutyTime
+export function updateOffDutyTime(data) {
+  return request({
+    url: '/updateOffDutyTime',
+    method: 'post',
+    data
+  })
+}
+//getGate
+export function getGate(data) {
+  return request({
+    url: '/getGate',
+    method: 'post',
+    data
+  })
+}
+//addGate
+export function addGate(data) {
+  return request({
+    url: '/addGate',
     method: 'post',
     data
   })

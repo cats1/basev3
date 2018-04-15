@@ -53,9 +53,6 @@ export default {
       this.btnText = this.clickFlag === true ? this.$t('btn.shouBtn') : this.$t('btn.editBtn')
       this.$emit('btn-click')
     }
-  },
-  mounted () {
-    console.log(this.btnFlag)
   }
 }
 </script>

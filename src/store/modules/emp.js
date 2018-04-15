@@ -1,6 +1,7 @@
-import { empLogin, checkEmpInfo, GetEmpList } from '@/api/emp'
+import { empLogin, checkEmpInfo, GetEmpList,
+	getBlacklist,delBlacklist,getProject,getResidentVisitor } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
-
+import { Message } from 'element-ui'
 const user = {
 	state: {
 		id: getCache('id'),
@@ -63,6 +64,49 @@ const user = {
 		GetEmpList({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        GetEmpList(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getBlacklist({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getBlacklist(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getProject({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getProject(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getResidentVisitor({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getResidentVisitor(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		delBlacklist({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        delBlacklist(info).then(response => {
+		          let {status} = response
+		          if (status === 0) {
+					Message({
+                  		message: '黑名单删除成功',
+                  		type: 'success'
+                	})
+		          }
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)

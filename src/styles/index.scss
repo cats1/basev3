@@ -4,6 +4,7 @@
 @import './guide.scss';
 @import './notice.scss';
 @import './moban.scss';
+@import './siderbar.scss';
 @import './element-ui.scss';
 
 body {
@@ -80,10 +81,12 @@ dd {
 label {
   font-weight: 700;
 }
-.block{
+
+.block {
   display: block;
   overflow: hidden;
 }
+
 .left {
   text-align: left;
 }
@@ -96,6 +99,16 @@ label {
   overflow: hidden;
 }
 
+.gtitle {
+  text-indent: 20px;
+  line-height: 60px;
+  font-size: 16px;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+}
+.block{
+  display:block;
+}
 
 /* page-container */
 
@@ -104,12 +117,15 @@ label {
   width: 1200px;
   margin: 0 auto;
   text-align: left;
+  padding: 20px 0;
 }
 
 .marginbom20 {
   margin-bottom: 20px;
 }
-
+.page-footer{
+  margin: 30px 0;
+}
 .margintop20 {
   margin-top: 20px;
 }
@@ -118,7 +134,9 @@ label {
   margin-left: 20px;
   margin-right: 20px;
 }
-
+.marginr20{
+  margin-right: 20px;
+}
 .tiplink {
   line-height: 36px;
 }
@@ -134,7 +152,11 @@ label {
   width: 1200px;
   margin: 0 auto;
 }
-
+/* button */
+.el-button--redline{
+  color: #e33636;
+  border-color: #e33636;
+}
 .box-card {
   text-align: left;
   .el-card__header {
@@ -209,9 +231,11 @@ label {
   li {
     a {
       color: #000;
+      display: block;
     }
   }
 }
+
 
 
 

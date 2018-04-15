@@ -5,10 +5,14 @@
       <el-row :gutter="20">
         <el-col :span="4">
           <sider-bar>
-            <h2>{{$t('key.siderBar.title')}}</h2>
-            <sider-bar-item :header="$t('key.siderBar.title')">
-              8888
-            </sider-bar-item>
+            {{$t('key.siderBar.title')}}
+            <template v-for="item in siderArray">
+              <sider-bar-menu :header="item.name">
+                <template v-for="citem in item.children">
+                  <sider-bar-item :index="citem.index">{{citem.name}}</sider-bar-item>
+                </template>
+              </sider-bar-menu>
+            </template>
           </sider-bar>
         </el-col>
         <el-col :span="20">
@@ -24,13 +28,15 @@
 <script>
 import headnav from '../../components/headnav/headnav'
 import footbom from '../../components/footer/footbom'
-import { siderBar, siderBarItem } from '../../components/siderBar'
+import { siderBar, siderBarItem, siderBarMenu } from '../../components/siderBar'
 export default {
   name: 'App',
   data () {
-    return {}
+    return {
+      siderArray: this.$t('key.siderBar.children')
+    }
   },
-  components: { headnav, footbom, siderBar, siderBarItem }
+  components: { headnav, footbom, siderBar, siderBarItem, siderBarMenu }
 }
 </script>
 <style>

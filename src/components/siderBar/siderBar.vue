@@ -1,5 +1,5 @@
 <template>
-	<div class="sider-bar-wrap boxshow">
+	<div class="sider-bar-wrap boxshadow">
 		<slot></slot>
 	</div>
 </template>

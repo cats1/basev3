@@ -1,6 +1,9 @@
 import { UpdateWxConf, updateSMSConf,ivrNotifyConf,updateDDNotify,
   updateRtxConf,updateScanerSwitch, updatePermissionSwitch,
-  updateQrcodeConf, updateExtendTime, getUsertemplate } from '@/api/notice'
+  updateQrcodeConf, updateExtendTime, getUsertemplate,
+  updateComeAgain,updateSignOutSwitch,updateFaceScaner,
+  updateOffDutyTime,getGate,addGate,updateblackListSwitch } from '@/api/notice'
+import {updateSecureProtocol,UpdateDefaultPhoto,UploadPic} from '@/api/pad'
 import { Message } from 'element-ui'
 import { getCache,setCache } from '@/utils/auth'
 const app = {
@@ -172,9 +175,170 @@ const app = {
           })
       })
     },
+    updateComeAgain({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          updateComeAgain(info).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+                setCache('comeAgain',info.comeAgain)
+                Message({
+                  message: '曾经来过开关修改成功',
+                  type: 'success'
+                })
+            }
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+    updateSignOutSwitch({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          updateSignOutSwitch(info).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+                setCache('signOutSwitch',info.signOutSwitch)
+                Message({
+                  message: '登出开关修改成功',
+                  type: 'success'
+                })
+            }
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+    updateFaceScaner({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          updateFaceScaner(info).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+                setCache('faceScaner',info.faceScaner)
+                Message({
+                  message: '刷脸签到开关修改成功',
+                  type: 'success'
+                })
+            }
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+    updateOffDutyTime({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          updateOffDutyTime(info).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+                setCache('offDuty',info.offDuty)
+                setCache('upDuty',info.upDuty)
+                Message({
+                  message: '工作时间设置成功',
+                  type: 'success'
+                })
+            }
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+    updateSecureProtocol({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          updateSecureProtocol(info).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+                setCache('secureProtocol',info.secureProtocol)
+                Message({
+                  message: '安全协议设置成功',
+                  type: 'success'
+                })
+            }
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+    UpdateDefaultPhoto({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          UpdateDefaultPhoto(info).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+                setCache('defaultPhoto',info.defaultPhoto)
+                Message({
+                  message: '缺省头像设置成功',
+                  type: 'success'
+                })
+            }
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
     getUsertemplate({ commit }, info) {
       return new Promise((resolve, reject) => {
           getUsertemplate(info).then(response => {
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+    getGate({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          getGate(info).then(response => {
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+    addGate({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          addGate(info).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+                Message({
+                  message: '门岗设置成功',
+                  type: 'success'
+                })
+            }
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+    updateblackListSwitch({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          updateblackListSwitch(info).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+              setCache('blackListSwitch',info.blackListSwitch)
+                Message({
+                  message: '黑名单设置成功',
+                  type: 'success'
+                })
+            }
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+    UploadPic({ commit }, params) {
+      return new Promise((resolve, reject) => {
+          UploadPic(params).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+                Message({
+                  message: '图片上传成功',
+                  type: 'success'
+                })
+            }
             resolve(response)
           }).catch(error => {
             reject(error)
