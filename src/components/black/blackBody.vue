@@ -1,8 +1,8 @@
 <template>
 	<div>
 	  <div class="boxshadow paddinglr30 paddingtb20 marginbom20">
-		<el-button type="default"><i class="fa fa-user-times"></i>添加黑名单</el-button>
-		<el-button type="redline" @click="deleteBlack"><i class="fa fa-trash-o"></i>批量删除</el-button>
+		<el-button type="default" @click="dialogVisible = true"><i class="fa fa-user-times"></i>{{$t('btn.addBlackBtn')}}</el-button>
+		<el-button type="redline" @click="deleteBlack"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
 	  </div>
 	  <div class="boxshadow paddinglr30 paddingtb20">
 	  	<el-table :data="list" border  @selection-change="handleSelectionChange">
@@ -26,33 +26,91 @@
 		    </el-pagination>
 	  	</div>
 	  </div>
-	  <right-window>
-	  	<div>testbody</div>
-	  </right-window>
+	  <el-dialog
+      :title="$t('black.wins.title')"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <el-form :model="form" ref="blackform" :rules="rules" :inline="true">
+        <el-form-item prop="name" :label="$t('form.name.text')">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item prop="phone" :label="$t('form.phone.text')">
+          <el-input v-model="form.phone"></el-input>
+        </el-form-item>
+        <el-form-item prop="credentialNo" :label="$t('form.idnum.text')">
+          <el-input v-model="form.credentialNo"></el-input>
+        </el-form-item>
+        <el-form-item >
+          <p>{{$t('phoneIdnum.text')}}</p>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addBlack">确 定</el-button>
+      </span>
+    </el-dialog>
 	</div>
 </template>
 <script>
 import {getCache} from '@/utils/auth'
 import rightWindow from '@/components/window/rightWindow'
+import { isvalidatPhone, checkIdCard } from '@/utils/validate'
 export default {
   components: {rightWindow},
   data () {
+    const isvalidPhone = (rule, value, callback) => {
+      if (value === '') {
+        callback()
+      } else if (!isvalidatPhone(value)) {
+        callback(new Error(this.$t('validphone.tip1')))
+      } else {
+        callback()
+      }
+    }
+    const isvalidIdNum = (rule, value, callback) => {
+      if (value === '') {
+        callback()
+      } else if (checkIdCard(value) !== '验证通过!') {
+        callback(new Error(checkIdCard(value)))
+      } else {
+        callback()
+      }
+    }
   	return {
   	  list: [],
   	  form: {
   	  	'userid': getCache('userid'),
-        'credentialNo': "",
-        'name': "",
-        'phone': "",
+        'credentialNo': '',
+        'name': '',
+        'phone': '',
         'startIndex': 1,
         'requestedCount': 10
   	  },
+      rules: {
+        name: [
+          { required: true, message: this.$t('formCheck.validName.tip3'), trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ],
+        phone: [{ required: false,trigger: 'blur', validator: isvalidPhone }],
+        credentialNo: [{ required: false,trigger: 'blur', validator: isvalidIdNum }]
+      },
   	  total: 0,
   	  dform: {
   	  	userid: getCache('userid'),
   	  	bids: []
-  	  }
+  	  },
+      editType: 0,
+      dialogVisible: false
   	}
+  },
+  computed: {
+    dTitle () {
+      if (this.editType === 0) {
+        return this.$t('black.wins.title')
+      } else if (this.editType === 1) {
+        return this.$t('black.wins.title')
+      }
+    }
   },
   methods: {
   	getList () {
@@ -66,17 +124,41 @@ export default {
   	},
   	handleSizeChange (val) {
   	  this.form.requestedCount = val
+      this.getList()
   	},
   	handleCurrentChange (val) {
-  	  this.form.startIndex = val
+  	  this.form.startIndex = (val - 1) * this.form.requestedCount + 1
+      this.getList()
   	},
   	handleSelectionChange (val) {
   	  //this.clist = val
   	  let _self = this
   	  val.forEach(function(ele,index){
-        _self.form.bids.push(ele.bid)
+        _self.dform.bids.push(ele.bid)
   	  })
   	},
+    addBlack () {
+      this.$refs.blackform.validate((valid) => {
+        if (valid) {
+          if (this.form.credentialNo === '' && this.form.phone ==='') {
+            this.$message({
+              message: this.$t('phoneIdnum.tips'),
+              type: 'error'
+            })
+          } else {
+            this.$store.dispatch('addBlacklist',this.form).then(res => {
+              let {status} = res
+              if (status === 0) {
+                this.dialogVisible = !this.dialogVisible
+                this.$refs.blackform.resetFields()
+                this.$refs.blackform.clearValidate()
+                this.getList()
+              }
+            })
+          }
+        }
+      })
+    },
   	deleteBlack () {
       this.$store.dispatch('delBlacklist',this.dform).then(res => {
       	let {status} = res

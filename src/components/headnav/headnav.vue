@@ -2,7 +2,7 @@
 	<div id="headnav" class="mheader">
 		<div class="headerwrap">
 			<div class="menuleft">
-				<span class="head-logo">来访通</span>
+				<h1 class="head-logo">{{$t('hlogo.text')}}</h1>
 			</div>
 			<div class="menuleft">			
 				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
@@ -28,7 +28,14 @@
 		    	<lang-select class="international right-menu-item"></lang-select>
 		    	<el-dropdown>
 				  <span class="el-dropdown-link">
-				    <span class="useravater"><img :src="logo"></span><span class="username">{{username}}</span><i class="el-icon-arrow-down el-icon--right"></i>
+				    <span class="useravater">
+				    	<template v-if="logo&&logo!==''&&logo!=='null'">
+				    		<img :src="logo"/>
+				    	</template>
+				    	<template v-else>
+				    		<i class="fa  fa-user-circle"></i>
+				    	</template></span><span class="username">{{username}}</span>
+				    <i class="el-icon-arrow-down el-icon--right"></i>
 				  </span>
 				  <el-dropdown-menu slot="dropdown">
 				  	<template v-for="item in $t('downlist')">
@@ -69,21 +76,18 @@ export default {
     	getCache: getCache,
     	doFunc (link,dirname) {
 	      	if (dirname === 'signout') {
-	      		this.$confirm('确认退出吗?', '提示', {
-			        confirmButtonText: '确定',
-			        cancelButtonText: '取消',
+	      		this.$confirm(this.$t('outTip.title'),this.$t('outTip.desc'), {
+			        confirmButtonText: this.$t('outTip.conform'),
+			        cancelButtonText: this.$t('outTip.cancel'),
 			        type: 'warning',
 			        center: true
 			    }).then(() => {
 			        this.$store.dispatch('signOut').then(res => {
 			        	window.location.href = 'login.html'
-			        })
-			        
-			    }).catch(() => { })
-	          
+			        })			        
+			    }).catch(() => { })	          
 	      	}
         }
-    },
-    mounted(){}
+    }
   }
 </script>

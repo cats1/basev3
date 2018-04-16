@@ -9,6 +9,7 @@ import '@/icons'
 import IconSvg from '@/components/Icon-svg'
 import store from '@/store'
 import i18n from '@/lang'
+import 'font-awesome/css/font-awesome.css'
 Vue.use(ElementUI, {
   size: 'medium',
   i18n: (key, value) => i18n.t(key, value)

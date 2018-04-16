@@ -2,7 +2,6 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import i18n from '../lang'
 const noticeMessages = i18n.messages[i18n.locale].responseNote
-console.log(noticeMessages)
 import store from '@/store'
 import { getCache } from '@/utils/auth'
 

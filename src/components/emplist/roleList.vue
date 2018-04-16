@@ -7,8 +7,8 @@
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
 	  			<el-radio-group v-model="vtype" @change="changeVtype">
-			      <el-radio-button label="pro"><router-link to="/">{{$t('project.pro')}}</router-link></el-radio-button>
-			      <el-radio-button label="com"><router-link to="/com">{{$t('project.com')}}</router-link></el-radio-button>
+			      <el-radio-button label="group"><router-link to="/">{{$t('project.pro')}}</router-link></el-radio-button>
+			      <el-radio-button label="role"><router-link to="/role">{{$t('project.com')}}</router-link></el-radio-button>
 			    </el-radio-group>
 			    <div>
 			    	<el-tree :data="list" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
@@ -25,37 +25,25 @@
 				    <el-table-column
 				      label="姓名"
 				      width="120">
-				      <template slot-scope="scope">{{ scope.row.name }}</template>
+				      <template slot-scope="scope">{{ scope.row.empName }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="公司名称"
-				      width="120">
-				      <template slot-scope="scope">{{ scope.row.company }}</template>
+				      label="职位">
+				      <template slot-scope="scope">{{ scope.row.empPosition }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="项目名称"
-				      width="120">
-				      <template slot-scope="scope">{{ scope.row.pName }}</template>
+				      label="工号">
+				      <template slot-scope="scope">{{ scope.row.empNo }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="负责人"
-				      width="120">
-				      <template slot-scope="scope">{{ scope.row.leader }}</template>
+				      label="手机号">
+				      <template slot-scope="scope">{{ scope.row.empPhone }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="负责人手机"
-				      width="120">
-				      <template slot-scope="scope">{{ scope.row.phone }}</template>
+				      label="邮箱">
+				      <template slot-scope="scope">{{ scope.row.empEmail }}</template>
 				    </el-table-column>
-				    <el-table-column
-				      label="工作区域">
-				      <template slot-scope="scope">{{ scope.row.area }}</template>
-				    </el-table-column>
-				    <el-table-column
-				      label="服务期限">
-				      <template slot-scope="scope">{{ scope.row.startDate }}-{{ scope.row.endDate }}</template>
-				    </el-table-column>
-	  		    </el-table>
+	  		  </el-table>
 		  		<div class="page-footer">
 		  		<el-pagination
 			      @size-change="handleSizeChange"
@@ -74,7 +62,7 @@
 </template>
 <script>
 import {getCache} from '@/utils/auth'
-import {getBarList} from '@/utils/common'
+import {getCBarList} from '@/utils/common'
 export default {
   data () {
   	return {
@@ -86,14 +74,13 @@ export default {
         label: 'label'
       },
       nform:{
-  	  	company:'',
+  	  	rid:'',
   	  	requestedCount: 10,
-  	  	startIndex:1,
-  	  	userid: getCache('userid')
+  	  	startIndex:1
   	  },
   	  dform: {
-  	  	userid: getCache('userid'),
-  	  	rids: []
+  	  	rid: '',
+  	  	empids: []
   	  }
   	}
   },
@@ -110,30 +97,30 @@ export default {
   },
   methods: {
   	changeVtype (val) {
-  	  if(val === 'pro') {
+  	  if(val === 'group') {
   	  	this.$router.push({path:'/'})
   	  } else {
-  	  	this.$router.push({path:'/com'})
+  	  	this.$router.push({path:'/role'})
   	  }
   	},
   	getProjectList () {
   	  let nform = {
   	  	userid: getCache('userid')
   	  }
-  	  this.$store.dispatch('getAllResidentCompany',nform).then(res => {
+  	  this.$store.dispatch('getRARG',nform).then(res => {
   	  	let {status,result} = res
   	  	if (status === 0) {
-  	  	  this.list = getBarList(result,'company','pid','pcount')
+  	  	  this.list = getCBarList(result,'rgName','rid','childRoleList')
+          console.log(this.list)
   	  	  if (result.length>0) {
-            this.nform.company = result[0].company
+            this.nform.rid = result[0].rid
             this.getResidentVisitor()
   	  	  }
-  	  	  console.log(this.list)
-  	  	} else {}
+  	  	}
   	  })
   	},
   	getResidentVisitor () {
-  	  this.$store.dispatch('getResidentVisitorByCompany',this.nform).then(res => {
+  	  this.$store.dispatch('getEmpRoleList',this.nform).then(res => {
   	  	let {status,result} = res
   	  	if (status === 0) {
   	  	  this.dataList = result.list
@@ -142,7 +129,8 @@ export default {
   	  })	
   	},
   	handleNodeClick(data) {
-        this.nform.company = data.name
+        this.dform.rid = data.pid
+        this.nform.rid = data.pid
         this.nform.startIndex = 1
         this.getResidentVisitor()
     },
@@ -158,11 +146,11 @@ export default {
   	  //this.clist = val
   	  let _self = this
   	  val.forEach(function(ele,index){
-        _self.dform.rids.push(ele.rid)
+        _self.dform.empids.push(ele.empid)
   	  })
   	},
   	deleteEmp () {
-      this.$store.dispatch('delResidentVisitor',this.dform).then(res => {
+      this.$store.dispatch('delRoleEmp',this.dform).then(res => {
       	let {status} = res
       	if (status === 0) {
           this.getProjectList()

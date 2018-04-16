@@ -52,6 +52,22 @@ export default {
       btn: '进入后台管理'
     }
   },
+  form: {
+    name: {
+      text: '姓名',
+    },
+    phone: {
+      text: '手机号'
+    },
+    idnum: {
+      text: '身份证号'
+    }
+  },
+  phoneIdnum: {
+    text: '*身份证与手机号二选一',
+    tips: '手机号与身份证号至少填一项'
+  },
+  idNumTip: ['验证通过!','身份证号码位数不对!',"身份证号码出生日期超出范围或含有非法字符!","身份证号码校验错误!","身份证地区非法!"],
   formCheck: {
     validPassword: {
       tip1: '密码格式不正确',
@@ -70,7 +86,8 @@ export default {
     },
     validName: {
       tip1: '不能为空',
-      tip2: '包含非法字符'
+      tip2: '包含非法字符',
+      tip3: '姓名不能为空'
     },
     validEmpName: {
       holder: '员工姓名'
@@ -111,6 +128,11 @@ export default {
     group: {
       addtitle: '添加设备组',
       edittitle: '修改设备组'
+    }
+  },
+  black: {
+    wins: {
+      title:'新增黑名单'
     }
   },
   notice: {
@@ -240,11 +262,33 @@ export default {
     editBtn: '编辑',
     shouBtn: '收起',
     saveBtn: '保存',
-    picBtn: '选择图片'
+    picBtn: '选择图片',
+    addBlackBtn: '添加黑名单',
+    dotDeleteBtn: '批量删除',
+    sendFaceBtn: '下发全部人脸',
+    addProjectBtn: '添加项目',
+    editProjectBtn: '编辑项目',
+    moveProjectBtn: '调整项目',
+    addVisitorBtn: '添加访客',
+    cardBtn: '生成访客卡'
+  },
+  emplist: {
+    pro: '组织架构',
+    com: '角色'
+  },
+  project: {
+    pro: '项目列表',
+    com: '公司列表'
   },
   picTips: {
     logotip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片',
     slidetip: '提示：建议上传1536x2048像素的图片'
+  },
+  outTip: {
+    title: '确认退出吗?',
+    desc: '提示',
+    conform: '确定',
+    cancel:'取消'
   },
   loginselect: [{
     name: '管理员登录',
@@ -362,8 +406,8 @@ export default {
     link: 'emp.html',
     children: [{
       name: '公司员工',
-      dirname: 'emp',
-      link: 'emp.html',
+      dirname: 'emplist',
+      link: 'emplist.html',
       children: []
     },{
       name: '常驻访客',
@@ -410,6 +454,27 @@ export default {
   homepage:{
     name: '官网首页',
     link: '#'
+  },
+  hlogo: {
+    text: '来访通'
+  },
+  account: {
+    siderBar: {
+      title: '账户信息',
+      list: [{
+        name: '基本资料',
+        link: '/'
+      },{
+        name: '账户安全',
+        link: '/safe'
+      },{
+        name: '前台验证账号',
+        link: '/stage'
+      },{
+        name: '多企业服务模式',
+        link: '/coms'
+      }]
+    }
   },
   downlist:[{
     name: '账号管理',

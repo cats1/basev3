@@ -1,5 +1,8 @@
-import { empLogin, checkEmpInfo, GetEmpList,
-	getBlacklist,delBlacklist,getProject,getResidentVisitor } from '@/api/emp'
+import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
+	delBlacklist,getProject,getResidentVisitor,getAllResidentCompany,
+	getResidentVisitorByCompany,delResidentVisitor,updateAllResidentFace,
+	getRARG,getEmpRoleList,delRoleEmp,getDeptList,getEmpDeptList,getEmpListPages,
+	batchDelEmployee,updateAllFace } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 const user = {
@@ -97,6 +100,101 @@ const user = {
 		        })
 		    })
 		},
+		getAllResidentCompany({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getAllResidentCompany(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getResidentVisitorByCompany({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getResidentVisitorByCompany(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getRARG({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getRARG(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getEmpRoleList({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getEmpRoleList(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getDeptList({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getDeptList(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getEmpDeptList({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getEmpDeptList(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getEmpListPages({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getEmpListPages(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		addBlacklist({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        addBlacklist(info).then(response => {
+		          let {status} = response
+		          if (status === 0) {
+		        	Message({
+                  	  message: '黑名单增加成功',
+                  	  type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		updateAllResidentFace({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        updateAllResidentFace(info).then(response => {
+		          let {status} = response
+		          if (status === 0) {
+		        	Message({
+                  	  message: '人脸下发成功',
+                  	  type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
 		delBlacklist({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        delBlacklist(info).then(response => {
@@ -104,6 +202,70 @@ const user = {
 		          if (status === 0) {
 					Message({
                   		message: '黑名单删除成功',
+                  		type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		delResidentVisitor({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        delResidentVisitor(info).then(response => {
+		          let {status} = response
+		          if (status === 0) {
+					Message({
+                  		message: '批量删除成功',
+                  		type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		delRoleEmp({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        delRoleEmp(info).then(response => {
+		          let {status} = response
+		          if (status === 0) {
+					Message({
+                  		message: '批量删除成功',
+                  		type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		updateAllFace({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        updateAllFace(info).then(response => {
+		          let {status} = response
+		          if (status === 0) {
+					Message({
+                  		message: '下发人脸成功',
+                  		type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		batchDelEmployee({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        batchDelEmployee(info).then(response => {
+		          let {status} = response
+		          if (status === 0) {
+					Message({
+                  		message: '批量删除成功',
                   		type: 'success'
                 	})
 		          }

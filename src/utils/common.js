@@ -94,16 +94,63 @@ export function arrayToString(value){
     return ''
   }
 }
-export function getBarList (array) {
+export function getBarList (array,name,id,count) {
   let list = []
   array.forEach(function(element,index){
     let obj = {
-      label: element.pName + '(' + element.pcount+ ')',
-      pid: element.pid,
-      pcount: element.pcount,
+      label: element[name] + '(' + element[count]+ ')',
+      name: element[name],
+      pid: element[id],
+      pcount: element[count],
       children: []
     }
     list.push(obj)
   })
+  return list
+}
+export function getCBarList (array,name,id,child) {
+  let list = []
+  array.forEach(function(element,index){
+    let obj = {
+      label: element[name],
+      name: element[name],
+      pid: element[id],
+      pcount: 0,
+      children: []
+    }
+    if (element[child] && element[child].length > 0) {
+      let citem = getCBarList(element[child],name,id,child)
+      obj.children = citem
+    }
+    list.push(obj)
+  })
+  return list
+}
+export function getCgBarList (array,name,did,count,dp,child) {
+  let list = [{
+    label: getCache('company'),
+    name: getCache('company'),
+    pid: getCache('userid'),
+    pcount: 0,
+    dp: 'root',
+    children: []
+  }]
+  let cList = []
+  array.forEach(function(element,index){
+    let obj = {
+      label: element[name]+ '(' + element[count]+ ')',
+      name: element[name],
+      pid: element[did],
+      pcount: element[count],
+      dp: element[dp],
+      children: []
+    }
+    if (element[child] && element[child].length > 0) {
+      let citem = getCgBarList(element[child],name,did,count,dp,child)
+      obj.children = citem
+    }
+    cList.push(obj)
+  })
+  list[0].children = cList
   return list
 }
