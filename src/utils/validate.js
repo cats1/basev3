@@ -1,11 +1,10 @@
 import i18n from '../lang'
 const idNumTip = i18n.messages[i18n.locale].idNumTip
-console.log(idNumTip)
-export function isvalidUsername(str) {
-  const valid_map = ['admin', 'editor']
-  return valid_map.indexOf(str.trim()) >= 0
-}
 export function isvalidSAccount(str) {
+  const reg = new RegExp(/^(LFT_)/)
+  return reg.test(str)
+}
+export function isvalidName(str) {
   const reg = new RegExp(/^(LFT_)/)
   return reg.test(str)
 }

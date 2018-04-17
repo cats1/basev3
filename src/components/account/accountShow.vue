@@ -2,10 +2,10 @@
 	<div class="page-container">
       <el-row :gutter="20">
         <el-col :span="4">
-          <dl class="barlist">
+          <dl class="barlist boxshadow">
           	<dt>{{$t('account.siderBar.title')}}</dt>
           	<template v-for="(item,index) in $t('account.siderBar.list')">
-          		<dd><router-link :to="item.link">{{item.name}}</router-link></dd>
+          		<router-link :to="item.link" tag="dd" active-class="active"><span class="bluelines"></span>{{item.name}}</router-link>
           	</template>
           </dl>
         </el-col>
@@ -18,6 +18,7 @@
     </div>
 </template>
 <script>
+import {getCache} from '@/utils/auth'
 export default {
   data () {
   	return {}

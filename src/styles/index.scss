@@ -98,7 +98,6 @@ label {
     font-size: 18px;
     text-indent: 20px;
     color: #444;
-    font-weight: lighter;
     border-bottom: 1px solid #e7e8e9;
   }
   dd {
@@ -108,7 +107,6 @@ label {
     font-size: 14px;
     text-indent: 20px;
     color: #333;
-    font-weight: lighter;
     position: relative;
     .bluelines {
       width: 4px;
@@ -132,12 +130,97 @@ label {
   text-align: left;
 }
 
+.set-title {
+  height: 48px;
+  line-height: 48px;
+  text-indent: 20px;
+  font-size: 18px;
+  margin: 0;
+}
+
+.borderbom {
+  border-bottom: 1px solid #e7e8e9;
+}
+
+.codetitle {
+  height: 50px;
+  line-height: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  span {
+    width: auto;
+    float: left;
+    height: 50px;
+    border-bottom: 3px solid #333;
+  }
+}
+
+.codecontent {
+  margin: 30px auto;
+  font-size: 14px;
+  color: #666;
+  span {
+    color: #666;
+    strong {
+      font-size: 16px;
+      font-weight: 400;
+      color: #000;
+    }
+  }
+}
+
+.baseversion {
+  text-align: center;
+  h3 {
+    font-size: 20px;
+    color: #2c7de5;
+    margin-top: 10px;
+  }
+  img {
+    margin: 40px auto 40px auto;
+  }
+  p {
+    font-size: 14px;
+    color: #333;
+  }
+}
+
 .svg-icon {
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+}
+
+.comitemwrap {
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+  &:last-child{
+    border: none;
+  }
+  .comlogo {
+    width: 46px;
+    height: 46px;
+    display: inline-block;
+    float: left;
+    border: 1px solid #e7e8e9;
+    overflow: hidden;
+    img {
+      width: 100%;
+    }
+  }
+  .comname {
+    width: auto;
+    height: 46px;
+    line-height: 46px;
+    font-size: 14px;
+    color: #444;
+    margin-left: 20px;
+    display: inline-block;
+    float: left;
+  }
 }
 
 .gtitle {
@@ -151,6 +234,11 @@ label {
 .block {
   display: block;
 }
+
+
+
+
+
 
 
 
@@ -200,6 +288,11 @@ label {
   width: 1200px;
   margin: 0 auto;
 }
+
+
+
+
+
 
 
 
@@ -301,6 +394,11 @@ label {
     }
   }
 }
+
+
+
+
+
 
 
 

@@ -6,8 +6,8 @@
   </div>
 </template>
 <script>
-import headnav from '../../components/headnav/headnav'
-import footbom from '../../components/footer/footbom'
+import headnav from '@/components/headnav/headnav'
+import footbom from '@/components/footer/footbom'
 import accountShow from '@/components/account/accountShow'
 export default {
   name: 'App',

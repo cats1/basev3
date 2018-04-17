@@ -5,6 +5,17 @@ export default {
     desc: '马上体验更智能的访客管理系统',
     button: '注册'
   },
+  version: [{
+    type: 0,
+    name: '免费版'
+  },{
+    type: [1,2],
+    name: '商务版'
+  },{
+    type: 3,
+    name: '工厂版'
+  }],
+  endTimeText: '到期',
   guide: {
     guide1: {
       title: '欢迎加入来访通',
@@ -61,6 +72,27 @@ export default {
     },
     idnum: {
       text: '身份证号'
+    },
+    email: {
+      text: '邮箱',
+      checktext: '订阅邮件',
+      tiptitle: '您确定不再接收邮件吗？',
+      tipdesc: '勾选此项表明以后<strong>不再</strong>接受来访通的任何邮件'
+    },
+    company: {
+      text: '公司名称'
+    },
+    companypro: {
+      text: '公司简称'
+    },
+    password: {
+      oldtext: '原密码',
+      newtext: '新密码',
+      retext: '确认新密码',
+      text1: '密码'
+    },
+    stageaccount: {
+      text: '验证端账号'
     }
   },
   phoneIdnum: {
@@ -72,7 +104,10 @@ export default {
     validPassword: {
       tip1: '密码格式不正确',
       tip2: '密码长度不小于6位',
-      tip3: '密码不能为空'
+      tip3: '密码不能为空',
+      tip4: '请输入密码',
+      tip5: '两次输入密码不一致',
+      tip6: '请再次输入密码'
     },
     validEmail: {
       tip1: '邮箱格式不正确',
@@ -84,13 +119,23 @@ export default {
       tip2: '手机号不能为空',
       holder: '手机号码'
     },
+    validCompany: {
+      tip1: '公司名称不能为空'
+    },
+    validCompanyPro: {
+      tip1: '公司简称不能为空',
+      tip2: '最长6个字符'
+    },
     validName: {
-      tip1: '不能为空',
+      tip1: '姓名不能为空',
       tip2: '包含非法字符',
       tip3: '姓名不能为空'
     },
     validEmpName: {
       holder: '员工姓名'
+    },
+    validAccont: {
+      tip1: '请输入账号'
     }
   },
   moban: {
@@ -256,6 +301,15 @@ export default {
         upDuty: '上班时间填写',
         offDuty: '下班时间填写'
       }
+    },
+    coms: {
+      title: '多企业服务模式',
+      desc: '适用于众创空间、物业等办公服务主体，可为入驻企业提供Pad端形象展示和访客管理服务。',
+      dialog: {
+        title: '企业信息',
+        title1: '企业联系人信息',
+        title2: '所有公司'
+      }
     }
   },
   btn: {
@@ -270,7 +324,16 @@ export default {
     editProjectBtn: '编辑项目',
     moveProjectBtn: '调整项目',
     addVisitorBtn: '添加访客',
-    cardBtn: '生成访客卡'
+    cardBtn: '生成访客卡',
+    updateBtn: '修改',
+    deleteBtn: '删除',
+    initPwdBtn: '初始化密码',
+    cancelBtn: '取消',
+    confirmBtn: '确定',
+    edit1: '操作',
+    addComBtn: '添加公司',
+    downMobanBtn: '下载模板',
+    uploadComBtn: '上传公司'
   },
   emplist: {
     pro: '组织架构',
@@ -463,17 +526,27 @@ export default {
       title: '账户信息',
       list: [{
         name: '基本资料',
-        link: '/'
+        link: 'base'
       },{
         name: '账户安全',
-        link: '/safe'
+        link: 'safe'
       },{
         name: '前台验证账号',
-        link: '/stage'
+        link: 'stage'
       },{
         name: '多企业服务模式',
-        link: '/coms'
+        link: 'coms'
       }]
+    },
+    base: {
+      title: '基本资料'
+    },
+    safe: {
+      title: '账户安全'
+    },
+    stage: {
+      title: '验证端账号',
+      tip: '支持PC、手机端验证'
     }
   },
   downlist:[{
