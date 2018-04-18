@@ -4,5 +4,6 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  BASE_API: '"http://www.coolvisit.top/qcvisitBase"'
+  BASE_API: '"http://www.coolvisit.top/qcvisitBase"',
+  BASE_LINK: '"http://www.coolvisit.top/base"'
 })

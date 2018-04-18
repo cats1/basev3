@@ -7,3 +7,27 @@ export function SearchVisitByCondition(data) {
     data
   })
 }
+//SearchAppointmentByCondition
+export function SearchAppointmentByCondition(data) {
+  return request({
+    url: '/SearchAppointmentByCondition',
+    method: 'post',
+    data
+  })
+}
+//searchInviteByCondition
+export function searchInviteByCondition(data) {
+  return request({
+    url: '/searchInviteByCondition',
+    method: 'post',
+    data
+  })
+}
+//SearchRVisitorByCondition
+export function SearchRVisitorByCondition(data) {
+  return request({
+    url: '/SearchRVisitorByCondition',
+    method: 'post',
+    data
+  })
+}

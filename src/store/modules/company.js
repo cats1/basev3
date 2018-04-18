@@ -1,7 +1,8 @@
 import { subAccountLogin,ModifyUserInfo,UpdateCardText,
 	updateUnSubscribe,updatePassword,AddManager,GetManagerByUser,
-	updateSASwitch,getSubAccountByUserid,getEquipmentGroupByUserid,
-	DeleteManager,UpdateManager } from '@/api/company'
+	updateSASwitch,getSubAccountByUserid,
+	DeleteManager,UpdateManager,resetSubAccountPwd,delSubAccount,
+	updateSubAccount,addSubAccount } from '@/api/company'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import {EncodeUtf8} from '@/utils/common'
 import { Message } from 'element-ui'
@@ -175,15 +176,6 @@ const user = {
 		        })
 		    })
 		},
-		getEquipmentGroupByUserid({ commit }, info) {
-			return new Promise((resolve, reject) => {
-		        getEquipmentGroupByUserid(info).then(response => {
-		          resolve(response)
-		        }).catch(error => {
-		          reject(error)
-		        })
-		    })
-		},
 		DeleteManager({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        DeleteManager(info).then(response => {
@@ -208,6 +200,70 @@ const user = {
 		          	Message({
 		              message: '密码修改成功',
 		              type: 'success'
+		            })
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		resetSubAccountPwd({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        resetSubAccountPwd(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	Message({
+		              message: '密码初始化成功',
+		              type: 'success'
+		            })
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		delSubAccount({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        delSubAccount(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	Message({
+		              type: 'success',
+		              message: '删除成功!'
+		            })
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		updateSubAccount({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        updateSubAccount(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	Message({
+		              type: 'success',
+		              message: '修改成功!'
+		            })
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		addSubAccount({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        addSubAccount(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	Message({
+		              type: 'success',
+		              message: '增加成功!'
 		            })
 		          }
 		          resolve(response)

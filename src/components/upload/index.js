@@ -1,3 +1,5 @@
 export {default as uploadPic} from './uploadPic'
 export {default as uploadPicGroup} from './uploadPicGroup'
 export {default as uploadPicBtn} from './uploadPicBtn'
+export {default as uploadZiLogo} from './uploadZiLogo'
+export {default as uploadCompany} from './uploadCompany'

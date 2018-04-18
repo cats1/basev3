@@ -4,44 +4,28 @@
 	      v-model="date"
 	      align="right"
 	      type="date"
-	      placeholder="选择日期"
-	      :picker-options="pickerOptions1">
-	    </el-date-picker>
+	      placeholder="选择日期" format="yyyy-MM-dd"
+	      :picker-options="pickerOptions1" @change="sendVal">
+	  </el-date-picker>
 	</div>
 </template>
 <script>
 export default {
+  props: ['setDate'],
   data () {
   	return {
-      date: new Date(),
+      date: this.setDate,
       pickerOptions1: {
-          disabledDate(time) {
-            return time.getTime() > Date.now();
-          },
-          shortcuts: [{
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
-            }
-          }, {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }]
-      },
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        }
+      }
   	}
   },
-  created () {},
-  mounted () {},
   methods: {
-  	getSignVisitor () {
-
-  	}
+    sendVal (val) {
+      this.$emit('getkit',val)
+    }
   }
 }
 </script>

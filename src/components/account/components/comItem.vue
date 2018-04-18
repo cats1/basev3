@@ -1,6 +1,6 @@
 <template>
-	<div class="comitemwrap">
-		<el-row @mouseover="doOver" @mouseout="doOut">
+	<div class="comitemwrap" @mouseover="deHover" @mouseout="outHove">
+		<el-row >
 			<el-col :span="2">
 				<span class="comlogo">
 					<img :src="logo" alt="">
@@ -9,42 +9,14 @@
 			<el-col :span="4">
 				<span class="comname">{{name}}</span>
 			</el-col>
-			<el-col :span="10" v-show="editShow">
-				<el-button type="text">{{$t('btn.updateBtn')}}</el-button>
-				<el-button type="text">{{$t('btn.deleteBtn')}}</el-button>
-				<el-button type="text">{{$t('btn.initPwdBtn')}}</el-button>
-			</el-col>
+			<transition name="el-zoom-in-center">
+				<el-col :span="10" v-show="editShow">
+					<el-button type="text" @click="updateCom">{{$t('btn.updateBtn')}}</el-button>|
+					<el-button type="text" @click="deleteCom">{{$t('btn.deleteBtn')}}</el-button>|
+					<el-button type="text" @click="initPwd">{{$t('btn.initPwdBtn')}}</el-button>
+				</el-col>
+			</transition>
 		</el-row>
-		<el-dialog
-		  :title="$t('notice.coms.dialog.title')"
-		  :visible.sync="dialogVisible"
-		  width="30%">
-		  <el-form :model="form">
-		  	<el-form-item>
-		  		<el-input v-model="form.companyName"></el-input>
-		  	</el-form-item>
-		  	<h3>{{$t('notice.coms.dialog.title1')}}</h3>
-		  	<el-form-item>
-		  		<el-input v-model="form.phone"></el-input>
-		  	</el-form-item>
-		  	<el-form-item>
-		  		<el-input v-model="form.email"></el-input>
-		  	</el-form-item>
-		  	<el-form-item>
-		  		<el-input v-model="form.floor"></el-input>
-		  	</el-form-item>
-		  	<el-form-item>
-		  		<el-input v-model="form.roomNumber"></el-input>
-		  	</el-form-item>
-		  	<el-form-item>
-		  		<el-input v-model="form.balance"></el-input>
-		  	</el-form-item>
-		  </el-form>
-		  <span slot="footer" class="dialog-footer">
-		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
-		    <el-button type="primary" @click="dialogVisible = false">{{$t('btn.confirmBtn')}}</el-button>
-		  </span>
-		</el-dialog>
 	</div>
 </template>
 <script>
@@ -61,11 +33,7 @@ export default {
   },
   data () {
   	return {
-  	  editShow: false,
-  	  dialogVisible: false,
-  	  form: {
-  	  	companyName: ''
-  	  }
+  	  editShow: false
   	}
   },
   computed: {
@@ -77,8 +45,44 @@ export default {
   	}
   },
   methods: {
-  	doOver () {
-      console.log(888)
+  	deHover () {
+      this.editShow = true
+  	},
+  	outHove () {
+  	  this.editShow = false
+  	},
+  	updateCom () {
+  	  this.$emit('sendupdate',this.data,this.index)
+  	},
+  	deleteCom () {
+  	  this.$confirm(this.$t('notice.coms.deletetip.desc'), this.$t('notice.coms.deletetip.title'), {
+          confirmButtonText: this.$t('btn.confirmBtn'),
+          cancelButtonText: this.$t('btn.cancelBtn'),
+          type: 'warning'
+        }).then(() => {
+          let nform = {
+	  	  	id: this.data.id
+	  	  }
+          this.$store.dispatch('delSubAccount',nform).then(res => {
+          	let {status} = res
+          	if (status === 0) {
+          	  this.$emit('senddelete',this.data,this.index)
+          	}
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: this.$t('btn.haveCancel')
+          })        
+      })
+  	},
+  	initPwd () {
+  	  let nform = {
+  	  	id: this.data.id,
+  	  	password: '888888'
+  	  }
+  	  this.$store.dispatch('resetSubAccountPwd',nform)
+  	  //this.$emit('sendinitpwd',this.data,this.index)
   	}
   }
 }

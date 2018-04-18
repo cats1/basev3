@@ -433,6 +433,8 @@ label {
     margin-left: 20px;
     display: inline-block;
     float: left; }
+  .comitemwrap .el-button {
+    padding: 12px 10px; }
 
 .gtitle {
   text-indent: 20px;
@@ -443,6 +445,21 @@ label {
 
 .block {
   display: block; }
+
+.gatelist {
+  width: 270px;
+  max-height: 120px;
+  border: 1px solid #ccc;
+  overflow: auto; }
+  .gatelist li {
+    padding: 0 10px;
+    line-height: 37px; }
+    .gatelist li .el-checkbox {
+      margin-right: 6px; }
+    .gatelist li:nth-child(2n) {
+      background: #fff; }
+    .gatelist li:nth-child(2n+1) {
+      background: #d5e8fc; }
 
 /* page-container */
 .page-container {
@@ -549,6 +566,40 @@ label {
 .el-dropdown-menu li a {
   color: #000;
   display: block; }
+
+.visitwrap {
+  overflow: hidden; }
+  .visitwrap .vavatar {
+    width: 144px;
+    height: 144px;
+    float: left;
+    overflow: hidden;
+    margin-right: -100%;
+    position: relative; }
+    .visitwrap .vavatar img {
+      width: 100%; }
+    .visitwrap .vavatar .vstatus {
+      position: absolute;
+      top: 4px;
+      left: -20px;
+      padding: 5px 20px;
+      color: color("white");
+      font-size: 12px; }
+  .visitwrap .vcontent {
+    float: left;
+    width: 100%;
+    text-align: left; }
+    .visitwrap .vcontent .vcontentheader {
+      margin-left: 150px;
+      border-bottom: 1px solid #ccc; }
+      .visitwrap .vcontent .vcontentheader .vdatewrap {
+        float: right; }
+        .visitwrap .vcontent .vcontentheader .vdatewrap p {
+          line-height: 18px; }
+        .visitwrap .vcontent .vcontentheader .vdatewrap.singledate p {
+          line-height: 36px; }
+    .visitwrap .vcontent .vcontentfooter {
+      margin-left: 150px; }
 
 /* footer */
 .footerwrap {

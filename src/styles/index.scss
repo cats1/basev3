@@ -197,7 +197,7 @@ label {
 .comitemwrap {
   padding: 10px 0;
   border-bottom: 1px solid #ccc;
-  &:last-child{
+  &:last-child {
     border: none;
   }
   .comlogo {
@@ -221,6 +221,9 @@ label {
     display: inline-block;
     float: left;
   }
+  .el-button {
+    padding: 12px 10px;
+  }
 }
 
 .gtitle {
@@ -233,6 +236,26 @@ label {
 
 .block {
   display: block;
+}
+
+.gatelist {
+  width: 270px;
+  max-height: 120px;
+  border: 1px solid #ccc;
+  overflow: auto;
+  li {
+    padding: 0 10px;
+    line-height: 37px;
+    .el-checkbox {
+      margin-right: 6px;
+    }
+    &:nth-child(2n) {
+      background: #fff;
+    }
+    &:nth-child(2n+1) {
+      background: #d5e8fc;
+    }
+  }
 }
 
 
@@ -288,6 +311,8 @@ label {
   width: 1200px;
   margin: 0 auto;
 }
+
+
 
 
 
@@ -396,6 +421,66 @@ label {
 }
 
 
+
+.visitwrap {
+  overflow: hidden;
+  &:nth-child(2n+1) {
+    background: #fff;
+  }
+  &:nth-child(2n) {
+    background: #f9f9f9;
+  }
+  .vavatar {
+    width: 144px;
+    height: 144px;
+    float: left;
+    overflow: hidden;
+    margin-right: -100%;
+    position: relative;
+    img {
+      width: 100%;
+    }
+    .vstatus {
+      position: absolute;
+      top: 4px;
+      left: -20px;
+      padding: 5px 20px; //.rotateDeg(-45deg);
+      transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      /* IE 9 */
+      -moz-transform: rotate(-45deg);
+      /* Firefox */
+      -webkit-transform: rotate(-45deg);
+      /* Safari 和 Chrome */
+      -o-transform: rotate(-45deg);
+      color: #fff;
+      font-size: 12px;
+    }
+  }
+  .vcontent {
+    float: left;
+    width: 100%;
+    text-align: left;
+    .vcontentheader {
+      margin-left: 150px;
+      border-bottom: 1px solid #ccc;
+      .vdatewrap {
+        float: right;
+        p {
+          line-height: 18px;
+        }
+        &.singledate {
+          p {
+            line-height: 36px;
+          }
+        }
+      }
+    }
+    .vcontentfooter {
+      margin-left: 150px;
+    }
+  }
+}
 
 
 

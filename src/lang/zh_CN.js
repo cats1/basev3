@@ -5,6 +5,9 @@ export default {
     desc: '马上体验更智能的访客管理系统',
     button: '注册'
   },
+  vtype: ['签到访客','预约访客','邀请访客','常驻访客'],
+  signStatus: ['已签到','已签出','已预约','已过期','已发送','已查看','已接受','已拒绝','已授权','未授权'],
+  checkVtype: ['全部','拜访者姓名','受访者姓名','拜访事由','电话','公司','门岗'],
   version: [{
     type: 0,
     name: '免费版'
@@ -309,6 +312,10 @@ export default {
         title: '企业信息',
         title1: '企业联系人信息',
         title2: '所有公司'
+      },
+      deletetip: {
+        title: '删除子公司',
+        desc: '确定删除子公司？'
       }
     }
   },
@@ -329,11 +336,13 @@ export default {
     deleteBtn: '删除',
     initPwdBtn: '初始化密码',
     cancelBtn: '取消',
+    haveCancel: '已取消',
     confirmBtn: '确定',
     edit1: '操作',
     addComBtn: '添加公司',
     downMobanBtn: '下载模板',
-    uploadComBtn: '上传公司'
+    uploadComBtn: '上传公司',
+    uploadlgo: '上传logo'
   },
   emplist: {
     pro: '组织架构',

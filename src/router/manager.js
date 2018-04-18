@@ -7,5 +7,8 @@ export default new Router({
   routes: [{
   	path: '/',
   	component: _import('home/manager')
+  },{
+  	path: '/data',
+  	component: _import('home/components/dataControl')
   }]
 })

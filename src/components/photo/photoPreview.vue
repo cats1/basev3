@@ -26,13 +26,15 @@ export default {
         return this.imgsrc
       },
       set: function () {
-        if (this.imgsrc) {
+        if (this.imgsrc && this.imgsrc !== null) {
           return this.imgsrc
         } else {
           if (this.imgtype === '0') {
             this.imgsrc = require('@/assets/img/placeholder1.png')
           } else if (this.imgtype === '1') {
             this.imgsrc = require('@/assets/img/placeholder2.png')
+          } else if (this.imgtype === '2') {
+            this.imgsrc = require('@/assets/img/com-default.jpg')
           } else {
             this.imgsrc = require('@/assets/img/placeholder1.png')
           }
@@ -40,7 +42,14 @@ export default {
       }
     }
   },
-  mounted () {},
+  watch: {
+    imgsrc (val,oldval) {
+      console.log(val)
+    }
+  },
+  mounted () {
+    console.log(this.src === null)
+  },
   methods: {
   	deHover () {
   	  this.maskShow = true
@@ -60,7 +69,7 @@ export default {
             this.$emit('resdele','',this.index)
           }
         })
-      } else {
+      } else if (this.imgtype === 1){
         this.bgPicUrl.splice(this.index,1)
         let nForm = {
           bgPicUrl: arrayToString(this.bgPicUrl),
@@ -73,6 +82,8 @@ export default {
             this.$emit('resdele',this.imgsrc,this.index)
           }
         })
+      } else if (this.imgtype === 2){
+        console.log(8989)
       }
   	}
   }
@@ -97,6 +108,7 @@ export default {
         height: 162px;
         img{
         	max-width:100%;
+          min-width:100%;
           min-height: 100%;
           max-height: 100%;
         }

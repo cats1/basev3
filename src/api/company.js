@@ -95,3 +95,35 @@ export function UpdateManager(data) {
     data
   })
 }
+//resetSubAccountPwd
+export function resetSubAccountPwd(data) {
+  return request({
+    url: '/resetSubAccountPwd',
+    method: 'post',
+    data
+  })
+}
+//delSubAccount
+export function delSubAccount(data) {
+  return request({
+    url: '/delSubAccount',
+    method: 'post',
+    data
+  })
+}
+//updateSubAccount
+export function updateSubAccount(data) {
+  return request({
+    url: '/updateSubAccount',
+    method: 'post',
+    data
+  })
+}
+//addSubAccount
+export function addSubAccount(data) {
+  return request({
+    url: '/addSubAccount',
+    method: 'post',
+    data
+  })
+}
