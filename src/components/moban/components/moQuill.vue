@@ -1,6 +1,6 @@
 <template>
   <div class="clearfix block">
-  	<vue-quill-editor :content="content"></vue-quill-editor>
+  	<vue-quill-editor :content="dcontent" @getcon="getcon"></vue-quill-editor>
   </div>
 </template>
 <script>
@@ -14,7 +14,19 @@ export default {
   },
   components: { vueQuillEditor },
   data () {
-  	return {}
+  	return {
+      dcontent: this.content
+    }
+  },
+  watch: {
+    content (val) {
+      this.dcontent = val
+    }
+  },
+  methods: {
+    getcon (val) {
+      this.$emit('getcon',val)
+    }
   }
 }
 </script>

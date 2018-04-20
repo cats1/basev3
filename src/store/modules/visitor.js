@@ -1,4 +1,5 @@
-import { SearchVisitByCondition,SearchAppointmentByCondition,searchInviteByCondition,SearchRVisitorByCondition } from '@/api/visitor'
+import { SearchVisitByCondition,SearchAppointmentByCondition,searchInviteByCondition,
+	SearchRVisitorByCondition,GetVisitType } from '@/api/visitor'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 
 const user = {
@@ -35,6 +36,15 @@ const user = {
 		SearchRVisitorByCondition({ commit }, userInfo) {
 			return new Promise((resolve, reject) => {
 		        SearchRVisitorByCondition(userInfo).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		GetVisitType({ commit }, userInfo) {
+			return new Promise((resolve, reject) => {
+		        GetVisitType(userInfo).then(response => {
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)

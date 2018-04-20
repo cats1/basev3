@@ -2,7 +2,8 @@ import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	delBlacklist,getProject,getResidentVisitor,getAllResidentCompany,
 	getResidentVisitorByCompany,delResidentVisitor,updateAllResidentFace,
 	getRARG,getEmpRoleList,delRoleEmp,getDeptList,getEmpDeptList,getEmpListPages,
-	batchDelEmployee,updateAllFace } from '@/api/emp'
+	batchDelEmployee,updateAllFace,SearchRecordsByPhone,addAppointment,getEmptempByPost,
+	GetUserInfo,getSubAccountById,getEmptemplateByType,getUsertemplate,getSubAccountTemp } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 const user = {
@@ -269,6 +270,98 @@ const user = {
                   		type: 'success'
                 	})
 		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		SearchRecordsByPhone({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        SearchRecordsByPhone(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		addAppointment({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        addAppointment(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getEmptempByPost({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getEmptempByPost(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		GetUserInfo({ commit }) {
+			return new Promise((resolve, reject) => {
+				let info = {
+				  email: getCache('email') || getCache('pemail'),
+				  userid: getCache('userid')
+				}
+		        GetUserInfo(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	for (let key in result) {
+		          		if (key !== 'token') {
+		          	      setCache(key, result[key])
+		          		}
+		          	}
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getSubAccountById({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        getSubAccountById(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	for (let key in result) {
+		          		if (key !== 'token') {
+		          	      setCache(key, result[key])
+		          		}
+		          	}
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getEmptemplateByType({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        getEmptemplateByType(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getUsertemplate({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        getUsertemplate(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getSubAccountTemp({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        getSubAccountTemp(info).then(response => {
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)

@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <div class="quillwrap">
     <quill-editor v-model="dContent" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
     @change="onEditorChange">
-
     </quill-editor>
   </div>
 </template>
@@ -20,17 +19,24 @@ export default {
   	  editorOption: {}
   	}
   },
+  watch: {
+    content (val) {
+      this.dContent = val
+    }
+  },
   methods: {
   	onEditorBlur () {},
   	onEditorFocus () {},
     onEditorChange () {
-      console.log(this.dContent)
       this.$emit('getcon',this.dContent)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.quillwrap{
+  padding-bottom:80px;
+}
 .quill-editor {
  height: 345px;
  .ql-container {

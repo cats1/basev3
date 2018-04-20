@@ -157,3 +157,67 @@ export function updateAllFace(data) {
     data
   })
 }
+//SearchRecordsByPhone
+export function SearchRecordsByPhone(data) {
+  return request({
+    url: '/SearchRecordsByPhone',
+    method: 'post',
+    data
+  })
+}
+//addAppointment
+export function addAppointment(data) {
+  return request({
+    url: '/addAppointment',
+    method: 'post',
+    data
+  })
+}
+//getEmptempByPost
+export function getEmptempByPost(data) {
+  return request({
+    url: '/getEmptempByPost',
+    method: 'post',
+    data
+  })
+}
+//getEmptemplateByType
+export function getEmptemplateByType(data) {
+  return request({
+    url: '/getEmptemplateByType',
+    method: 'post',
+    data
+  })
+}
+//getUsertemplate
+export function getUsertemplate(data) {
+  return request({
+    url: '/getUsertemplate',
+    method: 'post',
+    data
+  })
+}
+//getSubAccountTemp
+export function getSubAccountTemp(data) {
+  return request({
+    url: '/getSubAccountTemp',
+    method: 'post',
+    data
+  })
+}
+//GetUserInfo
+export function GetUserInfo(data) {
+  return request({
+    url: '/GetUserInfo',
+    method: 'post',
+    data
+  })
+}
+//getSubAccountById
+export function getSubAccountById(data) {
+  return request({
+    url: '/getSubAccountById',
+    method: 'post',
+    data
+  })
+}

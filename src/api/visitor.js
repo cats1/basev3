@@ -31,3 +31,11 @@ export function SearchRVisitorByCondition(data) {
     data
   })
 }
+//GetVisitType
+export function GetVisitType(data) {
+  return request({
+    url: '/GetVisitType',
+    method: 'post',
+    data
+  })
+}

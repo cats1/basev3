@@ -18,18 +18,42 @@ export default {
     panelid: {
       type: String,
       default: ''
+    },
+    sendpot: {
+      type: Object,
+      default: {}
+    },
+    isshow: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
   	return {}
   },
-  methods: {},
-  created () {
-    document.getElementById('mapface').style.display = 'block'
+  watch: {
+    sendpot (val) {
+      this.init()
+    },
+    isshow (val) {
+      this.init()
+    }
   },
+  methods: {},
+  created () {},
   mounted () {
-
-  	createLftMap(this.mapid,this.inputid, "", "", "", "",1)
+    this.init()
+  },
+  methods: {
+    init () {
+      if (this.isshow) {
+        if (this.sendpot.longitude) {
+          createLftMap(this.mapid,this.inputid,this.panelid,this.sendpot.longitude,this.sendpot.latitude,'','',1)
+        } else {
+          createLftMap(this.mapid,this.inputid,this.panelid,'','','','',1)
+        }
+      }
+    }
   }
 }
 </script>

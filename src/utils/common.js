@@ -345,3 +345,14 @@ export function downMoban (url) {
     }
     window.open(url)
 }
+export function downloadDoc (params) {
+  let url = process.env.BASE_API + '/ExportVisitorList' + params
+  var browser = isIE()
+  if (browser == true) {
+    window.location.href = url
+  }
+  if (navigator.userAgent.indexOf("Firefox") > 0) {
+    window.location.href = url
+  }
+  window.open(url)
+}

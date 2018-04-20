@@ -1,5 +1,7 @@
 <template>
-	<div :class="className" :id="id" :style="{height:height,width:width}"></div>
+  <el-collapse-transition>
+        <div v-show="pieShow" :class="className" :id="id" :style="{height:height,width:width}"></div>
+  </el-collapse-transition>	
 </template>
 <script>
 import echarts from 'echarts'
@@ -20,25 +22,37 @@ export default {
     height: {
       type: String,
       default: '360px'
-    }/*,
+    },
     piedata: {
       type: Array,
       default: []
-    }*/
+    }
   },
   data () {
     return {
       chart: null,
       legendData: [],
-      pieDate: []
+      pieDate: [],
+      pieShow: false
     }
   },
-  created () {
-    this.getLegendData()
-    this.getPieDate()
+  watch: {
+    piedata (val) {
+      this.pieDate = val
+      if (this.pieDate.length>0) {
+        this.pieShow = true
+        this.initChart()
+      } else {
+        this.pieShow = false
+      }
+    } 
   },
+  created () {},
   mounted() {
-    this.initChart()
+    if (this.piedata.length>0) {
+      this.pieShow = true
+      this.initChart()
+    }
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -48,33 +62,8 @@ export default {
     this.chart = null
   },
   methods: {
-    getPieDate () {
-      let _self = this
-      /*this.piedata.forEach(function(element, index) {
-        let obj = {
-          value: element.vcount,
-          name: element.company
-        }
-        _self.pieDate.push(obj)
-      })*/
-    },
-    getLegendData () {
-      let _self = this
-      /*this.piedata.forEach(function(element, index) {
-        _self.legendData.push(element.company)
-      })*/
-    },
     initChart() {
       this.chart = echarts.init(document.getElementById(this.id))
-
-      const xAxisData = []
-      const data = []
-      const data2 = []
-      for (let i = 0; i < 50; i++) {
-        xAxisData.push(i)
-        data.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5)
-        data2.push((Math.sin(i / 5) * (i / 5 + 10) + i / 6) * 3)
-      }
       this.chart.setOption(
         {
           title : {
@@ -113,13 +102,7 @@ export default {
                   type:'pie',
                   radius : '30%',
                   center: ['40%', '50%'],
-                  data:[
-                      {value:335, name:'直接访问'},
-                      {value:310, name:'邮件营销'},
-                      {value:234, name:'联盟广告'},
-                      {value:135, name:'视频广告'},
-                      {value:1548, name:'搜索引擎'}
-                  ]
+                  data:this.pieDate
               }
           ]
         })

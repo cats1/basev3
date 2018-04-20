@@ -258,6 +258,38 @@ label {
   }
 }
 
+.exportwap {
+  border: 1px solid #c1c1c1;
+  padding: 0 30px;
+  .exsection {
+    border-bottom: 1px solid #c1c1c1;
+    position: relative;
+    display: block;
+    padding: 20px 0;
+    color: #333;
+    label {
+      width: 18px;
+      height: 18px;
+      float: right;
+      position: absolute;
+      right: 0;
+      top: 20px; //background: url(../img/choice/c1_off.png) left center no-repeat;
+      input {
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+      &.on {
+        //background: url(../img/choice/c1_on.png) left center no-repeat;
+      }
+    }
+  }
+}
+
+
+
+
 
 
 
@@ -278,7 +310,9 @@ label {
 .marginbom20 {
   margin-bottom: 20px;
 }
-
+.right{
+  float: right;
+}
 .page-footer {
   margin: 30px 0;
 }
@@ -312,6 +346,36 @@ label {
   margin: 0 auto;
 }
 
+.vphotowrap {
+  .vphoto {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    float: left;
+    display: inline-block;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .vname {
+    height: 28px;
+    line-height: 28px;
+    float: left;
+    display: inline-block;
+  }
+}
+
+.bommoban{
+  .title{
+    height: 36px;
+    line-height: 36px;
+  }
+}
+
+
+
 
 
 
@@ -336,65 +400,77 @@ label {
   }
 }
 
+.head-logo {
+  line-height: 60px;
+  color: #fff;
+  font-size: 36px;
+}
+
+.headerwrap {
+  width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+  .menuleft {
+    float: left;
+    .el-menu {
+      .el-menu-item {
+        padding: 0;
+        a {
+          display: block;
+          padding: 0 20px;
+        }
+      }
+    }
+  }
+  .menuright {
+    float: right;
+    color: #fff;
+    .gohomepage {
+      color: #fff;
+      display: inline-block;
+      height: 60px;
+      line-height: 60px;
+      padding: 0 10px;
+      border-left: 1px solid #777;
+      border-right: 1px solid #777;
+    }
+    .el-dropdown {
+      color: #fff;
+      height: 60px;
+      line-height: 60px;
+      .useravater {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        margin: 10px;
+        display: inline-block;
+        float: left;
+        background: #777;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+          display: inline-block;
+        }
+      }
+      .username {
+        margin: 0 5px;
+      }
+    }
+  }
+}
+
 .mheader {
   background: $baseBgColor;
   height: 60px;
   width: 100%;
-  .head-logo {
-    line-height: 60px;
-    color: #fff;
-    font-size: 36px;
-  }
-  .headerwrap {
-    width: 1200px;
-    margin: 0 auto;
-    padding: 0;
+  &.eheader {
     .menuleft {
       float: left;
       .el-menu {
         .el-menu-item {
-          padding: 0;
-          a {
-            display: block;
-            padding: 0 20px;
-          }
-        }
-      }
-    }
-    .menuright {
-      float: right;
-      color: #fff;
-      .gohomepage {
-        color: #fff;
-        display: inline-block;
-        height: 60px;
-        line-height: 60px;
-        padding: 0 10px;
-        border-left: 1px solid #777;
-        border-right: 1px solid #777;
-      }
-      .el-dropdown {
-        color: #fff;
-        height: 60px;
-        line-height: 60px;
-        .useravater {
-          border-radius: 50%;
-          width: 40px;
-          height: 40px;
-          line-height: 40px;
-          margin: 10px;
-          display: inline-block;
-          float: left;
-          background: #777;
-          overflow: hidden;
-          img {
-            width: 100%;
-            height: 100%;
-            display: inline-block;
-          }
-        }
-        .username {
-          margin: 0 5px;
+          padding: 0 20px;
         }
       }
     }
@@ -481,6 +557,11 @@ label {
     }
   }
 }
+
+
+
+
+
 
 
 

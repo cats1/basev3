@@ -5,9 +5,26 @@ export default {
     desc: '马上体验更智能的访客管理系统',
     button: '注册'
   },
+  itype: [{
+    label: '面试',
+    value: 0
+  },{
+    label: '商务',
+    value: 1
+  }],
+  timetype: [{
+    label: '天数',
+    value: 0
+  },{
+    label: '次数',
+    value: 1
+  }],
   vtype: ['签到访客','预约访客','邀请访客','常驻访客'],
   signStatus: ['已签到','已签出','已预约','已过期','已发送','已查看','已接受','已拒绝','已授权','未授权'],
   checkVtype: ['全部','拜访者姓名','受访者姓名','拜访事由','电话','公司','门岗'],
+  record: '共找到',
+  record1: '条，关于',
+  record2: '记录',
   version: [{
     type: 0,
     name: '免费版'
@@ -69,12 +86,18 @@ export default {
   form: {
     name: {
       text: '姓名',
+      text1: '拜访者',
+      text2: '被访者'
     },
     phone: {
-      text: '手机号'
+      text: '手机号',
+      text1: '联系方式',
+      text2: '被访者联系方式'
     },
     idnum: {
-      text: '身份证号'
+      text: '身份证号',
+      text1: '证件号码',
+      text2: '证件扫描件'
     },
     email: {
       text: '邮箱',
@@ -86,7 +109,8 @@ export default {
       text: '公司名称'
     },
     companypro: {
-      text: '公司简称'
+      text: '公司简称',
+      text2: '工作单位'
     },
     password: {
       oldtext: '原密码',
@@ -96,6 +120,17 @@ export default {
     },
     stageaccount: {
       text: '验证端账号'
+    },
+    count: {
+      text: '来访人数',
+      text1: '随访人员清单'
+    },
+    remark: {
+      text: '备注'
+    },
+    time: {
+      text: '签到时间',
+      text1: '签出时间'
     }
   },
   phoneIdnum: {
@@ -521,6 +556,17 @@ export default {
     name: '会议',
     dirname: 'meeting',
     link: 'meeting.html',
+    children: []
+  }],
+  empnav: [{
+    name: '邀请',
+    dirname: 'order',
+    link: '',
+    children: []
+  },{
+    name: '邀请列表',
+    dirname: 'list',
+    link: 'list',
     children: []
   }],
   homepage:{

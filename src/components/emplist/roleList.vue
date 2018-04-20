@@ -7,8 +7,8 @@
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
 	  			<el-radio-group v-model="vtype" @change="changeVtype">
-			      <el-radio-button label="group"><router-link to="/">{{$t('project.pro')}}</router-link></el-radio-button>
-			      <el-radio-button label="role"><router-link to="/role">{{$t('project.com')}}</router-link></el-radio-button>
+			      <el-radio-button label="group"><router-link to="/">{{$t('emplist.pro')}}</router-link></el-radio-button>
+			      <el-radio-button label="role"><router-link to="/role">{{$t('emplist.com')}}</router-link></el-radio-button>
 			    </el-radio-group>
 			    <div>
 			    	<el-tree :data="list" :props="defaultProps" @node-click="handleNodeClick"></el-tree>

@@ -1,3 +1,4 @@
+import { setCache } from './auth'
 import { checkIsNull } from './common'
 var lftmap, lft_cur_city_name
 
@@ -16,15 +17,8 @@ function addMarker(map, point, type) {
 function addMarkerDrag(map, marker, point, type) {
   marker.addEventListener("dragend", function(e) {
     var pt = e.point;
-    var pots = {
-      'longitude': pt.lng,
-      'latitude': pt.lat
-    };
-    if (type == 1) {
-      invitation1 = $.extend({}, invitation1, pots);
-    } else if (type == 2) {
-      invitation2 = $.extend({}, invitation2, pots);
-    }
+    setCache('longitude',pt.lng)
+    setCache('latitude',pt.lat)
     addClickGeocoder(map, type, function() {});
   });
 }
@@ -59,15 +53,8 @@ function addClickGeocoder(map, type, callback) {
     map.clearOverlays();
     var pt = e.point;
     moveMapToHere(map, e.point.lng, e.point.lat, type);
-    /*var pots = {
-      'longitude': pt.lng,
-      'latitude': pt.lat
-    };
-    if (type == 1) {
-      invitation1 = $.extend({}, invitation1, pots);
-    } else if (type == 2) {
-      invitation2 = $.extend({}, invitation2, pots);
-    }*/
+    setCache('longitude',pt.lng)
+    setCache('latitude',pt.lat)
     geoc.getLocation(pt, function(rs) {
       var addComp = rs.addressComponents;
       callback && callback(addComp);
@@ -109,7 +96,7 @@ function moveMapToHere(map, lng, lat, type) {
   }, 2000);
 }
 
-function addCityList(map, dom, sdom, type, callback) {
+function addCityList(map, dom, sdom,pnelid, type, callback) {
   var size = new BMap.Size(10, 20);
   map.addControl(new BMap.CityListControl({
     anchor: BMAP_ANCHOR_TOP_LEFT,
@@ -117,13 +104,12 @@ function addCityList(map, dom, sdom, type, callback) {
     onChangeBefore: function() {},
     onChangeAfter: function() {
       lft_cur_city_name = $("#cur_city_name").text();
-      console.log(lft_cur_city_name);
 
       lftmap = new BMap.Map(dom, { minZoom: 14, maxZoom: 30 });
       lftmap.centerAndZoom(lft_cur_city_name, 14);
-      addCityList(lftmap, dom, sdom, type);
+      addCityList(lftmap, dom, sdom,pnelid, type);
       addClickGeocoder(lftmap, type);
-      addSearch(lftmap, sdom, "", type);
+      addSearch(lftmap, sdom,pnelid, "", type);
     }
   }));
   callback && callback();
@@ -150,8 +136,7 @@ function addLocationSearch(map, stext) {
   local.search(stext);
 }
 
-function addSearch(map, sdom, dvalue, type) {
-  console.log(lft_cur_city_name)
+function addSearch(map, sdom,pnelid, dvalue, type) {
   var ac = new BMap.Autocomplete({ //建立一个自动完成的对象
     "input": sdom,
     "location": lft_cur_city_name
@@ -172,12 +157,11 @@ function addSearch(map, sdom, dvalue, type) {
       value = _value.province + _value.city + _value.district + _value.street + _value.business;
     }
     str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
-    G("searchResultPanel").innerHTML = str;
+    G(pnelid).innerHTML = str;
   });
 
   var myValue;
   ac.addEventListener("onconfirm", function(e) { //鼠标点击下拉列表后的事件
-    console.log(e)
     var _value = e.item.value;
     myValue = _value.province + _value.city + _value.district + _value.street + _value.streetNumber + _value.business;
     //G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
@@ -189,18 +173,10 @@ function addSearch(map, sdom, dvalue, type) {
     map.clearOverlays(); //清除地图上所有覆盖物
     function myFun() {
       var pp = local.getResults().getPoi(0).point; //获取第一个智能搜索的结果
-      console.log(pp)
       map.centerAndZoom(pp, 18);
       map.addOverlay(new BMap.Marker(pp)); //添加标注
-      /*var pots = {
-        'longitude': pp.lng,
-        'latitude': pp.lat
-      };
-      if (type == 1) {
-        invitation1 = $.extend({}, invitation1, pots);
-      } else if (type == 2) {
-        invitation2 = $.extend({}, invitation2, pots);
-      }*/
+      setCache('longitude',pp.lng)
+      setCache('latitude',pp.lat)
     }
     var local = new BMap.LocalSearch(map, { //智能搜索
       onSearchComplete: myFun
@@ -284,15 +260,15 @@ function searchByStationName(map, value, type, callback) {
   });
   localSearch.search(keyword);
 }
-export function createLftMap(dom, sdom, longitude, latitude, dvalue, city, type) {
+export function createLftMap(dom, sdom, pnelid, longitude, latitude, dvalue, city, type) {
   lftmap = new BMap.Map(dom, { minZoom: 14, maxZoom: 30 }); // 创建Map实例
   if (checkIsNull(longitude) != '' && checkIsNull(latitude) != '') {
     var point = new BMap.Point(longitude, latitude);
     lftmap.centerAndZoom(point, 14);
     changePointToAddress(point, function(city) {
       lft_cur_city_name = city;
-      addCityList(lftmap, dom, sdom, type);
-      addSearch(lftmap, sdom, dvalue, type);
+      addCityList(lftmap, dom, sdom,pnelid, type);
+      addSearch(lftmap, sdom,pnelid, dvalue, type);
       addClickGeocoder(lftmap, type);
       addMarker(lftmap, point, type);
 
@@ -302,17 +278,16 @@ export function createLftMap(dom, sdom, longitude, latitude, dvalue, city, type)
     if (checkIsNull(city) != '') {
       lft_cur_city_name = city;
       lftmap.centerAndZoom(city, 14);
-      addCityList(lftmap, dom, sdom, type);
+      addCityList(lftmap, dom, sdom,pnelid, type);
       addClickGeocoder(lftmap, type);
-      addSearch(lftmap, sdom, dvalue, type);
+      addSearch(lftmap, sdom,pnelid, dvalue, type);
 
     } else {
       addLocation(lftmap, function(city) {
-        console.log(989)
         lft_cur_city_name = city;
         //addCityList(lftmap, dom, sdom, type);
         addClickGeocoder(lftmap, type);
-        addSearch(lftmap, sdom, dvalue, type);
+        addSearch(lftmap, sdom,pnelid, dvalue, type);
       });
     }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="clearfix block">
     <h3 class="marginbom20">停车信息及周边交通</h3>
-  	<vue-quill-editor :content="content"></vue-quill-editor>
+  	<vue-quill-editor :content="dcontent" @getcon="getcon"></vue-quill-editor>
   </div>
 </template>
 <script>
@@ -15,10 +15,20 @@ export default {
   },
   components: { vueQuillEditor },
   data () {
-  	return {}
+  	return {
+      dcontent: this.content
+    }
   },
-  mounted () {
-    console.log(this.content)
-  }
+  watch: {
+    content (val) {
+      this.dcontent = val
+    }
+  },
+  methods: {
+    getcon (val) {
+      this.$emit('gettraffic',val)
+    }
+  },
+  mounted () {}
 }
 </script>

@@ -328,3 +328,7 @@ export function deepClone(source) {
   })
   return targetObj
 }
+export function setYearAgo (time,num) {
+  time.setFullYear(time.getFullYear() - num)
+  return time
+}

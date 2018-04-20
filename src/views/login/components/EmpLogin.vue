@@ -128,7 +128,7 @@ export default {
                 }
                 this.$store.dispatch('empLogin', newForm).then((resp) => {
                     this.loading = false
-                    window.location.href = 'emp.html'
+                    window.location.href = 'emporder.html'
                 }).catch(() => {
                   this.loading = false
                 })
