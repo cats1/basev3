@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {meetingList,meetingDetail} from '@/views/meeting/components'
+import {meetingList,meetingDetail} from '@/components/meeting'
 Vue.use(Router)
 
 export default new Router({

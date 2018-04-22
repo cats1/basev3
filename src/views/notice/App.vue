@@ -19,7 +19,7 @@
 <script>
 import headnav from '../../components/headnav/headnav'
 import footbom from '../../components/footer/footbom'
-import {weixin,email,smsNotice,yuyin,ddNotice,rtx} from './components'
+import {weixin,email,smsNotice,yuyin,ddNotice,rtx} from '@/components/noticepage'
 import {getCache} from '@/utils/auth'
 export default {
   name: 'App',

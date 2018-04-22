@@ -5,6 +5,7 @@ export default {
     desc: '马上体验更智能的访客管理系统',
     button: '注册'
   },
+  meeting: {},
   itype: [{
     label: '面试',
     value: 0
@@ -133,6 +134,7 @@ export default {
       text1: '签出时间'
     }
   },
+  tablehead: ['序号','会议名称','时间','发起人','主题','二维码','手机号','事由','发起时间','公司','状态','发送状态'],
   phoneIdnum: {
     text: '*身份证与手机号二选一',
     tips: '手机号与身份证号至少填一项'
@@ -167,13 +169,23 @@ export default {
     validName: {
       tip1: '姓名不能为空',
       tip2: '包含非法字符',
-      tip3: '姓名不能为空'
+      tip3: '姓名不能为空',
+      tip4: '请选择会议发起人'
     },
     validEmpName: {
       holder: '员工姓名'
     },
     validAccont: {
       tip1: '请输入账号'
+    },
+    time: {
+      tip1: '请选择时间'
+    },
+    meeting: {
+      tip1: '请填写主题'
+    },
+    remark: {
+      tip1: '请填写备注'
     }
   },
   moban: {
@@ -377,7 +389,12 @@ export default {
     addComBtn: '添加公司',
     downMobanBtn: '下载模板',
     uploadComBtn: '上传公司',
-    uploadlgo: '上传logo'
+    uploadlgo: '上传logo',
+    uploadExcel: '上传excel',
+    addMeeting: '增加会议',
+    editMeeting: '会议管理',
+    saveMobanBtn: '保存模板',
+    sendInvite: '发送会议邀请'
   },
   emplist: {
     pro: '组织架构',

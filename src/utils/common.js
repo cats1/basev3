@@ -81,7 +81,7 @@ export function groupStatusText(value) {
   }
 }
 export function stringToArray(value) {
-  if (value && value !== ''&& value !== 'null'&& value !== null) {
+  if (value && value !== '' && value !== 'null' && value !== null) {
     return value.split(',')
   } else {
     return []
@@ -329,23 +329,24 @@ function utf8CodeToChineseChar(strUtf8) {
     ((iCode1 & 0x3F) << 6) |
     (iCode2 & 0x3F));
 }
+
 function isIE() { //ie?
-    if (!!window.ActiveXObject || "ActiveXObject" in window)
-        return true;
-    else
-        return false;
+  if (!!window.ActiveXObject || "ActiveXObject" in window)
+    return true;
+  else
+    return false;
 }
-export function downMoban (url) {
+export function downMoban(url) {
   var browser = isIE();
-    if (browser == true) {
-        window.location.href = url;
-    }
-    if (navigator.userAgent.indexOf("Firefox") > 0) {
-        window.location.href = url;
-    }
-    window.open(url)
+  if (browser == true) {
+    window.location.href = url;
+  }
+  if (navigator.userAgent.indexOf("Firefox") > 0) {
+    window.location.href = url;
+  }
+  window.open(url)
 }
-export function downloadDoc (params) {
+export function downloadDoc(params) {
   let url = process.env.BASE_API + '/ExportVisitorList' + params
   var browser = isIE()
   if (browser == true) {
@@ -355,4 +356,36 @@ export function downloadDoc (params) {
     window.location.href = url
   }
   window.open(url)
+}
+export function formatMeetStatus(num) {
+  switch (num) {
+    case 0:
+      return "已发送"
+    case 1:
+      return "已查看"
+    case 2:
+      return "已接受"
+    case 3:
+      return "已拒绝"
+    case 4:
+      return "已接受"
+    default:
+      return "已发送"
+  }
+}
+export function formatMeetSendStatus(num) {
+  switch (num) {
+    case 0:
+      return "发送成功"
+    case 1:
+      return "发送失败"
+    case 2:
+      return "发送失败"
+    case 3:
+      return "发送失败"
+    case 4:
+      return "发送失败"
+    default:
+      return "发送成功"
+  }
 }

@@ -1,14 +1,15 @@
 <template>
-	<div class="box-section">
+	<div class="mdetailwrap">
 		<el-tabs type="border-card">
 		  <el-tab-pane>
 		    <span slot="label">发起会议</span>
-		    <send-invite></send-invite>
+		    <send-invite :mid="mid" :isshow="mobanShow"></send-invite>
 		  </el-tab-pane>
 		  <el-tab-pane label="会议邀请记录">
 		  	<invite-list :mid="mid"></invite-list>
 		  </el-tab-pane>
 		</el-tabs>
+    <div class="goback"><i class="fa  fa-reply"></i>返回</div>
 	</div>
 </template>
 <script>
@@ -18,23 +19,15 @@ export default{
   components: { sendInvite,inviteList },
   data () {
   	return {
-  	  mid: ''
+  	  mid: '',
+      mobanShow: true
   	}
   },
   created () {
   	this.mid = this.$route.params.mid
-  	this.getMeetDetail()
   },
   methods: {
-  	init () {},
-  	getMeetDetail () {
-  	  let newForm = {
-  	  	mid: this.mid
-  	  }
-  	  this.$store.dispatch('getMeetingById',newForm).then(res => {
-  	  	console.log(res)
-  	  })
-  	}
+  	init () {}
   }
 }
 </script>

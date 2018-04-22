@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-row class="margintop20 marginbom20">
-	        <p>填写来访者相关信息，即可生成短信邀请函，发送至对方手机。</p>
+	        <p>填写来访者相关信息，即可生成短信邀请函，发送至对方手机。<el-button @click="goDot">批量邀请</el-button></p>
 	    </el-row>
 	    <div class="boxshadow paddinglr30 paddingtb20">
 	    	<el-form :model="form" :rules="rules" ref="danform" label-width="100px" style="width:70%;">
@@ -103,6 +103,9 @@ export default {
   	}
   },
   methods: {
+  	goDot () {
+  	  this.$router.push({path: 'dot'})
+  	},
   	getinv (val) {
   	  this.facemoban.inviteContent = val
   	},

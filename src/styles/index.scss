@@ -169,7 +169,9 @@ label {
     }
   }
 }
-
+.fa {
+  margin:0 5px;
+}
 .baseversion {
   text-align: center;
   h3 {
@@ -185,7 +187,14 @@ label {
     color: #333;
   }
 }
-
+.mdetailwrap{
+  position: relative;
+  .goback{
+    position: absolute;
+    top: 0;
+    right: 20px;
+  }
+}
 .svg-icon {
   width: 1em;
   height: 1em;
@@ -478,6 +487,9 @@ label {
 }
 
 .el-menu--horizontal {
+  .el-menu-item.is-active {
+    border-bottom-width: 6px;
+  }
   .el-menu--popup {
     li {
       a {
