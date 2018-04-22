@@ -26,7 +26,8 @@ export default {
   	return {
   	  switchOn: numberToBoolean(getCache('msgNotify')),
       imgSrc: require('@/assets/img/mailv1.png'),
-      radio2: 0
+      radio2: 0,
+      isShow: false
   	}
   },
   methods: {
