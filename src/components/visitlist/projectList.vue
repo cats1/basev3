@@ -63,17 +63,17 @@
 				    </el-table-column>
 	  		    </el-table>
 		  		<div class="page-footer">
-		  		<el-pagination
-			      @size-change="handleSizeChange"
-			      @current-change="handleCurrentChange"
-			      :current-page="nform.startIndex"
-			      :page-sizes="[10, 20, 30, 40]"
-			      :page-size="nform.requestedCount"
-			      layout="total, sizes, prev, pager, next, jumper"
-			      :total="total">
-			    </el-pagination>
+  		  		<el-pagination
+  			      @size-change="handleSizeChange"
+  			      @current-change="handleCurrentChange"
+  			      :current-page="nform.startIndex"
+  			      :page-sizes="[10, 20, 30, 40]"
+  			      :page-size="nform.requestedCount"
+  			      layout="total, sizes, prev, pager, next, jumper"
+  			      :total="total">
+  			    </el-pagination>
 		  		</div>	  		
-	  	    </div>
+	  	  </div>
 	  	</el-col>
 	  </el-row>
 	</div>
