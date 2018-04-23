@@ -6,7 +6,7 @@
   	</div>
 </template>
 <script>
-import { ManagerForgot } from './components'
+import { ManagerForgot } from '@/components/forgot'
 export default {
   components: {ManagerForgot}
 }

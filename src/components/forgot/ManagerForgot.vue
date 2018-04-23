@@ -32,7 +32,7 @@
 <script>
 import { validateEmail } from '@/utils/validate'
 import { lftPwdRule, lftDePwdRule } from '@/utils/common'
-import ImgCode from '@/views/login/components/ImgCode'
+import ImgCode from '@/components/loginpage/ImgCode'
 export default {
   name: 'ManagerForgot',
   components: { ImgCode },
