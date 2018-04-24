@@ -5,6 +5,7 @@
 @import './notice.scss';
 @import './moban.scss';
 @import './siderbar.scss';
+@import './card.scss';
 @import './element-ui.scss';
 
 body {
@@ -155,7 +156,11 @@ label {
     border-bottom: 3px solid #333;
   }
 }
-
+.btnsection{
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+}
 .codecontent {
   margin: 30px auto;
   font-size: 14px;

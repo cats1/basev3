@@ -1,13 +1,13 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 paddingtb20">
-		<el-button><i class="fa fa-plus"></i>{{$t('btn.addProjectBtn')}}</el-button>
-		<el-button><i class="fa fa-user-plus"></i>{{$t('btn.addVisitorBtn')}}</el-button>
-		<el-button><i class="fa fa-edit"></i>{{$t('btn.editProjectBtn')}}</el-button>
-		<el-button><i class="fa fa-unsorted"></i>{{$t('btn.moveProjectBtn')}}</el-button>
-		<el-button><i class="fa fa-vcard-o"></i>{{$t('btn.cardBtn')}}</el-button>
-		<el-button type="redline" @click="deleteEmp"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
-		<el-button type="redline"><i class="fa fa-picture-o"></i>{{$t('btn.sendFaceBtn')}}</el-button>  
+	  <div class="boxshadow paddinglr30 paddingtb20" style="overflow:hidden;">
+      <add-pro @addkit="getaddpro"></add-pro>
+      <add-visit :pid="nform.pid" @sendav="getaddv"></add-visit>
+      <edit-pro :epdata="probj" @editkit="geteditv"></edit-pro>
+      <move-pro :cardarray="cardarray" @movekit="getmove"></move-pro>
+      <make-visit-card :cardarray="cardarray"></make-visit-card>
+      <delete-visit :drids="dform.rids" @senddkit="getDev"></delete-visit>
+      <send-all-face></send-all-face> 
 	  </div>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
@@ -79,9 +79,11 @@
 	</div>
 </template>
 <script>
+import {addPro,addVisit,editPro,movePro,makeVisitCard,deleteVisit,sendAllFace} from './components'
 import {getCache} from '@/utils/auth'
 import {getBarList} from '@/utils/common'
 export default {
+  components: {addPro,addVisit,editPro,movePro,makeVisitCard,deleteVisit,sendAllFace},
   data () {
   	return {
       list: [],
@@ -100,7 +102,9 @@ export default {
   	  dform: {
   	  	userid: getCache('userid'),
   	  	rids: []
-  	  }
+  	  },
+      probj: {},
+      cardarray: []
   	}
   },
   computed: {
@@ -122,6 +126,24 @@ export default {
   	  	this.$router.push({path:'/com'})
   	  }
   	},
+    getaddpro () {
+      this.getProjectList()
+    },
+    getmove () {
+      this.getProjectList()
+    },
+    getaddv (val) {
+      if (val === this.nform.pid) {
+        this.getResidentVisitor()
+      }
+    },
+    geteditv () {
+      this.getProjectList()
+    },
+    getDev () {
+      this.getProjectList()
+      this.getResidentVisitor()
+    },
   	getProjectList () {
   	  let nform = {
   	  	userid: getCache('userid')
@@ -131,7 +153,9 @@ export default {
   	  	if (status === 0) {
   	  	  this.list = getBarList(result,'pName','pid','pcount')
   	  	  if (result.length>0) {
+            console.log(result[0])
             this.nform.pid = result[0].pid
+            this.probj = result[0]
             this.getResidentVisitor()
   	  	  }
   	  	  console.log(this.list)
@@ -161,19 +185,11 @@ export default {
   	  this.getResidentVisitor()
   	},
   	handleSelectionChange (val) {
-  	  //this.clist = val
   	  let _self = this
+      this.cardarray = val
   	  val.forEach(function(ele,index){
         _self.dform.rids.push(ele.rid)
   	  })
-  	},
-  	deleteEmp () {
-      this.$store.dispatch('delResidentVisitor',this.dform).then(res => {
-      	let {status} = res
-      	if (status === 0) {
-          this.getProjectList()
-      	}
-      })
   	}
   }
 }

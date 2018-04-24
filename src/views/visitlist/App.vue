@@ -12,7 +12,6 @@
 <script>
 import headnav from '../../components/headnav/headnav'
 import footbom from '../../components/footer/footbom'
-import {getCache} from '@/utils/auth'
 export default {
   name: 'App',
   data () {

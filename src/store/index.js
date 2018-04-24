@@ -11,6 +11,7 @@ import meeting from './modules/meeting'
 import visitor from './modules/visitor'
 import notice from './modules/notice'
 import key from './modules/key'
+import visit from './modules/visit'
 import upload from './modules/upload'
 import getters from './getters'
 Vue.use(Vuex)
@@ -27,6 +28,7 @@ const store = new Vuex.Store({
     visitor,
     notice,
     key,
+    visit,
     upload
   },
   getters

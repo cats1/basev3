@@ -9,6 +9,7 @@ import '@/icons'
 import store from '@/store'
 import i18n from '@/lang'
 import router from '@/router/visit'
+import $ from 'jquery'
 Vue.use(ElementUI, {
   size: 'medium',
   i18n: (key, value) => i18n.t(key, value)

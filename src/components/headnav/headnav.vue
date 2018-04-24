@@ -63,7 +63,7 @@ export default {
       return {
         navlist: this.$t('navlist'),
         downlist: this.$t('downlist'),
-        username: this.getCache('username')
+        username: this.getCache('company')
       }
     },
     computed: {

@@ -138,6 +138,7 @@ export default {
     text: '*身份证与手机号二选一',
     tips: '手机号与身份证号至少填一项'
   },
+  sex: ['男','女'],
   idNumTip: ['验证通过!','身份证号码位数不对!',"身份证号码出生日期超出范围或含有非法字符!","身份证号码校验错误!","身份证地区非法!"],
   formCheck: {
     validPassword: {
@@ -401,7 +402,9 @@ export default {
   },
   project: {
     pro: '项目列表',
-    com: '公司列表'
+    com: '公司列表',
+    addprotitle: '新增项目',
+    proname: '项目名称'
   },
   picTips: {
     logotip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片',
