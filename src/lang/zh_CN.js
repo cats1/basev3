@@ -1,5 +1,4 @@
 export default {
-  test: '咳咳',
   signup: {
     title: '注册',
     desc: '马上体验更智能的访客管理系统',
