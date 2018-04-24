@@ -13,6 +13,7 @@ import notice from './modules/notice'
 import key from './modules/key'
 import visit from './modules/visit'
 import upload from './modules/upload'
+import depart from './modules/depart'
 import getters from './getters'
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -29,6 +30,7 @@ const store = new Vuex.Store({
     notice,
     key,
     visit,
+    depart,
     upload
   },
   getters

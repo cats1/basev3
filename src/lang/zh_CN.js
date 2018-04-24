@@ -394,7 +394,12 @@ export default {
     addMeeting: '增加会议',
     editMeeting: '会议管理',
     saveMobanBtn: '保存模板',
-    sendInvite: '发送会议邀请'
+    sendInvite: '发送会议邀请',
+    addDepartBtn: '添加子部门',
+    addEmpBtn: '添加员工',
+    exportListBtn: '导入通讯录',
+    editDepart:'部门编辑',
+    moveDepart:'调整部门'
   },
   emplist: {
     pro: '组织架构',
@@ -405,6 +410,10 @@ export default {
     com: '公司列表',
     addprotitle: '新增项目',
     proname: '项目名称'
+  },
+  depart: {
+    departName: '部门名称',
+    prevDepartName: '上级部门'
   },
   picTips: {
     logotip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片',

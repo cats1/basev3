@@ -1,7 +1,7 @@
 <template>
 	<div>
 	  <div class="boxshadow paddinglr30 paddingtb20">
-		<el-button><i class="fa fa-plus"></i>{{$t('btn.addProjectBtn')}}</el-button>
+    <add-depart ></add-depart>
 		<el-button><i class="fa fa-user-plus"></i>{{$t('btn.addVisitorBtn')}}</el-button>
 		<el-button><i class="fa fa-edit"></i>{{$t('btn.editProjectBtn')}}</el-button>
 		<el-button><i class="fa fa-unsorted"></i>{{$t('btn.moveProjectBtn')}}</el-button>
@@ -69,7 +69,9 @@
 <script>
 import {getCache} from '@/utils/auth'
 import {getCgBarList} from '@/utils/common'
+import {addDepart} from './components'
 export default {
+  components: {addDepart},
   data () {
   	return {
       list: [],
