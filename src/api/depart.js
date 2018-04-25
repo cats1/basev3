@@ -7,3 +7,11 @@ export function addDepartment(data) {
     data
   })
 }
+//addEmployee
+export function addEmployee(data) {
+  return request({
+    url: '/addEmployee',
+    method: 'post',
+    data
+  })
+}

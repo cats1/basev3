@@ -130,10 +130,11 @@ export function getCgBarList(array, name, did, count, dp, child) {
   let list = [{
     label: getCache('company'),
     name: getCache('company'),
-    pid: getCache('userid'),
+    pid: '',
     pcount: 0,
     dp: 'root',
-    children: []
+    children: [],
+    id: 0
   }]
   let cList = []
   array.forEach(function(element, index) {
@@ -143,16 +144,37 @@ export function getCgBarList(array, name, did, count, dp, child) {
       pid: element[did],
       pcount: element[count],
       dp: element[dp],
-      children: []
+      children: [],
+      id: element[did]
     }
     if (element[child] && element[child].length > 0) {
-      let citem = getCgBarList(element[child], name, did, count, dp, child)
+      let citem = getCgBarChildList(element[child], name, did, count, dp, child)
       obj.children = citem
     }
     cList.push(obj)
   })
   list[0].children = cList
   return list
+}
+export function getCgBarChildList(array, name, did, count, dp, child) {
+  let cList = []
+  array.forEach(function(element, index) {
+    let obj = {
+      label: element[name] + '(' + element[count] + ')',
+      name: element[name],
+      pid: element[did],
+      pcount: element[count],
+      dp: element[dp],
+      children: [],
+      id: element[did]
+    }
+    if (element[child] && element[child].length > 0) {
+      let citem = getCgBarChildList(element[child], name, did, count, dp, child)
+      obj.children = citem
+    }
+    cList.push(obj)
+  })
+  return cList
 }
 //字符转换为UTF-8编码
 //Export API

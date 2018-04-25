@@ -401,9 +401,17 @@ export default {
     editDepart:'部门编辑',
     moveDepart:'调整部门'
   },
+  exporttype: {
+    title: '通过Excel导入',
+    desc1: '表格内需要包含：姓名、邮箱、手机号码,',
+    desc2: '支持csv、xls、xlsx后缀的Excel文档格式',
+    desc3: '查看模板',
+    desc4: '点此修改',
+    desc5: '您已经选择excel作为导入通讯录的方式，'
+  },
   emplist: {
     pro: '组织架构',
-    com: '角色'
+    com: '角色',
   },
   project: {
     pro: '项目列表',
@@ -524,6 +532,7 @@ export default {
     6: '用户未更新',
     7: '无效的验证码',
     8: '昵称不可用',
+    24: '手机号不唯一',
     27: '无效的token',
     28: '无token',
     46: '公司已存在',

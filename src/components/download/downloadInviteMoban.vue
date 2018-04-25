@@ -1,11 +1,23 @@
 <template>
 	<div class="downcomwrap">
-		<el-button type="primary" @click="getDown">{{$t('btn.downMobanBtn')}}</el-button>
+    <template v-if="btype === 0">
+      <el-button type="primary" @click="getDown">{{$t('btn.downMobanBtn')}}</el-button>
+    </template>
+    <template v-else-if="btype === 1">
+      <el-button type="default" @click="getDown">{{$t('btn.downMobanBtn')}}</el-button>
+    </template>
+		
 	</div>
 </template>
 <script>
 import {downMoban} from '@/utils/common'
 export default {
+  props: {
+    btype: {
+      type: Number,
+      default: 0
+    }
+  },
   data () {
   	return {}
   },

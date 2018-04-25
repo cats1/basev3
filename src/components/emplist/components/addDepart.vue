@@ -10,7 +10,10 @@
 			    <el-input v-model="departform.deptName"></el-input>
 			  </el-form-item>
 			  <el-form-item :label="$t('depart.prevDepartName')" >
-			    <el-input v-model="departform.remark"></el-input>
+          <div class="last_inner">
+            <span>{{parentObj.name}}</span>
+          </div>
+			    <!-- <el-input v-model="departform.remark"></el-input> -->
 			  </el-form-item>
           </el-form>
 		  <span slot="footer" class="dialog-footer">
@@ -23,6 +26,7 @@
 <script>
 import {getCache} from '@/utils/auth'
 export default {
+  props: ['parent'],
   data () {
   	return {
   	  dialogVisible: false,
@@ -35,17 +39,32 @@ export default {
   	  rules: {
   	  	deptName: [
   	  	  { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }]
-  	  }
+  	  },
+      parentObj: this.parent
   	}
+  },
+  watch: {
+    parent (val) {
+      console.log(val)
+      this.parentObj = val
+      this.departform.parentId = val.pid
+      if (val.dp === 'root') {
+        this.departform.parentId = ''
+      }
+    }
+  },
+  mounted () {
+    console.log(this.parent)
   },
   methods: {
    saveProject () {
         this.$refs['departform'].validate((valid) => {
           if (valid) {
-            this.$store.dispatch('addDepartment',this.proform).then(res => {
+            this.$store.dispatch('addDepartment',this.departform).then(res => {
 		   	  	let {status} = res
 		   	  	if (status === 0) {
 		          this.dialogVisible = false
+              this.$refs['departform'].resetFields()
 		          this.$emit('addkit')
 		   	  	}
 		   	})

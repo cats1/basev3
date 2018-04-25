@@ -29,28 +29,23 @@
 				      width="55">
 				    </el-table-column>
 				    <el-table-column
-				      label="姓名"
-				      width="120">
+				      label="姓名">
 				      <template slot-scope="scope">{{ scope.row.name }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="公司名称"
-				      width="120">
+				      label="公司名称">
 				      <template slot-scope="scope">{{ scope.row.company }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="项目名称"
-				      width="120">
+				      label="项目名称">
 				      <template slot-scope="scope">{{ scope.row.pName }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="负责人"
-				      width="120">
+				      label="负责人">
 				      <template slot-scope="scope">{{ scope.row.leader }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="负责人手机"
-				      width="120">
+				      label="负责人手机">
 				      <template slot-scope="scope">{{ scope.row.phone }}</template>
 				    </el-table-column>
 				    <el-table-column
@@ -58,7 +53,7 @@
 				      <template slot-scope="scope">{{ scope.row.area }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="服务期限">
+				      label="服务期限" width="200">
 				      <template slot-scope="scope">{{ scope.row.startDate }}-{{ scope.row.endDate }}</template>
 				    </el-table-column>
 	  		    </el-table>

@@ -1,6 +1,8 @@
 <template>
 	<div>
-    <h3>关联闸机组</h3>
+    <template v-show="tShow">
+      <h3>关联闸机组</h3>
+    </template>
 		<ul class="gatelist">
 		  <template v-for="(item,index) in gatelist">
 		  	<li><el-checkbox v-model="checkValue[index]" @change="setchange(item,index)"></el-checkbox>{{item.egname}}</li>
@@ -16,6 +18,10 @@ export default {
     checkArray: {
       type: Array,
       default: []
+    },
+    tShow: {
+      type: Boolean,
+      default: true
     }
   },
   data () {

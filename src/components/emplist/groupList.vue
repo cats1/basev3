@@ -1,8 +1,9 @@
 <template>
 	<div>
 	  <div class="boxshadow paddinglr30 paddingtb20">
-    <add-depart ></add-depart>
-		<el-button><i class="fa fa-user-plus"></i>{{$t('btn.addVisitorBtn')}}</el-button>
+    <add-depart :parent="parent" @addkit="getAddkit"></add-depart>
+    <add-emp :parent="parent" :dlist="list" @addempkit="getAddkit"></add-emp>
+    <export-address-list @exportkit="changeExport"></export-address-list>
 		<el-button><i class="fa fa-edit"></i>{{$t('btn.editProjectBtn')}}</el-button>
 		<el-button><i class="fa fa-unsorted"></i>{{$t('btn.moveProjectBtn')}}</el-button>
 		<el-button><i class="fa fa-vcard-o"></i>{{$t('btn.cardBtn')}}</el-button>
@@ -16,52 +17,57 @@
 			      <el-radio-button label="group"><router-link to="/">{{$t('emplist.pro')}}</router-link></el-radio-button>
 			      <el-radio-button label="role"><router-link to="/role">{{$t('emplist.com')}}</router-link></el-radio-button>
 			    </el-radio-group>
-			    <div>
-			    	<el-tree :data="list" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+			    <div class="emptreewrap">
+			    	<el-tree :data="list" :highlight-current="true" node-key="id" :default-expanded-keys="[0]" :default-checked-keys="[1]" :props="defaultProps" @getNode="getNode" @node-click="handleNodeClick"></el-tree>
 			    </div>
 	  		</div>
 	  	</el-col>
 	  	<el-col :span="18" >
-	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
-	  			<el-table :data="dataList" border @selection-change="handleSelectionChange">
-            <el-table-column
-              type="selection"
-              width="55">
-            </el-table-column>
-            <el-table-column
-              label="姓名"
-              width="120">
-              <template slot-scope="scope">{{ scope.row.empName }}</template>
-            </el-table-column>
-            <el-table-column
-              label="职位">
-              <template slot-scope="scope">{{ scope.row.empPosition }}</template>
-            </el-table-column>
-            <el-table-column
-              label="工号">
-              <template slot-scope="scope">{{ scope.row.empNo }}</template>
-            </el-table-column>
-            <el-table-column
-              label="手机号">
-              <template slot-scope="scope">{{ scope.row.empPhone }}</template>
-            </el-table-column>
-            <el-table-column
-              label="邮箱">
-              <template slot-scope="scope">{{ scope.row.empEmail }}</template>
-            </el-table-column>
-          </el-table>
-		  		<div class="page-footer">
-		  		<el-pagination
-			      @size-change="handleSizeChange"
-			      @current-change="handleCurrentChange"
-			      :current-page="nform.startIndex"
-			      :page-sizes="[10, 20, 30, 40]"
-			      :page-size="nform.requestedCount"
-			      layout="total, sizes, prev, pager, next, jumper"
-			      :total="total">
-			    </el-pagination>
-		  		</div>	  		
-	  	    </div>
+        <div class="" v-if="rightType === 0">
+	  		  <div class="boxshadow margintop20 paddinglr30 paddingtb20">
+            <el-table :data="dataList" border @selection-change="handleSelectionChange">
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+              <el-table-column
+                label="姓名"
+                width="120">
+                <template slot-scope="scope">{{ scope.row.empName }}</template>
+              </el-table-column>
+              <el-table-column
+                label="职位">
+                <template slot-scope="scope">{{ scope.row.empPosition }}</template>
+              </el-table-column>
+              <el-table-column
+                label="工号">
+                <template slot-scope="scope">{{ scope.row.empNo }}</template>
+              </el-table-column>
+              <el-table-column
+                label="手机号">
+                <template slot-scope="scope">{{ scope.row.empPhone }}</template>
+              </el-table-column>
+              <el-table-column
+                label="邮箱">
+                <template slot-scope="scope">{{ scope.row.empEmail }}</template>
+              </el-table-column>
+            </el-table>
+            <div class="page-footer">
+              <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="nform.startIndex"
+                :page-sizes="[10, 20, 30, 40]"
+                :page-size="nform.requestedCount"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+              </el-pagination>
+            </div>
+          </div>
+	  	  </div>
+        <div class="" v-else-if="rightType === 1">
+          <use-excel></use-excel>
+        </div>
 	  	</el-col>
 	  </el-row>
 	</div>
@@ -69,9 +75,10 @@
 <script>
 import {getCache} from '@/utils/auth'
 import {getCgBarList} from '@/utils/common'
-import {addDepart} from './components'
+import {addDepart,addEmp} from './components'
+import {exportAddressList,useExcel} from '@/components/upload'
 export default {
-  components: {addDepart},
+  components: {addDepart,addEmp,exportAddressList,useExcel},
   data () {
   	return {
       list: [],
@@ -99,7 +106,9 @@ export default {
       faceform: {
         userid: getCache('userid')
       },
-      dtype: 0
+      dtype: 0,
+      parent: {},
+      rightType: 0
   	}
   },
   computed: {
@@ -122,6 +131,12 @@ export default {
   	  	this.$router.push({path:'/role'})
   	  }
   	},
+    changeExport () {
+      this.rightType = 1
+    },
+    getAddkit () {
+      this.getProjectList()
+    },
   	getProjectList () {
   	  let nform = {
   	  	userid: getCache('userid')
@@ -130,7 +145,9 @@ export default {
   	  	let {status,result} = res
   	  	if (status === 0) {
   	  	  this.list = getCgBarList(result,'deptName','deptid','empCount','deptManagerEmpid','childDeptList')
-  	  	} else {}
+          console.log(this.list)
+          this.parent = this.list[0]
+  	  	}
   	  })
   	},
   	getResidentVisitor () {
@@ -151,7 +168,12 @@ export default {
         } else {}
       })  
     },
+    getNode (data) {
+      console.log(data)
+    },
   	handleNodeClick(data) {
+      console.log(data)
+      this.parent = data
       if (data.dp === 'root') {
         this.dtype = 0
         this.rform.startIndex = 1
