@@ -398,7 +398,7 @@ export default {
     addDepartBtn: '添加子部门',
     addEmpBtn: '添加员工',
     exportListBtn: '导入通讯录',
-    editDepart:'部门编辑',
+    editDepart:'编辑部门',
     moveDepart:'调整部门'
   },
   exporttype: {

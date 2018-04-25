@@ -4,9 +4,8 @@
     <add-depart :parent="parent" @addkit="getAddkit"></add-depart>
     <add-emp :parent="parent" :dlist="list" @addempkit="getAddkit"></add-emp>
     <export-address-list @exportkit="changeExport"></export-address-list>
-		<el-button><i class="fa fa-edit"></i>{{$t('btn.editProjectBtn')}}</el-button>
-		<el-button><i class="fa fa-unsorted"></i>{{$t('btn.moveProjectBtn')}}</el-button>
-		<el-button><i class="fa fa-vcard-o"></i>{{$t('btn.cardBtn')}}</el-button>
+		<el-button><i class="fa fa-edit"></i>{{$t('btn.editDepart')}}</el-button>
+		<el-button><i class="fa fa-unsorted"></i>{{$t('btn.moveDepart')}}</el-button>
 		<el-button type="redline" @click="deleteEmp"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
 		<el-button type="redline" @click="sendEmpFace"><i class="fa fa-picture-o"></i>{{$t('btn.sendFaceBtn')}}</el-button>  
 	  </div>
