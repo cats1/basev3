@@ -12,7 +12,7 @@
 import {getCache} from '@/utils/auth'
 import {NewUploadAB} from '@/utils/upload'
 export default {
-   name: 'uploadAb',
+   name: 'newUpload',
    props: ['ctype'],
    data() {
       return {}

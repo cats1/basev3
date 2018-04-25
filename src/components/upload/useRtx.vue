@@ -7,12 +7,10 @@
 					<img :src="src" alt="">
 				</div>
 				<div class="exportwrap-right">
-					<h3>{{$t('exporttype.title')}}</h3>
-					<p class="margintop20 paddingtb20">{{$t('exporttype.desc1')}}
-						<span class="links">{{$t('exporttype.desc3')}}</span>
-					{{$t('exporttype.desc2')}}</p>
-					<emp-group-upload></emp-group-upload>
-					<down-invite-moban :btype="1"></down-invite-moban>
+					<el-button type="success">同步</el-button>
+					<p class="margintop20">
+						<el-checkbox v-model="checked">每天00:00自动同步RTX</el-checkbox>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -27,7 +25,8 @@ export default {
   components: {empGroupUpload,downInviteMoban},
   data () {
   	return {
-  	  src: require('@/assets/img/excelv1.png')
+  	  src: require('@/assets/img/rtxv1.png'),
+  	  checked: false
   	}
   },
   methods: {

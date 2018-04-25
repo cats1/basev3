@@ -147,6 +147,9 @@ export function getCgBarList(array, name, did, count, dp, child) {
       children: [],
       id: element[did]
     }
+    if (parseInt(element[count]) === 0) {
+      obj.label = element[name]
+    }
     if (element[child] && element[child].length > 0) {
       let citem = getCgBarChildList(element[child], name, did, count, dp, child)
       obj.children = citem
@@ -167,6 +170,9 @@ export function getCgBarChildList(array, name, did, count, dp, child) {
       dp: element[dp],
       children: [],
       id: element[did]
+    }
+    if (parseInt(element[count]) === 0) {
+      obj.label = element[name]
     }
     if (element[child] && element[child].length > 0) {
       let citem = getCgBarChildList(element[child], name, did, count, dp, child)

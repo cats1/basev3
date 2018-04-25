@@ -23,8 +23,15 @@
 	  		</div>
 	  	</el-col>
 	  	<el-col :span="18" >
+        
         <div class="" v-if="rightType === 0">
-	  		  <div class="boxshadow margintop20 paddinglr30 paddingtb20">
+          <use-excel @changetype="getChangetype"></use-excel>
+        </div>
+        <div class="" v-else-if="rightType === 1">
+          <use-rtx @changetype="getChangetype"></use-rtx>
+        </div>
+        <div class="" v-else-if="rightType === 3">
+          <div class="boxshadow margintop20 paddinglr30 paddingtb20">
             <el-table :data="dataList" border @selection-change="handleSelectionChange">
               <el-table-column
                 type="selection"
@@ -64,9 +71,9 @@
               </el-pagination>
             </div>
           </div>
-	  	  </div>
-        <div class="" v-else-if="rightType === 1">
-          <use-excel></use-excel>
+        </div>
+        <div class="" v-else-if="rightType === 4">
+          <change-upload-type :etype="rightType" @comfirmkit="confirmBack" @cancelkit="cancelBack"></change-upload-type>
         </div>
 	  	</el-col>
 	  </el-row>
@@ -76,9 +83,9 @@
 import {getCache} from '@/utils/auth'
 import {getCgBarList} from '@/utils/common'
 import {addDepart,addEmp} from './components'
-import {exportAddressList,useExcel} from '@/components/upload'
+import {exportAddressList,useExcel,useRtx,changeUploadType} from '@/components/upload'
 export default {
-  components: {addDepart,addEmp,exportAddressList,useExcel},
+  components: {addDepart,addEmp,exportAddressList,useExcel,useRtx,changeUploadType},
   data () {
   	return {
       list: [],
@@ -108,7 +115,7 @@ export default {
       },
       dtype: 0,
       parent: {},
-      rightType: 0
+      rightType: 3
   	}
   },
   computed: {
@@ -131,8 +138,17 @@ export default {
   	  	this.$router.push({path:'/role'})
   	  }
   	},
+    confirmBack (type) {
+      this.rightType = type
+    },
+    cancelBack (type) {
+      this.rightType = type
+    },
+    getChangetype (type) {
+      this.rightType = type
+    },
     changeExport () {
-      this.rightType = 1
+      this.rightType = 0
     },
     getAddkit () {
       this.getProjectList()

@@ -407,7 +407,11 @@ export default {
     desc2: '支持csv、xls、xlsx后缀的Excel文档格式',
     desc3: '查看模板',
     desc4: '点此修改',
-    desc5: '您已经选择excel作为导入通讯录的方式，'
+    desc5: '您已经选择',
+    list: ['Excel导入','RTX同步','钉钉同步'],
+    desc6: '您当前已选择"',
+    desc7: '"方式导入通讯录',
+    desc8: '作为导入通讯录的方式，',
   },
   emplist: {
     pro: '组织架构',
