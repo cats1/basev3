@@ -8,10 +8,10 @@
 				</div>
 				<div class="exportwrap-right">
 					<h3>{{$t('exporttype.title')}}</h3>
-					<p>{{$t('exporttype.desc1')}}
+					<p class="margintop20 paddingtb20">{{$t('exporttype.desc1')}}
 						<span class="links">{{$t('exporttype.desc3')}}</span>
 					{{$t('exporttype.desc2')}}</p>
-					<el-button type="primary">{{$t('btn.uploadExcel')}}</el-button>
+					<upload-emps></upload-emps>
 					<down-invite-moban :btype="1"></down-invite-moban>
 				</div>
 			</div>
@@ -20,10 +20,11 @@
 	</div>
 </template>
 <script>
+import {uploadEmps} from '@/components/upload'
 import {downInviteMoban} from '@/components/download'
 export default {
   name: 'useExcel',
-  components: {downInviteMoban},
+  components: {uploadEmps,downInviteMoban},
   data () {
   	return {
   	  src: require('@/assets/img/excelv1.png')
