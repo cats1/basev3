@@ -399,7 +399,8 @@ export default {
     addEmpBtn: '添加员工',
     exportListBtn: '导入通讯录',
     editDepart:'编辑部门',
-    moveDepart:'调整部门'
+    moveDepart:'调整部门',
+    synBtn: '同步'
   },
   exporttype: {
     title: '通过Excel导入',
@@ -412,6 +413,17 @@ export default {
     desc6: '您当前已选择"',
     desc7: '"方式导入通讯录',
     desc8: '作为导入通讯录的方式，',
+    desc9: '每天00:00自动同步RTX',
+    ip: 'IP地址',
+    ipSet: 'IP设置',
+    ddSet: '钉钉设置',
+    CorpID: 'CorpID',
+    CorpSecret: 'CorpSecret',
+    agentid: '微应用 agentid',
+    port: '端口',
+    isNull: '不能为空',
+    tip1: '钉钉已打开，无法开启RTX',
+    tip2: 'RTX已打开，无法开启钉钉'
   },
   emplist: {
     pro: '组织架构',
@@ -425,7 +437,8 @@ export default {
   },
   depart: {
     departName: '部门名称',
-    prevDepartName: '上级部门'
+    prevDepartName: '上级部门',
+    manager: '设置主管'
   },
   picTips: {
     logotip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片',

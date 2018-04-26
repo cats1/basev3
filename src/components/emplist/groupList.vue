@@ -1,13 +1,13 @@
 <template>
 	<div>
 	  <div class="boxshadow paddinglr30 paddingtb20">
-    <add-depart :parent="parent" @addkit="getAddkit"></add-depart>
-    <add-emp :parent="parent" :dlist="list" @addempkit="getAddkit"></add-emp>
-    <export-address-list @exportkit="changeExport"></export-address-list>
-		<el-button><i class="fa fa-edit"></i>{{$t('btn.editDepart')}}</el-button>
-		<el-button><i class="fa fa-unsorted"></i>{{$t('btn.moveDepart')}}</el-button>
-		<el-button type="redline" @click="deleteEmp"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
-		<el-button type="redline" @click="sendEmpFace"><i class="fa fa-picture-o"></i>{{$t('btn.sendFaceBtn')}}</el-button>  
+      <add-depart :parent="parent" @addkit="getAddkit"></add-depart>
+      <add-emp :parent="parent" :dlist="list" @addempkit="getAddkit"></add-emp>
+      <export-address-list @exportkit="changeExport"></export-address-list>
+      <edit-depart :parent-node="parentNode" :parent="parent" :dlist="list" @addkit="getAddkit" :emp-list="dataList"></edit-depart>
+  		<el-button><i class="fa fa-unsorted"></i>{{$t('btn.moveDepart')}}</el-button>
+  		<el-button type="redline" @click="deleteEmp"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
+  		<el-button type="redline" @click="sendEmpFace"><i class="fa fa-picture-o"></i>{{$t('btn.sendFaceBtn')}}</el-button>  
 	  </div>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
@@ -29,6 +29,9 @@
         <div class="" v-else-if="rightType === 1">
           <use-rtx @changetype="getChangetype"></use-rtx>
         </div>
+        <div class="" v-else-if="rightType === 2">
+          <use-ding @changetype="getChangetype"></use-ding>
+        </div>
         <div class="" v-else-if="rightType === 3">
           <div class="boxshadow margintop20 paddinglr30 paddingtb20">
             <el-table :data="dataList" border @selection-change="handleSelectionChange">
@@ -39,7 +42,10 @@
               <el-table-column
                 label="姓名"
                 width="120">
-                <template slot-scope="scope">{{ scope.row.empName }}</template>
+                <template slot-scope="scope">
+                  {{ scope.row.empName }}
+                    <span class="mangericon" v-show="checkIsManager(scope.row.empid)">主管</span>
+                </template>
               </el-table-column>
               <el-table-column
                 label="职位">
@@ -81,10 +87,11 @@
 <script>
 import {getCache} from '@/utils/auth'
 import {getCgBarList} from '@/utils/common'
-import {addDepart,addEmp} from './components'
-import {exportAddressList,useExcel,useRtx,changeUploadType} from '@/components/upload'
+import {addDepart,addEmp,editDepart} from './components'
+import {exportAddressList,useExcel,useRtx,useDing,changeUploadType} from '@/components/upload'
+import {stringToArray,arrayToString} from '@/utils/common'
 export default {
-  components: {addDepart,addEmp,exportAddressList,useExcel,useRtx,changeUploadType},
+  components: {addDepart,addEmp,editDepart,exportAddressList,useExcel,useRtx,useDing,changeUploadType},
   data () {
   	return {
       list: [],
@@ -114,7 +121,8 @@ export default {
       },
       dtype: 0,
       parent: {},
-      rightType: 3
+      rightType: 3,
+      parentNode: {}
   	}
   },
   computed: {
@@ -137,17 +145,33 @@ export default {
   	  	this.$router.push({path:'/role'})
   	  }
   	},
+    checkIsManager (eid) {
+      let eArray = stringToArray(this.parent.dp)
+      let flag = false
+      eArray.forEach(function(ele,index){
+        if (parseInt(eid) === parseInt(ele)) {
+          flag = true
+        }
+      })
+      return flag
+    },
     confirmBack (type) {
       this.rightType = type
     },
-    cancelBack (type) {
-      this.rightType = type
+    cancelBack () {
+      this.changeExport()
     },
     getChangetype (type) {
       this.rightType = type
     },
     changeExport () {
-      this.rightType = 0
+      if (getCache('rtxip') && getCache('rtxport')) {
+        this.rightType = 1
+      } else if (getCache('ddnotify') === 1) {
+        this.rightType = 2
+      } else {
+        this.rightType = 0
+      }
     },
     getAddkit () {
       this.getProjectList()
@@ -186,8 +210,9 @@ export default {
     getNode (data) {
       console.log(data)
     },
-  	handleNodeClick(data) {
+  	handleNodeClick(data,node,d) {
       console.log(data)
+      this.parentNode = node.parent.data
       this.parent = data
       if (data.dp === 'root') {
         this.dtype = 0

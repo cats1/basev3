@@ -9,8 +9,8 @@
         <el-form-item >
           <upload-user-photo :photourl="empform.avatar" @sendkit="getUserPhoto"></upload-user-photo>
         </el-form-item>
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="empform.name"></el-input>
+        <el-form-item label="姓名" prop="employee_name">
+          <el-input v-model="empform.employee_name"></el-input>
         </el-form-item>
         <el-form-item label="昵称" >
           <el-input v-model="empform.empNickname"></el-input>
@@ -109,7 +109,7 @@ export default {
         endDate: ''
   	  },
   	  rules: {
-  	  	name: [
+  	  	employee_name: [
           { required: true, message: '项目名称不能为空', trigger: 'blur' }],
         deptIds: [
           { required: true, message: '部门不能为空', trigger: 'blur' }],
@@ -134,7 +134,9 @@ export default {
       this.parentObj = val
       //this.departform.parentId = val.pid
       this.cobj.push(val)
-      this.departArray.push(val)
+      let darray = []
+      darray.push(val)
+      this.departArray = darray
       if (val.dp === 'root') {
         //this.departform.parentId = ''
       }
@@ -162,6 +164,11 @@ export default {
     saveProject () {
         this.$refs['empform'].validate((valid) => {
           if (valid) {
+            let darray = []
+            this.departArray.forEach(function(element,index){
+              darray.push(element.pid)
+            })
+            this.empform.deptIds = darray
             this.$store.dispatch('addEmployee',this.empform).then(res => {
   		   	  	let {status} = res
   		   	  	if (status === 0) {

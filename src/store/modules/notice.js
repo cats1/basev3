@@ -63,7 +63,12 @@ const app = {
     },
     updateDDNotify({ commit }, info) {
       return new Promise((resolve, reject) => {
-          if(getCache('rtxip') && getCache('rtxport')) {
+          if (getCache('ddnotify') === 0) {
+            Message({
+              message: '钉钉设置未打开，无法开启自动同步',
+              type: 'error'
+            })
+          } else if(getCache('rtxip') && getCache('rtxport')) {
             Message({
               message: 'RTX已开启，钉钉无法打开',
               type: 'error'
@@ -93,11 +98,20 @@ const app = {
       return new Promise((resolve, reject) => {
           if (getCache('ddnotify') === 1) {
             Message({
-              message: '钉钉已开启，RTX无法打开',
+              message: this.$t('exporttype.tip1'),
               type: 'error'
             })
           } else {
             updateRtxConf(info).then(response => {
+              let { status , result } = response
+              if (status === 0) {
+                setCache('rtxip',info.rtxIp)
+                setCache('rtxport',info.rtxPort)
+                Message({
+                  message: 'RTX设置成功',
+                  type: 'success'
+                })
+              }
               resolve(response)
             }).catch(error => {
               reject(error)

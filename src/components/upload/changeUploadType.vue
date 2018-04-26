@@ -14,10 +14,10 @@
 			<el-button @click="cancelBack">{{$t('btn.cancelBtn')}}</el-button>
 		</div>
 		<div class="margintop20">
-			<template v-if="etype === 1">
+			<template v-if="value === 1">
 				<p>{{$t('exporttype.desc6')}}{{$t('exporttype.list[1]')}}{{$t('exporttype.desc7')}}</p>
 			</template>
-			<template v-else-if="etype === 2">
+			<template v-else-if="value === 2">
 				<p>{{$t('exporttype.desc6')}}{{$t('exporttype.list[2]')}}{{$t('exporttype.desc7')}}</p>
 			</template>
 			<template v-else>
@@ -27,6 +27,7 @@
 	</div>
 </template>
 <script>
+import {getCache} from '@/utils/auth'
 export default {
   name: 'useExcel',
   props: ['etype'],
@@ -36,9 +37,22 @@ export default {
   	  value: 0
   	}
   },
+  mounted () {
+  	console.log(this.etype)
+  	this.checkType()
+  },
   methods: {
+  	checkType () {
+      if (getCache('rtxip') && getCache('rtxport')) {
+        this.value = 1
+      } else if (getCache('ddnotify') === 1) {
+        this.value = 2
+      } else {
+        this.value = 0
+      }
+    },
   	cancelBack () {
-  	  this.$emit('cancelkit',this.etype)
+  	  this.$emit('cancelkit')
   	},
   	confirmGo () {
   	  this.$emit('comfirmkit',this.value)

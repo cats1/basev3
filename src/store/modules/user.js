@@ -18,12 +18,15 @@ const user = {
 		managerLogin({ commit }, userInfo) {
 			return new Promise((resolve, reject) => {
 		        managerLogin(userInfo).then(response => {
-		          console.log(response)
 		          let { status, result } = response
 		          if (status == 0) {
                     for (let key in result) {
 		          		if (key !== 'token') {
-		          	      setCache(key, result[key])
+		          			if (result[key]) {
+		          				setCache(key, result[key])
+		          			} else {
+		          				setCache(key, '')
+		          			}
 		          		} else {
 		          		  setCache('token', result.userid + '-' + result.token)
 		          		}
@@ -43,7 +46,11 @@ const user = {
 		          if (status == 0) {
                     for (let key in result) {
 		          		if (key !== 'token') {
-		          	      setCache(key, result[key])
+		          	        if (result[key]) {
+		          				setCache(key, result[key])
+		          			} else {
+		          				setCache(key, '')
+		          			}
 		          		} else {
 		          		  setCache('token', userInfo.userid + '-' + result.token)
 		          		}
