@@ -41,7 +41,8 @@
               <li>备注信息：{{vdata.remark}}</li>
             </ul>
           </div>
-         </div>
+          <el-checkbox></el-checkbox>
+        </div>
     </div>
 </template>
 <script>
@@ -56,6 +57,10 @@ export default {
     index: {
       type: Number,
       default: 0
+    },
+    itemCheck: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

@@ -18,17 +18,22 @@
     </el-collapse-transition>
     <div>
       <template v-if="ctype === 0 || ctype === 3">
-        <el-button type="default">{{$t('vnum[0]')}}({{total}})</el-button>
-        <el-button type="default">{{$t('vnum[1]')}}({{LeavelNo}})</el-button>
-        <el-button type="default">{{$t('vnum[2]')}}({{onNo}})</el-button>
+        <el-button type="default" @click="getTotal">{{$t('vnum[0]')}}({{total}})</el-button>
+        <el-button type="default" @click="getLeavel">{{$t('vnum[1]')}}({{LeavelNo}})</el-button>
+        <el-button type="default" @click="getOn">{{$t('vnum[2]')}}({{onNo}})</el-button>
       </template>
       <template v-else-if="ctype === 1 || ctype === 2">
-        <el-button type="default">{{$t('vnum[3]')}}({{total}})</el-button>
-        <el-button type="default">{{$t('vnum[4]')}}({{onNo}})</el-button>
-        <el-button type="default">{{$t('vnum[5]')}}({{LeavelNo}})</el-button>
+        <el-button type="default" @click="getTotal">{{$t('vnum[3]')}}({{total}})</el-button>
+        <el-button type="default" @click="getOn">{{$t('vnum[4]')}}({{onNo}})</el-button>
+        <el-button type="default" @click="getLeavel">{{$t('vnum[5]')}}({{LeavelNo}})</el-button>
       </template>
       <el-input class="right" style="width:200px;" v-model="sname"></el-input>
     </div>
+    <el-collapse-transition>
+      <div class="paddingtb20" v-show="signOutShow">
+        <el-button type="primary">批量签出</el-button>
+      </div>
+    </el-collapse-transition>
 	</div>
 </template>
 <script>
@@ -54,7 +59,8 @@ export default {
       total: 0,
       onNo: 0,
       LeavelNo: 0,
-      sname: ''
+      sname: '',
+      signOutShow: false
     }
   },
   watch: {
@@ -77,7 +83,24 @@ export default {
     },
     setVtype (type) {
       this.ctype = type
+      this.signOutShow = false
       this.$emit('changekit',type)
+    },
+    getTotal () {
+      this.signOutShow = false
+      this.$emit('totalkit')
+    },
+    getLeavel () {
+      this.signOutShow = false
+      this.$emit('leavelkit')
+    },
+    getOn () {
+      if (this.ctype === 0) {
+        this.signOutShow = true
+      } else {
+        this.signOutShow = false
+      }
+      this.$emit('onkit')
     },
     goControl () {
       this.$router.push({path: 'data'})
