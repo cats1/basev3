@@ -27,7 +27,7 @@
         <el-button type="default">{{$t('vnum[4]')}}({{onNo}})</el-button>
         <el-button type="default">{{$t('vnum[5]')}}({{LeavelNo}})</el-button>
       </template>
-      <el-input v-model="sname"></el-input>
+      <el-input class="right" style="width:200px;" v-model="sname"></el-input>
     </div>
 	</div>
 </template>
