@@ -37,6 +37,7 @@ service.interceptors.response.use(
           type: 'error',
           duration: 5 * 1000
         })
+        //window.location.href = 'signin.html'
         return response.data
       }      
     } else {
@@ -78,6 +79,7 @@ service.interceptors.response.use(
       type: 'error',
       duration: 5 * 1000
     })
+    window.location.href = 'signin.html'
     return Promise.reject(error)
   })
 

@@ -5,6 +5,10 @@ export default {
     button: '注册'
   },
   meeting: {},
+  nodata: '暂无数据',
+  dataM: '数据管理',
+  vtype: ['签到访客','预约访客','邀请访客','常驻访客'],
+  vnum: ['访客总数','离开人数','正在拜访人数','总数','签到人数','未到人数','访客'],
   itype: [{
     label: '面试',
     value: 0
@@ -19,7 +23,6 @@ export default {
     label: '次数',
     value: 1
   }],
-  vtype: ['签到访客','预约访客','邀请访客','常驻访客'],
   signStatus: ['已签到','已签出','已预约','已过期','已发送','已查看','已接受','已拒绝','已授权','未授权'],
   checkVtype: ['全部','拜访者姓名','受访者姓名','拜访事由','电话','公司','门岗'],
   record: '共找到',
@@ -400,7 +403,17 @@ export default {
     exportListBtn: '导入通讯录',
     editDepart:'编辑部门',
     moveDepart:'调整部门',
-    synBtn: '同步'
+    synBtn: '同步',
+    addRoleGroup: '新增角色组',
+    addRole: '新增角色',
+    editGroup:'角色组编辑',
+    editRole:'角色编辑',
+    addMember: '添加成员'
+  },
+  role: {
+    rgroup: '角色组名称',
+    rolename: '角色名称',
+    rolegroup: '角色组'
   },
   exporttype: {
     title: '通过Excel导入',
@@ -520,7 +533,8 @@ export default {
     password: '密码',
     any: '随便填',
     thirdparty: '第三方登录',
-    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
+    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！',
+    scom: '请选择公司'
   },
   empLogin:{
     title: '员工登录',

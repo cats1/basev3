@@ -1,8 +1,10 @@
 <template>
   <el-dropdown trigger="click" class='international' @command="handleSetLanguage">
-    <div>
-      切换
-      <!-- <svg-icon class-name='international-icon' icon-class="language" /> -->
+    <div class="language">
+      <i class="fa fa-language"></i>
+      <!-- <svg class="svg_icon">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#language"></use>
+      </svg> -->
     </div>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item command="zh" :disabled="language==='zh'">中文</el-dropdown-item>

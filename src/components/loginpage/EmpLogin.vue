@@ -7,31 +7,19 @@
       </div>
       <el-form-item prop="username">
           <span class="svg-container svg-container_login">
-            <svg-icon icon-class="user" />
+            <i class="fa fa-user"></i>
           </span>
          <el-input name="phone" type="text" v-model="loginForm.phone" autoComplete="on" placeholder="phone" />
       </el-form-item>
       <el-form-item prop="password">
           <span class="svg-container">
-            <svg-icon icon-class="password" />
+            <i class="fa fa-lock fa-lg"></i>
           </span>
          <el-input name="password" :type="passwordType" v-model="loginForm.empPwd" autoComplete="on" placeholder="password" />
          <span class="show-pwd">
             <svg-icon icon-class="eye" />
          </span>
        </el-form-item>
-       <template v-show="comShow">
-         <el-form-item>       
-            <el-select v-model="loginForm.userid" clearable placeholder="请选择公司">
-              <el-option
-                v-for="item in comlist"
-                :key="item.userid"
-                :label="item.company"
-                :value="item.userid">
-              </el-option>
-            </el-select>      
-         </el-form-item>
-       </template>
        <el-form-item prop="vcode">
         <el-col :span="12">
           <el-input name="code" type="text" v-model="loginForm.vcode" autoComplete="on" placeholder="code" />
@@ -40,6 +28,18 @@
           <img-code @clickit="setCode"></img-code>
         </el-col>
        </el-form-item>
+       <transition name="el-fade-in-linear">
+        <el-form-item v-show="comShow">       
+            <el-select v-model="loginForm.userid" clearable placeholder="请选择公司">
+              <el-option
+                v-for="item in comlist"
+                :key="item.userid"
+                :label="item.company"
+                :value="item.userid">
+              </el-option>
+            </el-select>      
+        </el-form-item>
+      </transition>
        <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doLogin">{{$t('empLogin.logIn')}}</el-button>
        </el-row>
       </el-form>
@@ -109,6 +109,7 @@ export default {
             this.$store.dispatch('checkEmpInfo',checkEmp).then((res) => {
               let { status, result } = res
               this.comlist = result
+              this.comShow = true
             }) 
           } else {
             let codeData = {

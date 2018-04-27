@@ -1,38 +1,71 @@
 <template>
 	<div class="box-section">
-		<h3><el-button type="text" @click="showVisit">访客<template v-if="cShow === false">
+		<h3><el-button type="text" @click="showVisit">{{$t('vnum[6]')}}<template v-if="cShow === false">
         <i class="el-icon-caret-bottom"></i>
       </template>
       <template v-else>
         <i class="el-icon-caret-top"></i>
       </template></el-button>
-      <el-button type="primary" @click="goControl">数据管理</el-button>
+      <el-button type="primary" class="right" @click="goControl">
+        <i class="fa fa-line-chart"></i>{{$t('dataM')}}</el-button>
     </h3>
     <el-collapse-transition>
-      <div v-show="cShow === true">
+      <div class="margintop20 marginbom20" v-show="cShow === true">
         <template v-for="(item,index) in $t('vtype')">
           <span class="vtypespan" :class="{'isActive': index === ctype}" @click="setVtype(index)">{{item}}</span>
         </template>
       </div>
     </el-collapse-transition>
-    <template v-if="ctype === 0 || ctype === 3">
-      <el-button type="default">访客总数</el-button>
-      <el-button type="default">离开人数</el-button>
-      <el-button type="default">正在拜访人数</el-button>
-    </template>
-    <template v-else-if="ctype === 1 || ctype === 2">
-      <el-button type="default">总数</el-button>
-      <el-button type="default">签到人数</el-button>
-      <el-button type="default">未到人数</el-button>
-    </template>
+    <div>
+      <template v-if="ctype === 0 || ctype === 3">
+        <el-button type="default">{{$t('vnum[0]')}}({{total}})</el-button>
+        <el-button type="default">{{$t('vnum[1]')}}({{LeavelNo}})</el-button>
+        <el-button type="default">{{$t('vnum[2]')}}({{onNo}})</el-button>
+      </template>
+      <template v-else-if="ctype === 1 || ctype === 2">
+        <el-button type="default">{{$t('vnum[3]')}}({{total}})</el-button>
+        <el-button type="default">{{$t('vnum[4]')}}({{onNo}})</el-button>
+        <el-button type="default">{{$t('vnum[5]')}}({{LeavelNo}})</el-button>
+      </template>
+      <el-input v-model="sname"></el-input>
+    </div>
 	</div>
 </template>
 <script>
 export default {
+  props: {
+    totalNum: {
+      type: Number,
+      default: 0
+    },
+    leavelNum: {
+      type: Number,
+      default: 0
+    },
+    onNum: {
+      type: Number,
+      default: 0
+    }
+  },
   data () {
   	return {
       cShow: false,
-      ctype: 0
+      ctype: 0,
+      total: 0,
+      onNo: 0,
+      LeavelNo: 0,
+      sname: ''
+    }
+  },
+  watch: {
+    totalNum (val) {
+      this.total = val
+    },
+    leavelNum (val) {
+      this.LeavelNo = val
+    },
+    onNum (val) {
+      this.onNo = val
     }
   },
   created () {},

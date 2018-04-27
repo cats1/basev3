@@ -1,13 +1,13 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 paddingtb20">
+	  <div class="boxshadow paddinglr30 paddingtb20 block">
       <add-depart :parent="parent" @addkit="getAddkit"></add-depart>
       <add-emp :parent="parent" :dlist="list" @addempkit="getAddkit"></add-emp>
       <export-address-list @exportkit="changeExport"></export-address-list>
       <edit-depart :parent-node="parentNode" :parent="parent" :dlist="list" @addkit="getAddkit" :emp-list="dataList"></edit-depart>
-  		<el-button><i class="fa fa-unsorted"></i>{{$t('btn.moveDepart')}}</el-button>
-  		<el-button type="redline" @click="deleteEmp"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
-  		<el-button type="redline" @click="sendEmpFace"><i class="fa fa-picture-o"></i>{{$t('btn.sendFaceBtn')}}</el-button>  
+      <move-depart :parent="parent" :dlist="list" :semp="sempArray" @movekit="getmove"></move-depart>
+      <delete-emp :semp="sempArray" @delekit="getDelete"></delete-emp>
+  		<send-all-face></send-all-face>
 	  </div>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
@@ -21,8 +21,7 @@
 			    </div>
 	  		</div>
 	  	</el-col>
-	  	<el-col :span="18" >
-        
+	  	<el-col :span="18" >        
         <div class="" v-if="rightType === 0">
           <use-excel @changetype="getChangetype"></use-excel>
         </div>
@@ -87,11 +86,11 @@
 <script>
 import {getCache} from '@/utils/auth'
 import {getCgBarList} from '@/utils/common'
-import {addDepart,addEmp,editDepart} from './components'
+import {addDepart,addEmp,editDepart,moveDepart,deleteEmp,sendAllFace} from './components'
 import {exportAddressList,useExcel,useRtx,useDing,changeUploadType} from '@/components/upload'
 import {stringToArray,arrayToString} from '@/utils/common'
 export default {
-  components: {addDepart,addEmp,editDepart,exportAddressList,useExcel,useRtx,useDing,changeUploadType},
+  components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace},
   data () {
   	return {
       list: [],
@@ -122,7 +121,8 @@ export default {
       dtype: 0,
       parent: {},
       rightType: 3,
-      parentNode: {}
+      parentNode: {},
+      sempArray: []
   	}
   },
   computed: {
@@ -174,6 +174,12 @@ export default {
       }
     },
     getAddkit () {
+      this.getProjectList()
+    },
+    getDelete () {
+      this.getProjectList()
+    },
+    getmove () {
       this.getProjectList()
     },
   	getProjectList () {
@@ -246,25 +252,11 @@ export default {
   	handleSelectionChange (val) {
   	  //this.clist = val
   	  let _self = this
+      this.sempArray = val
   	  val.forEach(function(ele,index){
         _self.deform.empids.push(ele.empid)
   	  })
-  	},
-  	deleteEmp () {
-      this.$store.dispatch('batchDelEmployee',this.deform).then(res => {
-          let {status} = res
-          if (status === 0) {
-            if (this.dtype === 0) {
-              this.getEmpListPages()
-            } else {
-              this.getResidentVisitor()
-            } 
-          }
-      })
-  	},
-    sendEmpFace () {
-      this.$store.dispatch('updateAllFace',this.faceform)
-    }
+  	}
   }
 }
 </script>

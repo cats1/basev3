@@ -1,7 +1,7 @@
 <template>
 	<div class="">
 		<date-header :set-date="form.date" @getkit="getValue"></date-header>
-    <type-header @changekit="getList"></type-header>
+    <type-header @changekit="getList" :total-num="totalNum" :leavel-num="leavelNum" :on-num="onNum"></type-header>
     <div class="vlist-wrap boxshadow margintop20 paddingtb20">
       <template v-if="vlist.length > 0">
         <template v-for="(vitem,index) in vlist">
@@ -9,7 +9,7 @@
         </template>
       </template>
       <template v-else>
-        暂无数据
+        <p class="paddinglr30">{{$t('nodata')}}</p>
       </template>
     </div>
 	</div>
@@ -33,7 +33,10 @@ export default {
         date: formatDate(new Date(),'yyyy-MM-dd'),
         endDate: formatDate(new Date(),'yyyy-MM-dd')
       },
-      vlist: []
+      vlist: [],
+      totalNum: 0,
+      leavelNum: 0,
+      onNum: 0
     }
   },
   created () {},
@@ -48,6 +51,9 @@ export default {
       this.getSignVisitor()
     },
     getList (val) {
+      this.totalNum = 0
+      this.leavelNum = 0
+      this.onNum = 0
       if (val === 0) {
         this.getSignVisitor()
       } else if (val === 1) {
@@ -65,6 +71,15 @@ export default {
         let {status,result} = res
         if (status === 0) {
           this.vlist = result
+          this.totalNum = result.length
+          let _self = this
+          result.forEach(function(element, index) {
+            if (element.signOutDate) {
+              _self.leavelNum ++
+            } else if (element.visitdate && !element.signOutDate){
+              _self.onNum ++
+            }
+          })
         }
       })
     },
@@ -73,6 +88,15 @@ export default {
         let {status,result} = res
         if (status === 0) {
           this.vlist = result
+          this.totalNum = result.length
+          let _self = this
+          result.forEach(function(element, index) {
+            if (element.visitdate || element.signOutDate) {
+              _self.onNum ++
+            } else {
+              _self.leavelNum ++
+            }
+          })
         }
       })
     },
@@ -81,6 +105,15 @@ export default {
         let {status,result} = res
         if (status === 0) {
           this.vlist = result
+          this.totalNum = result.length
+          let _self = this
+          result.forEach(function(element, index) {
+            if ((element.visitdate && !element.signOutDate) || (element.visitdate && element.signOutDate)) {
+              _self.onNum ++
+            } else if (element.appointmentDate && !element.visitdate) {
+              _self.leavelNum ++
+            }
+          })
         }
       })
     },
@@ -89,6 +122,15 @@ export default {
         let {status,result} = res
         if (status === 0) {
           this.vlist = result
+          this.totalNum = result.length
+          let _self = this
+          result.forEach(function(element, index) {
+            if (element.visitdate && element.signOutDate) {
+              _self.leavelNum ++
+            } else if (element.visitdate && !element.signOutDate) {
+              _self.onNum ++
+            }
+          })
         }
       })
     }

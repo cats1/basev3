@@ -2,7 +2,8 @@
 		<div class="visitwrap paddinglr30 paddingtb20">
         <div class="vavatar">
           <div class="vstatus" :style="{'background': color}">{{statusText}}</div>
-            <img :src="vdata.vphoto" alt="">
+            <img :src="vdata.vphoto" alt="" v-if="vdata.vphoto">
+            <img :src="dlogo" alt="" v-else>
         </div>
         <div class="vcontent">
           <div class="vcontentheader">
@@ -63,7 +64,13 @@ export default {
       statusText: '',
       permissionSwitch: getCache('permissionSwitch'),
       color: '#36b22b',
-      time: 0
+      time: 0,
+      dlogo: require('@/assets/img/avatar.jpg')
+    }
+  },
+  watch: {
+    vdata (val) {
+      this.checkStatus()
     }
   },
   filters:{

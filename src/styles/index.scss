@@ -161,6 +161,10 @@ label {
 .exportbomtip{
   line-height: 36px;
 }
+.svg_icon{
+  width: 20px;
+  height: 20px;
+}
 .last_inner {
   -webkit-appearance: none;
   background-color: #fff;
@@ -327,11 +331,51 @@ label {
   color: #333;
   border-bottom: 1px solid #ccc;
 }
-
+.roletreewrap{
+  .el-tree-node__label{
+    background: url('../assets/img/roleroot.png') left center no-repeat;
+    text-indent: 24px;
+  }
+  .el-tree-node__children{
+    .el-tree-node__label{
+      background: url('../assets/img/role.png') left center no-repeat;
+      text-indent: 24px;
+    }
+  }
+}
 .block {
   display: block;
 }
-
+.versionrecord {
+    width: auto;
+    display: inline-block;
+    float: left;
+    margin: 14px 24px 0 20px;
+    position: relative;
+    cursor: pointer;
+    .versionleft {
+        height: 22px;
+        width: auto;
+        background: url('../assets/img/versionl.png') left center no-repeat;
+        padding-left: 10px;
+        .versionright {
+            height: 22px;
+            width: auto;
+            background: url('../assets/img/versionr.png') right center no-repeat;
+            padding-right: 10px;
+            .versionmiddle {
+                height: 22px;
+                line-height: 22px;
+                min-width: 30px;
+                width: auto;
+                text-align: center;
+                background: url('../assets/img/versionm.png') left center repeat-x;
+                font-size: 14px;
+                color: #fff;
+            }
+        }
+    }
+}
 .gatelist {
   width: 270px;
   max-height: 120px;
@@ -508,6 +552,8 @@ label {
   line-height: 60px;
   color: #fff;
   font-size: 36px;
+  display: inline-block;
+  float: left;
 }
 
 .headerwrap {
@@ -580,7 +626,11 @@ label {
     }
   }
 }
-
+.lheader{
+  background: transparent;
+  height: 60px;
+  width: 100%;
+}
 .el-menu--horizontal {
   .el-menu-item.is-active {
     border-bottom-width: 6px;
@@ -589,6 +639,7 @@ label {
     li {
       a {
         color: #fff;
+        display: block;
       }
     }
   }

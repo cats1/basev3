@@ -1,7 +1,7 @@
 <template>
 	<div class="lrmenuwrap">
 		<div class="lrmenu-left">
-		  <h3>选择部门</h3>
+		  <h3>选择角色组</h3>
       <div class="leadheadwrap">
         <template v-for="(citem,index) in headItem">
           <template v-if="index === 0">
@@ -24,18 +24,18 @@
               <img :src="logo" alt="">{{item.name}}
             </p>
           </template>
-          <template v-if="checkLength(item.children) === true">
+          <!-- <template v-if="checkLength(item.children) === true">
             <span class="lrmenu-check-next itemgray" v-if="checkArray[index] === true" >下级</span>
             <span class="lrmenu-check-next " v-else @click="selectNext(item)">下级</span>
           </template>
           <template v-else>
-            <!-- <span>8888</span> -->
-          </template>
+            <span>8888</span>
+          </template> -->
         </div>
 		  </template>
 		</div>
 		<div class="lrmenu-right">
-      <h3>已选部门</h3>
+      <h3>已选角色组</h3>
 		  <template v-for="(item,index) in rightItem">
 		  	<p class="lrmenu-item"><img :src="logo" alt="">{{item.name}}
 		  		<span class="lrmenu-item-close" @click="removeItem(item,index)"><i class="fa fa-close"></i></span></p>
@@ -98,7 +98,7 @@ export default {
   methods: {
     setHead (){
       let hobj = {
-        name: '部门列表',
+        name: '所有角色组',
         item: this.checkIsSelect(this.leftData)
       }
       this.headItem.push(hobj)

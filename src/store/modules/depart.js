@@ -1,4 +1,5 @@
-import { addDepartment,addEmployee,getEmployeeFromRtx,UpdateRtxRefresh,updateDepartment } from '@/api/depart'
+import { addDepartment,addEmployee,getEmployeeFromRtx,UpdateRtxRefresh,
+	updateDepartment,updateDeptEmpRelation } from '@/api/depart'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 const user = {
@@ -24,6 +25,22 @@ const user = {
 		updateDepartment({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        updateDepartment(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+                    Message({
+                  	  message: '修改成功',
+                  	  type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		updateDeptEmpRelation({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        updateDeptEmpRelation(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
                     Message({

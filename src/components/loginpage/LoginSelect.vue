@@ -2,7 +2,7 @@
 	<div class="loginselectwrap">
 		<el-dropdown @command="handleCommand">
 		  <span class="el-dropdown-link">
-		    {{list[type].name}}<i class="el-icon-caret-bottom el-icon--right"></i>
+		    {{list[type].name}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
 		  </span>
 		  <el-dropdown-menu slot="dropdown">
 		  	<template v-for="item in list">

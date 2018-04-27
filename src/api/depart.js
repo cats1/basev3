@@ -15,6 +15,14 @@ export function updateDepartment(data) {
     data
   })
 }
+//updateDeptEmpRelation
+export function updateDeptEmpRelation(data) {
+  return request({
+    url: '/updateDeptEmpRelation',
+    method: 'post',
+    data
+  })
+}
 //addEmployee
 export function addEmployee(data) {
   return request({

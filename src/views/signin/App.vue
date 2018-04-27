@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <login-nav></login-nav>
   	<div class="login-container">      
       <div class="form-container">
         <login-select :ltype="loginType" @clickit="changeLogin"></login-select>
@@ -20,13 +21,15 @@
         </template>
       </div>           
   	</div>
+    <svg-icon></svg-icon>
   </div>
 </template>
-
 <script>
 import { ImgCode, MangerLogin, SuperLogin, CompanyLogin, EmpLogin, StageLogin, LoginSelect } from '@/components/loginpage'
+import svgIcon from '@/components/svg/svg'
+import loginNav from '@/components/headnav/loginnav'
 export default {
-  components: { ImgCode, MangerLogin, SuperLogin, CompanyLogin, EmpLogin, StageLogin, LoginSelect },
+  components: { ImgCode, MangerLogin, SuperLogin, CompanyLogin, EmpLogin, StageLogin, LoginSelect,svgIcon,loginNav },
   name: 'App',
   data () {
   	return {

@@ -3,17 +3,16 @@
       	<el-row>
   		<div class="title-container">
 	       <h3 class="title">{{$t('login.title')}}</h3>
-	       <!-- <lang-select class="set-language"></lang-select> -->
 	    </div>
 	    <el-form-item prop="email">
 	        <span class="svg-container svg-container_login">
-	          <svg-icon icon-class="user" />
+	          <i class="fa fa-user"></i>
 	        </span>
 	       <el-input name="email" type="text" v-model="loginForm.email" autoComplete="on" placeholder="email" />
 	    </el-form-item>
 	    <el-form-item prop="password">
 	        <span class="svg-container">
-	          <svg-icon icon-class="password" />
+            <i class="fa fa-lock fa-lg"></i>
 	        </span>
 	       <el-input name="password" :type="passwordType" v-model="loginForm.password" autoComplete="on" placeholder="password" />
 	       <span class="show-pwd">

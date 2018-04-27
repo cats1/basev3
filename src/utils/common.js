@@ -116,10 +116,30 @@ export function getCBarList(array, name, id, child) {
       name: element[name],
       pid: element[id],
       pcount: 0,
+      type: 0,
       children: []
     }
     if (element[child] && element[child].length > 0) {
-      let citem = getCBarList(element[child], name, id, child)
+      let citem = getCRoleBarList(element[child], name, id, child)
+      obj.children = citem
+    }
+    list.push(obj)
+  })
+  return list
+}
+export function getCRoleBarList(array, name, id, child) {
+  let list = []
+  array.forEach(function(element, index) {
+    let obj = {
+      label: element[name],
+      name: element[name],
+      pid: element[id],
+      pcount: 0,
+      type: 1,
+      children: []
+    }
+    if (element[child] && element[child].length > 0) {
+      let citem = getCRoleBarList(element[child], name, id, child)
       obj.children = citem
     }
     list.push(obj)

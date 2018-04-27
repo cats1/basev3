@@ -1,3 +1,20 @@
 <template>
-	<div></div>
+	<div id="headnav" class="mheader lheader">
+		<div class="headerwrap">
+		    <div class="menuright">
+		    	<lang-select class="international right-menu-item"></lang-select>
+		    </div>
+	    </div>
+	</div>
 </template>
+<script>
+import LangSelect from '@/components/LangSelect'
+import { getCache } from '@/utils/auth'
+export default {
+	name: 'headnav',
+    data() {
+      return {}
+    },
+    components: {LangSelect},
+  }
+</script>

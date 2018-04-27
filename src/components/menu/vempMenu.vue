@@ -1,14 +1,15 @@
 <template>
 	<div class="lrmenuwrap">
 		<div class="lrmenu-left">
-		  <h3>选择部门</h3>
+		  <h3>选择人员</h3>
+      <el-input v-model="sname"></el-input>
       <div class="leadheadwrap">
         <template v-for="(citem,index) in headItem">
           <template v-if="index === 0">
-            <div class="c_selector_navbar_item" @click="goitem(citem,index)"><span>{{citem.name}}</span></div>
+            <div class="c_selector_navbar_item" @click="goitem(citem,index)"><span>{{citem.empName}}</span></div>
           </template>
           <template v-else>
-            <div class="c_selector_navbar_item" @click="goitem(citem,index)"><i class="fa fa-angle-right"></i><span>{{citem.name}}</span></div>
+            <div class="c_selector_navbar_item" @click="goitem(citem,index)"><i class="fa fa-angle-right"></i><span>{{citem.empName}}</span></div>
           </template>  
         </template>
       </div>
@@ -16,12 +17,12 @@
         <div class="lrmenu-check-item">
           <template v-if="checkValue">
             <p class="lrmenu-item" >    
-              <el-checkbox :label="item.label" v-model="checkArray[index]" @change="selectItem(item,index)"><img :src="logo" alt="">{{item.name}}</el-checkbox>
+              <el-checkbox :label="item.label" v-model="checkArray[index]" @change="selectItem(item,index)"><img :src="logo" alt="">{{item.empName}}</el-checkbox>
             </p>
           </template>
           <template v-else>
-            <p class="lrmenu-item" :class="{'nopointer': checkArray[index]}" @click.once="selectItem(item,index)">
-              <img :src="logo" alt="">{{item.name}}
+            <p class="lrmenu-item" :class="{'nopointer': checkArray[index]}" @click="selectItem(item,index)">
+              <img :src="logo" alt="">{{item.empName}}
             </p>
           </template>
           <template v-if="checkLength(item.children) === true">
@@ -35,9 +36,9 @@
 		  </template>
 		</div>
 		<div class="lrmenu-right">
-      <h3>已选部门</h3>
+      <h3>已选人员</h3>
 		  <template v-for="(item,index) in rightItem">
-		  	<p class="lrmenu-item"><img :src="logo" alt="">{{item.name}}
+		  	<p class="lrmenu-item"><img :src="logo" alt="">{{item.empName}}
 		  		<span class="lrmenu-item-close" @click="removeItem(item,index)"><i class="fa fa-close"></i></span></p>
 		  </template>
 		</div>
@@ -65,6 +66,7 @@ export default {
   },
   data () {
   	return {
+      sname: '',
   	  leftList: this.leftData,
   	  clist: this.rightData,
       leftItem: [],
@@ -76,6 +78,7 @@ export default {
   },
   watch: {
     leftData (val) {
+      console.log(val)
       this.leftList = val
       this.leftItem = this.checkIsSelect(val)
     },
@@ -91,6 +94,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.leftData)
     this.rightItem = this.rightData
     this.leftItem = this.checkIsSelect(this.leftData)
     this.setHead()
@@ -98,25 +102,20 @@ export default {
   methods: {
     setHead (){
       let hobj = {
-        name: '部门列表',
+        name: '所有员工',
         item: this.checkIsSelect(this.leftData)
       }
       this.headItem.push(hobj)
     },
     checkLength (val) {
-      return val.length > 0
-    },
-    removeSelectItem (item) {
-      let _self = this
-      this.rightItem.forEach(function(element, index) {
-        if (item.label === element.label && item.pid === element.pid) {
-          _self.rightItem.splice(index,1)
-        }
-      })
+      if (val instanceof Array) {
+        return val.length > 0
+      } else {
+        return false
+      }
     },
   	selectItem (item,index) {
       if (this.checkValue) {
-        console.log(this.checkArray[index])
         if (this.checkArray[index]) {
           if (this.checkNum > 0) {
             let obj = this.rightItem
@@ -130,15 +129,12 @@ export default {
               })
             }
           } else {
-            let obj = []
+            let obj = this.rightItem
             obj.push(item)
             this.rightItem = obj
           }
         } else {
-          console.log(8888)
-          this.removeSelectItem(item)
-          //this.rightItem.splice(index,1)
-          console.log(this.rightItem)
+          this.rightItem.splice(index,1)
           this.$emit('menukit',this.rightItem)
           this.selectItemFalse(item,index)
         }
@@ -155,7 +151,7 @@ export default {
             })
           }
         } else {
-          let obj = []
+          let obj = this.rightItem
           obj.push(item)
           this.rightItem = obj
         }
@@ -178,7 +174,7 @@ export default {
       let _self = this
       let cFlag = false
       _self.rightItem.forEach(function(rele, rindex) {
-        if (item.label === rele.label && item.pid === rele.pid) {
+        if (item.empid === rele.empid) {
           cFlag = true
         }
       })
@@ -186,29 +182,21 @@ export default {
     },
     checkIsSelect (item) {
       let _self = this
-      if (item instanceof Array) {
-        item.forEach(function(element, index) {    
-          _self.rightItem.forEach(function(rele, rindex) {
-            if (element.label === rele.label && element.pid === rele.pid) {
-              element.isChecked = true
-              _self.checkArray[index] = true
-            }
-          })
-        })
-      } else {
+      item.forEach(function(element, index) {    
         _self.rightItem.forEach(function(rele, rindex) {
-          if (item.label === rele.label && item.pid === rele.pid) {
-            item.isChecked = true
+          if (element.empid === rele.empid) {
+            element.isChecked = true
+            _self.checkArray[index] = true
           }
         })
-        this.checkArray[0] = true 
-      }
+      })
+      console.log(item)
       return item
     },
     selectItemFalse (item,index) {
       let _self = this
       this.leftItem.forEach(function(element, eindex) {
-        if (element.label === item.label && element.pid === item.pid) {
+        if (element.empid === item.empid) {
           _self.checkArray[index] = false
         }
       })

@@ -1,7 +1,12 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 paddingtb20">
-		<el-button type="redline" @click="deleteEmp"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button> 
+	  <div class="boxshadow paddinglr30 paddingtb20 block">
+      <add-role-group :parent="parent" @addrolekit="getAddRoleGroup"></add-role-group>
+      <add-role :parent="parent" @addrolekit="getAddRole"></add-role>
+      <edit-role-group :parent="parent" @editrolekit="getAddRole"></edit-role-group>
+      <edit-role :group-list="list" :parent="parent" :parent-node="parentNode" @editrolekit="getAddRole"></edit-role>
+      <add-member :parent="parent" :vemp="vempObj" @addempkit="getMember"></add-member>
+  		<delete-role-emp :parent="parent" :vemp="vempObj" @delekit="getDelete"></delete-role-emp>
 	  </div>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
@@ -10,7 +15,7 @@
 			      <el-radio-button label="group"><router-link to="/">{{$t('emplist.pro')}}</router-link></el-radio-button>
 			      <el-radio-button label="role"><router-link to="/role">{{$t('emplist.com')}}</router-link></el-radio-button>
 			    </el-radio-group>
-			    <div>
+			    <div class="roletreewrap">
 			    	<el-tree :data="list" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
 			    </div>
 	  		</div>
@@ -45,25 +50,27 @@
 				    </el-table-column>
 	  		  </el-table>
 		  		<div class="page-footer">
-		  		<el-pagination
-			      @size-change="handleSizeChange"
-			      @current-change="handleCurrentChange"
-			      :current-page="nform.startIndex"
-			      :page-sizes="[10, 20, 30, 40]"
-			      :page-size="nform.requestedCount"
-			      layout="total, sizes, prev, pager, next, jumper"
-			      :total="total">
-			    </el-pagination>
+  		  		<el-pagination
+  			      @size-change="handleSizeChange"
+  			      @current-change="handleCurrentChange"
+  			      :current-page="nform.startIndex"
+  			      :page-sizes="[10, 20, 30, 40]"
+  			      :page-size="nform.requestedCount"
+  			      layout="total, sizes, prev, pager, next, jumper"
+  			      :total="total">
+  			    </el-pagination>
 		  		</div>	  		
-	  	    </div>
+	  	  </div>
 	  	</el-col>
 	  </el-row>
 	</div>
 </template>
 <script>
-import {getCache} from '@/utils/auth'
-import {getCBarList} from '@/utils/common'
+import { getCache } from '@/utils/auth'
+import { getCBarList } from '@/utils/common'
+import { addRoleGroup,addRole,editRoleGroup,editRole,addMember,deleteRoleEmp } from './components'
 export default {
+  components: { addRoleGroup,addRole,editRoleGroup,editRole,addMember,deleteRoleEmp },
   data () {
   	return {
       list: [],
@@ -78,10 +85,9 @@ export default {
   	  	requestedCount: 10,
   	  	startIndex:1
   	  },
-  	  dform: {
-  	  	rid: '',
-  	  	empids: []
-  	  }
+      parent: {},
+      parentNode: {},
+      vempObj: []
   	}
   },
   computed: {
@@ -96,6 +102,18 @@ export default {
     this.getProjectList()
   },
   methods: {
+    getAddRole () {
+      this.getProjectList()
+    },
+    getAddRoleGroup () {
+      this.getProjectList()
+    },
+    getMember () {
+      this.getProjectList()
+    },
+    getDelete () {
+      this.getProjectList()
+    },
   	changeVtype (val) {
   	  if(val === 'group') {
   	  	this.$router.push({path:'/'})
@@ -128,11 +146,13 @@ export default {
   	  	}
   	  })	
   	},
-  	handleNodeClick(data) {
-        this.dform.rid = data.pid
-        this.nform.rid = data.pid
-        this.nform.startIndex = 1
-        this.getResidentVisitor()
+  	handleNodeClick(data,node) {
+      this.parent = data
+      console.log(node)
+      this.parentNode = node.parent.data
+      this.nform.rid = data.pid
+      this.nform.startIndex = 1
+      this.getResidentVisitor()
     },
     handleSizeChange (val) {
   	  this.form.requestedCount = val
@@ -144,6 +164,7 @@ export default {
   	},
   	handleSelectionChange (val) {
   	  //this.clist = val
+      this.vempObj = val
   	  let _self = this
   	  val.forEach(function(ele,index){
         _self.dform.empids.push(ele.empid)

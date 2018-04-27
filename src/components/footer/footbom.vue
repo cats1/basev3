@@ -6,7 +6,7 @@
 	</div>
 </template>
 <script>
-import { getYear } from '../../utils'
+import { getYear } from '@/utils'
 export default {
   data () {
     return {}
