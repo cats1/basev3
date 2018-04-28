@@ -21,6 +21,14 @@ export function GetEmpList(data) {
     data
   })
 }
+//getEmpByName
+export function getEmpByName(data) {
+  return request({
+    url: '/getEmpByName',
+    method: 'post',
+    data
+  })
+}
 //getBlacklist
 export function getBlacklist(data) {
   return request({

@@ -17,7 +17,7 @@
       </el-form>
       <el-dialog
       width="50%"
-      title="选择角色组"
+      :title="$t('role.tip1')"
       :visible.sync="innerVisible1"
       append-to-body>
         <role-group-menu :left-data="groupList" :right-data="parentArray" :check-value="false" :check-num="1" @menukit="setGroup"></role-group-menu>
@@ -27,8 +27,10 @@
         </span>
       </el-dialog>
       <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="saveProject">{{$t('btn.saveBtn')}}</el-button>
+        <el-button type="redline" @click="deleteProject">{{$t('btn.deleteBtn')}}</el-button>
         <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
-        <el-button type="primary" @click="saveProject">{{$t('btn.confirmBtn')}}</el-button>
+        
       </span>
     </el-dialog>
   </div>
@@ -56,7 +58,11 @@ export default {
           { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }]
       },
       parentObj: {},
-      parentArray: []
+      parentArray: [],
+      dform: {
+        rid: '',
+        userid: getCache('userid')
+      }
     }
   },
   watch: {
@@ -71,6 +77,7 @@ export default {
     parent (val) {
       console.log(val)
       this.form.rid = val.pid
+      this.dform.rid = val.pid
       this.form.rgName = val.name
     }
   },
@@ -82,12 +89,12 @@ export default {
       console.log(this.parent.type)
       if (!this.parent.type) {
         this.$message({
-          message: '请选择角色',
+          message: this.$t('role.tip2'),
           type: 'error'
         })
       } else if(this.parent.type === 0) {
         this.$message({
-          message: '请选择角色',
+          message: this.$t('role.tip2'),
           type: 'error'
         })
       } else {
@@ -120,6 +127,17 @@ export default {
             return false;
           }
         })
+    },
+    deleteProject () {
+      this.$store.dispatch('delRARG',this.dform).then(res => {
+          let {status} = res
+          if (status === 0) {
+              this.dialogVisible = false
+              this.dateRange = []
+                this.$refs['form'].resetFields()
+              this.$emit('delerolekit')
+          }
+      })
     }
   }
 }

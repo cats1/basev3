@@ -332,6 +332,7 @@ label {
   border-bottom: 1px solid #ccc;
 }
 .roletreewrap{
+  padding: 20px 0;
   .el-tree-node__label{
     background: url('../assets/img/roleroot.png') left center no-repeat;
     text-indent: 24px;
@@ -377,7 +378,7 @@ label {
     }
 }
 .gatelist {
-  width: 270px;
+  width: 100%;
   max-height: 120px;
   border: 1px solid #ccc;
   overflow: auto;
@@ -695,6 +696,7 @@ label {
     float: left;
     width: 100%;
     text-align: left;
+    position: relative;
     .vcontentheader {
       margin-left: 150px;
       border-bottom: 1px solid #ccc;
@@ -712,6 +714,11 @@ label {
     }
     .vcontentfooter {
       margin-left: 150px;
+    }
+    .itemcheck{
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
     }
   }
 }

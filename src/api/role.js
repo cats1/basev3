@@ -7,6 +7,14 @@ export function addRARG(data) {
     data
   })
 }
+//delRARG
+export function delRARG(data) {
+  return request({
+    url: '/delRARG',
+    method: 'post',
+    data
+  })
+}
 //updateRARG
 export function updateRARG(data) {
   return request({

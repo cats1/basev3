@@ -64,6 +64,7 @@ export default {
     color: #8c939d;
     width: auto;
     height: auto;
+    margin-top:20px;
     text-align: center;
   }
   .avatar {

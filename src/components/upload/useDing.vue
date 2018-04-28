@@ -101,13 +101,13 @@ export default {
     autoSyncSet (val) {
         if (getCache('ddnotify') === 0) {
             this.$message({
-              message: '钉钉设置未打开，无法开启自动同步',
+              message: this.$t('exporttype.tip5'),
               type: 'error'
             })
             this.checked = !this.checked
         } else if (getCache('rtxip')&&getCache('rtxport')) {
             this.$message({
-              message: 'RTX开关已打开，钉钉开关无法开启，如若开启钉钉，请先关闭RTX',
+              message: this.$t('exporttype.tip6'),
               type: 'error'
             })
         } else {

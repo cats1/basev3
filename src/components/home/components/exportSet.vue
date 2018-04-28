@@ -1,58 +1,63 @@
 <template>
 	<div>
-		<el-button @click="dialogVisible = true">导出配置</el-button>
+		<el-button @click="dialogVisible = true">{{$t('btn.exportBtn')}}</el-button>
 		<el-dialog
-		  title="访客列表导出项设置"
+		  :title="$t('export.title')"
 		  :visible.sync="dialogVisible"
 		  width="60%">
 		  <div class="exportwap">
-		  	<span class="exsection">拜访者
-		  		<el-checkbox v-model="exportTable[0]"></el-checkbox>
-		  	</span>
-            <span class="exsection">联系方式
+    		  	<span class="exsection">{{$t('form.name.text1')}}
+    		  		<el-checkbox v-model="exportTable[0]"></el-checkbox>
+            }
+    		  	</span>
+            <span class="exsection">{{$t('form.phone.text1')}}
             	<el-checkbox v-model="exportTable[1]"></el-checkbox></span>
-            <span class="exsection">被访者
+            <span class="exsection">{{$t('form.name.text2')}}
             	<el-checkbox v-model="exportTable[2]"></el-checkbox></span>
-            <span class="exsection">被访者联系方式
+            <span class="exsection">{{$t('form.phone.text2')}}
             	<el-checkbox v-model="exportTable[3]"></el-checkbox></span>
-            <span class="exsection">拜访事由
+            <span class="exsection">{{$t('checkVtype[3]')}}
                 <el-checkbox v-model="exportTable[4]"></el-checkbox></span>
-            <span class="exsection">签入门岗
+            <template v-show="process.env.Door">
+              <span class="exsection">{{$t('notice.doorset.signinDoor')}}
                 <el-checkbox v-model="exportTable[5]"></el-checkbox></span>
-            <span class="exsection">签出门岗
-                <el-checkbox v-model="exportTable[6]"></el-checkbox>
-            </span>
-            <span class="exsection">签入警卫
-                <el-checkbox v-model="exportTable[7]"></el-checkbox>
-            </span>
-            <span class="exsection">签出警卫
-                <el-checkbox v-model="exportTable[8]"></el-checkbox>
-            </span>
-            <span class="exsection">工作单位
+              }
+              <span class="exsection">{{$t('notice.doorset.signoutDoor')}}
+                  <el-checkbox v-model="exportTable[6]"></el-checkbox>
+              </span>
+              <span class="exsection">{{$t('notice.doorset.signinGuard')}}
+                  <el-checkbox v-model="exportTable[7]"></el-checkbox>
+              </span>
+              <span class="exsection">{{$t('notice.doorset.signoutGuard')}}
+                  <el-checkbox v-model="exportTable[8]"></el-checkbox>
+              </span>
+            </template>
+            <span class="exsection">{{$t('form.companypro.text2')}}
                 <el-checkbox v-model="exportTable[9]"></el-checkbox>
             </span>
-            <span class="exsection">证件号码
+            <span class="exsection">{{$t('form.idnum.text1')}}
                 <el-checkbox v-model="exportTable[10]"></el-checkbox>
             </span>
-            <span class="exsection">证件扫描件
+            <span class="exsection">{{$t('form.idnum.text2')}}
                 <el-checkbox v-model="exportTable[11]"></el-checkbox>
             </span>
-            <span class="exsection">来访人数
+            <span class="exsection">{{$t('form.count.text')}}
                 <el-checkbox v-model="exportTable[12]"></el-checkbox>
             </span>
-            <span class="exsection">随访人员清单
+            <span class="exsection">{{$t('form.count.text1')}}
             	<el-checkbox v-model="exportTable[13]"></el-checkbox></span>
-            <span class="exsection">备注
+            <span class="exsection">{{$t('form.remark.text')}}
             	<el-checkbox v-model="exportTable[14]"></el-checkbox></span>
-            <span class="exsection">签到时间
+            <span class="exsection">{{$t('form.time.text')}}
             	<el-checkbox v-model="exportTable[15]"></el-checkbox></span>
-            <span class="exsection">签出时间
+            <span class="exsection">{{$t('form.time.text1')}}
             	<el-checkbox v-model="exportTable[16]"></el-checkbox></span>
 		  </div>
 		  <span slot="footer" class="dialog-footer">
-		    <el-button type="success" @click="getExport">导出</el-button>
+		    <el-button type="success" @click="getExport">{{$t('btn.export')}}</el-button>
 		  </span>
 		</el-dialog>
+    
 	</div>
 </template>
 <script>
@@ -64,9 +69,11 @@ export default {
   	return {
   	  dialogVisible: false,
   	  exportTable:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  	  type: this.vtype
+  	  type: this.vtype,
+      isDoorShow: process.env.Door
   	}
   },
+  computed: {},
   watch: {
   	vtype (val) {
   	  this.type = val

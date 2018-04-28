@@ -2,12 +2,13 @@
 	<div class="marginbom20">
     <notice-show >
         <div slot="header" class="clearfix">
-          <one-notice :n-icon="imgSrc" :n-title="$t('notice.email.title')" :n-desc="$t('notice.email.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
+          <one-notice :is-box="false" :n-icon="imgSrc" :n-title="$t('notice.email.title')" :n-desc="$t('notice.email.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
           <div class="showbody marginlr20 paddingtb20 bordertop" v-show="isShow">
+            <h3>{{$t('notice.email.ptitle')}}</h3>
             <el-radio-group v-model="radio2">
-              <el-radio :label="0">默认配置 （默认配置将由系统exchange账号发送通知）</el-radio>
-              <el-radio :label="1">smtp</el-radio>
-              <el-radio :label="2">Exchange</el-radio>
+              <el-radio class="block" :label="0">{{$t('notice.email.defaults')}} ({{$t('notice.email.ddesc')}})</el-radio>
+              <el-radio class="block" :label="1">smtp</el-radio>
+              <el-radio class="block" :label="2">Exchange</el-radio>
             </el-radio-group>
           </div>
         </div>        
@@ -40,7 +41,7 @@ export default {
         let { status, reason } = res
         if (status === 0) {
           this.$message({
-            message: '微信开关修改成功',
+            message: this.$t('notice.email.tips'),
             type: 'success'
           })
           setCache('msgNotify',this.switchOn)
@@ -53,6 +54,7 @@ export default {
       })
     },
     getSwitchValue (value) {
+      this.isShow = value
       this.switchOn = booleanToNumber(value)
       this.updateWeixin()
     }

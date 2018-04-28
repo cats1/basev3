@@ -55,3 +55,11 @@ export function getRvQrcode(data) {
     data
   })
 }
+//getResidentVisitorByName
+export function getResidentVisitorByName(data) {
+  return request({
+    url: '/getResidentVisitorByName',
+    method: 'post',
+    data
+  })
+}

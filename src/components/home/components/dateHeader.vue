@@ -4,7 +4,7 @@
 	      v-model="date"
 	      align="right"
 	      type="date"
-	      placeholder="选择日期" format="yyyy-MM-dd"
+	      :placeholder="$t('vdate[2]')" format="yyyy-MM-dd"
 	      :picker-options="pickerOptions1" @change="sendVal">
 	  </el-date-picker>
 	</div>

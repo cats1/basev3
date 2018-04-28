@@ -395,6 +395,7 @@ export function downMoban(url) {
   window.open(url)
 }
 export function downloadDoc(params) {
+  console.log(process.env.BASE_API)
   let url = process.env.BASE_API + '/ExportVisitorList' + params
   var browser = isIE()
   if (browser == true) {

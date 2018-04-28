@@ -16,7 +16,7 @@
         </template>
       </div>
     </el-collapse-transition>
-    <div>
+    <div class="margintop20">
       <template v-if="ctype === 0 || ctype === 3">
         <el-button type="default" @click="getTotal">{{$t('vnum[0]')}}({{total}})</el-button>
         <el-button type="default" @click="getLeavel">{{$t('vnum[1]')}}({{LeavelNo}})</el-button>
@@ -27,11 +27,17 @@
         <el-button type="default" @click="getOn">{{$t('vnum[4]')}}({{onNo}})</el-button>
         <el-button type="default" @click="getLeavel">{{$t('vnum[5]')}}({{LeavelNo}})</el-button>
       </template>
-      <el-input class="right" style="width:200px;" v-model="sname"></el-input>
+      <el-input class="right" style="width:200px;" v-model="sname" @change="searchName">
+        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+      </el-input>
     </div>
     <el-collapse-transition>
       <div class="paddingtb20" v-show="signOutShow">
-        <el-button type="primary">批量签出</el-button>
+        <el-button type="primary" @click="signDotOut">{{$t('btn.batchOut')}}</el-button>
+        <div class="right" v-show="doOutShow">
+          <el-button @click="doConfirmOut">{{$t('btn.confirmBtn')}}</el-button>
+          <el-button @click="doCancelOut">{{$t('btn.cancelBtn')}}</el-button>
+        </div>
       </div>
     </el-collapse-transition>
 	</div>
@@ -50,6 +56,10 @@ export default {
     onNum: {
       type: Number,
       default: 0
+    },
+    checkArray: {
+      type: Array,
+      default: []
     }
   },
   data () {
@@ -60,7 +70,9 @@ export default {
       onNo: 0,
       LeavelNo: 0,
       sname: '',
-      signOutShow: false
+      signOutShow: false,
+      doOutShow: false,
+      form: []
     }
   },
   watch: {
@@ -72,6 +84,16 @@ export default {
     },
     onNum (val) {
       this.onNo = val
+    },
+    checkArray (val) {
+      let ara = []
+      val.forEach(function(element, index) {
+        let obj = {
+          vid: element.vid
+        }
+        ara.push(obj)
+      })
+      this.form = ara
     }
   },
   created () {},
@@ -80,6 +102,10 @@ export default {
   	getSignVisitor () {},
     showVisit () {
       this.cShow = !this.cShow
+    },
+    searchName (val) {
+      console.log(val)
+      this.$emit('searchkit',val)
     },
     setVtype (type) {
       this.ctype = type
@@ -104,6 +130,24 @@ export default {
     },
     goControl () {
       this.$router.push({path: 'data'})
+    },
+    signDotOut () {
+      this.doOutShow = true
+      this.$emit('outkit')
+    },
+    doConfirmOut () {
+      this.$store.dispatch('batchSignOut',this.form).then(res => {
+        let {status} = res
+        if (status === 0) {
+          this.doOutShow = false
+          this.signOutShow = false
+          this.$emit('outconfirmkit')
+        }
+      })
+    },
+    doCancelOut () {
+      this.doOutShow = false
+      this.$emit('outcancelkit',false)
     }
   }
 }

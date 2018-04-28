@@ -1,5 +1,5 @@
 import { addDepartment,addEmployee,getEmployeeFromRtx,UpdateRtxRefresh,
-	updateDepartment,updateDeptEmpRelation } from '@/api/depart'
+	updateDepartment,updateDeptEmpRelation,delDepartment,updateEmployee } from '@/api/depart'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 const user = {
@@ -134,6 +134,38 @@ const user = {
 			          	setCache('rtxAuto', info.rtxAuto)
 	                    Message({
 	                  	  message: '设置服务器定时自动同步RTX成功',
+	                  	  type: 'success'
+	                	})
+			        }
+			        resolve(response)
+			    }).catch(error => {
+			          reject(error)
+			    })
+		    })
+		},
+		delDepartment({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        delDepartment(info).then(response => {
+			        let { status } = response
+			        if (status === 0) {
+	                    Message({
+	                  	  message: '删除成功',
+	                  	  type: 'success'
+	                	})
+			        }
+			        resolve(response)
+			    }).catch(error => {
+			          reject(error)
+			    })
+		    })
+		},
+		updateEmployee({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        updateEmployee(info).then(response => {
+			        let { status } = response
+			        if (status === 0) {
+	                    Message({
+	                  	  message: '修改成功',
 	                  	  type: 'success'
 	                	})
 			        }

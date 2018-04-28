@@ -7,8 +7,34 @@ export default {
   meeting: {},
   nodata: '暂无数据',
   dataM: '数据管理',
+  vstatus: ['已发送','已签到','已查看','已接受','已拒绝','已签出','未授权','已授权','已预约','已过期'],
   vtype: ['签到访客','预约访客','邀请访客','常驻访客'],
   vnum: ['访客总数','离开人数','正在拜访人数','总数','签到人数','未到人数','访客'],
+  vdate: ['开始日期','结束日期','选择日期'],
+  vtime: ['开始时间','结束时间'],
+  visitor: {
+    vname: '访客姓名',
+    vphone: '访客手机号',
+    vcom: '访客公司',
+    ename: '受访人姓名',
+    ephone: '受访人手机号',
+    ecom: '受访人手机号',
+    ordertime: '预约时间',
+    visittime: '来访时间',
+    leavetime: '离开时间',
+    followPeople: '随访人员',
+    list: '访客详细信息',
+    manager: '主管',
+    editEmp: '编辑员工'
+  },
+  role: {
+    tip: '请先选择角色组',
+    tip1: '选择角色组',
+    tip2: '请选择角色'
+  },
+  export: {
+    title: '访客列表导出项设置'
+  },
   itype: [{
     label: '面试',
     value: 0
@@ -90,12 +116,17 @@ export default {
     name: {
       text: '姓名',
       text1: '拜访者',
-      text2: '被访者'
+      text2: '被访者',
+      text3: '昵称'
+    },
+    depart: {
+      text: '部门'
     },
     phone: {
       text: '手机号',
       text1: '联系方式',
-      text2: '被访者联系方式'
+      text2: '被访者联系方式',
+      text3: '电话'
     },
     idnum: {
       text: '身份证号',
@@ -109,11 +140,16 @@ export default {
       tipdesc: '勾选此项表明以后<strong>不再</strong>接受来访通的任何邮件'
     },
     company: {
-      text: '公司名称'
+      text: '公司名称',
+      text1: '办公地点'
     },
     companypro: {
       text: '公司简称',
       text2: '工作单位'
+    },
+    position: {
+      text: '职位',
+      text1: '工号'
     },
     password: {
       oldtext: '原密码',
@@ -133,7 +169,17 @@ export default {
     },
     time: {
       text: '签到时间',
-      text1: '签出时间'
+      text1: '签出时间',
+      text2: '预约时间',
+      text3: '邀请时间',
+      text4: '服务期限'
+    },
+    gate: {
+      text: '关联闸机',
+      tip: '请选择闸机组'
+    },
+    photo: {
+      tip: '请上传头像'
     }
   },
   tablehead: ['序号','会议名称','时间','发起人','主题','二维码','手机号','事由','发起时间','公司','状态','发送状态'],
@@ -163,7 +209,8 @@ export default {
       holder: '手机号码'
     },
     validCompany: {
-      tip1: '公司名称不能为空'
+      tip1: '公司名称不能为空',
+      tip2: '部门不能为空'
     },
     validCompanyPro: {
       tip1: '公司简称不能为空',
@@ -173,7 +220,8 @@ export default {
       tip1: '姓名不能为空',
       tip2: '包含非法字符',
       tip3: '姓名不能为空',
-      tip4: '请选择会议发起人'
+      tip4: '请选择会议发起人',
+      tip5: '员工姓名不能为空'
     },
     validEmpName: {
       holder: '员工姓名'
@@ -182,7 +230,8 @@ export default {
       tip1: '请输入账号'
     },
     time: {
-      tip1: '请选择时间'
+      tip1: '请选择时间',
+      tip2: '日期不能为空'
     },
     meeting: {
       tip1: '请填写主题'
@@ -234,6 +283,10 @@ export default {
     }
   },
   notice: {
+    tip: {
+      title: '提醒通知',
+      desc: '点击右侧开关，设置员工接收通知方式'
+    },
     black: {
       title: '黑名单开关',
       desc: '黑名单功能打开后，黑名单中的人将无法进行预约，登记操作。',
@@ -244,7 +297,11 @@ export default {
     },
     email: {
       title: '邮件',
-      desc: '当有访客签到时，通过邮件通知员工'
+      desc: '当有访客签到时，通过邮件通知员工',
+      ptitle: '请选择邮件配置方式',
+      defaults: '默认配置',
+      ddesc: '默认配置将由系统exchange账号发送通知',
+      tips: '修改成功'
     },
     sms: {
       title: '短信',
@@ -344,7 +401,11 @@ export default {
       dialog: {
         title: '门岗信息设置',
         add: '增加门岗'
-      }
+      },
+      signinDoor: '签入门岗',
+      signoutDoor: '签出门岗',
+      signinGuard: '签入警卫',
+      signoutGuard: '签出警卫'
     },
     worktime: {
       title: '工作时间设置',
@@ -373,6 +434,10 @@ export default {
     editBtn: '编辑',
     shouBtn: '收起',
     saveBtn: '保存',
+    saveAndBtn: '保存并继续添加',
+    exportBtn: '导出配置',
+    export: '导出',
+    searchBtn: '搜索',
     picBtn: '选择图片',
     addBlackBtn: '添加黑名单',
     dotDeleteBtn: '批量删除',
@@ -408,7 +473,8 @@ export default {
     addRole: '新增角色',
     editGroup:'角色组编辑',
     editRole:'角色编辑',
-    addMember: '添加成员'
+    addMember: '添加成员',
+    batchOut: '批量签出'
   },
   role: {
     rgroup: '角色组名称',
@@ -436,7 +502,11 @@ export default {
     port: '端口',
     isNull: '不能为空',
     tip1: '钉钉已打开，无法开启RTX',
-    tip2: 'RTX已打开，无法开启钉钉'
+    tip2: 'RTX已打开，无法开启钉钉',
+    tip3: '钉钉开关已打开，RTX开关无法开启，如若开启RTX，请先关闭钉钉',
+    tip4: 'RTX设置未打开，无法开启自动同步',
+    tip5: '钉钉设置未打开，无法开启自动同步',
+    tip6: 'RTX开关已打开，钉钉开关无法开启，如若开启钉钉，请先关闭RTX'
   },
   emplist: {
     pro: '组织架构',
@@ -451,7 +521,18 @@ export default {
   depart: {
     departName: '部门名称',
     prevDepartName: '上级部门',
-    manager: '设置主管'
+    manager: '设置主管',
+    selectDepart: '选择部门',
+    hasDepart: '已选部门',
+    dlist: '部门列表',
+    selectPrevDepart: '选择上级部门',
+    next: '下级',
+    sup: '选择项目已达上限',
+    tip: '主公司无法编辑',
+    smember: '选择人员',
+    hasMember: '已选人员',
+    allEmp: '所有员工',
+    noemp: '该部门暂无员工'
   },
   picTips: {
     logotip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片',
@@ -479,6 +560,12 @@ export default {
     name: '前台登录',
     type: 4
   }],
+  deleteTip: {
+    title: '删除提示',
+    desc: '是否要删除?',
+    success: '删除成功!',
+    cancelD: '已取消删除'
+  },
   validPassword: {
     tip1: '密码格式不正确',
     tip2: '密码长度不小于6位'

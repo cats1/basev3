@@ -12,11 +12,14 @@
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
-	  			<el-radio-group v-model="vtype" @change="changeVtype">
+          <el-input v-model="sform.name" @change="searchEmp">
+            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+          </el-input>
+	  			<el-radio-group class="margintop20" v-model="vtype" @change="changeVtype">
 			      <el-radio-button label="pro"><router-link to="/">{{$t('project.pro')}}</router-link></el-radio-button>
 			      <el-radio-button label="com"><router-link to="/com">{{$t('project.com')}}</router-link></el-radio-button>
 			    </el-radio-group>
-			    <div>
+			    <div class="emptreewrap">
 			    	<el-tree :data="list" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
 			    </div>
 	  		</div>
@@ -84,6 +87,12 @@ export default {
       list: [],
       total:0,
       dataList:[],
+      sform: {
+        name: '',
+        requestedCount: 10,
+        startIndex: 1,
+        userid: getCache('userid')
+      },
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -121,6 +130,18 @@ export default {
   	  	this.$router.push({path:'/com'})
   	  }
   	},
+    searchEmp (val) {
+      console.log(val)
+      if (val !== '') {
+        this.$store.dispatch('getResidentVisitorByName',this.sform).then(res => {
+          let {status,result} = res
+          if (status === 0) {
+            this.dataList = result.list
+            this.total = result.count
+          }
+        })
+      }
+    },
     getaddpro () {
       this.getProjectList()
     },

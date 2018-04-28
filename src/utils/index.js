@@ -332,3 +332,18 @@ export function setYearAgo (time,num) {
   time.setFullYear(time.getFullYear() - num)
   return time
 }
+export function timeDiff(date1,date2,type) {
+  let date3 = date2.getTime() - date1.getTime()
+  let day = Math.floor(date3/(24*3600*1000))
+  let leave1 = date3%(24*3600*1000)    //计算天数后剩余的毫秒数
+  let hours = Math.floor(leave1/(3600*1000))
+  let leave2 = leave1%(3600*1000)        //计算小时数后剩余的毫秒数
+  let minutes = Math.floor(leave2/(60*1000))
+  let leave3 = leave2%(60*1000)      //计算分钟数后剩余的毫秒数
+  let seconds = Math.round(leave3/1000)
+  if (type === 0) {
+    return day
+  } else {
+    return day
+  }
+}

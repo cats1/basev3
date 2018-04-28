@@ -1,7 +1,9 @@
 'use strict'
-module.exports = {
+const merge = require('webpack-merge')
+const base = require('./base')
+module.exports = merge(base, {
   NODE_ENV: '"production"',
   BASE_API: '"http://www.coolvisit.top/qcvisitBase"',
   BASE_LINK: '"http://www.coolvisit.top/base"',
   BASE_VERSION: 'v2.1.0'
-}
+})

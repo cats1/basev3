@@ -1,7 +1,7 @@
 <template>
 	<div>
 	  <div class="boxshadow paddinglr30 paddingtb20 block">
-      <add-depart :parent="parent" @addkit="getAddkit"></add-depart>
+      <add-depart :parent="parent" :dlist="list" @addkit="getAddkit"></add-depart>
       <add-emp :parent="parent" :dlist="list" @addempkit="getAddkit"></add-emp>
       <export-address-list @exportkit="changeExport"></export-address-list>
       <edit-depart :parent-node="parentNode" :parent="parent" :dlist="list" @addkit="getAddkit" :emp-list="dataList"></edit-depart>
@@ -12,7 +12,10 @@
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
-	  			<el-radio-group v-model="vtype" @change="changeVtype">
+          <el-input v-model="sform.name" @change="searchEmp">
+            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+          </el-input>
+	  			<el-radio-group class="margintop20" v-model="vtype" @change="changeVtype">
 			      <el-radio-button label="group"><router-link to="/">{{$t('emplist.pro')}}</router-link></el-radio-button>
 			      <el-radio-button label="role"><router-link to="/role">{{$t('emplist.com')}}</router-link></el-radio-button>
 			    </el-radio-group>
@@ -33,33 +36,33 @@
         </div>
         <div class="" v-else-if="rightType === 3">
           <div class="boxshadow margintop20 paddinglr30 paddingtb20">
-            <el-table :data="dataList" border @selection-change="handleSelectionChange">
+            <el-table :data="dataList" border @selection-change="handleSelectionChange" @row-click="editEmp">
               <el-table-column
                 type="selection"
                 width="55">
               </el-table-column>
               <el-table-column
-                label="姓名"
+                :label="$t('form.name.text')"
                 width="120">
-                <template slot-scope="scope">
+                <template slot-scope="scope" >
                   {{ scope.row.empName }}
-                    <span class="mangericon" v-show="checkIsManager(scope.row.empid)">主管</span>
+                    <span class="mangericon" v-show="checkIsManager(scope.row.empid)" >{{$t('visitor.manager')}}</span>
                 </template>
               </el-table-column>
               <el-table-column
-                label="职位">
+                :label="$t('form.position.text')">
                 <template slot-scope="scope">{{ scope.row.empPosition }}</template>
               </el-table-column>
               <el-table-column
-                label="工号">
+                :label="$t('form.position.text1')">
                 <template slot-scope="scope">{{ scope.row.empNo }}</template>
               </el-table-column>
               <el-table-column
-                label="手机号">
+                :label="$t('form.phone.text')">
                 <template slot-scope="scope">{{ scope.row.empPhone }}</template>
               </el-table-column>
               <el-table-column
-                label="邮箱">
+                :label="$t('form.email.text')">
                 <template slot-scope="scope">{{ scope.row.empEmail }}</template>
               </el-table-column>
             </el-table>
@@ -81,21 +84,32 @@
         </div>
 	  	</el-col>
 	  </el-row>
+    <el-dialog
+      :title="$t('visitor.editEmp')"
+      :visible.sync="dialogVisible"
+      width="50%">
+      <emp-detail :parent="parent" :dlist="list" :cur-emp="curEmp" @updateempkit="getUpdateEmp" @deleempkit="getDeleteEmp"></emp-detail>
+    </el-dialog>
 	</div>
 </template>
 <script>
 import {getCache} from '@/utils/auth'
 import {getCgBarList} from '@/utils/common'
-import {addDepart,addEmp,editDepart,moveDepart,deleteEmp,sendAllFace} from './components'
+import {addDepart,addEmp,editDepart,moveDepart,deleteEmp,sendAllFace,empDetail} from './components'
 import {exportAddressList,useExcel,useRtx,useDing,changeUploadType} from '@/components/upload'
 import {stringToArray,arrayToString} from '@/utils/common'
 export default {
-  components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace},
+  components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace,empDetail},
   data () {
   	return {
       list: [],
       total:0,
       dataList:[],
+      dialogVisible: false,
+      sform: {
+        name: '',
+        userid: getCache('userid')
+      },
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -122,7 +136,8 @@ export default {
       parent: {},
       rightType: 3,
       parentNode: {},
-      sempArray: []
+      sempArray: [],
+      curEmp: {}
   	}
   },
   computed: {
@@ -138,6 +153,33 @@ export default {
     this.getEmpListPages()
   },
   methods: {
+    getUpdateEmp () {
+      this.dialogVisible = false
+      this.getProjectList()
+      this.getEmpList()
+    },
+    getDeleteEmp () {
+      this.dialogVisible = false
+      this.getProjectList()
+      this.getEmpList()
+    },
+    editEmp (row, event, column) {
+      console.log(row)
+      this.curEmp = row
+      this.dialogVisible = true
+    },
+    searchEmp (val) {
+      console.log(val)
+      if (val !== '') {
+        this.$store.dispatch('getEmpByName',this.sform).then(res => {
+          let {status,result} = res
+          if (status === 0) {
+            this.dataList = result
+            this.total = 0
+          }
+        })
+      }
+    },
   	changeVtype (val) {
   	  if(val === 'group') {
   	  	this.$router.push({path:'/'})
@@ -175,12 +217,22 @@ export default {
     },
     getAddkit () {
       this.getProjectList()
+      this.getEmpList()
     },
     getDelete () {
       this.getProjectList()
+      this.getEmpList()
     },
     getmove () {
       this.getProjectList()
+      this.getEmpList()
+    },
+    getEmpList () {
+      if (this.dtype === 0) {
+        this.getEmpListPages()
+      } else {
+        this.getResidentVisitor()
+      } 
     },
   	getProjectList () {
   	  let nform = {

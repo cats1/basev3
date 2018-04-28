@@ -1,11 +1,11 @@
 <template>
 	<div class="">
 		<date-header :set-date="form.date" @getkit="getValue"></date-header>
-    <type-header @changekit="getList" :total-num="totalNum" :leavel-num="leavelNum" :on-num="onNum" @totalkit="changeTotal" @leavelkit="changeLeavel" @onkit="changeOn"></type-header>
+    <type-header @changekit="getList" :total-num="totalNum" :leavel-num="leavelNum" :on-num="onNum" :check-array="checkArray" @totalkit="changeTotal" @leavelkit="changeLeavel" @onkit="changeOn" @outkit="doAllOut" @outconfirmkit="doAllConfirm" @searchkit="searchVisitor" @outcancelkit="doAllCancel"></type-header>
     <div class="vlist-wrap boxshadow margintop20 paddingtb20">
       <template v-if="vlist.length > 0">
         <template v-for="(vitem,index) in vlist">
-          <visit-item :vdata="vitem" :index="index" ></visit-item>
+          <visit-item :vdata="vitem" :index="index" :item-check="vCheck[index]" @checkkit="changeCheck"></visit-item>
         </template>
       </template>
       <template v-else>
@@ -34,12 +34,15 @@ export default {
         endDate: formatDate(new Date(),'yyyy-MM-dd')
       },
       vlist: [],
+      vCheck: [],
       totalList: [],
       leavelList: [],
       onList: [],
       totalNum: 0,
       leavelNum: 0,
-      onNum: 0
+      onNum: 0,
+      checkArray: [],
+      onShowType: 0
     }
   },
   created () {},
@@ -51,16 +54,70 @@ export default {
       let nval = formatDate(val,'yyyy-MM-dd')
       this.form.date = nval
       this.form.endDate = nval
+      this.oform.date = nval
+      this.oform.endDate = nval
       this.getSignVisitor()
     },
     changeTotal () {
+      this.onShowType = 0
       this.vlist = this.totalList
     },
     changeOn () {
+      this.onShowType = 1
       this.vlist = this.onList
     },
     changeLeavel () {
+      this.onShowType = 2
       this.vlist = this.leavelList
+    },
+    searchVisitor (val) {
+      let _self = this
+      if (val !== '') {
+        let varray = []
+        this.vlist.forEach(function(element, index) {
+          if (element.vname.indexOf(val) > -1){
+            varray.push(element)
+          }
+        })
+        this.vlist = varray
+      } else {
+        this.initVlist()
+      }
+    },
+    changeCheck (val,index) {
+      console.log(val,index)
+      this.vCheck[index] = val
+      let _self = this
+      let varray = []
+      this.checkArray.forEach(function(element, index) {
+        if (_self.vCheck[index]){
+          varray.push(element)
+        }
+      })
+      this.checkArray = varray
+    },
+    doAllOut () {
+      this.checkArray = this.vlist
+      let _self = this
+      this.checkArray.forEach(function(element, index) {
+        _self.vCheck[index] = true
+      })
+    },
+    doAllConfirm () {
+      let _self = this
+      let varray = []
+      this.vCheck.forEach(function(element, index) {
+        _self.vCheck[index] = false
+      })
+      this.getList(0)
+    },
+    doAllCancel (val) {
+      let _self = this
+      let varray = []
+      this.checkArray.forEach(function(element, index) {
+        _self.vCheck[index] = false
+      })
+      this.checkArray = []
     },
     getList (val) {
       this.totalNum = 0
@@ -78,11 +135,26 @@ export default {
         this.getSignVisitor()
       }
     },
+    initVlist () {
+      if (this.onShowType === 0) {
+        this.vlist = this.totalList
+      } else if (this.onShowType === 1) {
+        this.vlist = this.onList
+      } else if (this.onShowType === 2) {
+        this.vlist = this.leavelList
+      } else {
+        this.vlist = this.totalList
+      }
+      let _self = this
+      let onArray = []
+      this.vlist.forEach(function(element, index) {
+        _self.vCheck[index] = false
+      })
+    },
     getSignVisitor () {
       this.$store.dispatch('SearchVisitByCondition',this.form).then(res => {
         let {status,result} = res
         if (status === 0) {
-          this.vlist = result
           this.totalList = result
           this.totalNum = result.length
           let _self = this
@@ -99,6 +171,7 @@ export default {
           })
           this.leavelList = leavelArray
           this.onList = onArray
+          this.initVlist()
         }
       })
     },
@@ -106,7 +179,6 @@ export default {
       this.$store.dispatch('SearchAppointmentByCondition',this.oform).then(res => {
         let {status,result} = res
         if (status === 0) {
-          this.vlist = result
           this.totalList = result
           this.totalNum = result.length
           let _self = this
@@ -123,6 +195,7 @@ export default {
           })
           this.leavelList = leavelArray
           this.onList = onArray
+          this.initVlist()
         }
       })
     },
@@ -130,7 +203,6 @@ export default {
       this.$store.dispatch('searchInviteByCondition',this.oform).then(res => {
         let {status,result} = res
         if (status === 0) {
-          this.vlist = result
           this.totalList = result
           this.totalNum = result.length
           let _self = this
@@ -147,6 +219,7 @@ export default {
           })
           this.leavelList = leavelArray
           this.onList = onArray
+          this.initVlist()
         }
       })
     },
@@ -154,7 +227,6 @@ export default {
       this.$store.dispatch('SearchRVisitorByCondition',this.oform).then(res => {
         let {status,result} = res
         if (status === 0) {
-          this.vlist = result
           this.totalList = result
           this.totalNum = result.length
           let _self = this
@@ -171,6 +243,7 @@ export default {
           })
           this.leavelList = leavelArray
           this.onList = onArray
+          this.initVlist()
         }
       })
     }

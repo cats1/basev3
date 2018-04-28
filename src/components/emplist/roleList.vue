@@ -3,7 +3,7 @@
 	  <div class="boxshadow paddinglr30 paddingtb20 block">
       <add-role-group :parent="parent" @addrolekit="getAddRoleGroup"></add-role-group>
       <add-role :parent="parent" @addrolekit="getAddRole"></add-role>
-      <edit-role-group :parent="parent" @editrolekit="getAddRole"></edit-role-group>
+      <edit-role-group :parent="parent" @editrolekit="getAddRole" @delerolekit="getdeleRole"></edit-role-group>
       <edit-role :group-list="list" :parent="parent" :parent-node="parentNode" @editrolekit="getAddRole"></edit-role>
       <add-member :parent="parent" :vemp="vempObj" @addempkit="getMember"></add-member>
   		<delete-role-emp :parent="parent" :vemp="vempObj" @delekit="getDelete"></delete-role-emp>
@@ -11,7 +11,10 @@
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
-	  			<el-radio-group v-model="vtype" @change="changeVtype">
+          <el-input v-model="sform.name" @change="searchEmp">
+            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+          </el-input>
+	  			<el-radio-group class="margintop20" v-model="vtype" @change="changeVtype">
 			      <el-radio-button label="group"><router-link to="/">{{$t('emplist.pro')}}</router-link></el-radio-button>
 			      <el-radio-button label="role"><router-link to="/role">{{$t('emplist.com')}}</router-link></el-radio-button>
 			    </el-radio-group>
@@ -27,27 +30,29 @@
 				      type="selection"
 				      width="55">
 				    </el-table-column>
+            <el-table-column
+                :label="$t('form.name.text')"
+                width="120">
+                <template slot-scope="scope" >
+                  {{ scope.row.empName }}
+                </template>
+            </el-table-column>
 				    <el-table-column
-				      label="姓名"
-				      width="120">
-				      <template slot-scope="scope">{{ scope.row.empName }}</template>
-				    </el-table-column>
+                :label="$t('form.position.text')">
+                <template slot-scope="scope">{{ scope.row.empPosition }}</template>
+            </el-table-column>
 				    <el-table-column
-				      label="职位">
-				      <template slot-scope="scope">{{ scope.row.empPosition }}</template>
-				    </el-table-column>
-				    <el-table-column
-				      label="工号">
-				      <template slot-scope="scope">{{ scope.row.empNo }}</template>
-				    </el-table-column>
-				    <el-table-column
-				      label="手机号">
-				      <template slot-scope="scope">{{ scope.row.empPhone }}</template>
-				    </el-table-column>
-				    <el-table-column
-				      label="邮箱">
-				      <template slot-scope="scope">{{ scope.row.empEmail }}</template>
-				    </el-table-column>
+                :label="$t('form.position.text1')">
+                <template slot-scope="scope">{{ scope.row.empNo }}</template>
+            </el-table-column>
+            <el-table-column
+                :label="$t('form.phone.text')">
+                <template slot-scope="scope">{{ scope.row.empPhone }}</template>
+            </el-table-column>
+            <el-table-column
+                :label="$t('form.email.text')">
+                <template slot-scope="scope">{{ scope.row.empEmail }}</template>
+            </el-table-column>
 	  		  </el-table>
 		  		<div class="page-footer">
   		  		<el-pagination
@@ -76,6 +81,10 @@ export default {
       list: [],
       total:0,
       dataList:[],
+      sform: {
+        name: '',
+        userid: getCache('userid')
+      },
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -102,17 +111,37 @@ export default {
     this.getProjectList()
   },
   methods: {
+    searchEmp (val) {
+      console.log(val)
+      if (val !== '') {
+        this.$store.dispatch('getEmpByName',this.sform).then(res => {
+          let {status,result} = res
+          if (status === 0) {
+            this.dataList = result
+            this.total = 0
+          }
+        })
+      }
+    },
     getAddRole () {
       this.getProjectList()
+      this.getResidentVisitor()
+    },
+    getdeleRole () {
+      this.getProjectList()
+      this.getResidentVisitor()
     },
     getAddRoleGroup () {
       this.getProjectList()
+      this.getResidentVisitor()
     },
     getMember () {
       this.getProjectList()
+      this.getResidentVisitor()
     },
     getDelete () {
       this.getProjectList()
+      this.getResidentVisitor()
     },
   	changeVtype (val) {
   	  if(val === 'group') {

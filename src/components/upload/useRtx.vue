@@ -104,7 +104,7 @@ export default {
     		}
     		if (getCache('ddnotify') === 1) {
               this.$message({
-                  message: '钉钉开关已打开，RTX开关无法开启，如若开启RTX，请先关闭钉钉',
+                  message: this.$t('exporttype.tip3'),
                   type: 'error'
               })
               this.checked = !this.checked
@@ -118,7 +118,7 @@ export default {
   		    })
   		} else {
   		    this.$message({
-                  message: 'RTX设置未打开，无法开启自动同步',
+                  message: this.$t('exporttype.tip4'),
                   type: 'error'
               })
               this.checked = !this.checked

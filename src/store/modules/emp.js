@@ -3,7 +3,7 @@ import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	getResidentVisitorByCompany,delResidentVisitor,updateAllResidentFace,
 	getRARG,getEmpRoleList,delRoleEmp,getDeptList,getEmpDeptList,getEmpListPages,
 	batchDelEmployee,updateAllFace,SearchRecordsByPhone,addAppointment,getEmptempByPost,
-	GetUserInfo,getSubAccountById,getEmptemplateByType,getUsertemplate,getSubAccountTemp } from '@/api/emp'
+	GetUserInfo,getSubAccountById,getEmptemplateByType,getUsertemplate,getSubAccountTemp,getEmpByName } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 const user = {
@@ -59,6 +59,15 @@ const user = {
 		checkEmpInfo({ commit }, userInfo) {
 			return new Promise((resolve, reject) => {
 		        checkEmpInfo(userInfo).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getEmpByName({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getEmpByName(info).then(response => {
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)
@@ -266,7 +275,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 					Message({
-                  		message: '批量删除成功',
+                  		message: '删除成功',
                   		type: 'success'
                 	})
 		          }

@@ -11,8 +11,10 @@
 			  </el-form-item>
       </el-form>
 		  <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="saveProject">{{$t('btn.saveBtn')}}</el-button>
+        <el-button type="redline" @click="deleteProject">{{$t('btn.deleteBtn')}}</el-button>
 		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
-		    <el-button type="primary" @click="saveProject">{{$t('btn.confirmBtn')}}</el-button>
+		    
 		  </span>
 	  </el-dialog>
 	</div>
@@ -34,6 +36,10 @@ export default {
   	  	rgName: [
   	  	  { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }]
   	  },
+      dform: {
+        rid: '',
+        userid: getCache('userid')
+      },
       parentObj: this.parent
   	}
   },
@@ -43,8 +49,10 @@ export default {
       this.parentObj = val
       this.form.rgName = val.name
       this.form.rid = val.pid
+      this.dform.rid = val.pid
       if (val.dp === 'root') {
         this.form.rid = ''
+        this.dform.rid = ''
       }
     }
   },
@@ -67,6 +75,17 @@ export default {
             return false;
           }
         })
+    },
+    deleteProject () {
+      this.$store.dispatch('delRARG',this.dform).then(res => {
+          let {status} = res
+          if (status === 0) {
+              this.dialogVisible = false
+              this.dateRange = []
+                this.$refs['form'].resetFields()
+              this.$emit('delerolekit')
+          }
+      })
     }
   }
 }

@@ -25,6 +25,7 @@ export default {
   },
   mounted () {
   	this.typeArray = this.ldata
+    console.log(process)
   }
 }
 </script>

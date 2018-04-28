@@ -39,3 +39,11 @@ export function GetVisitType(data) {
     data
   })
 }
+//batchSignOut
+export function batchSignOut(data) {
+  return request({
+    url: '/batchSignOut',
+    method: 'post',
+    data
+  })
+}

@@ -2,7 +2,7 @@
 	<div class="boxshadow paddinglr30 paddingtb20">
 		<el-form :model="form">
 			<el-form-item>
-				<el-select v-model="svalue" placeholder="请选择" @change="settype">
+				<el-select v-model="svalue" @change="settype">
 				    <el-option
 				      v-for="(item,index) in $t('checkVtype')"
 				      :key="index"
@@ -13,7 +13,7 @@
 			</el-form-item>
 			<el-form-item>
 				<template v-if="svalue===3">
-					<el-select v-model="vvalue" placeholder="请选择">
+					<el-select v-model="vvalue" >
 					    <el-option
 					      v-for="(item,index) in typeList"
 					      :key="index"
@@ -23,7 +23,7 @@
 					</el-select>
 				</template>
 				<template v-else-if="svalue===6">
-					<el-select v-model="gvalue" placeholder="请选择">
+					<el-select v-model="gvalue" >
 					    <el-option
 					      v-for="(item,index) in typeList"
 					      :key="item.gname"
@@ -41,12 +41,12 @@
 			      v-model="dvalue"
 			      type="daterange"
 			      range-separator="-"
-			      start-placeholder="开始日期"
-			      end-placeholder="结束日期" @change="setDate">
+			      :start-placeholder="$t('vdate[0]')"
+			      :end-placeholder="$t('vdate[1]')" @change="setDate">
 			    </el-date-picker>
 			</el-form-item>
 			<el-form-item>
-				<el-button type="primary" @click="getVisitor">搜索</el-button>
+				<el-button type="primary" @click="getVisitor">{{$t('btn.searchBtn')}}</el-button>
 			</el-form-item>
 		</el-form>
 		<data-pie :piedata="typeArray" id="leftpie"></data-pie>

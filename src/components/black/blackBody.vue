@@ -10,9 +10,9 @@
 		      type="selection"
 		      width="55">
 		    </el-table-column>
-	  		<el-table-column prop="name" label="姓名"></el-table-column>
-	  		<el-table-column prop="credentialNo" label="身份证号"></el-table-column>
-	  		<el-table-column prop="phone" label="手机号"></el-table-column>
+	  		<el-table-column prop="name" :label="$t('form.name.text')"></el-table-column>
+	  		<el-table-column prop="credentialNo" :label="$t('form.idnum.text')"></el-table-column>
+	  		<el-table-column prop="phone" :label="$t('form.phone.text')"></el-table-column>
 	  	</el-table>
 	  	<div class="page-footer">
 	  		<el-pagination
@@ -45,8 +45,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addBlack">确 定</el-button>
+        <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
+        <el-button type="primary" @click="addBlack">{{$t('btn.saveBtn')}}</el-button>
       </span>
     </el-dialog>
 	</div>
@@ -88,8 +88,7 @@ export default {
   	  },
       rules: {
         name: [
-          { required: true, message: this.$t('formCheck.validName.tip3'), trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: this.$t('formCheck.validName.tip3'), trigger: 'blur' }
         ],
         phone: [{ required: false,trigger: 'blur', validator: isvalidPhone }],
         credentialNo: [{ required: false,trigger: 'blur', validator: isvalidIdNum }]

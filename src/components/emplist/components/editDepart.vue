@@ -2,7 +2,7 @@
 	<div class="btnsection">
     <el-button @click="doEdit"><i class="fa fa-edit"></i>{{$t('btn.editDepart')}}</el-button>
 	  <el-dialog
-		  :title="$t('btn.addDepartBtn')"
+		  :title="$t('btn.editDepart')"
 		  :visible.sync="dialogVisible"
 		  width="30%" >
 		  <el-form :model="departform" :rules="rules" ref="departform" label-width="100px" class="demo-ruleForm">
@@ -26,18 +26,18 @@
       </el-form>
       <el-dialog
       width="50%"
-      title="选择部门"
+      :title="$t('depart.selectDepart')"
       :visible.sync="innerVisible"
       append-to-body>
         <depart-menu :left-data="dlist" :right-data="cobj" :check-value="false" :check-num="1" @menukit="setdepart"></depart-menu>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="innerVisible = false">{{$t('btn.cancelBtn')}}</el-button>
           <el-button type="primary" @click="saveSelect">{{$t('btn.confirmBtn')}}</el-button>
+          <el-button @click="innerVisible = false">{{$t('btn.cancelBtn')}}</el-button>
         </span>
       </el-dialog>
       <el-dialog
       width="50%"
-      title="选择人员"
+      :title="$t('depart.smember')"
       :visible.sync="innerVisible1"
       append-to-body>
         <emp-menu :left-data="empList" :right-data="managerObj" @menukit="setemp"></emp-menu>
@@ -47,8 +47,9 @@
         </span>
       </el-dialog>
 		  <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="saveProject">{{$t('btn.saveBtn')}}</el-button>
+        <el-button type="redline" @click="deleteProject">{{$t('btn.deleteBtn')}}</el-button>
 		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
-		    <el-button type="primary" @click="saveProject">{{$t('btn.confirmBtn')}}</el-button>
 		  </span>
 	  </el-dialog>
 	</div>
@@ -164,7 +165,15 @@ export default {
       this.innerVisible = true
     },
     setManerShow () {
-      this.innerVisible1 = true
+      if (this.empList.length > 0) {
+        this.innerVisible1 = true
+      } else {
+        this.$message({
+          type: 'warning',
+          message: this.$t('depart.noemp')
+        })
+      }
+      
     },
     setMlist () {
       let marray = []
@@ -182,7 +191,7 @@ export default {
     doEdit () {
       if (this.parent.dp === 'root') {
         this.$message({
-          message: '主公司无法编辑',
+          message: this.$t('depart.tip'),
           type: 'error'
         })
       } else {
@@ -211,6 +220,35 @@ export default {
             return false;
           }
         })
+    },
+    deleteProject () {
+      this.$confirm(this.$t('deleteTip.desc'), this.$t('deleteTip.title'), {
+          confirmButtonText: this.$t('btn.confirmBtn'),
+          cancelButtonText: this.$t('btn.cancelBtn'),
+          type: 'warning'
+      }).then(() => {
+        let nform = {
+          deptid: this.departform.deptid,
+          userid: getCache('userid')
+        }
+        this.$store.dispatch('delDepartment',nform).then(res => {
+            let {status} = res
+            if (status === 0) {
+              this.$message({
+                type: 'success',
+                message: this.$t('deleteTip.success')
+              })
+              this.dialogVisible = false
+              this.$refs['departform'].resetFields()
+              this.$emit('addkit')
+            }
+        })
+      }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: this.$t('deleteTip.cancelD')
+          })       
+      })
     }
   }
 }

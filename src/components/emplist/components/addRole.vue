@@ -57,12 +57,12 @@ export default {
     addRole () {
       if(!this.parent) {
         this.$message({
-          message: '请先选择角色组',
+          message: this.$t('role.tip'),
           type: 'error'
         })
       } else if(this.parent.type === 1) {
         this.$message({
-          message: '请先选择角色组',
+          message: this.$t('role.tip'),
           type: 'error'
         })
       } else {

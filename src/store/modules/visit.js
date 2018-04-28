@@ -1,5 +1,5 @@
 import { addProject,Compressface,addResidentVisitor,updateProject,
-	updateAllResidentFace,getRvQrcode,updateResidentVisitor } from '@/api/visit'
+	updateAllResidentFace,getRvQrcode,updateResidentVisitor,getResidentVisitorByName } from '@/api/visit'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 const user = {
@@ -105,6 +105,15 @@ const user = {
 		getRvQrcode({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        getRvQrcode(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getResidentVisitorByName({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getResidentVisitorByName(info).then(response => {
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)

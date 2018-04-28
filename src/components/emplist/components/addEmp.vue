@@ -6,59 +6,59 @@
 		  :visible.sync="dialogVisible"
 		  width="50%" >
 		  <el-form :model="empform" :rules="rules" ref="empform" label-width="100px" class="demo-ruleForm">
-        <el-form-item >
+        <el-form-item prop="avatar">
           <upload-user-photo :photourl="empform.avatar" @sendkit="getUserPhoto"></upload-user-photo>
         </el-form-item>
-        <el-form-item label="姓名" prop="employee_name">
+        <el-form-item :label="$t('form.name.text')" prop="employee_name">
           <el-input v-model="empform.employee_name"></el-input>
         </el-form-item>
-        <el-form-item label="昵称" >
+        <el-form-item :label="$t('form.name.text3')" >
           <el-input v-model="empform.empNickname"></el-input>
         </el-form-item>
-        <el-form-item label="部门" >
+        <el-form-item :label="$t('form.depart.text')" >
           <div class="last_inner" @click="setEmpShow">
             <template v-for="item in departArray">
               <span>{{item.name}}</span>
             </template>
           </div>
         </el-form-item>
-        <el-form-item label="职位" >
+        <el-form-item :label="$t('form.position.text')" >
           <el-input v-model="empform.empPosition"></el-input>
         </el-form-item>
-        <el-form-item label="手机号" prop="phone">
+        <el-form-item :label="$t('form.phone.text')" prop="phone">
           <el-input v-model="empform.phone"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" >
+        <el-form-item :label="$t('form.email.text')" >
           <el-input v-model="empform.email"></el-input>
         </el-form-item>
-        <el-form-item label="工号">
+        <el-form-item :label="$t('form.position.text1')">
           <el-input v-model="empform.empNo"></el-input>
         </el-form-item>
-        <el-form-item label="电话" >
+        <el-form-item :label="$t('form.phone.text3')" >
           <el-input v-model="empform.telephone"></el-input>
         </el-form-item>
-        <el-form-item label="办公地点" >
+        <el-form-item :label="$t('form.company.text1')" >
           <el-input v-model="empform.workbay"></el-input>
         </el-form-item>
-        <el-form-item label="关联闸机" prop="egids">
+        <el-form-item :label="$t('form.gate.text')" prop="egids">
           <gate-group :t-show="false" :check-array="stringToArray(empform.egids)" @getclist="getGate"></gate-group>
         </el-form-item>
-        <el-form-item label="服务期限" prop="startDate">
+        <el-form-item :label="$t('form.time.text4')" prop="startDate">
           <el-date-picker
             v-model="dateRange"
             type="daterange"
             range-separator="-"
-            start-placeholder="开始时间"
-            end-placeholder="结束时间" @change="setrange">
+            :start-placeholder="$t('vtime[0]')"
+            :end-placeholder="$t('vtime[1]')" @change="setrange">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
+        <el-form-item :label="$t('form.remark.text')" prop="remark">
           <el-input v-model="empform.remark"></el-input>
         </el-form-item>
       </el-form>
       <el-dialog
       width="50%"
-      title="选择部门"
+      :title="$t('depart.selectDepart')"
       :visible.sync="innerVisible"
       append-to-body>
         <depart-menu :left-data="dlist" :right-data="cobj" @menukit="setdepart"></depart-menu>
@@ -109,16 +109,19 @@ export default {
         endDate: ''
   	  },
   	  rules: {
+        avatar: [
+          {required: true, message: this.$t('form.photo.tip'), trigger: 'blur'}],
   	  	employee_name: [
-          { required: true, message: '项目名称不能为空', trigger: 'blur' }],
+          { required: true, message: this.$t('formCheck.validName.tip5'), trigger: 'blur' }],
         deptIds: [
-          { required: true, message: '部门不能为空', trigger: 'blur' }],
+          { required: true, message: this.$t('formCheck.validCompany.tip2'), trigger: 'change' },
+          { min: 1, message: this.$t('formCheck.validCompany.tip2'), trigger: 'blur' }],
         egids: [
-          { required: true, message: '请选择闸机组', trigger: 'blur' }],
+          { required: true, message: this.$t('form.gate.tip'), trigger: 'blur' }],
         phone: [
-          { required: true, message: '负责人手机不能为空', trigger: 'blur' }],
+          { required: true, message: this.$t('formCheck.validphone.tip2'), trigger: 'blur' }],
         startDate: [
-          { required: true, message: '日期不能为空', trigger: 'blur' }]
+          { required: true, message: this.$t('formCheck.time.tip2'), trigger: 'blur' }]
   	  },
       dateRange: [],
       parentObj: this.parent,

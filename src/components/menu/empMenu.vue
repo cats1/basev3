@@ -1,7 +1,7 @@
 <template>
 	<div class="lrmenuwrap">
 		<div class="lrmenu-left">
-		  <h3>选择人员</h3>
+		  <h3>{{$t('depart.smember')}}</h3>
       <div class="leadheadwrap">
         <template v-for="(citem,index) in headItem">
           <template v-if="index === 0">
@@ -25,8 +25,8 @@
             </p>
           </template>
           <template v-if="checkLength(item.children) === true">
-            <span class="lrmenu-check-next itemgray" v-if="checkArray[index] === true" >下级</span>
-            <span class="lrmenu-check-next " v-else @click="selectNext(item)">下级</span>
+            <span class="lrmenu-check-next itemgray" v-if="checkArray[index] === true" >{{$t('depart.next')}}</span>
+            <span class="lrmenu-check-next " v-else @click="selectNext(item)">{{$t('depart.next')}}</span>
           </template>
           <template v-else>
             <!-- <span>8888</span> -->
@@ -35,7 +35,7 @@
 		  </template>
 		</div>
 		<div class="lrmenu-right">
-      <h3>已选人员</h3>
+      <h3>{{$t('depart.hasMember')}}</h3>
 		  <template v-for="(item,index) in rightItem">
 		  	<p class="lrmenu-item"><img :src="logo" alt="">{{item.empName}}
 		  		<span class="lrmenu-item-close" @click="removeItem(item,index)"><i class="fa fa-close"></i></span></p>
@@ -98,7 +98,7 @@ export default {
   methods: {
     setHead (){
       let hobj = {
-        name: '所有员工',
+        name: this.$t('depart.allEmp'),
         item: this.checkIsSelect(this.leftData)
       }
       this.headItem.push(hobj)
@@ -120,7 +120,7 @@ export default {
               this.rightItem = obj
             } else {
               this.$message({
-                message: '选择项目已达上限' + this.checkNum,
+                message: this.$t('depart.sup') + this.checkNum,
                 type: 'warning'
               })
             }
@@ -142,7 +142,7 @@ export default {
             this.rightItem = obj
           } else {
             this.$message({
-              message: '选择项目已达上限' + this.checkNum,
+              message: this.$t('depart.sup') + this.checkNum,
               type: 'warning'
             })
           }
