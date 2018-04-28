@@ -53,8 +53,7 @@
           <el-button type="primary" @click="dialogVisible = false">{{$t('btn.saveBtn')}}</el-button>
           <el-button @click="saveSmtp">{{$t('btn.cancelBtn')}}</el-button>
         </span>
-      </template>
-      
+      </template>      
     </el-dialog>
 	</div>
 </template>
@@ -67,7 +66,6 @@ export default {
   components: { oneNotice,noticeShow },
   data () {
   	return {
-  	  //switchOn: numberToBoolean(getCache('emailType')),
       imgSrc: require('@/assets/img/mailv1.png'),
       radio2: 0,
       dtitle: this.radio2 === 1 ? 'SMTP':'Exchange',
@@ -130,7 +128,6 @@ export default {
             message: this.$t('notice.email.tips'),
             type: 'success'
           })
-          setCache('msgNotify',this.switchOn)
         }
       })
     },
