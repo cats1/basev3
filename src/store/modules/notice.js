@@ -2,7 +2,7 @@ import { UpdateWxConf, updateSMSConf,ivrNotifyConf,updateDDNotify,
   updateRtxConf,updateScanerSwitch, updatePermissionSwitch,
   updateQrcodeConf, updateExtendTime, getUsertemplate,
   updateComeAgain,updateSignOutSwitch,updateFaceScaner,
-  updateOffDutyTime,getGate,addGate,updateblackListSwitch } from '@/api/notice'
+  updateOffDutyTime,getGate,addGate,updateblackListSwitch,ConfigureEmail } from '@/api/notice'
 import {updateSecureProtocol,UpdateDefaultPhoto,UploadPic} from '@/api/pad'
 import { Message } from 'element-ui'
 import { getCache,setCache } from '@/utils/auth'
@@ -336,6 +336,30 @@ const app = {
                   message: '黑名单设置成功',
                   type: 'success'
                 })
+            }
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+    ConfigureEmail({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          ConfigureEmail(info).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+              setCache('emailType',info.type)
+              setCache('emailAccount',info.account)
+              setCache('emailPwd',info.pwd)
+              setCache('smtp',info.smtp)
+              setCache('smtpPort',info.smtp_port)
+              setCache('ssl',info.ssl)
+              setCache('exchange',info.exchange)
+              setCache('domain',info.domain)
+              Message({
+                message: '邮件设置成功',
+                type: 'success'
+              })
             }
             resolve(response)
           }).catch(error => {

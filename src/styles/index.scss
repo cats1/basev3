@@ -291,7 +291,14 @@ label {
   fill: currentColor;
   overflow: hidden;
 }
-
+.emailradiowrap{
+  .el-radio{
+    margin: 10px 0;
+  }
+  .el-radio+.el-radio{
+    margin-left: 0;
+  }
+}
 .comitemwrap {
   padding: 10px 0;
   border-bottom: 1px solid #ccc;

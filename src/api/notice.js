@@ -151,3 +151,11 @@ export function addGate(data) {
     data
   })
 }
+//ConfigureEmail
+export function ConfigureEmail(data) {
+  return request({
+    url: '/ConfigureEmail',
+    method: 'post',
+    data
+  })
+}
