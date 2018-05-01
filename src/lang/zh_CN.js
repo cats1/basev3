@@ -117,7 +117,9 @@ export default {
       text: '姓名',
       text1: '拜访者',
       text2: '被访者',
-      text3: '昵称'
+      text3: '昵称',
+      text4: '操作者',
+      text5: '操作者类型'
     },
     depart: {
       text: '部门'
@@ -126,7 +128,8 @@ export default {
       text: '手机号',
       text1: '联系方式',
       text2: '被访者联系方式',
-      text3: '电话'
+      text3: '电话',
+      text4: '电话号码'
     },
     idnum: {
       text: '身份证号',
@@ -141,7 +144,9 @@ export default {
     },
     company: {
       text: '公司名称',
-      text1: '办公地点'
+      text2: '公司',
+      text1: '办公地点',
+      text3: '所属公司'
     },
     companypro: {
       text: '公司简称',
@@ -172,7 +177,8 @@ export default {
       text1: '签出时间',
       text2: '预约时间',
       text3: '邀请时间',
-      text4: '服务期限'
+      text4: '服务期限',
+      text5: '操作时间'
     },
     gate: {
       text: '关联闸机',
@@ -231,7 +237,10 @@ export default {
     },
     time: {
       tip1: '请选择时间',
-      tip2: '日期不能为空'
+      tip2: '日期不能为空',
+      minute: '分钟',
+      day: '天',
+      times: '次'
     },
     meeting: {
       tip1: '请填写主题'
@@ -240,42 +249,42 @@ export default {
       tip1: '请填写备注'
     }
   },
-  moban: {
-    interview: {
-      title: '邀请函内容',
-      desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
-      defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">这里是{company}，感谢您对我公司的信任和选择。通过对您简历的认真审核，我们认为您已具备进入下一轮筛选的资格。为了进一步了解，现邀请您参加面试，具体安排如下：</p><br/>'
-    },
-    business: {
-      title: '邀请函内容',
-      desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
-      defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">我是{company}的{empid}，很高兴代表我司与您联系。为更好的沟通交流工作事宜，诚挚希望与您进行会面，期待您的来访！</p><br/>'
-    }
+  people: {
+    emp: '员工',
+    visit: '访客',
+    inviteVisit: '邀请访客',
+    orderVisit: '签到访客',
+    and: '和'
+  },
+  status: {
+    on: '启用',
+    off: '停用',
+    text: '状态',
+    startText: '开启状态'
   },
   key: {
-    siderBar: {
-      title: '设备管理',
-      children: [{
-        name: '设备信息',
-        children: [{
-          name: '设备组员',
-          index: 'group'
-        },{
-          name: '设备列表',
-          index: 'list'
-        }]
-      },{
-        name: '开启日志',
-        children: [{
-          name: '设备开启记录',
-          index: 'record'
-        }]
-      }]
-    },
-    group: {
-      addtitle: '添加设备组',
-      edittitle: '修改设备组'
-    }
+    htitle: '设备管理',
+    title: '设备信息',
+    ctitle: '设备组员',
+    ctitle1: '设备列表',
+    title1: '开启日志',
+    ctitle2: '设备开启记录',
+    addGroup: '添加设备组',
+    updateGroup: '修改设备组',
+    groupName: '组名称',
+    groupId: '组编号',
+    groupRule: '使用规则',
+    groupAuth: '访问权限',
+    groupStatus: '授权后默认开启',
+    addEquip: '添加设备',
+    equipeName: '设备名称',
+    equipMark: '设备标识',
+    extendMark: '扩展标识',
+    doorNumber: '门号',
+    equipIp: '设备IP',
+    equipPort: '设备端口号',
+    headNumber: '读头编号',
+    equipDist: '设备组分配'
   },
   black: {
     wins: {
@@ -301,7 +310,9 @@ export default {
       ptitle: '请选择邮件配置方式',
       defaults: '默认配置',
       ddesc: '默认配置将由系统exchange账号发送通知',
-      tips: '修改成功'
+      tips: '修改成功',
+      server1: 'Exchange服务器',
+      server2: 'SMTP服务器'
     },
     sms: {
       title: '短信',
@@ -327,15 +338,21 @@ export default {
     },
     invite: {
       title: '邀请函模板',
-      desc: '员工在发送邀请短信时，点击打开邀请函查看具体面谈时间、地点、企业文化等信息，邀请函编辑后可成为所有员工'
+      desc: '员工在发送邀请短信时，点击打开邀请函查看具体面谈时间、地点、企业文化等信息，邀请函编辑后可成为所有员工',
+      empTitle: '限制员工修改',
+      empDesc: '邀请函模板限制员工修改开关，开关打开后，员工登录后将不能修改模板'
     },
     stagetime: {
       title: '前台验证有效期',
-      desc: '设置前台验证访客预约信息的时间范围，如果时间未到请让访客等候，过时请让访客重新预约'
+      desc: '设置前台验证访客预约信息的时间范围，如果时间未到请让访客等候，过时请让访客重新预约',
+      preExtendTime: '预约时间前:',
+      latExtendTime: '预约时间后:'
     },
     codetime: {
       title: '二维码有效期',
-      desc: '设置邀请函中二维码开门有效时间'
+      desc: '设置邀请函中二维码开门有效时间',
+      qrMaxCount: '二维码最大使用次数:',
+      qrMaxDuration: '二维码最长使用时间'
     },
     codesign: {
       title: '二维码签到',
@@ -432,8 +449,11 @@ export default {
   },
   btn: {
     editBtn: '编辑',
+    createNow: '立即创建',
     shouBtn: '收起',
+    backListBtn: '返回列表',
     saveBtn: '保存',
+    addBtn: '添加',
     saveAndBtn: '保存并继续添加',
     exportBtn: '导出配置',
     export: '导出',
@@ -572,7 +592,8 @@ export default {
   },
   validEmail: {
     tip1: '邮箱格式不正确',
-    success: '邮件发送成功！'
+    success: '邮件发送成功！',
+    tip2: '请输入邮箱'
   },
   imgcode: {
     tip1: '验证码不能为空'
@@ -653,8 +674,10 @@ export default {
     24: '手机号不唯一',
     27: '无效的token',
     28: '无token',
+    44: '拜访类型错误',
     46: '公司已存在',
     51: '钉钉设置失败',
+    55: '发起人不在员工列表中，请重新发起会议',
     119: '验证码无效'
   },
   navlist: [{
@@ -730,6 +753,30 @@ export default {
   },
   hlogo: {
     text: '来访通'
+  },
+  moban: {
+    text: '发起会议',
+    text1: '会议邀请记录',
+    tip: '邀请发送成功',
+    tip1: '您在会议邀请记录列表查看邀请列表',
+    tip2: '知道了',
+    tip3: '会议内容',
+    tip4: '会议地址',
+    tip5: '至少添加一名访客',
+    tip6: '至少添加一条来访者信息',
+    address: '公司地址',
+    traffic: '停车信息及周边交通',
+    compro: '公司简介',
+    interview: {
+      title: '邀请函内容',
+      desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
+      defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">这里是{company}，感谢您对我公司的信任和选择。通过对您简历的认真审核，我们认为您已具备进入下一轮筛选的资格。为了进一步了解，现邀请您参加面试，具体安排如下：</p><br/>'
+    },
+    business: {
+      title: '邀请函内容',
+      desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
+      defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">我是{company}的{empid}，很高兴代表我司与您联系。为更好的沟通交流工作事宜，诚挚希望与您进行会面，期待您的来访！</p><br/>'
+    }
   },
   account: {
     siderBar: {

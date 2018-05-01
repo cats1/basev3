@@ -9,7 +9,7 @@
 		    style="width: 100%" class="margintop20">
 		    <el-table-column
 		      type="index"
-		      width="30" :label="$t('tablehead[0]')" align="center">
+		      width="50" :label="$t('tablehead[0]')" align="center">
 		    </el-table-column>
 		    <el-table-column
 		      property="name" :label="$t('tablehead[1]')"
@@ -30,7 +30,7 @@
 		    </el-table-column>
 		    <el-table-column :label="$t('tablehead[5]')" align="center">
 		      <template slot-scope="scope">
-		      	<qr-code :mid="scope.row.mid"></qr-code>
+		      	<qr-code :mid="scope.row.mid" :width="36" :height="36"></qr-code>
 		      </template>
 		    </el-table-column>
 		    <el-table-column
@@ -95,7 +95,7 @@ export default {
   	  	'name': '',
 		'phone': '',
 		'email': '',
-		'userid': '',
+		'userid': getCache('userid'),
 		'subject': '', //主题
 		'mdate': '',
 	    'sponsor': '', //发起人
@@ -136,7 +136,7 @@ export default {
   	  return formatDate(date, 'yyyy-MM-dd hh:mm')
   	}
   },
-  created () {
+  mounted () {
   	this.getEmpList()
     this.initList()
   },
@@ -184,10 +184,8 @@ export default {
   	  		this.$store.dispatch('addMeeting',this.form).then(res => {
               let { status } = res
               if (status === 0) {
-              	this.$message({
-		          message: '会议添加成功',
-		          type: 'success'
-		        })
+              	this.initList()
+              	this.$refs['meetform'].resetFields()
 		        this.dialogVisible = false
               }
             })

@@ -8,9 +8,7 @@
 				<v-history></v-history>
 			</div>
 			<div class="menuleft">			
-				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
-		  text-color="#fff"
-		  active-text-color="#2274e6">
+				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#2274e6">
 				  <template v-for="(item,index) in $t('navlist')">
 				  	<template v-if="item.children.length === 0">
 				  		<el-menu-item :index="item.dirname"><a :href="item.link" target="_self">{{item.name}}</a></el-menu-item>

@@ -12,7 +12,7 @@ export default {
   data () {
   	return {
   	  switchOn: numberToBoolean(getCache('smsNotify')),
-      imgSrc: require('@/assets/img/webchatv1.png')
+      imgSrc: require('@/assets/img/messv1.png')
   	}
   },
   methods: {
@@ -21,28 +21,12 @@ export default {
         userid: getCache('userid'),
         smsNotify: this.switchOn
       }
-      this.$store.dispatch('updateSMSConf', newForm).then(res => {
-        let { status, reason } = res
-        if (status === 0) {
-          this.$message({
-            message: '短信开关修改成功',
-            type: 'success'
-          })
-          setCache('smsNotify',this.switchOn)
-        } else {
-          this.$message({
-            message: status + ':' + reason,
-            type: 'error'
-          })
-        }
-      })
+      this.$store.dispatch('updateSMSConf', newForm)
     },
     getSwitchValue (value) {
       this.switchOn = booleanToNumber(value)
       this.updateWeixin()
     }
-  },
-  created () {},
-  mounted () {}
+  }
 }
 </script>

@@ -1,12 +1,12 @@
 <template>
 	<div class="showblock ">
 		<el-col :span="12">
-			<code-time-item text="二维码最大使用次数:" :c-value="qrMaxCount" danwei="次" @svalue="getMaxCount"></code-time-item>
+			<code-time-item :text="$t('notice.codetime.qrMaxCount')" :c-value="qrMaxCount" :danwei="$t('formCheck.time.times')" @svalue="getMaxCount"></code-time-item>
 		</el-col>
 		<el-col :span="12">
-			<code-time-item text="二维码最长使用时间:" :c-value="qrMaxDuration" danwei="天" @svalue="getMaxDuration"></code-time-item>
+			<code-time-item :text="$t('notice.codetime.qrMaxDuration')" :c-value="qrMaxDuration" :danwei="$t('formCheck.time.day')" @svalue="getMaxDuration"></code-time-item>
 		</el-col>
-		<el-button type="primary" @click="saveTime">保存</el-button>
+		<el-button type="primary" @click="saveTime">{{$t('btn.saveBtn')}}</el-button>
 	</div>
 </template>
 <script>

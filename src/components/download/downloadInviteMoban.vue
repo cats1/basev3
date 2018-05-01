@@ -1,10 +1,10 @@
 <template>
 	<div class="downcomwrap">
     <template v-if="btype === 0">
-      <el-button type="primary" @click="getDown">{{$t('btn.downMobanBtn')}}</el-button>
+      <el-button type="default" @click="getDown">{{$t('btn.downMobanBtn')}}</el-button>
     </template>
     <template v-else-if="btype === 1">
-      <el-button type="default" @click="getDown">{{$t('btn.downMobanBtn')}}</el-button>
+      <el-button type="success" @click="getDown">{{$t('btn.downMobanBtn')}}</el-button>
     </template>
 		
 	</div>

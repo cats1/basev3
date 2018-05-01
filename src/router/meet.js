@@ -7,6 +7,7 @@ export default new Router({
   //mode: 'history', // require service support
   routes: [{
   	path: '/',
+  	name: 'meeting',
   	component: meetingList
   },{
   	path: '/mdetail/:mid',

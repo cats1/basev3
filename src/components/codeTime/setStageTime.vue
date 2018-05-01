@@ -1,12 +1,12 @@
 <template>
 	<div class="showblock ">
 		<el-col :span="12">
-			<code-time-item text="预约时间前:" :c-value="preExtendTime" danwei="分钟" @svalue="getpreExtendTime"></code-time-item>
+			<code-time-item :text="$t('notice.stagetime.preExtendTime')" :c-value="preExtendTime" :danwei="$t('formCheck.time.minute')" @svalue="getpreExtendTime"></code-time-item>
 		</el-col>
 		<el-col :span="12">
-			<code-time-item text="预约时间后:" :c-value="latExtendTime" danwei="分钟" @svalue="getlatExtendTime"></code-time-item>
+			<code-time-item :text="$t('notice.stagetime.latExtendTime')" :c-value="latExtendTime" :danwei="$t('formCheck.time.minute')" @svalue="getlatExtendTime"></code-time-item>
 		</el-col>
-		<el-button type="primary" @click="saveTime">保存</el-button>
+		<el-button type="primary" @click="saveTime">{{$t('btn.saveBtn')}}</el-button>
 	</div>
 </template>
 <script>

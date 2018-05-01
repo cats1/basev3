@@ -14,12 +14,12 @@
 			      type="index"
 			      width="30">
 			    </el-table-column>
-				<el-table-column prop="vname" label="姓名">
+				<el-table-column prop="vname" :label="$t('form.name.text')">
 					<template slot-scope="scope">
 				      <el-input v-model="scope.row.name"></el-input>
 				    </template>
 				</el-table-column>
-				<el-table-column prop="vphone" label="手机号">
+				<el-table-column prop="vphone" :label="$t('form.phone.text')">
 					<template slot-scope="scope">
 				      <el-input v-model="scope.row.phone"></el-input>
 				    </template>
@@ -45,20 +45,20 @@
 					    </el-date-picker>
 				    </template>
 				</el-table-column>
-				<el-table-column prop="company" label="公司">
+				<el-table-column prop="company" :label="$t('form.company.text2')">
 					<template slot-scope="scope">
 						<el-input v-model="scope.row.vcompany"></el-input>
 				    </template>
 				</el-table-column>
-				<el-table-column prop="remark" label="备注">
+				<el-table-column prop="remark" :label="$t('form.remark.text')">
 					<template slot-scope="scope">
 						<el-input v-model="scope.row.remark"></el-input>
 				    </template>
 				</el-table-column>
-				<el-table-column prop="status" label="操作">
+				<el-table-column prop="status" :label="$t('btn.edit1')">
 					<template slot-scope="scope">
-					  <el-button type="error" v-if="scope.row.etype === 1" @click="delettype">删除</el-button>
-				      <el-button type="primary" v-else @click="edittype">操作</el-button>
+					  <el-button type="error" v-if="scope.row.etype === 1" @click="delettype">{{$t('btn.deleteBtn')}}</el-button>
+				      <el-button type="primary" v-else @click="edittype">{{$t('btn.addBtn')}}</el-button>
 				    </template>
 				</el-table-column>
 			</el-table>

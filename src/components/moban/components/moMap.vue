@@ -1,8 +1,8 @@
 <template>
   <div class="clearfix block">
     <div class="searchmapwrap">
-        <el-input type="text" v-model="maddress" class="form-control address_name" :id="inputid" placeholder="请输入…"></el-input>
-        <el-button type="text" class="cancel_bt" id="search_address">修改</el-button>
+        <el-input type="text" v-model="maddress" class="form-control address_name" :id="inputid" @change="getAddress" @blur="getAddress"></el-input>
+        <el-button type="text" class="cancel_bt" id="searchBtn">{{$t('btn.editBtn')}}</el-button>
         <div class="searchResultPanel" :id="panelid" ></div>
     </div>
     <baidu-map :mapid="mapid" :isshow="isshow" :inputid="inputid" :sendpot="pot" :panelid="panelid"></baidu-map>
@@ -39,7 +39,7 @@ export default {
       inputid: 'search_address_' + this.mapid,
       panelid: 'searchResultPanel_' + this.mapid,
       pot: this.sendpot,
-      maddress: this.address
+      maddress: ''
     }
   },
   watch: {
@@ -50,11 +50,20 @@ export default {
       console.log(val)
     },
     address (val) {
+      console.log(val)
       this.maddress = val
-    } 
+    },
+    maddress (val) {
+      console.log(val)
+    }
   },
   created () {
     console.log(this.isshow)
+  },
+  methods: {
+    getAddress (val) {
+      console.log(val)
+    }
   }
 }
 </script>
@@ -76,5 +85,8 @@ export default {
       border: 0;
     }
   }
+}
+.searchResultPanel{
+  display:none;
 }
 </style>

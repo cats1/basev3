@@ -1,27 +1,46 @@
 <template>
-	<div>
-		<m-header class="marginbom20" :title="$t('moban.interview.title')" :desc="$t('moban.interview.desc')"></m-header>
-		<mo-quill class="marginbom20" style="width:80%;" :content="inviteContent"></mo-quill>
-		<mo-map class="marginbom20" mapid="mapface" style="width:80%;"></mo-map>
-		<traffic class="marginbom20" style="width:80%;" :content="traffic"></traffic>
-		<compro class="marginbom20" style="width:80%;" :content="companyProfile"></compro>
-	</div>
+  <div>
+    <m-header :title="$t('moban.interview.title')" :desc="$t('moban.interview.desc')"></m-header>
+    <tinymce class="margintop20" :height=400 ref="ceditor" v-model="defaultmoban.inviteContent" @input="getcon"></tinymce>
+    <h3 class="margintop20 marginbom20">{{$t('moban.address')}}</h3>
+    <baidu-map class="marginbom20" :isshow="isshow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;"></baidu-map>
+    <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
+    <tinymce :height=400 ref="teditor" v-model="defaultmoban.traffic" @input="getTraffic"></tinymce>
+    <h3 class="margintop20 marginbom20">{{$t('moban.compro')}}</h3>
+    <tinymce :height=400 ref="comeditor" v-model="defaultmoban.companyProfile" @input="getCom"></tinymce>
+    <div class="margintop20">
+      <el-button type="primary" @click="saveMoban">{{$t('btn.saveMobanBtn')}}</el-button>
+      <el-button type="success" @click="sendMoban">{{$t('btn.sendInvite')}}</el-button>
+    </div>
+  </div>
 </template>
 <script>
 import mHeader from './components/mHeader'
-import moMap from './components/moMap'
-import moQuill from './components/moQuill'
-import traffic from './components/traffic'
-import compro from './components/compro'
+import {BaiduMap} from '@/components/map'
 import { getCache } from '@/utils/auth'
-import { valueToString, replaceRemoveQuotation } from '@/utils/common'
+import Tinymce from '@/components/tinymce'
+import { valueToString, replaceQuotation,replaceRemoveQuotation } from '@/utils/common'
 export default {
-  components: { mHeader, moMap, moQuill, traffic, compro },
+  props: ['mtype','isshow','mapid'],
+  components: { mHeader, BaiduMap, Tinymce },
   data () {
   	return {
   	  traffic: '',
   	  companyProfile: '',
-  	  inviteContent: this.$t('moban.interview.defaultMoban')
+  	  inviteContent: this.$t('moban.interview.defaultMoban'),
+      defaultmoban: {
+        address: '',
+        companyProfile: '',
+        inviteContent: '',
+        latitude: '',
+        longitude: '',
+        traffic: ''
+      },
+      pot: {
+        latitude: '',
+        longitude: ''
+      },
+      form: {}
   	}
   },
   computed: {},
@@ -34,28 +53,64 @@ export default {
   	console.log(9999)
     this.init()
     console.log(888)
+
   },
   methods: {
+    getcon () {},
+    getTraffic () {},
+    getCom () {},
   	init () {
   		this.getInterViewMoBan()
   	},
+    setDefaultMoban () {
+      let vhtml = '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">这里是{company}，感谢您对我公司的信任和选择。通过对您简历的认真审核，我们认为您已具备进入下一轮筛选的资格。为了进一步了解，现邀请您参加面试，具体安排如下：</p><br/>'
+      let vhtml2 = '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">我是{company}的{empid}，很高兴代表我司与您联系。为更好的沟通交流工作事宜，诚挚希望与您进行会面，期待您的来访！</p><br/>'
+      if (this.mtype === '面試') {
+        this.defaultmoban.inviteContent = replaceRemoveQuotation(vhtml)
+      } else {
+        this.defaultmoban.inviteContent = replaceRemoveQuotation(vhtml2)
+      }
+      
+    },
   	getInterViewMoBan () {
   		let newForm = {
   			userid: getCache('userid'),
-  			templateType: '面试'
+  			templateType: this.mtype
   		}
   		this.$store.dispatch('getUsertemplate',newForm).then(res => {
+        console.log(res)
   			let { status, result } = res
   			if (status === 0) {
   				console.log(result)
-  			  //this.$set(this.inviteContent,replaceRemoveQuotation(result.inviteContent))
-  			  //this.traffic  = result.traffic
-  			  //this.$set(this.traffic,result.traffic)
-              /*this.companyProfile = result.companyProfile
-              this.inviteContent = result.inviteContent*/
+          if (result) {
+            console.log(999)
+            this.defaultmoban = result
+            this.pot.latitude = result.latitude
+            this.pot.longitude = result.longitude
+            if (!result.inviteContent) {
+              this.setDefaultMoban() 
+            }
+          } else {
+            this.setDefaultMoban() 
+          }
+          
   			}
   		})
-  	}
+  	},
+    saveMoban () {
+      this.form.address = getCache('saddress')
+      this.form.latitude = getCache('latitude')
+      this.form.longitude = getCache('longitude')
+      this.$emit('savekit',this.form)
+    },
+    sendMoban () {
+      this.form.address = getCache('saddress')
+      this.form.latitude = getCache('latitude')
+      this.form.longitude = getCache('longitude')
+      this.form.empid = this.defaultmoban.empid
+      
+      this.$emit('sendkit',this.form)
+    },
   }
 }
 </script>

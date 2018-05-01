@@ -1,5 +1,0 @@
-export { default as guideOne } from './guideOne'
-export { default as guideTwo } from './guideTwo'
-export { default as guideThree } from './guideThree'
-export { default as guideFour } from './guideFour'
-export { default as guideFive } from './guideFive'

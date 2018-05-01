@@ -1,7 +1,7 @@
 import { getCache } from './auth'
-//const Base64 = require('./base64')
-let Base64 = require('js-base64').Base64;
-console.log(Base64)
+import i18n from '@/lang'
+const statusMessages = i18n.messages[i18n.locale].status
+let Base64 = require('js-base64').Base64
 /* 密码加密*/
 export function lftPwdRule(str, num1, num2) {
   const strArray = str.split('')
@@ -50,7 +50,6 @@ export function numberToBoolean(num) {
   return parseInt(num) === 1 ? true : false
 }
 export function valueToString(value) {
-  console.log(value)
   if (value === null) {
     return ''
   } else {
@@ -73,11 +72,13 @@ export function replaceRemoveQuotation(value) {
 export function groupStatusText(value) {
   switch (value) {
     case 0:
-      return '停用'
+      return statusMessages.off
     case 1:
-      return '启用'
+      return statusMessages.on
+    case 2:
+      return statusMessages.off
     default:
-      return '启用'
+      return statusMessages.off
   }
 }
 export function stringToArray(value) {
@@ -437,4 +438,22 @@ export function formatMeetSendStatus(num) {
     default:
       return "发送成功"
   }
+}
+export function judgeVtype(str) {
+    if (str == 1) {
+        return "邀请访客"
+    } else if (str == 0) {
+        return "员工"
+    } else if (str == 2) {
+        return "签到访客"
+    } else {
+        return "访客"
+    }
+}
+export function judgeRecordStatus(str) {
+    if (str == true || str == "true" || str == 1) {
+        return "成功"
+    } else if (str == false || str == "false" || str == 0) {
+        return "失败"
+    }
 }

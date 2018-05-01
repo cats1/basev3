@@ -160,7 +160,8 @@ exports.createPages = (plugins, pages) => {
       template: pages[key],
       inject: true,  // | 'head' | 'body' | false  ,注入所有的资源到特定的 template 或者 templateContent 中，如果设置为 true 或者 body，所有的 javascript 资源将被放置到 body 元素的底部，'head' 将放置到 head 元素中。
       chunks: ['manifest', 'vendor', key],
-      favicon: ""
+      favicon: "",
+      path: config.dev.assetsPublicPath + config.dev.assetsSubDirectory
     }
     if (!isDev) {
       conf.minify = {

@@ -1,7 +1,7 @@
 <template>
 	<div class="clearfix">
-		<h2 class="marginbom20">{{title}}</h2>
-		<div class="moban-tag">{{desc}}</div>
+		<h2 class="marginbom20">{{mtitle}}</h2>
+		<div class="moban-tag">{{mdesc}}</div>
 	</div>
 </template>
 <script>
@@ -17,7 +17,20 @@ export default {
   	}
   },
   data () {
-  	return {}
+  	return {
+      mtitle: this.title,
+      mdesc: this.desc
+    }
+  },
+  watch: {
+    title (val) {
+      console.log(val)
+      this.mtitle = val
+    },
+    desc (val) {
+      this.mdesc = val
+    }
   }
+
 }
 </script>

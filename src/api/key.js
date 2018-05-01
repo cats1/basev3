@@ -71,3 +71,11 @@ export function updateEquipment(data) {
     data
   })
 }
+//getEGroupByEid
+export function getEGroupByEid(data) {
+  return request({
+    url: '/getEGroupByEid',
+    method: 'post',
+    data
+  })
+}

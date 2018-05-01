@@ -4,7 +4,7 @@
 		  class="upload-demo"
 		  action="123"
 		  :before-upload="beforeUpload">
-		  <el-button type="primary">{{$t('btn.uploadExcel')}}</el-button>
+		  <el-button type="success">{{$t('btn.uploadExcel')}}</el-button>
 		</el-upload>
 	</div>
 </template>

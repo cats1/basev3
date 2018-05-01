@@ -1,6 +1,6 @@
 import { getEquipmentGroupByUserid, addEquipmentGroup,
 	updateEquipmentGroup, delEquipmentGroup, getEquipmentbyUserid,
-	addEquipment,updateEquipment,getOpendoorInfo } from '@/api/key'
+	addEquipment,updateEquipment,getOpendoorInfo,getEGroupByEid } from '@/api/key'
 import { Message } from 'element-ui'
 const user = {
   state: {
@@ -8,7 +8,6 @@ const user = {
   },
   mutations: {
   	SET_GROUP (state,info) {
-  	  console.log(info)
       state.groupD = info
   	}
   },
@@ -82,6 +81,15 @@ const user = {
               type: 'success'
             })
           }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    getEGroupByEid({ commit }, info) {
+      return new Promise((resolve, reject) => {
+        getEGroupByEid(info).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)

@@ -1,8 +1,9 @@
 import { UpdateWxConf, updateSMSConf,ivrNotifyConf,updateDDNotify,
   updateRtxConf,updateScanerSwitch, updatePermissionSwitch,
-  updateQrcodeConf, updateExtendTime, getUsertemplate,
+  updateQrcodeConf, updateExtendTime,
   updateComeAgain,updateSignOutSwitch,updateFaceScaner,
-  updateOffDutyTime,getGate,addGate,updateblackListSwitch,ConfigureEmail } from '@/api/notice'
+  updateOffDutyTime,getGate,addGate,updateblackListSwitch,
+  ConfigureEmail,updateTempEditSwitch } from '@/api/notice'
 import {updateSecureProtocol,UpdateDefaultPhoto,UploadPic} from '@/api/pad'
 import { Message } from 'element-ui'
 import { getCache,setCache } from '@/utils/auth'
@@ -30,13 +31,18 @@ const app = {
     updateSMSConf({ commit }, info) {
       return new Promise((resolve, reject) => {
           updateSMSConf(info).then(response => {
-            let { status , result } = response
+            let { status , reason } = response
             if (status === 0) {
                 setCache('smsNotify',info.smsNotify)
                 Message({
                   message: '短信开关修改成功',
                   type: 'success'
                 })
+            }  else {
+              Message({
+                message: status + ':' + reason,
+                type: 'error'
+              })
             }
             resolve(response)
           }).catch(error => {
@@ -136,14 +142,31 @@ const app = {
           })
       })
     },
+    updateTempEditSwitch({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          updateTempEditSwitch(info).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+                setCache('tempEditSwitch',info.tempEditSwitch)
+                Message({
+                  message: '开关修改成功',
+                  type: 'success'
+                })
+            }
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
     updatePermissionSwitch({ commit }, info) {
       return new Promise((resolve, reject) => {
           updatePermissionSwitch(info).then(response => {
             let { status , result } = response
             if (status === 0) {
-                setCache('scaner',info.ivrNotify)
+                setCache('permissionSwitch',info.permissionSwitch)
                 Message({
-                  message: '二维码开关修改成功',
+                  message: '开关修改成功',
                   type: 'success'
                 })
             }
@@ -286,15 +309,6 @@ const app = {
                   type: 'success'
                 })
             }
-            resolve(response)
-          }).catch(error => {
-            reject(error)
-          })
-      })
-    },
-    getUsertemplate({ commit }, info) {
-      return new Promise((resolve, reject) => {
-          getUsertemplate(info).then(response => {
             resolve(response)
           }).catch(error => {
             reject(error)

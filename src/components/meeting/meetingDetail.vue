@@ -2,14 +2,15 @@
 	<div class="mdetailwrap">
 		<el-tabs type="border-card">
 		  <el-tab-pane>
-		    <span slot="label">发起会议</span>
-		    <send-invite :mid="mid" :isshow="mobanShow"></send-invite>
+		    <span slot="label">{{$t('moban.text')}}</span>
+		    <send-invite :mid="form.mid" :isshow="mobanShow"></send-invite>
 		  </el-tab-pane>
-		  <el-tab-pane label="会议邀请记录">
-		  	<invite-list :mid="mid"></invite-list>
+		  <el-tab-pane >
+        <span slot="label">{{$t('moban.text1')}}</span>
+		  	<invite-list :mid="form.mid"></invite-list>
 		  </el-tab-pane>
 		</el-tabs>
-    <div class="goback"><i class="fa  fa-reply"></i>返回</div>
+    <div class="goback" @click="goPrev"><i class="fa  fa-reply"></i></div>
 	</div>
 </template>
 <script>
@@ -19,15 +20,21 @@ export default{
   components: { sendInvite,inviteList },
   data () {
   	return {
-  	  mid: '',
+      form: {
+        mid: ''
+      },
+      mobj: {},
       mobanShow: true
   	}
   },
   created () {
-  	this.mid = this.$route.params.mid
+  	this.form.mid = this.$route.params.mid
   },
   methods: {
-  	init () {}
+  	init () {},
+    goPrev () {
+      this.$router.push({name:'meeting'})
+    }
   }
 }
 </script>

@@ -96,7 +96,7 @@ function moveMapToHere(map, lng, lat, type) {
   }, 2000);
 }
 
-function addCityList(map, dom, sdom,pnelid, type, callback) {
+function addCityList(map, dom, sdom,dvalue,pnelid, type, callback) {
   var size = new BMap.Size(10, 20);
   map.addControl(new BMap.CityListControl({
     anchor: BMAP_ANCHOR_TOP_LEFT,
@@ -104,12 +104,12 @@ function addCityList(map, dom, sdom,pnelid, type, callback) {
     onChangeBefore: function() {},
     onChangeAfter: function() {
       lft_cur_city_name = $("#cur_city_name").text();
-
+      console.log(lft_cur_city_name)
       lftmap = new BMap.Map(dom, { minZoom: 14, maxZoom: 30 });
       lftmap.centerAndZoom(lft_cur_city_name, 14);
-      addCityList(lftmap, dom, sdom,pnelid, type);
+      addCityList(lftmap, dom, sdom,dvalue,pnelid, type);
       addClickGeocoder(lftmap, type);
-      addSearch(lftmap, sdom,pnelid, "", type);
+      addSearch(lftmap, sdom,pnelid, dvalue, type);
     }
   }));
   callback && callback();
@@ -172,6 +172,8 @@ function addSearch(map, sdom,pnelid, dvalue, type) {
   function setPlace() {
     map.clearOverlays(); //清除地图上所有覆盖物
     function myFun() {
+      let keyword = local.getResults().keyword
+      setCache('saddress',keyword)
       var pp = local.getResults().getPoi(0).point; //获取第一个智能搜索的结果
       map.centerAndZoom(pp, 18);
       map.addOverlay(new BMap.Marker(pp)); //添加标注
@@ -212,7 +214,8 @@ function addLocalControl(map) {
   map.addControl(geolocationControl);
 }
 
-function searchByStationName(map, value, type, callback) {
+export function searchByStationName(value, type, callback) {
+  let map = lftmap
   map.clearOverlays(); //清空原来的标注
   var keyword = value;
   var localSearch = new BMap.LocalSearch(map);
@@ -227,6 +230,8 @@ function searchByStationName(map, value, type, callback) {
         "lng": poi.point.lng,
         "lat": poi.point.lat
       };
+      setCache('longitude',poi.point.lng)
+      setCache('latitude',poi.point.lat)
       var content = keyword + "<br/><br/>经度：" + poi.point.lng + "<br/>纬度：" + poi.point.lat;
       var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");
       marker.addEventListener("click", function() {
@@ -242,6 +247,8 @@ function searchByStationName(map, value, type, callback) {
             "lng": point.lng,
             "lat": point.lat
           };
+          setCache('longitude',point.lng)
+          setCache('latitude',point.lat)
           map.clearOverlays();
           map.centerAndZoom(point, 14);
           map.addOverlay(new BMap.Marker(point));
@@ -262,23 +269,33 @@ function searchByStationName(map, value, type, callback) {
 }
 export function createLftMap(dom, sdom, pnelid, longitude, latitude, dvalue, city, type) {
   lftmap = new BMap.Map(dom, { minZoom: 14, maxZoom: 30 }); // 创建Map实例
+  setCache('saddress',dvalue)
+  setCache('longitude',longitude)
+  setCache('latitude',latitude)
   if (checkIsNull(longitude) != '' && checkIsNull(latitude) != '') {
     var point = new BMap.Point(longitude, latitude);
     lftmap.centerAndZoom(point, 14);
     changePointToAddress(point, function(city) {
-      lft_cur_city_name = city;
-      addCityList(lftmap, dom, sdom,pnelid, type);
+      addCityList(lftmap, dom, sdom,dvalue,pnelid, type)
       addSearch(lftmap, sdom,pnelid, dvalue, type);
+      addClickGeocoder(lftmap, type)
+      addMarker(lftmap, point, type)
+    });
+    /*changePointToAddress(point, function(city) {
+      lft_cur_city_name = city;
+      console.log(dvalue)
+      //addCityList(lftmap, dom, sdom,pnelid, type);
+      //addSearch(lftmap, sdom,pnelid, dvalue, type);
       addClickGeocoder(lftmap, type);
       addMarker(lftmap, point, type);
 
-    });
+    });*/
 
   } else {
     if (checkIsNull(city) != '') {
       lft_cur_city_name = city;
       lftmap.centerAndZoom(city, 14);
-      addCityList(lftmap, dom, sdom,pnelid, type);
+      addCityList(lftmap, dom, sdom,dvalue,pnelid, type);
       addClickGeocoder(lftmap, type);
       addSearch(lftmap, sdom,pnelid, dvalue, type);
 
@@ -295,3 +312,4 @@ export function createLftMap(dom, sdom, pnelid, longitude, latitude, dvalue, cit
   addMoveControl(lftmap);
   //lftmap.enableScrollWheelZoom(true);
 }
+export default lftmap

@@ -23,6 +23,14 @@ export function getMeetingById(data) {
     data
   })
 }
+//updateMeeting 
+export function updateMeeting(data) {
+  return request({
+    url: '/updateMeeting',
+    method: 'post',
+    data
+  })
+}
 //getAppointmentByMid
 export function getAppointmentByMid(data) {
   return request({
