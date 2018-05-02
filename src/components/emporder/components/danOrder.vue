@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<el-row class="margintop20 marginbom20">
-	        <p>{{$t('moban.ctitle')}}<el-button @click="goDot">{{$t('moban.dot')}}</el-button></p>
+	        <p>{{$t('moban.ctitle')}}
+	        	<el-button class="right" @click="goDot">{{$t('moban.dot')}}</el-button></p>
 	    </el-row>
 	    <div class="boxshadow paddinglr30 paddingtb20">
 	    	<el-form :model="form" :rules="rules" ref="danform" label-width="100px" style="width:70%;">
