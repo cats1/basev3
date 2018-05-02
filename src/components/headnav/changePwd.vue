@@ -24,28 +24,32 @@ export default {
   	isShow: {
   	  type: Boolean,
   	  default: false
-  	}
+  	},
+    ptype: {
+      type: Number,
+      default: 0
+    }
   },
   data () {
   	const validatePass = (rule, value, callback) => {
-	  if (value === '') {
-	    callback(new Error(this.$t('formCheck.validPassword.tip3')));
-	  } else {
-	    if (this.form.repassword !== '') {
-	      this.$refs.ruleForm.validateField('repassword');
-	    }
-	    callback();
-	  }
-	}
+  	  if (value === '') {
+  	    callback(new Error(this.$t('formCheck.validPassword.tip3')));
+  	  } else {
+  	    if (this.form.repassword !== '') {
+  	      this.$refs.ruleForm.validateField('repassword');
+  	    }
+  	    callback();
+  	  }
+  	}
     const validatePass2 = (rule, value, callback) => {
-	  if (value === '') {
-	    callback(new Error(this.$t('formCheck.validPassword.tip6')));
-	  } else if (value !== this.form.password) {
-	    callback(new Error(this.$t('formCheck.validPassword.tip5')));
-	  } else {
-	    callback();
-	  }
-	}
+  	  if (value === '') {
+  	    callback(new Error(this.$t('formCheck.validPassword.tip6')));
+  	  } else if (value !== this.form.password) {
+  	    callback(new Error(this.$t('formCheck.validPassword.tip5')));
+  	  } else {
+  	    callback();
+  	  }
+  	}
   	return {
   	  form: {
   	  	password: '',
@@ -75,18 +79,34 @@ export default {
   	saveChange () {
   	  this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          let nform = {
-          	id: getCache('subaccountId'),
-          	password: this.form.password,
-  	  	    oldPwd: this.form.oldPwd
-          }
-          this.$store.dispatch('updateSubAccountPwd',nform).then(res => {
-            let {status} = res
-            if (status === 0) {
-              this.dialogVisible = false
-              this.$emit('closekit')
+          if (this.ptype === 0) {
+            let nform = {
+              id: getCache('subaccountId'),
+              password: this.form.password,
+              oldPwd: this.form.oldPwd
             }
-          })
+            this.$store.dispatch('updateSubAccountPwd',nform).then(res => {
+              let {status} = res
+              if (status === 0) {
+                this.dialogVisible = false
+                this.$emit('closekit')
+              }
+            })
+          } else if (this.ptype === 1) {
+            let nform = {
+              username: getCache('username'),
+              password: this.form.password,
+              oldPwd: this.form.oldPwd
+            }
+            this.$store.dispatch('ModifySupAccPassword',nform).then(res => {
+              let {status} = res
+              if (status === 0) {
+                this.dialogVisible = false
+                this.$emit('closekit')
+              }
+            })
+          }
+          
         }
   	  })
   	},

@@ -1,14 +1,14 @@
 <template>
   <div class="dashboard-container">
-    <supernav active-index="index"></supernav>
+    <supernav ></supernav>
     <page-center></page-center>
     <footbom></footbom>
   </div>
 </template>
 <script>
-import supernav from '../../components/headnav/supernav'
-import PageCenter from '../../components/pagecontainer/PageCenter'
-import footbom from '../../components/footer/footbom'
+import supernav from '@/components/headnav/supernav'
+import PageCenter from '@/components/pagecontainer/PageCenter'
+import footbom from '@/components/footer/footbom'
 export default {
   name: 'App',
   data () {

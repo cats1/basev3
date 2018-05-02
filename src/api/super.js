@@ -23,3 +23,11 @@ export function getSupAccVCount(data) {
     data
   })
 }
+//ModifySupAccPassword
+export function ModifySupAccPassword(data) {
+  return request({
+    url: '/ModifySupAccPassword',
+    method: 'post',
+    data
+  })
+}
