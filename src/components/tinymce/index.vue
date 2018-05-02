@@ -2,7 +2,7 @@
   <div class="tinymce-container editor-container">
     <textarea class="tinymce-textarea" :id="tinymceId" ></textarea>
     <div class="editor-custom-btn-container">
-      <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK"></editorImage>
+      <editorImage v-show="imgShow" color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK"></editorImage>
     </div>
   </div>
 </template>
@@ -11,7 +11,6 @@
 import editorImage from './components/editorImage'
 import plugins from './plugins'
 import toolbar from './toolbar'
-
 export default {
   name: 'tinymce',
   components: { editorImage },
@@ -37,6 +36,10 @@ export default {
       type: Number,
       required: false,
       default: 360
+    },
+    imgShow: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -54,6 +57,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.height)
     this.initTinymce()
   },
   activated() {
@@ -92,40 +96,8 @@ export default {
             this.$emit('input', editor.getBody().innerHTML)//editor.getContent())
           })
         }
-        // 整合七牛上传
-        // images_dataimg_filter(img) {
-        //   setTimeout(() => {
-        //     const $image = $(img);
-        //     $image.removeAttr('width');
-        //     $image.removeAttr('height');
-        //     if ($image[0].height && $image[0].width) {
-        //       $image.attr('data-wscntype', 'image');
-        //       $image.attr('data-wscnh', $image[0].height);
-        //       $image.attr('data-wscnw', $image[0].width);
-        //       $image.addClass('wscnph');
-        //     }
-        //   }, 0);
-        //   return img
-        // },
-        // images_upload_handler(blobInfo, success, failure, progress) {
-        //   progress(0);
-        //   const token = _this.$store.getters.token;
-        //   getToken(token).then(response => {
-        //     const url = response.data.qiniu_url;
-        //     const formData = new FormData();
-        //     formData.append('token', response.data.qiniu_token);
-        //     formData.append('key', response.data.qiniu_key);
-        //     formData.append('file', blobInfo.blob(), url);
-        //     upload(formData).then(() => {
-        //       success(url);
-        //       progress(100);
-        //     })
-        //   }).catch(err => {
-        //     failure('出现未知问题，刷新页面，或者联系程序员')
-        //     console.log(err);
-        //   });
-        // },
       })
+
     },
     destroyTinymce() {
       if (window.tinymce.get(this.tinymceId)) {
@@ -138,11 +110,12 @@ export default {
     getContent() {
       window.tinymce.get(this.tinymceId).getContent()
     },
-    imageSuccessCBK(arr) {
-      const _this = this
+    imageSuccessCBK(url) {
+      window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${url}" >`)
+      /*const _this = this
       arr.forEach(v => {
         window.tinymce.get(_this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`)
-      })
+      })*/
     }
   },
   destroyed() {

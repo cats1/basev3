@@ -3,24 +3,24 @@
 		<el-table :data="data" border>
 			<el-table-column
 		      type="index"
-		      width="50">
+		      width="30">
 		    </el-table-column>
-			<el-table-column prop="vname" label="姓名"></el-table-column>
-			<el-table-column prop="vphone" label="手机号"></el-table-column>
-			<el-table-column prop="visitType" label="事由"></el-table-column>
-			<el-table-column prop="appointmentDate" label="时间">
+			<el-table-column prop="vname" :label="$t('form.name.text')"></el-table-column>
+			<el-table-column prop="vphone" :label="$t('form.phone.text')"></el-table-column>
+			<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="50"></el-table-column>
+			<el-table-column prop="appointmentDate" :label="$t('tablehead[2]')">
 				<template slot-scope="scope">
 			      {{scope.row.appointmentDate | formatDate}}
 			    </template>
 			</el-table-column>
-			<el-table-column prop="company" label="公司"></el-table-column>
-			<el-table-column prop="vphone" label="邀请函链接" width="150">
+			<el-table-column prop="company" :label="$t('checkVtype[5]')"></el-table-column>
+			<el-table-column prop="vphone" :label="$t('moban.inviteLink')" width="300">
 				<template slot-scope="scope">
 			      {{ scope.row.visitType | checkLink}}{{scope.row.encryption}}
 			    </template>
 			</el-table-column>
-			<el-table-column prop="remark" label="备注"></el-table-column>
-			<el-table-column prop="status" label="状态">
+			<el-table-column prop="remark" :label="$t('form.remark.text')"></el-table-column>
+			<el-table-column prop="status" :label="$t('status.text')" width="70">
 				<template slot-scope="scope">
 			      {{scope.row.status | checkStatus}}
 			    </template>

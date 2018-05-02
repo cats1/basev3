@@ -101,9 +101,11 @@ export default {
                 password: lftPwdRule(this.loginForm.password,3,5),
                 digest: this.loginForm.digest
               }
-              this.$store.dispatch('LoginManager', newForm).then((resp) => {
-                  this.loading = false
-                  window.location.href = 'stage.html'
+              console.log(newForm)
+              this.$store.dispatch('LoginManager',newForm).then((resp) => {
+                console.log(resp)
+                this.loading = false
+                window.location.href = 'stage.html'
               }).catch(() => {
                 this.loading = false
               })

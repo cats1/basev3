@@ -2,7 +2,7 @@
 	<div>
 		<m-header class="marginbom20" :title="$t('moban.interview.title')" :desc="$t('moban.interview.desc')"></m-header>
 		<mo-quill class="marginbom20" style="width:80%;" :content="inviteContent" @getcon="getcon"></mo-quill>
-		<mo-map :isshow="isshow" class="marginbom20" :address="address" :sendpot="pot" mapid="mapface" style="width:80%;"></mo-map>
+    <baidu-map :isshow="isshow" class="marginbom20" :address="address" :sendpot="pot" mapid="mapface" style="width:80%;"></baidu-map>
 		<traffic class="marginbom20" style="width:80%;" :content="traffic" @gettraffic="gettraffic"></traffic>
 		<compro class="marginbom20" style="width:80%;" :content="companyProfile" @getcompro="getcompro"></compro>
 	</div>
@@ -10,14 +10,14 @@
 <script>
 import mHeader from './components/mHeader'
 import moQuill from './components/moQuill'
-import moMap from './components/moMap'
+import {BaiduMap} from '@/components/map'
 import traffic from './components/traffic'
 import compro from './components/compro'
 import { getCache } from '@/utils/auth'
 import { valueToString, replaceRemoveQuotation } from '@/utils/common'
 export default {
   props: ['mtype','isshow'],
-  components: { mHeader,moQuill,moMap,traffic,compro },
+  components: { mHeader,moQuill,BaiduMap,traffic,compro },
   data () {
   	return {
   	  traffic: '',

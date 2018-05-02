@@ -1,9 +1,9 @@
 <template>
 	<div class="bommoban">
-		<p class="title">邀请短信内更多公司相关信息
+		<p class="title">{{$t('moban.mtitle')}}
 			<el-button class="right" @click="editMoban">
-			  <template v-if="mobanShow === false">编辑</template>
-			  <template v-else>收起</template>
+			  <template v-if="mobanShow === false">{{$t('btn.editBtn')}}</template>
+			  <template v-else>{{$t('btn.shouBtn')}}</template>
 		    </el-button>
 		</p>		
 		<el-collapse-transition>

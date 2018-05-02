@@ -1,26 +1,25 @@
 <template>
 	<div>
 		<el-row class="margintop20 marginbom20">
-	        <p>填写来访者相关信息，即可生成短信邀请函，发送至对方手机。<el-button @click="goDot">批量邀请</el-button></p>
+	        <p>{{$t('moban.ctitle')}}<el-button @click="goDot">{{$t('moban.dot')}}</el-button></p>
 	    </el-row>
 	    <div class="boxshadow paddinglr30 paddingtb20">
 	    	<el-form :model="form" :rules="rules" ref="danform" label-width="100px" style="width:70%;">
-	    	    <h3>来访者信息</h3>
-		    	<el-form-item label="姓名" prop="name">
+	    	    <h3>{{$t('moban.visitMess')}}</h3>
+		    	<el-form-item :label="$t('form.name.text')" prop="name">
 		    	  <el-input v-model="form.name"></el-input>
 		    	</el-form-item>
-		    	<el-form-item label="手机" prop="phone">
+		    	<el-form-item :label="$t('form.phone.text')" prop="phone">
 		    		<el-input v-model="form.phone"></el-input>
 		    	</el-form-item>
-		    	<el-form-item label="时间" prop="appointmentDate">
+		    	<el-form-item :label="$t('form.time.text6')" prop="appointmentDate">
 		    		<el-date-picker
 				      v-model="form.appointmentDate"
-				      type="datetime"
-				      placeholder="选择日期时间" class="block">
+				      type="datetime" class="block">
 				    </el-date-picker>
 		    	</el-form-item>
-		    	<el-form-item label="来访事由">
-		    		<el-select v-model="visitType" placeholder="请选择" class="block">
+		    	<el-form-item :label="$t('form.visitType.text')">
+		    		<el-select v-model="visitType" class="block">
 					    <el-option
 					      v-for="item in $t('itype')"
 					      :key="item.value"
@@ -29,16 +28,16 @@
 					    </el-option>
 					</el-select>
 		    	</el-form-item>
-		    	<el-form-item label="公司名称">
+		    	<el-form-item :label="$t('form.company.text')">
 		    		<el-input v-model="form.vcompany"></el-input>
 		    	</el-form-item>
-		    	<el-form-item label="备注">
+		    	<el-form-item :label="$t('form.remark.text')">
 		    		<el-input v-model="form.remark"></el-input>
 		    	</el-form-item>
-		    	<el-form-item label="有效期" prop="qrcodeType">
+		    	<el-form-item :label="$t('form.time.text7')" prop="qrcodeType">
 		    		<el-row>
 		    			<el-col :span="12">
-			    			<el-select v-model="timetype" placeholder="请选择">
+			    			<el-select v-model="timetype">
 							    <el-option
 							      v-for="item in $t('timetype')"
 							      :key="item.value"
@@ -57,7 +56,8 @@
 		    @getbcon="getbinv" @getbtraffic="getbtraffic" @getbcompro="getbcompro" @getinitface="getinitface" @getinitbus="getinitbus"></bom-moban>
 	    </div>
 	    <div class="margintop20">
-	    	<el-button type="success" @click="sendOrder">发送邀请</el-button><el-button type="default">预览</el-button>
+	    	<el-button type="success" @click="sendOrder">{{$t('btn.sendInvite')}}</el-button>
+	    	<el-button type="default">{{$t('btn.overview')}}</el-button>
 	    </div>
 	</div>
 </template>

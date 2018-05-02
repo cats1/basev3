@@ -6,7 +6,7 @@
         <el-collapse-transition>
           <div class="showbody marginlr20 paddingtb20 bordertop" v-show="isShow">
             <one-notice :is-box="false" :is-no-padding="false" n-icon="" :n-title="$t('notice.invite.empTitle')" :n-desc="$t('notice.invite.empDesc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
-            <face-and-bus v-show="isShow" :isshow="isShow"></face-and-bus>
+            <face-and-bus class="paddinglr30" style="padding-left:100px" v-show="isShow" :isshow="isShow"></face-and-bus>
           </div>
         </el-collapse-transition>
       </div>

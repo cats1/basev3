@@ -173,12 +173,14 @@ export default {
       text: '备注'
     },
     time: {
+      text6: '时间',
       text: '签到时间',
       text1: '签出时间',
       text2: '预约时间',
       text3: '邀请时间',
       text4: '服务期限',
-      text5: '操作时间'
+      text5: '操作时间',
+      text7: '有效期'
     },
     gate: {
       text: '关联闸机',
@@ -186,6 +188,9 @@ export default {
     },
     photo: {
       tip: '请上传头像'
+    },
+    visitType: {
+      text: '来访事由'
     }
   },
   tablehead: ['序号','会议名称','时间','发起人','主题','二维码','手机号','事由','发起时间','公司','状态','发送状态'],
@@ -457,6 +462,7 @@ export default {
     saveAndBtn: '保存并继续添加',
     exportBtn: '导出配置',
     export: '导出',
+    overview: '预览',
     searchBtn: '搜索',
     picBtn: '选择图片',
     addBlackBtn: '添加黑名单',
@@ -494,7 +500,8 @@ export default {
     editGroup:'角色组编辑',
     editRole:'角色编辑',
     addMember: '添加成员',
-    batchOut: '批量签出'
+    batchOut: '批量签出',
+    sendInvite: '发送邀请'
   },
   role: {
     rgroup: '角色组名称',
@@ -642,7 +649,8 @@ export default {
     any: '随便填',
     thirdparty: '第三方登录',
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！',
-    scom: '请选择公司'
+    scom: '请选择公司',
+    ptip: '初始化密码请及时修改，以防信息泄露'
   },
   empLogin:{
     title: '员工登录',
@@ -681,7 +689,7 @@ export default {
     119: '验证码无效'
   },
   navlist: [{
-    name: '首页',
+    name: '访客',
     dirname: 'index',
     link: 'index.html',
     children: []
@@ -764,9 +772,19 @@ export default {
     tip4: '会议地址',
     tip5: '至少添加一名访客',
     tip6: '至少添加一条来访者信息',
+    visitMess: '来访者信息',
     address: '公司地址',
     traffic: '停车信息及周边交通',
     compro: '公司简介',
+    inviteLink: '邀请函链接',
+    single:'单独邀请',
+    dot: '批量邀请',
+    facemoban: '面试模板',
+    busmoban: '商务模板',
+    ctitle: '填写来访者相关信息，即可生成短信邀请函，发送至对方手机。',
+    cdesc: '预约短信内更多公司相关信息',
+    tip7: '您可以选择逐条编辑，也可以通过Excel批量导入',
+    mtitle: '邀请短信内更多公司相关信息',
     interview: {
       title: '邀请函内容',
       desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
@@ -806,24 +824,7 @@ export default {
       tip: '支持PC、手机端验证'
     }
   },
-  downlist:[{
-    name: '账号管理',
-    dirname: 'account',
-    link: 'account.html'
-  },{
-    name: '退出账号',
-    dirname: 'signout',
-    link: null
-  }],
-  superdown:[{
-    name: '修改密码',
-    dirname: null,
-    link: null
-  },{
-    name: '退出账号',
-    dirname: 'signout',
-    link: null
-  }],
+  downlist:['账号管理','修改密码','退出账号'],
   footer: {
     ftext1: '版权所有',
     ftext2: '南京访客乐网络科技有限公司. 保留一切权利.',

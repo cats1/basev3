@@ -5,9 +5,9 @@
     <h3 class="margintop20 marginbom20">{{$t('moban.address')}}</h3>
     <baidu-map class="marginbom20" :isshow="isshow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;"></baidu-map>
     <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
-    <tinymce :height=400 ref="teditor" v-model="defaultmoban.traffic" @input="getTraffic"></tinymce>
+    <tinymce :height=200 ref="teditor" v-model="defaultmoban.traffic" @input="getTraffic"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.compro')}}</h3>
-    <tinymce :height=400 ref="comeditor" v-model="defaultmoban.companyProfile" @input="getCom"></tinymce>
+    <tinymce :height=200 ref="comeditor" v-model="defaultmoban.companyProfile" @input="getCom"></tinymce>
     <div class="margintop20">
       <el-button type="primary" @click="saveMoban">{{$t('btn.saveMobanBtn')}}</el-button>
       <el-button type="success" @click="sendMoban">{{$t('btn.sendInvite')}}</el-button>

@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <headnav active-index="index"></headnav>
+    <stagenav active-index="index"></stagenav>
     <div class="page-container">
       <transition name="fade" mode="out-in">
         <router-view></router-view>
@@ -10,14 +10,14 @@
   </div>
 </template>
 <script>
-import headnav from '@/components/headnav/headnav'
+import stagenav from '@/components/headnav/stagenav'
 import footbom from '@/components/footer/footbom'
 export default {
   name: 'App',
   data () {
     return {}
   },
-  components: { headnav, footbom }
+  components: { stagenav, footbom }
 }
 </script>
 <style>

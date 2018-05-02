@@ -68,7 +68,7 @@ export default {
         } else {
           createLftMap(this.mapid,this.inputid,this.panelid,'','',this.maddress,'',1)
         }
-        document.getElementById(this.mapid).style.display = 'block'
+        //document.getElementById(this.mapid).style.display = 'block'
         document.getElementById(this.inputid).value = this.maddress
       }
     },

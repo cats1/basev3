@@ -6,7 +6,7 @@
       <template v-else>
         <i class="el-icon-caret-top"></i>
       </template></el-button>
-      <el-button type="primary" class="right" @click="goControl">
+      <el-button type="primary" v-show="dataShow" class="right" @click="goControl">
         <i class="fa fa-line-chart"></i>{{$t('dataM')}}</el-button>
     </h3>
     <el-collapse-transition>
@@ -60,7 +60,11 @@ export default {
     checkArray: {
       type: Array,
       default: []
-    }
+    },
+    dataShow: {
+      type: Boolean,
+      default: true
+    },
   },
   data () {
   	return {

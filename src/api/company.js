@@ -127,3 +127,19 @@ export function addSubAccount(data) {
     data
   })
 }
+//addSubAccountTemp
+export function addSubAccountTemp(data) {
+  return request({
+    url: '/addSubAccountTemp',
+    method: 'post',
+    data
+  })
+}
+//updateSubAccountPwd
+export function updateSubAccountPwd(data) {
+  return request({
+    url: '/updateSubAccountPwd',
+    method: 'post',
+    data
+  })
+}

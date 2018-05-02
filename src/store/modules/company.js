@@ -1,8 +1,8 @@
 import { subAccountLogin,ModifyUserInfo,UpdateCardText,
 	updateUnSubscribe,updatePassword,AddManager,GetManagerByUser,
-	updateSASwitch,getSubAccountByUserid,
+	updateSASwitch,getSubAccountByUserid,updateSubAccountPwd,
 	DeleteManager,UpdateManager,resetSubAccountPwd,delSubAccount,
-	updateSubAccount,addSubAccount } from '@/api/company'
+	updateSubAccount,addSubAccount,getSubAccountTemp,addSubAccountTemp } from '@/api/company'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import {EncodeUtf8} from '@/utils/common'
 import { Message } from 'element-ui'
@@ -41,13 +41,16 @@ const user = {
 		        subAccountLogin(userInfo).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	console.log(userInfo)
+		          	setCache('password',userInfo.password)
 		          	for (let key in result) {
-		          		if (key !== 'token') {
+		          		if (key !== 'token' && key !== 'password') {
 		          	      setCache(key, result[key])
 		          		} else {
-		          		  setCache('token', result.userid + '-' + result.token)
+		          		  setCache('token',result.userid + '-' + result.token)
 		          		}
 		          	}
+		          	setCache('subaccountId',result.id)
 		          }
 		          setToken(result.token)
 		          resolve(response)
@@ -158,6 +161,22 @@ const user = {
 		        })
 		    })
 		},
+		addSubAccountTemp({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        addSubAccountTemp(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	Message({
+		              message: '添加成功',
+		              type: 'success'
+		            })
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
 		GetManagerByUser({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        GetManagerByUser(info).then(response => {
@@ -243,6 +262,22 @@ const user = {
 		updateSubAccount({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        updateSubAccount(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	Message({
+		              type: 'success',
+		              message: '修改成功!'
+		            })
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		updateSubAccountPwd({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        updateSubAccountPwd(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({

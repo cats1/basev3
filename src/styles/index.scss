@@ -356,6 +356,10 @@ label {
 .block {
   display: block;
 }
+div.mce-edit-area{
+  height: auto;
+  min-height: 200px;
+}
 .versionrecord {
     width: auto;
     display: inline-block;

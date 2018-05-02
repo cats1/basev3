@@ -1,14 +1,16 @@
 <template>
 	<div>
 		<el-row class="margintop20 marginbom20">
-	        <p>填写来访者相关信息，即可生成短信邀请函，发送至对方手机。<el-button @click="goDan">单独邀请</el-button></p>
+	        <p>{{$t('moban.ctitle')}}<el-button class="right" @click="goDan">{{$t('moban.single')}}</el-button></p>
 	    </el-row>
 	    <div class="boxshadow paddinglr30 paddingtb20">
-	    	<h3>来访者信息
-	    		<down-invite-moban></down-invite-moban>
-	    		<upload-invite @sendkit="getUpload"></upload-invite>
+	    	<h3>{{$t('moban.visitMess')}}
+          <div class="right">
+            <down-invite-moban></down-invite-moban>
+            <upload-invite @sendkit="getUpload"></upload-invite>
+          </div>
 	    	</h3>
-	    	<p>您可以选择逐条编辑，也可以通过Excel批量导入</p>
+	    	<p>{{$t('moban.tip7')}}</p>
 	    	<el-table class="margintop20" :data="data" border>
 				<el-table-column
 			      type="index"
@@ -24,7 +26,7 @@
 				      <el-input v-model="scope.row.phone"></el-input>
 				    </template>
 				</el-table-column>
-				<el-table-column prop="visitType" label="事由">
+				<el-table-column prop="visitType" :label="$t('tablehead[7]')">
 					<template slot-scope="scope">
 				      <el-select v-model="scope.row.visitType" class="block">
 						<el-option
@@ -36,7 +38,7 @@
 					  </el-select>
 				    </template>
 				</el-table-column>
-				<el-table-column prop="appointmentDate" label="时间" width="160">
+				<el-table-column prop="appointmentDate" :label="$t('form.time.text6')" width="160">
 					<template slot-scope="scope">
 					    <el-date-picker
 					      v-model="scope.row.appointmentDate"
@@ -63,9 +65,10 @@
 				</el-table-column>
 			</el-table>
 			<div class="margintop20">
-		      <el-button @click="addVisit">增加访客</el-button>
+		      <el-button @click="addVisit">{{$t('btn.addVisitorBtn')}}</el-button>
 		    </div>
-	    	<el-form class="margintop20" :model="form" :rules="rules" ref="danform" label-width="100px" style="width:70%;">	   <el-form-item label="有效期" prop="qrcodeType">
+	    	<el-form class="margintop20" :model="form" :rules="rules" ref="danform" label-width="100px" style="width:70%;">	   
+          <el-form-item :label="$t('form.time.text7')" prop="qrcodeType">
 		    		<el-row>
 		    			<el-col :span="12">
 			    			<el-select v-model="timetype" placeholder="请选择">
@@ -87,7 +90,7 @@
 		    @getbcon="getbinv" @getbtraffic="getbtraffic" @getbcompro="getbcompro" @getinitface="getinitface" @getinitbus="getinitbus"></bom-moban>
 	    </div>
 	    <div class="margintop20">
-	    	<el-button type="success" @click="sendOrder">发送邀请</el-button><el-button type="default">预览</el-button>
+	    	<el-button type="success" @click="sendOrder">{{$t('btn.sendInvite')}}</el-button><el-button type="default">{{$t('btn.overview')}}</el-button>
 	    </div>
 	</div>
 </template>

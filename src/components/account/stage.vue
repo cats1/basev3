@@ -100,6 +100,7 @@ export default {
               if (status === 0) {
                 this.$refs.baseform.resetFields()
                 this.$refs.baseform.clearValidate()
+                this.GetManagerByUser()
               }
             })
           } else {

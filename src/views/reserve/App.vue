@@ -4,6 +4,7 @@
     <div class="page-container">
       <lay-out></lay-out>
     </div>
+    <footbom></footbom>
   </div>
 </template>
 <script>
