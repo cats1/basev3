@@ -14,6 +14,7 @@ import key from './modules/key'
 import visit from './modules/visit'
 import upload from './modules/upload'
 import depart from './modules/depart'
+import pad from './modules/pad'
 import role from './modules/role'
 import getters from './getters'
 Vue.use(Vuex)
@@ -33,6 +34,7 @@ const store = new Vuex.Store({
     visit,
     depart,
     role,
+    pad,
     upload
   },
   getters

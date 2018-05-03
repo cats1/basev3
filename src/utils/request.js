@@ -32,6 +32,15 @@ service.interceptors.response.use(
       let {status,reason} = response.data
       if (status == 0) {
         return response.data
+      } else if (status == 28) {
+        Message({
+          message: noticeMessages[status],
+          type: 'error',
+          duration: 5 * 1000,
+          onClose: function () {
+            window.location.href = 'signin.html'
+          }
+        })
       } else {
         Message({
           message: noticeMessages[status],
@@ -80,7 +89,7 @@ service.interceptors.response.use(
       type: 'error',
       duration: 5 * 1000
     })
-    //window.location.href = 'signin.html'
+    window.location.href = 'signin.html'
     return Promise.reject(error)
   })
 

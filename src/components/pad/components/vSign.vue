@@ -23,7 +23,7 @@ export default {
   components: { oneNotice, vueQuillEditor },
   data () {
     return {
-      imgSrc: require('@/assets/img/webchatv1.png'),
+      imgSrc: require('@/assets/img/vsign.png'),
       isShow: false,
       form: {
         secureProtocol: getCache('secureProtocol'),

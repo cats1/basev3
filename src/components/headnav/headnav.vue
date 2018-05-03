@@ -39,14 +39,8 @@
 				    <i class="el-icon-arrow-down el-icon--right"></i>
 				  </span>
 				  <el-dropdown-menu slot="dropdown">
-				  	<template v-for="item in $t('downlist')">
-				  		<template v-if="item.link !== null">
-					  		<el-dropdown-item ><a :href="item.link" target="_self">{{item.name}}</a></el-dropdown-item>
-					  	</template>
-					  	<template v-else>
-					  		<el-dropdown-item ><a href="jsvascript:void(0);" @click="doFunc(item.link,item.dirname)" target="_self">{{item.name}}</a></el-dropdown-item>
-					  	</template>
-				  	</template>				  	
+				  	<el-dropdown-item ><a href="account.html" target="_self">{{$t('downlist[0]')}}</a></el-dropdown-item>
+				  	<el-dropdown-item ><a href="javascript:void(0);" @click="doFuncOut" target="_self">{{$t('downlist[2]')}}</a></el-dropdown-item>			  	
 				  </el-dropdown-menu>
 				</el-dropdown>
 		    </div>
@@ -76,9 +70,8 @@ export default {
     components: {LangSelect,vHistory},
     methods: {
     	getCache: getCache,
-    	doFunc (link,dirname) {
-	      	if (dirname === 'signout') {
-	      		this.$confirm(this.$t('outTip.title'),this.$t('outTip.desc'), {
+    	doFuncOut () {
+	      	this.$confirm(this.$t('outTip.title'),this.$t('outTip.desc'), {
 			        confirmButtonText: this.$t('outTip.conform'),
 			        cancelButtonText: this.$t('outTip.cancel'),
 			        type: 'warning',
@@ -87,8 +80,7 @@ export default {
 			        this.$store.dispatch('signOut').then(res => {
 			        	window.location.href = 'signin.html'
 			        })			        
-			    }).catch(() => { })	          
-	      	}
+			    }).catch(() => { })
         }
     }
   }

@@ -23,3 +23,11 @@ export function UploadPic(data) {
     data
   })
 }
+//UpdateThemeColor
+export function UpdateThemeColor(data) {
+  return request({
+    url: '/UpdateThemeColor',
+    method: 'post',
+    data
+  })
+}

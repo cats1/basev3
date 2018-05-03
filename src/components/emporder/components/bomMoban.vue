@@ -1,6 +1,7 @@
 <template>
 	<div class="bommoban">
 		<p class="title">{{$t('moban.mtitle')}}
+      <span v-show="isEdit">({{$t('moban.emptip')}})</span>
 			<el-button class="right" @click="editMoban">
 			  <template v-if="mobanShow === false">{{$t('btn.editBtn')}}</template>
 			  <template v-else>{{$t('btn.shouBtn')}}</template>
@@ -13,11 +14,14 @@
 </template>
 <script>
 import orderMoban from '@/components/moban/orderMoban'
+import { getCache } from '@/utils/auth'
+import { numberToBoolean } from '@/utils/common'
 export default {
   components: { orderMoban },
   data () {
   	return {
   	  mobanShow: false,
+      isEdit: numberToBoolean(getCache('tempEditSwitch'))
   	}
   },
   methods: {

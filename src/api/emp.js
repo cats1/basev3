@@ -229,3 +229,19 @@ export function getSubAccountById(data) {
     data
   })
 }
+//updateEmpPwd
+export function updateEmpPwd(data) {
+  return request({
+    url: '/updateEmpPwd',
+    method: 'post',
+    data
+  })
+}
+//addEmptemplate
+export function addEmptemplate(data) {
+  return request({
+    url: '/addEmptemplate',
+    method: 'post',
+    data
+  })
+}

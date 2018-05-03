@@ -18,7 +18,7 @@ export default {
   components: { oneNotice, dset },
   data () {
     return {
-      imgSrc: require('@/assets/img/webchatv1.png'),
+      imgSrc: require('@/assets/img/doors.png'),
       isShow: false,
       form: {
         upDuty: getCache('upDuty'),

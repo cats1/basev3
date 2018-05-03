@@ -11,19 +11,8 @@
 				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
 		  text-color="#fff"
 		  active-text-color="#2274e6">
-				  <template v-for="(item,index) in $t('empnav')">
-				  	<template v-if="item.children.length === 0">
-				  		<el-menu-item :index="item.dirname"><router-link :to="{ name: item.dirname}">{{item.name}}</router-link></el-menu-item>
-				  	</template>
-				  	<template v-else>
-				  		<el-submenu :index="item.dirname">
-						    <template slot="title">{{item.name}}</template>
-						    <template v-for="citem in item.children">
-						    	<el-menu-item :index="citem.dirname"><router-link :to="{ name: item.dirname}">{{citem.name}}</router-link></el-menu-item>
-						    </template>
-						</el-submenu>
-				  	</template>		  	
-				  </template>
+		            <el-menu-item index="order"><router-link to="/">邀请</router-link></el-menu-item>
+		            <el-menu-item index="list"><router-link to="/list">邀请列表</router-link></el-menu-item>
 				</el-menu>
 		    </div>
 		    <div class="menuright">
@@ -40,34 +29,28 @@
 				    <i class="el-icon-arrow-down el-icon--right"></i>
 				  </span>
 				  <el-dropdown-menu slot="dropdown">
-				  	<template v-for="item in $t('downlist')">
-				  		<template v-if="item.link !== null">
-					  		<el-dropdown-item ><a :href="item.link">{{item.name}}</a></el-dropdown-item>
-					  	</template>
-					  	<template v-else>
-					  		<el-dropdown-item ><a href="jsvascript:void(0);" @click="doFunc(item.link,item.dirname)">{{item.name}}</a></el-dropdown-item>
-					  	</template>
-				  	</template>
-				  	
+                    <el-dropdown-item ><a href="jsvascript:void(0);" @click="doFuncPwd()">{{$t('downlist[1]')}}</a></el-dropdown-item>
+				  	<el-dropdown-item ><a href="jsvascript:void(0);" @click="doFuncOut()">{{$t('downlist[2]')}}</a></el-dropdown-item>
 				  </el-dropdown-menu>
 				</el-dropdown>
 		    </div>
 	    </div>
+	    <change-pwd :ptype="2" :is-show="winShow" @closekit="getClose"></change-pwd>
 	</div>
 </template>
 <script>
 import LangSelect from '@/components/LangSelect'
 import vHistory from '@/components/history/vHistory'
 import { getCache } from '@/utils/auth'
+import changePwd from './changePwd'
 export default {
 	name: 'headnav',
     data() {
       return {
-        navlist: this.$t('navlist'),
-        downlist: this.$t('downlist'),
-        username: this.getCache('username'),
-        activeIndex: this.$route.name,
-        hlogo: require('@/assets/img/hlogo.png')
+        username: getCache('company'),
+	  	hlogo: require('@/assets/img/hlogo.png'),
+	  	winShow: false,
+	  	activeIndex: this.$route.name
       }
     },
     computed: {
@@ -75,12 +58,22 @@ export default {
       	return getCache('logo')
       }
     },
-    components: { LangSelect, vHistory },
+    components: { LangSelect, vHistory, changePwd },
     methods: {
-    	getCache: getCache,
-    	doFunc (link,dirname) {
-	      	if (dirname === 'signout') {
-	      		this.$confirm(this.$t('outTip.title'),this.$t('outTip.desc'), {
+    	init () {
+    	  let pwd = lftDePwdRule(getCache('password'))
+    	  if (pwd === '888888') {
+    	  	this.winShow = true
+    	  }
+    	},
+    	doFuncPwd () {
+    	  this.winShow = true
+    	},
+    	getClose () {
+    	  this.winShow = false
+    	},
+    	doFuncOut () {
+	      	this.$confirm(this.$t('outTip.title'),this.$t('outTip.desc'), {
 			        confirmButtonText: this.$t('outTip.conform'),
 			        cancelButtonText: this.$t('outTip.cancel'),
 			        type: 'warning',
@@ -89,8 +82,7 @@ export default {
 			        this.$store.dispatch('signOut').then(res => {
 			        	window.location.href = 'signin.html'
 			        })			        
-			    }).catch(() => { })	          
-	      	}
+			    }).catch(() => { })
         }
     },
     created () {

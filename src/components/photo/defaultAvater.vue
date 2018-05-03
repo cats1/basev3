@@ -5,7 +5,7 @@
         <template v-for="item in dSrcArray">
           <li >
             <div class="avater-img-wrap">
-              <img :src="item" alt="" @click="sendPhoto(item)">
+              <img :src="item" alt="" @click.prevent="sendPhoto($event,item)">
             </div>
           </li>
         </template>   
@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     submitUpload () {},
-    sendPhoto (value) {
+    sendPhoto (event,value) {
       this.$emit('getdkit',value)
     }
   }

@@ -6,7 +6,7 @@
       :visible.sync="isShow"
       width="50%" >
       <div class="quillcons">
-        <vue-quill-editor :content="form.secureProtocol" @getcon="getsp"></vue-quill-editor>
+        <tinymce :height=200 ref="comeditor" v-model="form.secureProtocol" :img-show="false" :toolbar="profileToolbar" menubar="" @input="getcon"></tinymce>
       </div>
       <div class="margintop20" style="text-align:left;">
         <el-button type="primary" @click="saveSetting">{{$t('btn.saveBtn')}}</el-button>
@@ -15,16 +15,18 @@
   </div>
 </template>
 <script>
+import Tinymce from '@/components/tinymce'
 import { oneNotice } from '@/components/notice'
 import { getCache } from '@/utils/auth'
 import {booleanToNumber,numberToBoolean} from '@/utils/common'
 import vueQuillEditor from '@/components/quill/quillEditor'
 export default {
-  components: { oneNotice, vueQuillEditor },
+  components: { oneNotice, Tinymce },
   data () {
     return {
-      imgSrc: require('@/assets/img/webchatv1.png'),
+      imgSrc: require('@/assets/img/safes.png'),
       isShow: false,
+      profileToolbar: ['insertfile undo redo | fontsizeselect| bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      | print preview fullpage | forecolor backcolor'],
       form: {
         secureProtocol: getCache('secureProtocol'),
         userid: getCache('userid')
@@ -38,6 +40,7 @@ export default {
     getsp (con) {
       this.form.secureProtocol = con
     },
+    getcon () {},
     saveSetting () {
       this.$store.dispatch('updateSecureProtocol',this.form).then(res => {
         let {status} = res

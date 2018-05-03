@@ -1,6 +1,6 @@
 <template>
   <div >
-    <h-title>通用设置</h-title>
+    <h-title>{{$t('pad.usualSet')}}</h-title>
     <com-logo></com-logo>
     <v-sign></v-sign>
     <card-paper></card-paper>

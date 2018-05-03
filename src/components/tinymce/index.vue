@@ -57,7 +57,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.height)
     this.initTinymce()
   },
   activated() {
@@ -72,6 +71,7 @@ export default {
       window.tinymce.init({
         selector: `#${this.tinymceId}`,
         height: this.height,
+        language: "zh_CN",
         body_class: 'panel-body ',
         object_resizing: false,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,

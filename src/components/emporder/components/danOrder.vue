@@ -58,17 +58,20 @@
 	    </div>
 	    <div class="margintop20">
 	    	<el-button type="success" @click="sendOrder">{{$t('btn.sendInvite')}}</el-button>
-	    	<el-button type="default">{{$t('btn.overview')}}</el-button>
+	    	<el-button type="default" @click="previewFlag = true">{{$t('btn.overview')}}</el-button>
 	    </div>
+        <moban-dialog :mobanFlag="mobanFlag" :ptip="$t('moban.tip1')" @closekit="getClose"></moban-dialog>
+        <preview-dialog :obj="form" :mobanFlag="previewFlag"></preview-dialog>
 	</div>
 </template>
 <script>
+import {mobanDialog,previewDialog} from '@/components/dialog'
 import { getCache } from '@/utils/auth'
 import bomMoban from './bomMoban'
 import { replaceQuotation } from '@/utils/common'
 import { formatDate } from '@/utils/index'
 export default {
-  components: { bomMoban },
+  components: { bomMoban,mobanDialog,previewDialog },
   data () {
   	return {
       form: {
@@ -100,7 +103,10 @@ export default {
       mobanShow: false,
       facemoban: {},
       busmoban: {},
-      demoban: {}
+      demoban: {},
+      mobanShow: true,
+      mobanFlag: false,
+      previewFlag: false
   	}
   },
   methods: {
@@ -161,17 +167,19 @@ export default {
 		  	}]
   	  		this.$store.dispatch('addAppointment',nform).then(res => {
   	  		  let {status} = res
-  	  		  this.$message({
-  	  		  	type: 'success',
-  	  		  	message: '发送成功'
-  	  		  })
+  	  		  if (status === 0) {
+  	  		  	this.mobanFlag = true
+  	  		  }
   	  		})
       	}
       })
   	},
   	editMoban () {
   	  this.mobanShow = !this.mobanShow
-  	}
+  	},
+  	getClose () {
+      console.log('8989')
+    }
   }
 }
 </script>

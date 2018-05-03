@@ -105,6 +105,19 @@ export default {
                 this.$emit('closekit')
               }
             })
+          } else if (this.ptype === 2) {
+            let nform = {
+              phone: getCache('phone') || getCache('empPhone'),
+              empPwd: this.form.password,
+              oldEmpPwd: this.form.oldPwd
+            }
+            this.$store.dispatch('updateEmpPwd',nform).then(res => {
+              let {status} = res
+              if (status === 0) {
+                this.dialogVisible = false
+                this.$emit('closekit')
+              }
+            })
           }
           
         }

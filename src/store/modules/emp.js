@@ -3,7 +3,8 @@ import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	getResidentVisitorByCompany,delResidentVisitor,updateAllResidentFace,
 	getRARG,getEmpRoleList,delRoleEmp,getDeptList,getEmpDeptList,getEmpListPages,
 	batchDelEmployee,updateAllFace,SearchRecordsByPhone,addAppointment,getEmptempByPost,
-	GetUserInfo,getSubAccountById,getEmptemplateByType,getUsertemplate,getSubAccountTemp,getEmpByName } from '@/api/emp'
+	GetUserInfo,getSubAccountById,getEmptemplateByType,getUsertemplate,getSubAccountTemp,
+	getEmpByName,updateEmpPwd,addEmptemplate } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 const user = {
@@ -167,6 +168,22 @@ const user = {
 		getEmpListPages({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        getEmpListPages(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		updateEmpPwd({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        updateEmpPwd(info).then(response => {
+		          let {status} = response
+		          if (status === 0) {
+		        	Message({
+                  	  message: '修改成功',
+                  	  type: 'success'
+                	})
+		          }
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)
@@ -371,6 +388,22 @@ const user = {
 		getSubAccountTemp({ commit },info) {
 			return new Promise((resolve, reject) => {
 		        getSubAccountTemp(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		addEmptemplate({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        addEmptemplate(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	Message({
+                  		message: '保存成功',
+                  		type: 'success'
+                	})
+		          }
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)

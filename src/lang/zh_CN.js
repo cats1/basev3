@@ -296,6 +296,12 @@ export default {
       title:'新增黑名单'
     }
   },
+  pad: {
+    usualSet: '通用设置',
+    padSet: 'pad设置',
+    scolor: '选择颜色',
+    inputColor: '输入色值'
+  },
   notice: {
     tip: {
       title: '提醒通知',
@@ -785,6 +791,10 @@ export default {
     cdesc: '预约短信内更多公司相关信息',
     tip7: '您可以选择逐条编辑，也可以通过Excel批量导入',
     mtitle: '邀请短信内更多公司相关信息',
+    emptip: '限制员工编辑开关开启，模板不可编辑',
+    hello: '您好！',
+    hello1: '诚邀您前来',
+    hello2: '详情请点击邀请函',
     interview: {
       title: '邀请函内容',
       desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',

@@ -16,29 +16,29 @@
 			      type="index"
 			      width="30">
 			    </el-table-column>
-				<el-table-column prop="vname" :label="$t('form.name.text')">
+				<el-table-column prop="vname" :label="$t('form.name.text')" width="180">
 					<template slot-scope="scope">
 				      <el-input v-model="scope.row.name"></el-input>
 				    </template>
 				</el-table-column>
-				<el-table-column prop="vphone" :label="$t('form.phone.text')">
+				<el-table-column prop="vphone" :label="$t('form.phone.text')" width="180">
 					<template slot-scope="scope">
 				      <el-input v-model="scope.row.phone"></el-input>
 				    </template>
 				</el-table-column>
-				<el-table-column prop="visitType" :label="$t('tablehead[7]')">
+				<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="120">
 					<template slot-scope="scope">
 				      <el-select v-model="scope.row.visitType" class="block">
-						<el-option
+						<el-option style="width:200px"
 						    v-for="item in $t('itype')"
 						    :key="item.value"
-							:label="item.label"
-							:value="item.value">
+  							:label="item.label"
+  							:value="item.value">
 						</el-option>
 					  </el-select>
 				    </template>
 				</el-table-column>
-				<el-table-column prop="appointmentDate" :label="$t('form.time.text6')" width="160">
+				<el-table-column prop="appointmentDate" :label="$t('form.time.text6')" width="220">
 					<template slot-scope="scope">
 					    <el-date-picker
 					      v-model="scope.row.appointmentDate"
@@ -57,9 +57,9 @@
 						<el-input v-model="scope.row.remark"></el-input>
 				    </template>
 				</el-table-column>
-				<el-table-column prop="status" :label="$t('btn.edit1')">
+				<el-table-column prop="status" :label="$t('btn.edit1')" width="100">
 					<template slot-scope="scope">
-					  <el-button type="error" v-if="scope.row.etype === 1" @click="delettype">{{$t('btn.deleteBtn')}}</el-button>
+					  <el-button type="error" v-if="!scope.row.etype" @click="delettype">{{$t('btn.deleteBtn')}}</el-button>
 				      <el-button type="primary" v-else @click="edittype">{{$t('btn.addBtn')}}</el-button>
 				    </template>
 				</el-table-column>
@@ -68,9 +68,9 @@
 		      <el-button @click="addVisit">{{$t('btn.addVisitorBtn')}}</el-button>
 		    </div>
 	    	<el-form class="margintop20" :model="form" :rules="rules" ref="danform" label-width="100px" style="width:70%;">	   
-          <el-form-item :label="$t('form.time.text7')" prop="qrcodeType">
+          <el-form-item label-position="left" :label="$t('form.time.text7')" prop="qrcodeType">
 		    		<el-row>
-		    			<el-col :span="12">
+		    			<el-col :span="8">
 			    			<el-select v-model="timetype" placeholder="请选择">
 							    <el-option
 							      v-for="item in $t('timetype')"
@@ -80,7 +80,7 @@
 							    </el-option>
 							</el-select>
 			    		</el-col>
-			    		<el-col :span="12">
+			    		<el-col :span="4">
 			    			<el-input v-model="form.qrcodeType"></el-input>
 			    		</el-col>
 		    		</el-row>
@@ -92,9 +92,12 @@
 	    <div class="margintop20">
 	    	<el-button type="success" @click="sendOrder">{{$t('btn.sendInvite')}}</el-button><el-button type="default">{{$t('btn.overview')}}</el-button>
 	    </div>
+      <moban-dialog :mobanFlag="mobanFlag" :ptip="$t('moban.tip1')" @closekit="getClose"></moban-dialog>
+      <preview-dialog :obj="form" :mobanFlag="previewFlag"></preview-dialog>
 	</div>
 </template>
 <script>
+import {mobanDialog,previewDialog} from '@/components/dialog'
 import { getCache } from '@/utils/auth'
 import bomMoban from './bomMoban'
 import {downInviteMoban} from '@/components/download'
@@ -102,7 +105,7 @@ import {uploadInvite} from '@/components/upload'
 import { replaceQuotation } from '@/utils/common'
 import { formatDate } from '@/utils/index'
 export default {
-  components: { bomMoban,downInviteMoban,uploadInvite },
+  components: { bomMoban,downInviteMoban,uploadInvite,mobanDialog,previewDialog },
   data () {
   	return {
       data: [{
@@ -189,7 +192,10 @@ export default {
       mobanShow: false,
       facemoban: {},
       busmoban: {},
-      demoban: {}
+      demoban: {},
+      mobanShow: true,
+      mobanFlag: false,
+      previewFlag: false
   	}
   },
   methods: {
@@ -215,9 +221,11 @@ export default {
       this.busmoban.companyProfile = val
     },
     getinitface (val) {
+      console.log(val)
       this.facemoban = val
     },
     getinitbus (val) {
+      console.log(val)
       this.busmoban = val
     },
     getUpload (result) {
@@ -258,45 +266,52 @@ export default {
       		let _self = this
 		  	let nform = []
 		  	this.data.forEach(function(element,index){
-		  	  if (element.visitType === 0) {
-			    _self.demoban = _self.facemoban
-			  } else {
-			  	_self.demoban = _self.busmoban
-			  }
-		  	  let date = formatDate(element.appointmentDate,'yyyy-MM-dd hh:mm:ss')
-              let obj = {
-		  	  	address: _self.demoban.address,
-		      	appointmentDate: new Date(Date.parse(date.replace(/-/g, '/'))),
-		      	companyProfile: replaceQuotation(_self.demoban.companyProfile),
-		      	empid: getCache('empid'),
-		      	inviteContent: replaceQuotation(_self.demoban.inviteContent),
-		      	latitude: _self.demoban.latitude,
-		      	longitude: _self.demoban.longitude,
-		      	name: element.name,
-		      	phone: element.phone,
-		      	qrcodeConf: _self.timetype === 0 ? '0' : '1',
-		      	qrcodeType: _self.form.qrcodeType,
-		      	remark: element.remark,
-		      	traffic: replaceQuotation(_self.demoban.traffic),
-		      	userid: getCache('userid'),
-		      	vcompany: element.vcompany,
-		      	visitType: element.visitType === 0 ? _self.$t('itype[0].label') : _self.$t('itype[1].label')
-		  	   }
-		  	   nform.push(obj)
-		  	})
+		  	  if (element.visitType === 0 || element.visitType === '面试') {
+  			    _self.demoban = _self.facemoban
+  			  } else {
+  			  	_self.demoban = _self.busmoban
+  			  }
+          let date = new Date(element.appointmentDate)
+          /*if (element.appointmentDate.indexOf('/') >0) {
+            date = Date.parse(element.appointmentDate.replace(/-/g, '/'))
+          } else {
+            date = new Date(element.appointmentDate)
+          }*/
+          let obj = {
+      		  	  	address: _self.demoban.address,
+      		      	appointmentDate: date,
+      		      	companyProfile: replaceQuotation(_self.demoban.companyProfile),
+      		      	empid: getCache('empid'),
+      		      	inviteContent: replaceQuotation(_self.demoban.inviteContent),
+      		      	latitude: _self.demoban.latitude,
+      		      	longitude: _self.demoban.longitude,
+      		      	name: element.name,
+      		      	phone: element.phone,
+      		      	qrcodeConf: _self.timetype === 0 ? '0' : '1',
+      		      	qrcodeType: _self.form.qrcodeType,
+      		      	remark: element.remark,
+      		      	traffic: replaceQuotation(_self.demoban.traffic),
+      		      	userid: getCache('userid'),
+      		      	vcompany: element.vcompany,
+      		      	visitType: element.visitType
+      		  	   }
+      		  	   nform.push(obj)
+      		})
   	  		this.$store.dispatch('addAppointment',nform).then(res => {
   	  		  let {status} = res
-  	  		  this.$message({
-  	  		  	type: 'success',
-  	  		  	message: '发送成功'
-  	  		  })
+  	  		  if (status === 0) {
+              this.mobanFlag = true
+            }
   	  		})
       	}
       })
   	},
   	editMoban () {
   	  this.mobanShow = !this.mobanShow
-  	}
+  	},
+    getClose () {
+      console.log('8989')
+    }
   }
 }
 </script>

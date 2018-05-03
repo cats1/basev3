@@ -28,7 +28,7 @@
 				    <i class="el-icon-arrow-down el-icon--right"></i>
 				  </span>
 				  <el-dropdown-menu slot="dropdown">
-				  	<el-dropdown-item ><a href="jsvascript:void(0);" @click="doFunc('dirname',null)">{{$t('downlist[1.name]')}}</a></el-dropdown-item>
+				  	<el-dropdown-item ><a href="jsvascript:void(0);" @click="doFuncOut">{{$t('downlist[1.name]')}}</a></el-dropdown-item>
 				  </el-dropdown-menu>
 				</el-dropdown>
 		    </div>
@@ -58,9 +58,8 @@ export default {
     components: { LangSelect, vHistory },
     methods: {
     	getCache: getCache,
-    	doFunc (link,dirname) {
-	      	if (dirname === 'signout') {
-	      		this.$confirm(this.$t('outTip.title'),this.$t('outTip.desc'), {
+    	doFuncOut () {
+	      	this.$confirm(this.$t('outTip.title'),this.$t('outTip.desc'), {
 			        confirmButtonText: this.$t('outTip.conform'),
 			        cancelButtonText: this.$t('outTip.cancel'),
 			        type: 'warning',
@@ -69,8 +68,7 @@ export default {
 			        this.$store.dispatch('signOut').then(res => {
 			        	window.location.href = 'signin.html'
 			        })			        
-			    }).catch(() => { })	          
-	      	}
+			    }).catch(() => { })
         }
     },
     created () {

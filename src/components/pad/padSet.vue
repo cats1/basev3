@@ -1,6 +1,6 @@
 <template>
   <div >
-    <h-title>pad设置</h-title>
+    <h-title>{{$t('pad.padSet')}}</h-title>
     <once-again></once-again>
     <sign-out-switch></sign-out-switch>
     <team-set></team-set>

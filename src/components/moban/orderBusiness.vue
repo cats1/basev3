@@ -1,7 +1,7 @@
 <template>
-	<div :class="{'noedit': !readonly}">
-		<m-header class="marginbom20" :title="$t('moban.interview.title')" :desc="$t('moban.interview.desc')"></m-header>
-		<tinymce class="margintop20" :id="contentId" :height=400 ref="ceditor" v-model="inviteContent" @input="getcon"></tinymce>
+  <div :class="{'noedit': !readonly}">
+    <m-header class="marginbom20" :title="$t('moban.interview.title')" :desc="$t('moban.interview.desc')"></m-header>
+    <tinymce class="margintop20" :id="contentId" :height=400 ref="ceditor" v-model="inviteContent" @input="getcon"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
     <baidu-map :isshow="mapShow" class="marginbom20" :address="address" :sendpot="pot" :mapid="mapid" style="width:80%;"></baidu-map>
     <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
@@ -11,7 +11,7 @@
     <div class="margintop20">
       <el-button type="primary" @click="saveMoban">{{$t('btn.saveMobanBtn')}}</el-button>
     </div>
-	</div>
+  </div>
 </template>
 <script>
 import mHeader from './components/mHeader'
@@ -44,14 +44,14 @@ export default {
   },
   components: { mHeader,Tinymce,BaiduMap },
   data () {
-  	return {
+    return {
       contentId: 'vue-tinymce-content-' + this.mapid,
       trafficId: 'vue-tinymce-traffic-' + this.mapid,
       companyProfileId: 'vue-tinymce-profile-' + this.mapid,
       profileToolbar: [''],
-  	  traffic: '',
-  	  companyProfile: '',
-  	  inviteContent: this.$t('moban.interview.defaultMoban'),
+      traffic: '',
+      companyProfile: '',
+      inviteContent: this.$t('moban.interview.defaultMoban'),
       pot: {
         latitude: '',
         longitude: ''
@@ -61,11 +61,11 @@ export default {
       vtype: '',
       mapShow: false,
       getResult: {}
-  	}
+    }
   },
   computed: {},
   watch: {
-  	traffic (val, oldval) {},
+    traffic (val, oldval) {},
     isshow (val) {
       this.mapShow = val
       if (val) {
@@ -80,10 +80,10 @@ export default {
     }
   },
   methods: {
-  	init () {
-  		this.getTempByType(this.vtype)
+    init () {
+      this.getTempByType(this.vtype)
       this.GetUserInfo()
-  	},
+    },
     setDefaultMoban () {
       let vhtml = '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">这里是{company}，感谢您对我公司的信任和选择。通过对您简历的认真审核，我们认为您已具备进入下一轮筛选的资格。为了进一步了解，现邀请您参加面试，具体安排如下：</p><br/>'
       let vhtml2 = '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">我是{company}的{empid}，很高兴代表我司与您联系。为更好的沟通交流工作事宜，诚挚希望与您进行会面，期待您的来访！</p><br/>'
@@ -128,17 +128,17 @@ export default {
       }
       this.$store.dispatch('getSubAccountById',nform)
     },
-  	getDefaultMoBan () {
-  		let newForm = {
-  			empid: getCache('empid')
-  		}
-  		this.$store.dispatch('getEmptempByPost',newForm).then(res => {
-  			let { status, result } = res
-  			if (status === 0) {
-  				this.defaultmoban = result
-  			}
-  		})
-  	},
+    getDefaultMoBan () {
+      let newForm = {
+        empid: getCache('empid')
+      }
+      this.$store.dispatch('getEmptempByPost',newForm).then(res => {
+        let { status, result } = res
+        if (status === 0) {
+          this.defaultmoban = result
+        }
+      })
+    },
     getTempByType (type) {
       if(parseInt(getCache('subaccountId')) !== 0) {
         if (parseInt(getCache('tempEditSwitch')) === 1) {

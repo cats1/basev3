@@ -1,25 +1,45 @@
 <template>
 	<div>
 		<el-tabs v-model="activeName" type="card">
-		    <el-tab-pane label="面试模板" name="face" @tab-click="activeName === 'face'">
-		    	<order-interview mtype="面试" :isshow="isshow" @initmoban="getinitface" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"></order-interview>
+		    <el-tab-pane :label="$t('moban.facemoban')" name="face" @tab-click="activeName === 'face'">
+		    	<order-interview :readonly="!isEdit" :mtype="0" :is-init="initShow" mapid="facemap" :isshow="faceShow" @initmoban="getinitface" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"></order-interview>
 		    </el-tab-pane>
-		    <el-tab-pane label="商务模板" name="bus" @tab-click="activeName === 'bus'">
-		    	<order-interview mtype="商务" :isshow="isshow" @initmoban="getinitbus" @getcon="getbinv" @gettraffic="getbtraffic" @getcompro="getbcompro"></order-interview>
+		    <el-tab-pane :label="$t('moban.busmoban')" name="bus" @tab-click="activeName === 'bus'">
+		    	<order-business :readonly="!isEdit" :mtype="1" :is-init="initShow" mapid="busmap" :isshow="busShow" @initmoban="getinitbus" @getcon="getbinv" @gettraffic="getbtraffic" @getcompro="getbcompro"></order-business>
 		    </el-tab-pane>
 		</el-tabs>
 	</div>
 </template>
 <script>
 import orderInterview from './orderInterview'
-import business from './interview'
+import orderBusiness from './orderBusiness'
+import { getCache } from '@/utils/auth'
+import { numberToBoolean } from '@/utils/common'
 export default {
   props: ['isshow'],
-  components: { orderInterview, business },
+  components: { orderInterview,orderBusiness },
   data () {
   	return {
-  	  activeName: 'face'
+  	  activeName: 'face',
+      initShow: true,
+      faceShow: this.isshow,
+      busShow: false,
+      isEdit: numberToBoolean(getCache('tempEditSwitch'))
   	}
+  },
+  watch: {
+    isshow (val) {
+      this.faceShow = this.isshow
+    },
+    activeName (val) {
+      if(val === 'face') {
+        this.faceShow = true
+        this.busShow = false
+      } else if(val === 'bus') {
+        this.faceShow = false
+        this.busShow = true
+      }
+    }
   },
   methods: {
   	getinv (val) {
