@@ -31,3 +31,19 @@ export function UpdateThemeColor(data) {
     data
   })
 }
+//GetExtendVisitor
+export function GetExtendVisitor(data) {
+  return request({
+    url: '/GetExtendVisitor',
+    method: 'post',
+    data
+  })
+}
+//addExtendVisitor
+export function addExtendVisitor(data) {
+  return request({
+    url: '/addExtendVisitor',
+    method: 'post',
+    data
+  })
+}

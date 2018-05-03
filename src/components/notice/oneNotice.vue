@@ -8,7 +8,7 @@
           <h3>{{nTitle}}</h3>
 		      <p>{{nDesc}}</p>
       	</span>
-      	<span class="noticeswitch">
+      	<span class="noticeswitch" :class="{'topzero': topzero}">
           <template v-if="switchFlag !== undefined">
             <el-switch v-model="switchValue" @change="setSwitch">
             </el-switch>
@@ -28,6 +28,10 @@ export default {
       default: true
     },
     isNoPadding: {
+      type: Boolean,
+      default: false
+    },
+    topzero: {
       type: Boolean,
       default: false
     },
@@ -56,4 +60,5 @@ export default {
   }
 }
 </script>
-<style></style>
+<style lang="scss" scoped>
+</style>

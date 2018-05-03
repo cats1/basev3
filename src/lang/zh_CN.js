@@ -376,7 +376,8 @@ export default {
     },
     vset: {
       title: '访客登记设置',
-      desc: '您可以设置访客所需填写的信息'
+      desc: '您可以设置访客所需填写的信息',
+      cdesc: '您可以自定义设置访客登记的内容'
     },
     vpaper: {
       title: '访客贴纸选择',
