@@ -11,6 +11,7 @@ import '@/icons'
 import IconSvg from '@/components/Icon-svg'
 import store from '@/store'
 import i18n from '@/lang'
+import '@/tiny'
 import 'quill/dist/quill.snow.css'
 Vue.use(ElementUI, {
   size: 'medium',

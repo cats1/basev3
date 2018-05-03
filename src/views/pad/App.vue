@@ -1,10 +1,8 @@
 <template>
   <div class="dashboard-container">
-    <headnav active-index="notice"></headnav>
+    <headnav active-index="setting"></headnav>
     <div class="page-container">
-      <common-set></common-set>
-      <pad-set></pad-set>
-      <pc-set></pc-set>
+      <lay-out></lay-out>
     </div>
     <footbom></footbom>
   </div>
@@ -13,13 +11,13 @@
 import headnav from '@/components/headnav/headnav'
 import footbom from '@/components/footer/footbom'
 import {getCache} from '@/utils/auth'
-import { commonSet, padSet, pcSet } from '@/components/pad'
+import { layOut } from '@/components/pad'
 export default {
   name: 'App',
   data () {
     return {}
   },
-  components: { headnav, footbom, commonSet, padSet, pcSet }
+  components: { headnav, footbom, layOut }
 }
 </script>
 <style>
