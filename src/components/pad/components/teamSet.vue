@@ -2,10 +2,12 @@
   <div class="marginbom20">
     <notice-show >
       <div slot="header" class="clearfix">
-        <one-notice :is-box="false" :is-no-padding="false" :n-icon="imgSrc" :n-title="$t('notice.team.title')" :n-desc="$t('notice.team.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue" ></one-notice>
-        <div class="showbody marginlr20 paddingtb20" v-show="isShow">
-          <one-notice :is-box="false" :is-no-padding="true" :topzero="true" n-icon="" :n-title="$t('notice.vset.title')" :n-desc="$t('notice.vset.cdesc')" :btn-flag="true" @btn-click="showDown"></one-notice>
-        </div>
+        <one-notice :is-box="false" :is-no-padding="false" :n-icon="imgSrc" :n-title="$t('notice.team.title')" :n-desc="$t('notice.team.desc')" :switch-flag="isShow" @gswitch="getSwitchValue" ></one-notice>
+        <el-collapse-transition>
+          <div class="showbody marginlr20 paddingtb20" v-show="isShow">
+            <one-notice :is-box="false" :is-no-padding="true" :topzero="true" n-icon="" :n-title="$t('notice.vset.title')" :n-desc="$t('notice.vset.cdesc')" :btn-flag="true" @btn-click="showDown"></one-notice>
+          </div>
+        </el-collapse-transition>
       </div>
     </notice-show>
     <el-dialog title="访客登记设置" :visible.sync="visible"
@@ -24,8 +26,8 @@
           <el-input v-model="form.peopleCount"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="saveTeam">保存</el-button>
-          <el-button >取消</el-button>
+          <el-button type="primary" @click="summitTeamSetting">保存</el-button>
+          <el-button @click="visible = false">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -42,12 +44,11 @@ export default {
       imgSrc: require('@/assets/img/team.png'),
       isShow: false,
       visible: false,
-      switchOn: numberToBoolean(getCache('comeAgain')),
       form: {
-        name: '',
-        empid: '',
-        phone: '',
-        peopleCount: ''
+        name: '团队名称',
+        empid: '拜访的人',
+        phone: '拜访人的联系电话',
+        peopleCount: '团队人数'
       },
       g_team_config_arr: []
     }
@@ -69,7 +70,6 @@ export default {
       this.$store.dispatch('GetExtendVisitor',nform).then(res => {
         let {status,result} = res
         if (status === 0) {
-          console.log(result)
           this.g_team_config_arr = []
           let team_setting_fg = 0
           for (let i = 0; i < result.length; i++) {
@@ -93,7 +93,6 @@ export default {
               }
             }
           }
-          console.log(this.g_team_config_arr)
           if (team_setting_fg === 0) {
             this.isShow = false
           } else {
@@ -103,7 +102,7 @@ export default {
       })
     },
     getSwitchValue (value) {
-      this.switchOn = booleanToNumber(value)
+      this.isShow = value
       if (value) {
         this.submitDefault()
       } else {
@@ -117,7 +116,7 @@ export default {
       var g_team_config_arr = this.g_team_config_arr
       var req_obj = []
       for (var i = 0; i < g_team_config_arr.length; i++) {
-        if (g_team_config_arr[i].placeholder == null || g_team_config_arr[i].placeholder == "") {
+        if (g_team_config_arr[i].placeholder == null || g_team_config_arr[i].placeholder == '') {
           var conf_item = {
             "userid": g_team_config_arr[i].userid,
             "displayName": g_team_config_arr[i].displayName,
@@ -140,7 +139,7 @@ export default {
       var g_team_config_arr = this.g_team_config_arr
       var req_obj = []
       for (var i = 0; i < g_team_config_arr.length; i++) {
-        if (g_team_config_arr[i].placeholder == null || g_team_config_arr[i].placeholder == "") {
+        if (g_team_config_arr[i].placeholder == null || g_team_config_arr[i].placeholder == '') {
           var conf_item = {
             "userid": g_team_config_arr[i].userid,
             "displayName": g_team_config_arr[i].displayName,
@@ -205,6 +204,43 @@ export default {
       req_obj.push(item_count)
       this.saveTeam(req_obj,1)
     },
+    summitTeamSetting () {
+      if (this.g_team_config_arr.length === 0) {
+        return false
+      }
+      var g_team_config_arr = this.g_team_config_arr
+      var req_obj = []
+      for (var i = 0; i < g_team_config_arr.length; i++) {
+        if (g_team_config_arr[i].placeholder == null || g_team_config_arr[i].placeholder == '') {
+          var conf_item = {
+            "userid": g_team_config_arr[i].userid,
+            "displayName": g_team_config_arr[i].displayName,
+            "fieldName": g_team_config_arr[i].fieldName,
+            "inputType": g_team_config_arr[i].inputType,
+            "inputValue": g_team_config_arr[i].inputValue,
+            "inputOrder": g_team_config_arr[i].inputOrder,
+            "required": g_team_config_arr[i].required,
+            "placeholder": g_team_config_arr[i].placeholder
+          }
+          req_obj.push(conf_item)
+        }
+      }
+      var order = req_obj.length + 1
+      for (let key in this.form) {
+        let tobj = {
+          userid: getCache('userid'),
+          displayName: this.form[key],
+          fieldName: key,
+          inputType: 'text',
+          inputValue: '',
+          inputOrder: order,
+          required: 1,
+          placeholder: '1'
+        }
+        req_obj.push(tobj)
+      }
+      this.saveTeam(req_obj,2)
+    },
     saveSetting () {
       this.$store.dispatch('updateSecureProtocol',this.form).then(res => {
         let {status} = res
@@ -217,7 +253,14 @@ export default {
       this.$store.dispatch('addExtendVisitor',obj,type).then(res => {
         let {status} = res
         if (status === 0) {
-          
+          if (type === 1) {
+            this.isShow = true
+          } else if (type === 0) {
+            this.isShow = false
+          } else if (type === 2) {
+            this.visible = false
+          }
+          this.getExtendVisitor()
         }
       })
     }

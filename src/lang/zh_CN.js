@@ -377,11 +377,28 @@ export default {
     vset: {
       title: '访客登记设置',
       desc: '您可以设置访客所需填写的信息',
-      cdesc: '您可以自定义设置访客登记的内容'
+      cdesc: '您可以自定义设置访客登记的内容',
+      vdesc: '此信息为可选项，可设置为可见'
     },
     vpaper: {
       title: '访客贴纸选择',
-      desc: '您可以查看访客贴纸的样式、尺寸及展示内容'
+      desc: '您可以查看访客贴纸的样式、尺寸及展示内容',
+      printType: '打印机型号',
+      printBlackType: '黑白打印访客贴纸（适配Brother QL-720NW打印机）',
+      printColorType: '彩色打印访客贴纸',
+      comShow: '公司形象展示选择',
+      comTextShow: '文字展示（6个字以内）',
+      comPicShow: '图片展示（建议尺寸168x42px）',
+      vType:'访客贴纸打印样式',
+      cardText: '适用于贴在身上',
+      cardSize: '尺寸',
+      cardStyle: '样式',
+      cardText1: '适用于90*60mm卡套',
+      cardText2: '5寸标准相纸',
+      cardText3: '4寸微信相纸',
+      codeWinTitle: '二维码头像',
+      insertLink: '插入链接',
+      uploadPic: '上传图片'
     },
     safe: {
       title: '安全协议',
@@ -463,9 +480,11 @@ export default {
     editBtn: '编辑',
     createNow: '立即创建',
     shouBtn: '收起',
+    visible: '可见',
     backListBtn: '返回列表',
     saveBtn: '保存',
     addBtn: '添加',
+    addSelectBtn: '添加选项',
     saveAndBtn: '保存并继续添加',
     exportBtn: '导出配置',
     export: '导出',
@@ -482,6 +501,7 @@ export default {
     cardBtn: '生成访客卡',
     updateBtn: '修改',
     deleteBtn: '删除',
+    insetBtn: '必填项',
     initPwdBtn: '初始化密码',
     cancelBtn: '取消',
     haveCancel: '已取消',

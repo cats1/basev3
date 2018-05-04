@@ -47,3 +47,19 @@ export function addExtendVisitor(data) {
     data
   })
 }
+//updateQRcode
+export function updateQRcode(data) {
+  return request({
+    url: '/updateQRcode',
+    method: 'post',
+    data
+  })
+}
+//updateCardType
+export function updateCardType(data) {
+  return request({
+    url: '/updateCardType',
+    method: 'post',
+    data
+  })
+}

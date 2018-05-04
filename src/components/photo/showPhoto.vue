@@ -20,6 +20,10 @@ export default {
     index: {
       type: Number,
       default: 0
+    },
+    ptype: {
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -28,7 +32,24 @@ export default {
   	  maskShow: false
   	}
   },
+  watch: {
+    ptype (val) {
+      this.setDefaultPhoto()
+    }
+  },
+  mounted () {
+    this.setDefaultPhoto()
+  },
   methods: {
+    setDefaultPhoto () {
+      if (this.ptype === 0) {
+        this.defaultSrc = require('@/assets/img/placeholder1.png')
+      } else if (this.ptype === 1) {
+        this.defaultSrc = require('@/assets/img/placeholder2.png')
+      } else if (this.ptype === 2) {
+        this.defaultSrc = require('@/assets/img/placeholder3.png')
+      }
+    },
   	deHover () {
   	  if (this.imgSrc !== '') {
   	  	this.maskShow = true

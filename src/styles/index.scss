@@ -442,6 +442,29 @@ label {
   }
 }
 
+.inline {
+  display: inline-block;
+}
+
+.comlogowrap {
+  display: inline-block;
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 5px 0;
+  cursor: default;
+  margin-right: 15px;
+  margin-top: 9px;
+  width: auto;
+  min-width: 168px;
+  height: auto;
+  min-height: 52px;
+  float: left;
+  img {
+    width: auto;
+    height: auto;
+  }
+}
+
 .color-set-wrap {
   position: relative;
   .colortext {
@@ -484,6 +507,10 @@ label {
       display: none;
     }
   }
+}
+
+.inputwidth220 {
+  width: 220px;
 }
 
 .comitemwrap {
@@ -540,7 +567,59 @@ label {
   }
 }
 
+.visitsetwrap {
+  border: 1px solid #ccc;
+  padding: 20px;
+  .visitsetitem {
+    padding: 20px 0;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    &:last-child {
+      border: none;
+    }
+  }
+  .setitembom {
+    color: #000;
+    cursor: pointer;
+    margin-right: 10px;
+    i{
+      color: #56aad5;
+      margin-right: 10px;
+    }
+    img{
+      margin: 5px 10px -3px 0;
+    }
+  }
+  .arrange {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    width: 24px;
+    height: auto;
+    overflow: hidden;
+    span {
+      width: 24px;
+      height: 14px;
+      display: block;
+      cursor: pointer;
+      margin: 0;
+      color: #56aad5;
+      &.disabled {
+        opacity: .3;
+      }
+    }
+    .up {
+      margin-bottom: 3px;
+      background: url('../assets/img/up.png') center center no-repeat;
+    }
+    .down{
+      background: url('../assets/img/down.png') center center no-repeat;
+    }
+  }
+}
+
 .block {
+  clear: both;
   display: block;
 }
 
@@ -552,7 +631,11 @@ div.mce-edit-area {
     min-height: 200px!important;
   }
 }
-
+.el-button--redfont{
+  color: #f56c6c;
+  border: none;
+  background: none;
+}
 .versionrecord {
   width: auto;
   display: inline-block;
@@ -648,6 +731,11 @@ div.mce-edit-area {
 
 
 
+
+
+
+
+
 /* page-container */
 
 .page-container {
@@ -672,6 +760,50 @@ div.mce-edit-area {
 
 .margintop20 {
   margin-top: 20px;
+}
+
+.left-top-list {
+  overflow: hidden;
+  padding: 0;
+  list-style: none;
+  li {
+    cursor: pointer;
+    width: 222px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 12px 0;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    color: #666;
+    position: relative;
+    span {
+      display: block;
+    }
+    .v {
+      font-size: 20px;
+    }
+    .d {
+      font-size: 16px;
+      font-weight: 400;
+    }
+    &.active {
+      color: #67bf6b;
+      font-weight: 700;
+      border-color: #67bf6b;
+      .arrow {
+        width: 26px;
+        height: 26px;
+        background: url('../assets/img/tick_s.png') left top no-repeat;
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 999;
+      }
+    }
+  }
 }
 
 .marginlr20 {
@@ -732,6 +864,11 @@ div.mce-edit-area {
     line-height: 36px;
   }
 }
+
+
+
+
+
 
 
 
@@ -939,6 +1076,11 @@ div.mce-edit-area {
     }
   }
 }
+
+
+
+
+
 
 
 

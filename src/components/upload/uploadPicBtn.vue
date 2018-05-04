@@ -21,16 +21,9 @@ export default {
       }
     },
     methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList)
-      },
-      handlePreview(file) {
-        console.log(file)
-      },
       beforeUpload (file) {
       	let _self = this
         uploadCommon(file,function(result){
-        	console.log(result.url)
         	_self.$emit('sendkit',result.url)
         })
       }

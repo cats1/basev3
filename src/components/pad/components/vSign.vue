@@ -2,25 +2,23 @@
   <div class="marginbom20">
     <one-notice :is-no-padding="false" :n-icon="imgSrc" :n-title="$t('notice.vset.title')" :n-desc="$t('notice.vset.desc')" :btn-flag="true" @btn-click="showDown"></one-notice>
     <el-dialog
-      :title="$t('notice.safe.dialog.title')"
+      :title="$t('notice.vset.title')"
       :visible.sync="isShow"
       width="50%" >
       <div class="quillcons">
-        <vue-quill-editor :content="form.secureProtocol" @getcon="getsp"></vue-quill-editor>
+        <visit-set></visit-set>
       </div>
-      <div class="margintop20" style="text-align:left;">
-        <el-button type="primary" @click="saveSetting">{{$t('btn.saveBtn')}}</el-button>
-      </div>
+      
     </el-dialog>
   </div>
 </template>
 <script>
+import visitSet from './visitSet'
 import { oneNotice } from '@/components/notice'
 import { getCache } from '@/utils/auth'
 import {booleanToNumber,numberToBoolean} from '@/utils/common'
-import vueQuillEditor from '@/components/quill/quillEditor'
 export default {
-  components: { oneNotice, vueQuillEditor },
+  components: { oneNotice,visitSet },
   data () {
     return {
       imgSrc: require('@/assets/img/vsign.png'),
