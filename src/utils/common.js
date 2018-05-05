@@ -440,20 +440,24 @@ export function formatMeetSendStatus(num) {
   }
 }
 export function judgeVtype(str) {
-    if (str == 1) {
-        return "邀请访客"
-    } else if (str == 0) {
-        return "员工"
-    } else if (str == 2) {
-        return "签到访客"
-    } else {
-        return "访客"
-    }
+  if (str == 1) {
+    return "邀请访客"
+  } else if (str == 0) {
+    return "员工"
+  } else if (str == 2) {
+    return "签到访客"
+  } else {
+    return "访客"
+  }
 }
 export function judgeRecordStatus(str) {
-    if (str == true || str == "true" || str == 1) {
-        return "成功"
-    } else if (str == false || str == "false" || str == 0) {
-        return "失败"
-    }
+  if (str == true || str == "true" || str == 1) {
+    return "成功"
+  } else if (str == false || str == "false" || str == 0) {
+    return "失败"
+  }
+}
+export function swapItems(arr, index1, index2) {
+  arr[index1] = arr.splice(index2, 1, arr[index1])[0]
+  return arr
 }
