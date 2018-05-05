@@ -478,6 +478,17 @@ export default {
       }
     }
   },
+  approve: {
+    title: '设置审批流程',
+    desc: '根据拜访区域设置审批人，预约需经过审批人审批后方可通过。',
+    atitle: '审批流程开关',
+    adesc: '审批功能打开后，访问申请需要根据审批条件进行多级审批',
+    astitle: '设置审批条件',
+    addArea: '新增新区域',
+    areaName: '区域名称',
+    areaAddress: '区域地址',
+    contact: '关联审批人'
+  },
   btn: {
     editBtn: '编辑',
     createNow: '立即创建',

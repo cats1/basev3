@@ -16,6 +16,7 @@ import upload from './modules/upload'
 import depart from './modules/depart'
 import pad from './modules/pad'
 import role from './modules/role'
+import approve from './modules/approve'
 import getters from './getters'
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -35,6 +36,7 @@ const store = new Vuex.Store({
     depart,
     role,
     pad,
+    approve,
     upload
   },
   getters

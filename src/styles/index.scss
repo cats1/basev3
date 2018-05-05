@@ -144,6 +144,104 @@ label {
   }
 }
 
+.approvewrap {
+  border: 1px solid #ccc; //
+  .regions-top {
+    border-bottom: 1px #b5b5b5 solid;
+    background-color: #f6f6f6;
+    h3 {
+      line-height: 36px;
+      color: #444;
+      padding: 0 24px;
+      position: relative;
+    }
+  }
+  .regions-body {
+    background-color: #fff;
+    padding: 18px 18px 10px;
+  }
+  .region-logo {
+    display: inline-block;
+    overflow: hidden;
+    padding: 10px 20px;
+    img {
+      float: left;
+      margin: 10px 0;
+    }
+    strong {
+      float: left;
+      color: #444;
+      text-indent: 24px;
+      line-height: 80px;
+      font-weight: lighter;
+    }
+    .el-button {
+      margin: 24px 0 0 20px;
+    }
+  }
+}
+
+.approveitem {
+  display: inline-block;
+  float: left;
+  position: relative;
+  text-align: center;
+  margin: 10px;
+  .closeicon {
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+    top: 4px;
+    right: 8px;
+  }
+  .approveitemtext {
+    border-radius: 2px;
+    font-size: 14px;
+    line-height: 28px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 0 26px;
+    cursor: pointer;
+    background-color: #8bb9e7;
+    color: #fff;
+  }
+}
+
+.rolemenuwrap {
+  overflow: hidden;
+  .roleleft,
+  .roleright {
+    width: 50%;
+    height: auto;
+    min-height: 300px;
+    overflow: hidden;
+    display: inline-block;
+    float: left;
+  }
+}
+
+.roletitle {
+  color: #111;
+  font-size: 18px;
+  line-height: 42px;
+}
+
+.roleitem {
+  border-radius: 2px;
+  background-color: #ebebeb;
+  float: left;
+  font-size: 14px;
+  line-height: 28px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 0 26px;
+  cursor: pointer;
+  &.selected {
+    background-color: #8bb9e7;
+    color: #fff;
+  }
+}
+
 .exportwrap {
   overflow: hidden;
   .exportwrap-left,
@@ -566,7 +664,13 @@ label {
     }
   }
 }
-
+.arrowitem{
+  display: inline-block;
+  float: left;
+  &.arrows{
+    padding: 25px 0 0 20px;
+  }
+}
 .visitsetwrap {
   border: 1px solid #ccc;
   padding: 20px;
@@ -582,11 +686,11 @@ label {
     color: #000;
     cursor: pointer;
     margin-right: 10px;
-    i{
+    i {
       color: #56aad5;
       margin-right: 10px;
     }
-    img{
+    img {
       margin: 5px 10px -3px 0;
     }
   }
@@ -612,7 +716,7 @@ label {
       margin-bottom: 3px;
       background: url('../assets/img/up.png') center center no-repeat;
     }
-    .down{
+    .down {
       background: url('../assets/img/down.png') center center no-repeat;
     }
   }
@@ -631,11 +735,13 @@ div.mce-edit-area {
     min-height: 200px!important;
   }
 }
-.el-button--redfont{
+
+.el-button--redfont {
   color: #f56c6c;
   border: none;
   background: none;
 }
+
 .versionrecord {
   width: auto;
   display: inline-block;
@@ -736,6 +842,10 @@ div.mce-edit-area {
 
 
 
+
+
+
+
 /* page-container */
 
 .page-container {
@@ -810,10 +920,12 @@ div.mce-edit-area {
   margin-left: 20px;
   margin-right: 20px;
 }
-.margintb20{
+
+.margintb20 {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
 .marginr20 {
   margin-right: 20px;
 }
@@ -867,6 +979,10 @@ div.mce-edit-area {
     line-height: 36px;
   }
 }
+
+
+
+
 
 
 
@@ -1079,6 +1195,10 @@ div.mce-edit-area {
     }
   }
 }
+
+
+
+
 
 
 
