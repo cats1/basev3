@@ -245,3 +245,19 @@ export function addEmptemplate(data) {
     data
   })
 }
+//SynchronCardNo
+export function SynchronCardNo(data) {
+  return request({
+    url: '/SynchronCardNo',
+    method: 'post',
+    data
+  })
+}
+//updateEmpSubAccount
+export function updateEmpSubAccount(data) {
+  return request({
+    url: '/updateEmpSubAccount',
+    method: 'post',
+    data
+  })
+}

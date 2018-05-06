@@ -89,6 +89,119 @@ label {
   overflow: hidden;
 }
 
+.comwraptitle {
+  padding: 20px 0;
+  overflow: hidden;
+  .comwraplogo {
+    width: auto;
+    display: inline-block;
+    float: left;
+    text-align: center;
+    p {
+      line-height: 36px;
+    }
+  }
+  .emplist {
+    margin-top: 10px;
+  }
+}
+
+.empitemwrap {
+  .empitemtitle {
+    background: #f2f3f4;
+    line-height: 50px;
+    font-size: 16px;
+    z-index: 999;
+    color: #333;
+    text-indent: 20px;
+    cursor: pointer;
+    height: 50px;
+    display: block;
+    margin: 0 0 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .empsectionwrap {
+    .pitem {
+      position: relative;
+      overflow: hidden;
+      padding: 0 0 10px 25px;
+      line-height: 36px;
+      cursor: pointer;
+    }
+  }
+}
+.bottomwins{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  padding:20px 30px;
+}
+.empform {
+  .el-input__icon {
+    margin-top: 6px;
+    display: inline-block;
+  }
+  .el-input__inner {
+    text-indent: 10px;
+  }
+  .empborder {
+    position: relative;
+    .el-select {
+      width: 100%;
+      .el-input__inner {
+        padding-left: 40px;
+      }
+    }
+    .defaulticon {
+      margin-top: 6px;
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: 10px;
+      z-index: 99
+    }
+  }
+}
+
+.eborder {
+  border-radius: 4px;
+  min-height: 36px;
+  border: 1px solid #dcdfe6;
+  text-align: center;
+  position: relative;
+  .el-input__icon {
+    margin-top: 0;
+    position: absolute;
+    top: 7px;
+    left: 6px;
+  }
+}
+
+.emplist {
+  width: auto;
+  height: auto;
+  border: 1px solid #dedfe0;
+  border-radius: 3px;
+  overflow: hidden;
+  float: right;
+  li {
+    width: 29px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    background: #fff;
+    float: left;
+    cursor: pointer;
+    &.active {
+      color: #fff;
+      background: #868686;
+    }
+  }
+}
+
 .barlist {
   width: 100%;
   height: auto;
@@ -664,13 +777,15 @@ label {
     }
   }
 }
-.arrowitem{
+
+.arrowitem {
   display: inline-block;
   float: left;
-  &.arrows{
+  &.arrows {
     padding: 25px 0 0 20px;
   }
 }
+
 .visitsetwrap {
   border: 1px solid #ccc;
   padding: 20px;
@@ -846,6 +961,10 @@ div.mce-edit-area {
 
 
 
+
+
+
+
 /* page-container */
 
 .page-container {
@@ -979,6 +1098,10 @@ div.mce-edit-area {
     line-height: 36px;
   }
 }
+
+
+
+
 
 
 
@@ -1195,6 +1318,10 @@ div.mce-edit-area {
     }
   }
 }
+
+
+
+
 
 
 

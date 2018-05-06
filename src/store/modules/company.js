@@ -134,6 +134,7 @@ const user = {
 		        updateSASwitch(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	setCache('subAccount',info.subAccount)
 		          	Message({
 		              message: '多企业服务模式修改成功',
 		              type: 'success'

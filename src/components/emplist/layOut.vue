@@ -1,6 +1,8 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 paddingtb20"></div>
+	  <transition name="fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
 	</div>
 </template>
 <script>

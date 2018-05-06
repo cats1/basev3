@@ -33,10 +33,10 @@ export default {
     }
   },
   methods: {
-    updateSetting () {
+    updateSetting (value) {
       let newForm = {
         userid: getCache('userid'),
-        subAccount: booleanToNumber(this.switchOn)
+        subAccount: booleanToNumber(value)
       }
       this.$store.dispatch('updateSASwitch', newForm).then(res => {
         let {status,result} = res
@@ -51,8 +51,8 @@ export default {
       })
     },
     getSwitchValue (value) {
-      this.switchOn = booleanToNumber(value)
-      this.updateSetting()
+      this.switchOn = value
+      this.updateSetting(value)
     }
   },
   created () {},

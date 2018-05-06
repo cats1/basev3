@@ -2,22 +2,21 @@
   <div class="dashboard-container">
     <headnav active-index="emp"></headnav>
     <div class="page-container">
-      <transition name="fade" mode="out-in">
-        <router-view></router-view>
-      </transition>
+      <lay-out></lay-out>
     </div>
     <footbom></footbom>
   </div>
 </template>
 <script>
-import headnav from '../../components/headnav/headnav'
-import footbom from '../../components/footer/footbom'
+import headnav from '@/components/headnav/headnav'
+import footbom from '@/components/footer/footbom'
+import layOut from '@/components/emplist/layOut'
 export default {
   name: 'App',
   data () {
     return {}
   },
-  components: { headnav, footbom }
+  components: { headnav, footbom, layOut }
 }
 </script>
 <style>

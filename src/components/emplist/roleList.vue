@@ -15,7 +15,7 @@
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
 	  			<el-radio-group class="margintop20" v-model="vtype" @change="changeVtype">
-			      <el-radio-button label="group"><router-link to="/">{{$t('emplist.pro')}}</router-link></el-radio-button>
+			      <el-radio-button label="group"><router-link to="/group">{{$t('emplist.pro')}}</router-link></el-radio-button>
 			      <el-radio-button label="role"><router-link to="/role">{{$t('emplist.com')}}</router-link></el-radio-button>
 			    </el-radio-group>
 			    <div class="roletreewrap">

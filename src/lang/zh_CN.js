@@ -184,7 +184,9 @@ export default {
     },
     gate: {
       text: '关联闸机',
-      tip: '请选择闸机组'
+      tip: '请选择闸机组',
+      text1: '闸机信息',
+      text2: '请选择关联闸机组'
     },
     photo: {
       tip: '请上传头像'
@@ -212,7 +214,8 @@ export default {
     validEmail: {
       tip1: '邮箱格式不正确',
       success: '邮件发送成功！',
-      holder: '邮箱'
+      holder: '邮箱',
+      tip2: '邮箱不能为空'
     },
     validphone: {
       tip1: '手机号格式不正确',
@@ -506,6 +509,9 @@ export default {
     picBtn: '选择图片',
     addBlackBtn: '添加黑名单',
     dotDeleteBtn: '批量删除',
+    dotUpdateBtn: '批量修改',
+    editSpecial: '编辑专用账号',
+    dotSendCard: '批量发卡',
     sendFaceBtn: '下发全部人脸',
     addProjectBtn: '添加项目',
     editProjectBtn: '编辑项目',
@@ -531,6 +537,7 @@ export default {
     sendInvite: '发送会议邀请',
     addDepartBtn: '添加子部门',
     addEmpBtn: '添加员工',
+    editEmpBtn: '员工编辑',
     exportListBtn: '导入通讯录',
     editDepart:'编辑部门',
     moveDepart:'调整部门',
@@ -578,6 +585,8 @@ export default {
   emplist: {
     pro: '组织架构',
     com: '角色',
+    pad: '是否在Pad端不可搜索',
+    cardTip: '此功能仅用于批量发卡，过程中将删除原有数据，发卡将持续数分钟！'
   },
   project: {
     pro: '项目列表',

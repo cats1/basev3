@@ -21,6 +21,7 @@ export default {
   },
   methods: {
     handleSetLanguage(lang) {
+      console.log(lang)
       this.$i18n.locale = lang
       this.$store.dispatch('setLanguage', lang)
       this.$message({

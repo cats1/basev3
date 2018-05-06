@@ -461,3 +461,7 @@ export function swapItems(arr, index1, index2) {
   arr[index1] = arr.splice(index2, 1, arr[index1])[0]
   return arr
 }
+export function getCharacter () {
+  var character = new Array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
+  return character
+}
