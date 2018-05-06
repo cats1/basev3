@@ -132,13 +132,15 @@ label {
     }
   }
 }
-.bottomwins{
+
+.bottomwins {
   position: fixed;
   bottom: 0;
   width: 100%;
   background: #fff;
-  padding:20px 30px;
+  padding: 20px 30px;
 }
+
 .empform {
   .el-input__icon {
     margin-top: 6px;
@@ -162,6 +164,87 @@ label {
       top: 0;
       left: 10px;
       z-index: 99
+    }
+  }
+}
+
+.processlist {
+  margin: 10px 0;
+  li {
+    line-height: 40px;
+    background: #d1d1d1;
+    display: inline-block;
+    color: #fff;
+    position: relative;
+    /*margin-right: 20px;
+        padding: 0px 20px;*/
+    text-align: center;
+    &:after {
+      content: '';
+      display: block;
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+      border-left: 20px solid #d1d1d1;
+      position: absolute;
+      right: -20px;
+      top: 0;
+    }
+    &:before {
+      content: '';
+      display: block;
+      border-top: 20px solid #d1d1d1;
+      border-bottom: 20px solid #d1d1d1;
+      border-left: 20px solid #fff;
+      position: absolute;
+      left: 0px;
+      top: 0;
+    }
+  }
+  li.active {
+    background: #50abe4;
+    &:after {
+      content: '';
+      display: block;
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+      border-left: 20px solid #50abe4;
+      position: absolute;
+      right: -20px;
+      top: 0;
+    }
+    &:before {
+      content: '';
+      display: block;
+      border-top: 20px solid #50abe4;
+      border-bottom: 20px solid #50abe4;
+      border-left: 20px solid #fff;
+      position: absolute;
+      left: 0px;
+      top: 0;
+    }
+  }
+  li:first-child {
+    border-radius: 4px 0 0 4px;
+    z-index: 3;
+    width: 32%;
+    &:before {
+      display: none;
+    }
+  }
+  li:nth-child(2) {
+    z-index: 2;
+    /*left: -20px;*/
+    left: 0;
+    width: 33%;
+  }
+  li:last-child {
+    border-radius: 0px 4px 4px 0px;
+    z-index: 1;
+    /*left: -40px;*/
+    left: 0;
+    width: 33%;
+    &:after {
+      display: none;
     }
   }
 }
@@ -965,6 +1048,9 @@ div.mce-edit-area {
 
 
 
+
+
+
 /* page-container */
 
 .page-container {
@@ -1098,6 +1184,9 @@ div.mce-edit-area {
     line-height: 36px;
   }
 }
+
+
+
 
 
 
@@ -1318,6 +1407,9 @@ div.mce-edit-area {
     }
   }
 }
+
+
+
 
 
 

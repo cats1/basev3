@@ -3,8 +3,8 @@
 	  <div class="boxshadow paddinglr30 paddingtb20 block">
 	  	<export-address-list :btn-type="btnType" @exportkit="changeBtnType"></export-address-list>
       <add-com-emp :btn-type="btnType" @addkit="changeBtnType"></add-com-emp>
-      <dot-update :slist="sempArray" @addkit="changeUpdate" @cancelkit="changeCancel" @deletekit="changeDeleteEmp"></dot-update>
-      <edit-special></edit-special>
+      <dot-update :btn-type="btnType" :slist="sempArray" @addkit="changeUpdate" @cancelkit="changeCancel" @deletekit="changeDeleteEmp"></dot-update>
+      <edit-special :btn-type="btnType" @addkit="changeBtnType"></edit-special>
       <dot-send-card></dot-send-card>
 	  </div>
 	  <el-row :gutter="20">
@@ -39,6 +39,9 @@
         <template v-if="btnType === 1">
           <add-com-emp-show :edit-type="editType" :emp-obj="curEmp"></add-com-emp-show>
         </template>
+        <template v-if="btnType === 3">
+          <special></special>
+        </template>
         <template v-else>
           <export-address-book></export-address-book>
         </template> 
@@ -50,12 +53,12 @@
 <script>
 import {getCache} from '@/utils/auth'
 import {getCgBarList} from '@/utils/common'
-import {addComEmp,addComEmpShow,dotUpdate,editSpecial,dotSendCard,empDetail,empShow,comShow,exportAddressBook} from './components'
+import {addComEmp,addComEmpShow,dotUpdate,editSpecial,dotSendCard,empDetail,empShow,comShow,exportAddressBook,special} from './components'
 import {exportAddressList,useExcel,useRtx,useDing,changeUploadType} from '@/components/upload'
 import {stringToArray,arrayToString} from '@/utils/common'
 import { formatDate } from '@/utils'
 export default {
-  components: {addComEmp,addComEmpShow,dotUpdate,editSpecial,empShow,comShow,exportAddressList,useExcel,useRtx,useDing,changeUploadType,dotSendCard,empDetail,exportAddressBook},
+  components: {addComEmp,addComEmpShow,dotUpdate,editSpecial,empShow,comShow,exportAddressList,useExcel,useRtx,useDing,changeUploadType,dotSendCard,empDetail,exportAddressBook,special},
   data () {
   	return {
       showType:1,
