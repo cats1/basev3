@@ -1,6 +1,6 @@
 <template>
   <el-dialog :title="$t('downlist[1]')" :visible.sync="dialogVisible" :before-close="handleClose" width="30%">
-  	<el-alert :title="$t('companyLogin.ptip')" type="warning" >
+  	<el-alert :title="$t('form.password.comtext')" type="error" >
     </el-alert>
   	<el-form :model="form" :rules="rules" ref="ruleForm">
   		<el-form-item :label="$t('form.password.oldtext')" prop="oldPwd">

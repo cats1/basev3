@@ -1,14 +1,12 @@
 <template>
-	<el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-      	<el-row v-if="!success">
+	<el-form class="login-form noboxshadow" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
+      <el-row v-if="!success">
 	  		<div class="title-container">
+           <img :src="icon" alt="">
 		       <h3 class="title">{{$t('login.forgot.page.title')}}</h3>
 		       <p class="desc">{{$t('login.forgot.page.desc')}}</p>
 		    </div>
 		    <el-form-item prop="email">
-		        <span class="svg-container svg-container_login">
-		          <svg-icon icon-class="user" />
-		        </span>
 		       <el-input name="email" type="text" v-model="loginForm.email" autoComplete="on" placeholder="email" />
 		    </el-form-item>
 		     <el-form-item prop="vcode">
@@ -16,15 +14,15 @@
 		     		<el-input name="code" type="text" v-model="loginForm.vcode" autoComplete="on" placeholder="code" />
 		     	</el-col>
 		     	<el-col :span="12" class="codewrap">
-		     		<img-code @clickit="setCode"></img-code>
+		     		<img-code :get-show="getCode" @clickit="setCode"></img-code>
 		     	</el-col>
 		     </el-form-item>
-		     <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="sendEmail">{{$t('login.forgot.page.btn')}}</el-button>
+		     <el-button type="success" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="sendEmail">{{$t('login.forgot.page.btn')}}</el-button>
 	     </el-row>
 	     <el-row v-else>
 	     	<div class="title-container">
-		       <i class="el-icon-success" style="color:green"></i>
-		       <p class="desc">{{$t('validEmail.success')}}</p>
+		       <img :src="successIcon" alt="">
+		       <p class="title lh60">{{$t('validEmail.success')}}</p>
 		    </div>
 	     </el-row>
     </el-form>
@@ -53,16 +51,19 @@ export default {
     }
     return {
       loginForm: {
-        email: 'jsnusun@163.com',
+        email: '',
         digest: '',
         vcode: ''
       },
+      icon: require('@/assets/img/favicon.png'),
+      successIcon: require('@/assets/img/success.png'),
       loginRules: {
         email: [{ required: true, trigger: 'blur', validator: validatemail}]
       },
       loading: false,
       passwordType: 'password',
-      success: false
+      success: false,
+      getCode: false
     }
   },
   methods: {
@@ -90,11 +91,17 @@ export default {
                   let { status } = resp
                   if (status === 0) {
                     this.success = true
+                    setTimeout(function(){
+                      window.location.href = 'signin.html'
+                    },2000)
                   }
 	          	}).catch(() => {
 	              this.loading = false
 	            })
-          	}
+          	} else if (res.status === 119) {
+              this.getCode = true
+              this.loginForm.vcode = ''
+            }
           })          
           return false        
         } else {

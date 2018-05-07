@@ -68,10 +68,19 @@ export default {
   methods: {
     initTinymce() {
       const _this = this
+      var lang = ''
+      let locale = this.$i18n.locale
+      if (locale === 'en') {
+        lang = 'en_GB'
+      } else if (locale === 'zh') {
+        lang = 'zh_CN'
+      } else {
+        lang = 'en_GB'
+      }
       window.tinymce.init({
         selector: `#${this.tinymceId}`,
         height: this.height,
-        language: "zh_CN",
+        language: lang,
         body_class: 'panel-body ',
         object_resizing: false,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,

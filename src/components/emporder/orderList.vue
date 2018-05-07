@@ -7,8 +7,8 @@
 		    </el-table-column>
 			<el-table-column prop="vname" :label="$t('form.name.text')"></el-table-column>
 			<el-table-column prop="vphone" :label="$t('form.phone.text')"></el-table-column>
-			<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="50"></el-table-column>
-			<el-table-column prop="appointmentDate" :label="$t('tablehead[2]')">
+			<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="100"></el-table-column>
+			<el-table-column prop="appointmentDate" :label="$t('tablehead[2]')" width="160">
 				<template slot-scope="scope">
 			      {{scope.row.appointmentDate | formatDate}}
 			    </template>
@@ -20,7 +20,7 @@
 			    </template>
 			</el-table-column>
 			<el-table-column prop="remark" :label="$t('form.remark.text')"></el-table-column>
-			<el-table-column prop="status" :label="$t('status.text')" width="70">
+			<el-table-column prop="status" :label="$t('tablehead[10]')" width="70">
 				<template slot-scope="scope">
 			      {{scope.row.status | checkStatus}}
 			    </template>
@@ -41,6 +41,7 @@
 </template>
 <script>
 import {formatDate,setYearAgo} from '@/utils/index'
+import {getBaseUrl} from '@/utils/common'
 import { getCache } from '@/utils/auth'
 export default {
   data () {
@@ -65,9 +66,9 @@ export default {
   	},
   	checkLink (type) {
   	  if (type === '商务') {
-  	  	return process.env.BASE_API + '/bus?id='
+  	  	return getBaseUrl() + '/bus?id='
   	  } else {
-  	  	return process.env.BASE_API + '/show?id='
+  	  	return getBaseUrl() + '/show?id='
   	  }
   	},
   	checkStatus (type) {

@@ -1,19 +1,28 @@
 <template>
 	<div class="img-code-wrap">
 		<img :src="code" alt="">
-		<el-button type="text" @click="getCode">换个验证码？</el-button>
+		<el-button type="text" @click="getCode">{{$t('imgCode')}}</el-button>
 	</div>
 </template>
 <script>
 export default {
   name: 'ImgCode',
+  props: {
+    getShow: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
   	return {
   		code: '',
   		digest: ''
   	}
   },
-  computed: {
+  watch: {
+    getShow (val) {
+      this.getCode()
+    },
   },
   created () {
   	this.getCode()

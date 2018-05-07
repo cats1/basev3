@@ -6,6 +6,14 @@ export function empLogin(data) {
     data
   })
 }
+//resetEmpPwd
+export function resetEmpPwd(data) {
+  return request({
+    url: '/resetEmpPwd',
+    method: 'post',
+    data
+  })
+}
 export function checkEmpInfo(data) {
   return request({
     url: '/checkEmpInfo',
@@ -257,6 +265,14 @@ export function SynchronCardNo(data) {
 export function updateEmpSubAccount(data) {
   return request({
     url: '/updateEmpSubAccount',
+    method: 'post',
+    data
+  })
+}
+//webActivateAccount
+export function webActivateAccount(data) {
+  return request({
+    url: '/webActivateAccount',
     method: 'post',
     data
   })

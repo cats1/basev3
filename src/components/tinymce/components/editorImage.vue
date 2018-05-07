@@ -1,14 +1,14 @@
 <template>
   <div class="upload-container">
-    <el-button icon='el-icon-upload' size="mini" :style="{background:color,borderColor:color}" @click=" dialogVisible=true" type="primary">上传图片
+    <el-button icon='el-icon-upload' size="mini" :style="{background:color,borderColor:color}" @click=" dialogVisible=true" type="primary">{{$t('notice.vpaper.uploadPic')}}
     </el-button>
     <el-dialog append-to-body :visible.sync="dialogVisible">
       <el-upload class="editor-slide-upload" action="123" :multiple="true" :file-list="fileList" :show-file-list="true"
         list-type="picture-card" :on-remove="handleRemove" :on-success="handleSuccess" :before-upload="beforeUpload">
-        <el-button size="small" type="primary">点击上传</el-button>
+        <el-button size="small" type="primary">{{$t('btn.clickUpload')}}</el-button>
       </el-upload>
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="handleSubmit">确 定</el-button>
+      <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
+      <el-button type="primary" @click="handleSubmit">{{$t('btn.confirmBtn')}}</el-button>
     </el-dialog>
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
     handleSubmit() {
       const arr = Object.keys(this.listObj).map(v => this.listObj[v])
       if (!this.checkAllSuccess()) {
-        this.$message('请等待所有图片上传成功 或 出现了网络问题，请刷新页面重新上传！')
+        this.$message(this.$t('btn.uploadWait'))
         return
       }
       console.log(arr)

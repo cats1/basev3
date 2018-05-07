@@ -1,9 +1,6 @@
 <template>
 	<el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-      	<el-row>
-  		<div class="title-container">
-	       <h3 class="title">{{$t('login.title')}}</h3>
-	    </div>
+    <el-row>
 	    <el-form-item prop="email">
 	        <span class="svg-container svg-container_login">
 	          <i class="fa fa-user"></i>
@@ -15,8 +12,9 @@
             <i class="fa fa-lock fa-lg"></i>
 	        </span>
 	       <el-input name="password" :type="passwordType" v-model="loginForm.password" autoComplete="on" placeholder="password" />
-	       <span class="show-pwd">
-	          <svg-icon icon-class="eye" />
+	       <span class="show-pwd" >
+	          <i class="fa fa-eye" v-if="passwordType === ''" @click="showPwd"></i>
+            <i class="fa fa-eye-slash" v-else @click="showPwd"></i>
 	       </span>
 	     </el-form-item>
 	     <el-form-item prop="vcode">
@@ -24,7 +22,7 @@
 	     		<el-input name="code" type="text" v-model="loginForm.vcode" autoComplete="on" placeholder="code" />
 	     	</el-col>
 	     	<el-col :span="12" class="codewrap">
-	     		<img-code @clickit="setCode"></img-code>
+	     		<img-code :get-show="getCode" @clickit="setCode"></img-code>
 	     	</el-col>
 	     </el-form-item>
 	     <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doLogin">{{$t('login.logIn')}}</el-button>
@@ -80,10 +78,18 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      vcode: ''
+      vcode: '',
+      getCode: false
   	}
   },
   methods: {
+    showPwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
+    },
   	setCode (result) {
       this.loginForm.digest = result.digest
   	},
@@ -103,7 +109,6 @@ export default {
           	'vcode': this.loginForm.vcode
           }
           this.$store.dispatch('isCodeTrue',codeData).then((res) => {
-          	console.log(res)
           	if (res.status == 0) {
           		this.loading = true
               let newForm = {
@@ -113,12 +118,14 @@ export default {
               }
           		this.$store.dispatch('managerLogin', newForm).then((resp) => {
                   this.loading = false
-                  console.log(this.$store)
                   window.location.href = 'index.html'
 	          	}).catch(() => {
 	              this.loading = false
 	            })
-          	}
+          	} else if (res.status === 119) {
+              this.getCode = true
+              this.loginForm.vcode = ''
+            }
           })          
           return false        
         } else {

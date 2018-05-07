@@ -5,7 +5,7 @@ $dark_gray:#889aa4;
   position: fixed;
   height: auto;
   min-height: 100%;
-  width: 100%; 
+  width: 100%;
   background-color: $bg;
   overflow: auto;
   .form-container {
@@ -13,13 +13,13 @@ $dark_gray:#889aa4;
     left: 0;
     right: 0;
     width: 420px;
-    margin: 65px auto;
+    margin: 20px auto;
 
     .loginselectwrap {
       color: #fff;
       position: absolute;
       top: 28px;
-      right: 0;
+      right: 20px;
       z-index: 999;
       .el-dropdown-link {
         color: #2196F3;
@@ -33,6 +33,7 @@ $dark_gray:#889aa4;
     width: 100%;
     margin: 0 auto;
     padding: 20px;
+    padding-top: 70px;
     box-shadow: 0.5px 0.87px 4px 0 #b7bcc1;
   }
   .tips {
@@ -50,37 +51,6 @@ $dark_gray:#889aa4;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
     color: #454545;
-  }
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-    &_login {
-      font-size: 20px;
-    }
-  }
-  .title-container {
-    position: relative;
-    .title {
-      font-size: 26px;
-      font-weight: 400;
-      color: #444;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
-    }
-    .desc {
-      color: #fff;
-      margin-bottom: 30px;
-    }
-    .set-language {
-      color: #fff;
-      position: absolute;
-      top: 5px;
-      right: 0px;
-    }
   }
   .el-input {
     display: inline-block;
@@ -131,6 +101,41 @@ $dark_gray:#889aa4;
     }
   }
 }
+a.topnav{
+  color: #2196F3;//
+  padding: 0 10px;
+  border-right: 1px solid #c7c7c7;
+  &:focus, &:hover{
+    color: #2196F3;
+  }
+  &.active{
+    color: #c7c7c7;
+  }
+  &:last-child{
+    border:none;
+  }
+}
+.title-container {
+  position: relative;
+  .title {
+    font-size: 26px;
+    font-weight: 400;
+    color: #444;
+    margin: 0px auto 10px auto;
+    text-align: center;
+    font-weight: bold;
+  }
+  .desc {
+    color: #999;
+    margin-bottom: 30px;
+  }
+  .set-language {
+    color: #fff;
+    position: absolute;
+    top: 5px;
+    right: 0px;
+  }
+}
 
 .or-line-wrap {
   position: relative;
@@ -151,6 +156,7 @@ $dark_gray:#889aa4;
     z-index: 10;
   }
 }
-.language{
+
+.language {
   color: #000;
 }

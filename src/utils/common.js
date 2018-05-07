@@ -2,6 +2,29 @@ import { getCache } from './auth'
 import i18n from '@/lang'
 const statusMessages = i18n.messages[i18n.locale].status
 let Base64 = require('js-base64').Base64
+
+export function getBaseUrl() {
+  const LocationHost = window.location.host
+  const LocationProtocol = window.location.protocol
+  var baseURL = process.env.BASE_API
+  if (LocationHost.indexOf('localhost') > -1) {
+    baseURL = process.env.BASE_API
+  } else {
+    baseURL = LocationProtocol + '//' + LocationHost + '/qcvisit'
+  }
+  return baseURL
+}
+export function getBaseLink() {
+  const LocationHost = window.location.host
+  const LocationProtocol = window.location.protocol
+  var baseURL = process.env.BASE_LINK
+  if (LocationHost.indexOf('localhost') > -1) {
+    baseURL = process.env.BASE_LINK
+  } else {
+    baseURL = LocationProtocol + '//' + LocationHost + '/base'
+  }
+  return baseURL
+}
 /* 密码加密*/
 export function lftPwdRule(str, num1, num2) {
   const strArray = str.split('')
@@ -461,7 +484,14 @@ export function swapItems(arr, index1, index2) {
   arr[index1] = arr.splice(index2, 1, arr[index1])[0]
   return arr
 }
-export function getCharacter () {
+export function getCharacter() {
   var character = new Array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
   return character
+}
+export function getQueryStringByName(name) {
+  var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+  if (result == null || result.length < 1) {
+    return "";
+  }
+  return result[1];
 }

@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<el-row class="margintop20 marginbom20">
-	        <p>{{$t('moban.ctitle')}}<el-button class="right" @click="goDan">{{$t('moban.single')}}</el-button></p>
+	        <p class="lh36">{{$t('moban.ctitle')}}
+            <el-button class="right" @click="goDan"><i class="fa fa-dot-circle-o"></i>{{$t('moban.single')}}</el-button></p>
 	    </el-row>
 	    <div class="boxshadow paddinglr30 paddingtb20">
 	    	<h3>{{$t('moban.visitMess')}}
@@ -26,10 +27,10 @@
 				      <el-input v-model="scope.row.phone"></el-input>
 				    </template>
 				</el-table-column>
-				<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="120">
+				<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="180">
 					<template slot-scope="scope">
 				      <el-select v-model="scope.row.visitType" class="block">
-						<el-option style="width:200px"
+						<el-option style="width:180px"
 						    v-for="item in $t('itype')"
 						    :key="item.value"
   							:label="item.label"
@@ -43,7 +44,7 @@
 					    <el-date-picker
 					      v-model="scope.row.appointmentDate"
 					      type="datetime"
-					      placeholder="选择日期时间">
+					      :placeholder="$t('formCheck.time.tip1')">
 					    </el-date-picker>
 				    </template>
 				</el-table-column>
@@ -59,15 +60,15 @@
 				</el-table-column>
 				<el-table-column prop="status" :label="$t('btn.edit1')" width="100">
 					<template slot-scope="scope">
-					  <el-button type="error" v-if="!scope.row.etype" @click="delettype">{{$t('btn.deleteBtn')}}</el-button>
-				      <el-button type="primary" v-else @click="edittype">{{$t('btn.addBtn')}}</el-button>
+					  <el-button type="danger" v-if="numberToBoolean(scope.row.etype)" @click="delettype" icon="el-icon-delete">{{$t('btn.deleteBtn')}}</el-button>
+				      <el-button type="primary" v-else @click="edittype" icon="el-icon-edit">{{$t('btn.addBtn')}}</el-button>
 				    </template>
 				</el-table-column>
 			</el-table>
 			<div class="margintop20">
-		      <el-button @click="addVisit">{{$t('btn.addVisitorBtn')}}</el-button>
+		      <el-button @click="addVisit" type="primary"><i class="fa fa-plus"></i>{{$t('btn.addVisitorBtn')}}</el-button>
 		    </div>
-	    	<el-form class="margintop20" :model="form" :rules="rules" ref="danform" label-width="100px" style="width:70%;">	   
+	    	<el-form class="margintop20" :model="form" :rules="rules" ref="danform" style="width:70%;">	   
           <el-form-item label-position="left" :label="$t('form.time.text7')" prop="qrcodeType">
 		    		<el-row>
 		    			<el-col :span="8">
@@ -102,7 +103,7 @@ import { getCache } from '@/utils/auth'
 import bomMoban from './bomMoban'
 import {downInviteMoban} from '@/components/download'
 import {uploadInvite} from '@/components/upload'
-import { replaceQuotation } from '@/utils/common'
+import { replaceQuotation,booleanToNumber,numberToBoolean } from '@/utils/common'
 import { formatDate } from '@/utils/index'
 export default {
   components: { bomMoban,downInviteMoban,uploadInvite,mobanDialog,previewDialog },
@@ -182,10 +183,10 @@ export default {
       	visitType: ''
       },
       rules: {
-      	name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-      	phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
-      	appointmentDate: [{ required: true, message: '请选择邀请时间', trigger: 'blur' }],
-      	qrcodeType: [{ required: true, message: '有效期', trigger: 'blur' }]
+      	name: [{ required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
+      	phone: [{ required: true, message: this.$t('formCheck.validphone.tip2'), trigger: 'blur' }],
+      	appointmentDate: [{ required: true, message: this.$t('formCheck.time.tip1'), trigger: 'blur' }],
+      	qrcodeType: [{ required: true, message: this.$t('form.time.text7'), trigger: 'blur' }]
       },
       timetype: 0,
       visitType: 0,
@@ -199,6 +200,7 @@ export default {
   	}
   },
   methods: {
+    numberToBoolean:numberToBoolean,
   	goDan () {
   	  this.$router.push({name: 'order'})
   	},

@@ -38,12 +38,16 @@ const user = {
 		          console.log(result)
 		          if (status === 0) {
 		          	for (let key in result) {
+		          		if (key === 'pemail') {
+		          	      setCache('email', result[key])
+		          		}
 		          		if (key !== 'token') {
 		          	      setCache(key, result[key])
 		          		} else {
 		          		  setCache('token', userInfo.account + '-' + result.token)
 		          		}
 		          	}
+
 		          }
 		          setToken(result.token)
 		          resolve(response)

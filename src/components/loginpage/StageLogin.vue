@@ -1,10 +1,6 @@
 <template>
   <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
         <el-row>
-      <div class="title-container">
-         <h3 class="title">{{$t('stageLogin.title')}}</h3>
-         <!-- <lang-select class="set-language"></lang-select> -->
-      </div>
       <el-form-item prop="username">
           <span class="svg-container svg-container_login">
             <i class="fa fa-user"></i>
@@ -16,8 +12,9 @@
             <i class="fa fa-lock fa-lg"></i>
           </span>
          <el-input name="password" :type="passwordType" v-model="loginForm.password" autoComplete="on" placeholder="password" />
-         <span class="show-pwd">
-            <svg-icon icon-class="eye" />
+         <span class="show-pwd" >
+            <i class="fa fa-eye" v-if="passwordType === ''" @click="showPwd"></i>
+            <i class="fa fa-eye-slash" v-else @click="showPwd"></i>
          </span>
        </el-form-item>
        <el-form-item prop="vcode">
@@ -25,10 +22,10 @@
           <el-input name="code" type="text" v-model="loginForm.vcode" autoComplete="on" placeholder="code" />
         </el-col>
         <el-col :span="12" class="codewrap">
-          <img-code @clickit="setCode"></img-code>
+          <img-code :get-show="getCode" @clickit="setCode"></img-code>
         </el-col>
        </el-form-item>
-       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doLogin">{{$t('stageLogin.logIn')}}</el-button>
+       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doLogin">{{$t('login.logIn')}}</el-button>
        </el-row>
       </el-form>
 </template>
@@ -65,8 +62,8 @@ export default {
     }
     return {
       loginForm: {
-        account: '3333',
-        password: '123456',
+        account: '',
+        password: '',
         digest: '',
         vcode: ''
       },
@@ -77,10 +74,18 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      vcode: ''
+      vcode: '',
+      getCode: false
     }
   },
   methods: {
+    showPwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
+    },
     setCode (result) {
       this.loginForm.digest = result.digest
     },
@@ -103,12 +108,13 @@ export default {
               }
               console.log(newForm)
               this.$store.dispatch('LoginManager',newForm).then((resp) => {
-                console.log(resp)
-                this.loading = false
-                window.location.href = 'stage.html'
+                this.getUserInfo()
               }).catch(() => {
                 this.loading = false
               })
+            } else if (res.status === 119) {
+              this.getCode = true
+              this.loginForm.vcode = ''
             }
           })          
           return false        
@@ -116,6 +122,15 @@ export default {
           console.log('error submit!!')
           return false
         }
+      })
+    },
+    getUserInfo () {
+      this.$store.dispatch('GetUserInfo').then(res => {
+        let {status} = res
+        if (status === 0) {
+          this.loading = false
+          window.location.href = 'stage.html'
+        } else {}
       })
     }
   }

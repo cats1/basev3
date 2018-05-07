@@ -1,13 +1,20 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import i18n from '../lang'
+import i18n from '@/lang'
 const noticeMessages = i18n.messages[i18n.locale].responseNote
 import store from '@/store'
 import { getCache } from '@/utils/auth'
-
+const LocationHost = window.location.host
+const LocationProtocol = window.location.protocol
+var baseURL = process.env.BASE_API
+if (LocationHost.indexOf('localhost') > -1) {
+  baseURL = process.env.BASE_API
+} else {
+  baseURL = LocationProtocol + '//' + LocationHost + '/qcvisit'
+}
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.BASE_API, // api的base_url
+  baseURL: baseURL, // api的base_url
   timeout: 5000 // request timeout
 })
 

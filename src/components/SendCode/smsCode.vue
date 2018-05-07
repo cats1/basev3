@@ -44,12 +44,12 @@ export default {
   	sendCode () {
   	  if (this.phone) {
   	  	let form = {
-	  	  phone: this.phone
-	  	}
-	    this.$store.dispatch('sendSmsCode',form).then(res => {
-	      console.log(res)
-	      this.timeClick()
-	    })
+  	  	  phone: this.phone
+  	  	}
+  	    this.$store.dispatch('sendSmsCode',form).then(res => {
+  	      console.log(res)
+  	      this.timeClick()
+  	    })
   	  } else {
         console.log(999)
   	  }

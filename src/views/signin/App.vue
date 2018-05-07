@@ -1,35 +1,12 @@
 <template>
   <div id="app">
-    <login-nav></login-nav>
-  	<div class="login-container">      
-      <div class="form-container">
-        <login-select :ltype="loginType" @clickit="changeLogin"></login-select>
-        <template v-if="loginType === 0">
-          <manger-login></manger-login>
-        </template>
-        <template v-else-if="loginType === 1">
-          <super-login></super-login>
-        </template>
-        <template v-else-if="loginType === 2">
-          <company-login></company-login>
-        </template>
-        <template v-else-if="loginType === 3">
-          <emp-login></emp-login>
-        </template>
-        <template v-else>
-          <stage-login></stage-login>
-        </template>
-      </div>           
-  	</div>
-    <svg-icon></svg-icon>
+    <lay-out></lay-out>
   </div>
 </template>
 <script>
-import { ImgCode, MangerLogin, SuperLogin, CompanyLogin, EmpLogin, StageLogin, LoginSelect } from '@/components/loginpage'
-import svgIcon from '@/components/svg/svg'
-import loginNav from '@/components/headnav/loginnav'
+import { layOut } from '@/components/loginpage'
 export default {
-  components: { ImgCode, MangerLogin, SuperLogin, CompanyLogin, EmpLogin, StageLogin, LoginSelect,svgIcon,loginNav },
+  components: { layOut },
   name: 'App',
   data () {
   	return {

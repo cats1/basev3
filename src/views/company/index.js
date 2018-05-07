@@ -8,7 +8,6 @@ import App from './App'
 import router from '@/router/company'
 import store from '@/store'
 import i18n from '@/lang'
-import '@/tiny'
 Vue.use(ElementUI, {
   size: 'medium',
   i18n: (key, value) => i18n.t(key, value)

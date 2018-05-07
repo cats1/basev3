@@ -1,7 +1,7 @@
 <template>
   <el-dropdown trigger="click" class='international' @command="handleSetLanguage">
     <div class="language">
-      <i class="fa fa-language"></i>
+      <i class="fa fa-language fa-2x"></i>
       <!-- <svg class="svg_icon">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#language"></use>
       </svg> -->

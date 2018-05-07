@@ -1,13 +1,17 @@
 <template>
-	<div class="login-container">      
-      <div class="form-container">
-        <manager-forgot></manager-forgot>
-      </div>           
-  	</div>
+  <div id="app">
+    <lay-out></lay-out>
+  </div>
 </template>
 <script>
-import { ManagerForgot } from '@/components/forgot'
+import { layOut } from '@/components/forgot'
 export default {
-  components: {ManagerForgot}
+  components: { layOut },
+  name: 'App',
+  data () {
+  	return {}
+  }
 }
 </script>
+<style lang="scss" scoped>
+</style>

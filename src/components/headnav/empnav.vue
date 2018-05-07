@@ -11,8 +11,8 @@
 				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
 		  text-color="#fff"
 		  active-text-color="#2274e6">
-		            <el-menu-item index="order"><router-link to="/">邀请</router-link></el-menu-item>
-		            <el-menu-item index="list"><router-link to="/list">邀请列表</router-link></el-menu-item>
+		            <el-menu-item index="order"><router-link to="/">{{$t('empnav[0].name')}}</router-link></el-menu-item>
+		            <el-menu-item index="list"><router-link to="/list">{{$t('empnav[1].name')}}</router-link></el-menu-item>
 				</el-menu>
 		    </div>
 		    <div class="menuright">
@@ -86,7 +86,11 @@ export default {
         }
     },
     created () {
-    	console.log(this.$route.name)
+      if (this.$route.name !== 'list') {
+      	this.activeIndex = 'order'
+      } else {
+      	this.activeIndex = 'list'
+      }
     }
   }
 </script>

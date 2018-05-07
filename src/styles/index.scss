@@ -482,7 +482,15 @@ label {
     }
   }
 }
-
+.lh36{
+  line-height: 36px;
+}
+.lh60{
+  line-height: 60px;
+}
+.noboxshadow{
+  box-shadow: 0 0 0 0 #b7bcc1 !important;
+}
 .photo-item-wrap {
   width: 164px;
   height: auto;
@@ -1272,6 +1280,7 @@ div.mce-edit-area {
       color: #fff;
       height: 60px;
       line-height: 60px;
+      top: 6px;
       .useravater {
         border-radius: 50%;
         width: 40px;
@@ -1320,6 +1329,8 @@ div.mce-edit-area {
 .el-menu--horizontal {
   .el-menu-item.is-active {
     border-bottom-width: 6px;
+    color: #fff!important;
+    font-weight: bolder;
   }
   .el-menu--popup {
     li {

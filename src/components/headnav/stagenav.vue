@@ -11,7 +11,7 @@
 				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
 		  text-color="#fff"
 		  active-text-color="#2274e6">
-				  <el-menu-item index="index"><router-link to="/">{{$t('navlist[0].name')}}</router-link></el-menu-item>
+				  <el-menu-item index="stage"><router-link to="/">{{$t('navlist[0].name')}}</router-link></el-menu-item>
 				</el-menu>
 		    </div>
 		    <div class="menuright">
@@ -28,7 +28,7 @@
 				    <i class="el-icon-arrow-down el-icon--right"></i>
 				  </span>
 				  <el-dropdown-menu slot="dropdown">
-				  	<el-dropdown-item ><a href="jsvascript:void(0);" @click="doFuncOut">{{$t('downlist[1.name]')}}</a></el-dropdown-item>
+				  	<el-dropdown-item ><a href="jsvascript:void(0);" @click="doFuncOut">{{$t('downlist[2]')}}</a></el-dropdown-item>
 				  </el-dropdown-menu>
 				</el-dropdown>
 		    </div>
@@ -72,7 +72,9 @@ export default {
         }
     },
     created () {
-    	console.log(this.$route.name)
+      if (this.$route.name === 'stage') {
+      	this.activeIndex = 'stage'
+      }
     }
   }
 </script>

@@ -2,11 +2,11 @@
 	<div class="loginselectwrap">
 		<el-dropdown @command="handleCommand">
 		  <span class="el-dropdown-link">
-		    {{list[type].name}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
+		    {{defaultValue}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
 		  </span>
 		  <el-dropdown-menu slot="dropdown">
-		  	<template v-for="item in list">
-		  		<el-dropdown-item :command="item.type">{{item.name}}</el-dropdown-item>
+		  	<template v-for="(item,index) in $t('loginselect')">
+		  		<el-dropdown-item :command="index">{{item}}</el-dropdown-item>
 		  	</template>
 		  </el-dropdown-menu>
 		</el-dropdown>
@@ -24,12 +24,17 @@ export default{
   data () {
   	return {
   	  type: this.ltype,
-      list: this.$t('loginselect')
+      defaultValue: this.$t('loginselect[0]')
   	}
+  },
+  watch: {
+    ltype (val) {}
   },
   methods: {
     handleCommand(command) {
       this.type = command
+      let list = this.$t('loginselect')
+      this.defaultValue = list[command]
       this.$emit('clickit', command)
     }
   }
@@ -37,6 +42,6 @@ export default{
 </script>
 <style lang="scss" scoped>
 .loginselectwrap{
-	width:150px;
+	width:auto;
 }
 </style>

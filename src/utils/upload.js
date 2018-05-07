@@ -1,4 +1,5 @@
 import { getCache } from '@/utils/auth'
+import {getBaseUrl} from '@/utils/common'
 import { Message } from 'element-ui'
 export function uploadCommon(file, callback) {
   if (!testImgFileFormat(file.name)) {
@@ -28,7 +29,7 @@ export function uploadCommon(file, callback) {
         }
       }
     }
-    xhr.open('post', process.env.BASE_API + "/Upload", true)
+    xhr.open('post', getBaseUrl() + "/Upload", true)
     xhr.setRequestHeader("X-COOLVISIT-TOKEN", getCache('token'))
     xhr.send(form)
   }
@@ -86,7 +87,7 @@ export function UploadSubAccount(file, callback) {
         }
       }
     }
-    xhr.open('post', process.env.BASE_API + "/UploadSubAccount", true)
+    xhr.open('post', getBaseUrl() + "/UploadSubAccount", true)
     xhr.setRequestHeader("x-coolvisit-token", getCache('token'))
     xhr.send(form)
   }
@@ -125,7 +126,7 @@ export function UploadApponintment(file, callback) {
         }
       }
     }
-    xhr.open('post', process.env.BASE_API + "/UploadApponintment", true)
+    xhr.open('post', getBaseUrl() + "/UploadApponintment", true)
     xhr.setRequestHeader("X-COOLVISIT-TOKEN", getCache('token'))
     xhr.send(form)
   }
@@ -164,7 +165,7 @@ export function NewUploadAB(file, callback) {
         }
       }
     }
-    xhr.open('post', process.env.BASE_API + "/NewUploadAB", true)
+    xhr.open('post', getBaseUrl() + "/NewUploadAB", true)
     xhr.setRequestHeader("x-coolvisit-token", getCache('token'))
     xhr.send(form)
   }

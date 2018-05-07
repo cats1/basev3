@@ -4,7 +4,8 @@ import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	getRARG,getEmpRoleList,delRoleEmp,getDeptList,getEmpDeptList,getEmpListPages,
 	batchDelEmployee,updateAllFace,SearchRecordsByPhone,addAppointment,getEmptempByPost,
 	GetUserInfo,getSubAccountById,getEmptemplateByType,getUsertemplate,getSubAccountTemp,
-	getEmpByName,updateEmpPwd,addEmptemplate,SynchronCardNo,updateEmpSubAccount } from '@/api/emp'
+	getEmpByName,updateEmpPwd,addEmptemplate,SynchronCardNo,
+	updateEmpSubAccount,resetEmpPwd,webActivateAccount } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 const user = {
@@ -433,6 +434,38 @@ const user = {
 		          if (status === 0) {
 		          	Message({
                   		message: '修改成功',
+                  		type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		resetEmpPwd({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        resetEmpPwd(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	Message({
+                  		message: '修改成功',
+                  		type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		webActivateAccount({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        webActivateAccount(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	Message({
+                  		message: '激活成功',
                   		type: 'success'
                 	})
 		          }

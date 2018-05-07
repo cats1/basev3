@@ -1,7 +1,7 @@
 <template>
 	<div class="or-line-wrap">
 		<hr>
-		<span class="or-value">{{text}}</span>
+		<span class="or-value">{{$t('login.or')}}</span>
 	</div>
 </template>
 <script>

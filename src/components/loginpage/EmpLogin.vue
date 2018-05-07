@@ -1,10 +1,6 @@
 <template>
   <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
         <el-row>
-      <div class="title-container">
-         <h3 class="title">{{$t('empLogin.title')}}</h3>
-         <!-- <lang-select class="set-language"></lang-select> -->
-      </div>
       <el-form-item prop="username">
           <span class="svg-container svg-container_login">
             <i class="fa fa-user"></i>
@@ -16,8 +12,9 @@
             <i class="fa fa-lock fa-lg"></i>
           </span>
          <el-input name="password" :type="passwordType" v-model="loginForm.empPwd" autoComplete="on" placeholder="password" />
-         <span class="show-pwd">
-            <svg-icon icon-class="eye" />
+         <span class="show-pwd" >
+            <i class="fa fa-eye" v-if="passwordType === ''" @click="showPwd"></i>
+            <i class="fa fa-eye-slash" v-else @click="showPwd"></i>
          </span>
        </el-form-item>
        <el-form-item prop="vcode">
@@ -25,7 +22,7 @@
           <el-input name="code" type="text" v-model="loginForm.vcode" autoComplete="on" placeholder="code" />
         </el-col>
         <el-col :span="12" class="codewrap">
-          <img-code @clickit="setCode"></img-code>
+          <img-code :get-show="getCode" @clickit="setCode"></img-code>
         </el-col>
        </el-form-item>
        <transition name="el-fade-in-linear">
@@ -40,7 +37,10 @@
             </el-select>      
         </el-form-item>
       </transition>
-       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doLogin">{{$t('empLogin.logIn')}}</el-button>
+       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doLogin">{{$t('login.logIn')}}</el-button>
+       <el-button type="text" style="width:100%;" @click.native.prevent="goForgot">{{$t('login.forgot.title')}}</el-button>
+       <or-line :value="$t('login.or')"></or-line>
+       <el-button type="text" style="width:100%;" @click.native.prevent="goActive">{{$t('login.active')}}</el-button>
        </el-row>
       </el-form>
 </template>
@@ -48,9 +48,10 @@
 import { isvalidatPhone, validatePSD } from '@/utils/validate'
 import { lftPwdRule, lftDePwdRule } from '@/utils/common'
 import ImgCode from './ImgCode'
+import OrLine from '@/components/or/OrLine'
 export default {
   name: 'CompanyLogin',
-  components: { ImgCode },
+  components: { ImgCode, OrLine },
   data () {
     const isvalidSuperAccount = (rule, value, callback) => {
       if (!isvalidatPhone(value)) {
@@ -78,8 +79,8 @@ export default {
     return {
       loginForm: {
         userid: '',
-        phone: '18851650702',
-        empPwd: '1234567',
+        phone: '',
+        empPwd: '',
         digest: '',
         vcode: ''
       },
@@ -92,10 +93,24 @@ export default {
       passwordType: 'password',
       vcode: '',
       comShow: false,
-      comlist: []
+      comlist: [],
+      getCode: false
     }
   },
   methods: {
+    showPwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
+    },
+    goForgot () {
+      window.location.href = 'forgot.html?type=1'
+    },
+    goActive () {
+      window.location.href = 'active.html'
+    },
     setCode (result) {
       this.loginForm.digest = result.digest
     },
@@ -133,6 +148,9 @@ export default {
                 }).catch(() => {
                   this.loading = false
                 })
+              } else if (res.status === 119) {
+                this.getCode = true
+                this.loginForm.vcode = ''
               }
             })
           } 

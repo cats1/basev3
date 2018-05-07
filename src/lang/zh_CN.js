@@ -1,117 +1,102 @@
 export default {
+  loginselect: ['管理员登录', '总部管理员', '入驻企业登录', '员工登录', '前台登录'],
+  login: {
+    title: '管理员登录',
+    logIn: '登录',
+    username: '账号',
+    password: '密码',
+    forgot: {
+      title: '忘记密码？',
+      page: {
+        title: '忘记密码',
+        desc: '输入您的电子邮件地址，我们会送您如何重置密码的说明',
+        desc1: '输入手机号，获取验证码',
+        desc3: '重置密码',
+        desc2: '密码重置成功！',
+        desc4: '账号激活成功！',
+        btn: '发送重置链接'
+      }
+    },
+    or: '或者',
+    signup: '企业注册',
+    active: '激活账号'
+  },
+  validName: {
+    tip: '超级账号格式不正确,以LFT_开头'
+  },
   signup: {
     title: '注册',
     desc: '马上体验更智能的访客管理系统',
     button: '注册'
   },
-  meeting: {},
-  nodata: '暂无数据',
-  dataM: '数据管理',
-  vstatus: ['已发送','已签到','已查看','已接受','已拒绝','已签出','未授权','已授权','已预约','已过期'],
-  vtype: ['签到访客','预约访客','邀请访客','常驻访客'],
-  vnum: ['访客总数','离开人数','正在拜访人数','总数','签到人数','未到人数','访客'],
-  vdate: ['开始日期','结束日期','选择日期'],
-  vtime: ['开始时间','结束时间'],
-  visitor: {
-    vname: '访客姓名',
-    vphone: '访客手机号',
-    vcom: '访客公司',
-    ename: '受访人姓名',
-    ephone: '受访人手机号',
-    ecom: '受访人手机号',
-    ordertime: '预约时间',
-    visittime: '来访时间',
-    leavetime: '离开时间',
-    followPeople: '随访人员',
-    list: '访客详细信息',
-    manager: '主管',
-    editEmp: '编辑员工'
-  },
-  role: {
-    tip: '请先选择角色组',
-    tip1: '选择角色组',
-    tip2: '请选择角色'
-  },
-  export: {
-    title: '访客列表导出项设置'
-  },
-  itype: [{
-    label: '面试',
-    value: 0
-  },{
-    label: '商务',
-    value: 1
+  navlist: [{
+    name: '访客',
+    dirname: 'index',
+    link: 'index.html',
+    children: []
+  }, {
+    name: '人员',
+    dirname: 'emp',
+    link: 'emp.html',
+    children: [{
+      name: '公司员工',
+      dirname: 'emplist',
+      link: 'emplist.html',
+      children: []
+    }, {
+      name: '常驻访客',
+      dirname: 'visitlist',
+      link: 'visitlist.html',
+      children: []
+    }, {
+      name: '黑名单',
+      dirname: 'blacklist',
+      link: 'blacklist.html',
+      children: []
+    }]
+  }, {
+    name: '通知',
+    dirname: 'notice',
+    link: 'notice.html',
+    children: []
+  }, {
+    name: '自定义设置',
+    dirname: 'setting',
+    link: 'setting.html',
+    children: [{
+      name: '前台设置',
+      dirname: 'setting',
+      link: 'pad.html',
+      children: []
+    }, {
+      name: '预约邀请',
+      dirname: 'setting',
+      link: 'reserve.html',
+      children: []
+    }, {
+      name: '智能门禁',
+      dirname: 'setting',
+      link: 'key.html',
+      children: []
+    }]
+  }, {
+    name: '会议',
+    dirname: 'meeting',
+    link: 'meeting.html',
+    children: []
   }],
-  timetype: [{
-    label: '天数',
-    value: 0
-  },{
-    label: '次数',
-    value: 1
+  empnav: [{
+    name: '邀请',
+    dirname: 'order',
+    link: '',
+    children: []
+  }, {
+    name: '邀请列表',
+    dirname: 'list',
+    link: 'list',
+    children: []
   }],
-  signStatus: ['已签到','已签出','已预约','已过期','已发送','已查看','已接受','已拒绝','已授权','未授权'],
-  checkVtype: ['全部','拜访者姓名','受访者姓名','拜访事由','电话','公司','门岗'],
-  record: '共找到',
-  record1: '条，关于',
-  record2: '记录',
-  version: [{
-    type: 0,
-    name: '免费版'
-  },{
-    type: [1,2],
-    name: '商务版'
-  },{
-    type: 3,
-    name: '工厂版'
-  }],
-  endTimeText: '到期',
-  guide: {
-    guide1: {
-      title: '欢迎加入来访通',
-      desc: '您只需完成以下操作，即可对酷访通进行自定义设置。如需帮助，请点击页面右侧“问题咨询”',
-      inputTitle: '填写公司信息',
-      inputPlaceholder: '公司名备注（最多六个字）',
-      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
-      next: '接下来：添加员工',
-      btn: '下一步'
-    },
-    guide2: {
-      title: '添加员工信息',
-      desc: '添加员工后即能体验我们最强大的功能：自动通知员工有客来访。请至少添加一条员工信息。支持RTX、员工通讯录Excel表格导入，更推荐您尝试手动添加，直接将员工信息录入后台。',
-      inputTitle: '填写公司信息',
-      inputPlaceholder: '公司名备注（最多六个字）',
-      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
-      next: '接下来：登记设置',
-      btn: '下一步'
-    },
-    guide3: {
-      title: '登记内容设置',
-      desc: '您的访客将在iPad页面进行登记，我们为您提供以下登记内容，您可以对其进行个性化设置',
-      inputTitle: '填写公司信息',
-      inputPlaceholder: '公司名备注（最多六个字）',
-      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
-      next: '接下来：通知设置',
-      btn: '下一步'
-    },
-    guide4: {
-      title: '通知方式设置',
-      desc: '我们为您提供微信、邮件、钉钉、RTX、短信五种通知方式，点击右侧开关，设置员工接收通知方式',
-      inputTitle: '填写公司信息',
-      inputPlaceholder: '公司名备注（最多六个字）',
-      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
-      next: '接下来：迎接来访者',
-      btn: '下一步'
-    },
-    guide5: {
-      title: 'Pad端设置',
-      desc: '您的访客将在iPad页面进行登记，我们为您提供以下登记内容，您可以对其进行个性化设置',
-      inputTitle: '填写公司信息',
-      inputPlaceholder: '公司名备注（最多六个字）',
-      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
-      next: '接下来：迎接来访者',
-      btn: '进入后台管理'
-    }
-  },
+  downlist: ['账号管理', '修改密码', '退出账号'],
   form: {
     name: {
       text: '姓名',
@@ -160,7 +145,8 @@ export default {
       oldtext: '原密码',
       newtext: '新密码',
       retext: '确认新密码',
-      text1: '密码'
+      text1: '密码',
+      comtext: '初始化密码请及时修改，以防信息泄露'
     },
     stageaccount: {
       text: '验证端账号'
@@ -195,13 +181,105 @@ export default {
       text: '来访事由'
     }
   },
-  tablehead: ['序号','会议名称','时间','发起人','主题','二维码','手机号','事由','发起时间','公司','状态','发送状态'],
-  phoneIdnum: {
-    text: '*身份证与手机号二选一',
-    tips: '手机号与身份证号至少填一项'
+  btn: {
+    editBtn: '编辑',
+    createNow: '立即创建',
+    shouBtn: '收起',
+    visible: '可见',
+    backListBtn: '返回列表',
+    saveBtn: '保存',
+    addBtn: '添加',
+    addSelectBtn: '添加选项',
+    saveAndBtn: '保存并继续添加',
+    exportBtn: '导出配置',
+    export: '导出',
+    overview: '预览',
+    searchBtn: '搜索',
+    picBtn: '选择图片',
+    addBlackBtn: '添加黑名单',
+    dotDeleteBtn: '批量删除',
+    dotUpdateBtn: '批量修改',
+    editSpecial: '编辑专用账号',
+    dotSendCard: '批量发卡',
+    sendFaceBtn: '下发全部人脸',
+    addProjectBtn: '添加项目',
+    editProjectBtn: '编辑项目',
+    moveProjectBtn: '调整项目',
+    addVisitorBtn: '添加访客',
+    cardBtn: '生成访客卡',
+    updateBtn: '修改',
+    deleteBtn: '删除',
+    insetBtn: '必填项',
+    initPwdBtn: '初始化密码',
+    cancelBtn: '取消',
+    haveCancel: '已取消',
+    confirmBtn: '确定',
+    edit1: '操作',
+    addComBtn: '添加公司',
+    downMobanBtn: '下载模板',
+    uploadComBtn: '上传公司',
+    uploadlgo: '上传logo',
+    uploadExcel: '上传excel',
+    addMeeting: '增加会议',
+    editMeeting: '会议管理',
+    saveMobanBtn: '保存模板',
+    sendInvite: '发送会议邀请',
+    addDepartBtn: '添加子部门',
+    addEmpBtn: '添加员工',
+    editEmpBtn: '员工编辑',
+    exportListBtn: '导入通讯录',
+    editDepart: '编辑部门',
+    moveDepart: '调整部门',
+    synBtn: '同步',
+    addRoleGroup: '新增角色组',
+    addRole: '新增角色',
+    editGroup: '角色组编辑',
+    editRole: '角色编辑',
+    addMember: '添加成员',
+    batchOut: '批量签出',
+    sendInvite: '发送邀请',
+    clickUpload: '点击上传',
+    uploadWait: 'It is uploading, please wait...'
   },
-  sex: ['男','女'],
-  idNumTip: ['验证通过!','身份证号码位数不对!',"身份证号码出生日期超出范围或含有非法字符!","身份证号码校验错误!","身份证地区非法!"],
+  moban: {
+    text: '发起会议',
+    text1: '会议邀请记录',
+    tip: '邀请发送成功',
+    tip1: '您在会议邀请记录列表查看邀请列表',
+    tip2: '知道了',
+    tip3: '会议内容',
+    tip4: '会议地址',
+    tip5: '至少添加一名访客',
+    tip6: '至少添加一条来访者信息',
+    visitMess: '来访者信息',
+    address: '公司地址',
+    traffic: '停车信息及周边交通',
+    compro: '公司简介',
+    inviteLink: '邀请函链接',
+    single: '单独邀请',
+    dot: '批量邀请',
+    facemoban: '面试模板',
+    busmoban: '商务模板',
+    ctitle: '填写来访者相关信息，即可生成短信邀请函，发送至对方手机。',
+    cdesc: '预约短信内更多公司相关信息',
+    tip7: '您可以选择逐条编辑，也可以通过Excel批量导入',
+    mtitle: '邀请短信内更多公司相关信息',
+    emptip: '限制员工编辑开关开启，模板不可编辑',
+    hello: '您好！',
+    hello1: '诚邀您前来',
+    hello2: '详情请点击邀请函',
+    interview: {
+      title: '邀请函内容',
+      desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
+      defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">这里是{company}，感谢您对我公司的信任和选择。通过对您简历的认真审核，我们认为您已具备进入下一轮筛选的资格。为了进一步了解，现邀请您参加面试，具体安排如下：</p><br/>'
+    },
+    business: {
+      title: '邀请函内容',
+      desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
+      defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">我是{company}的{empid}，很高兴代表我司与您联系。为更好的沟通交流工作事宜，诚挚希望与您进行会面，期待您的来访！</p><br/>'
+    }
+  },
+  tablehead: ['序号', '会议名称', '时间', '发起人', '主题', '二维码', '手机号', '事由', '发起时间', '公司', '状态', '发送状态'],
   formCheck: {
     validPassword: {
       tip1: '密码格式不正确',
@@ -257,6 +335,132 @@ export default {
       tip1: '请填写备注'
     }
   },
+  timetype: [{
+    label: '天数',
+    value: 0
+  }, {
+    label: '次数',
+    value: 1
+  }],
+  itype: [{
+    label: '面试',
+    value: 0
+  }, {
+    label: '商务',
+    value: 1
+  }],
+  checkVtype: ['全部', '拜访者姓名', '受访者姓名', '拜访事由', '电话', '公司', '门岗'],
+  outTip: {
+    title: '确认退出吗?',
+    desc: '提示',
+    conform: '确定',
+    cancel: '取消'
+  },
+  meeting: {},
+  nodata: '暂无数据',
+  dataM: '数据管理',
+  vstatus: ['已发送', '已签到', '已查看', '已接受', '已拒绝', '已签出', '未授权', '已授权', '已预约', '已过期'],
+  vtype: ['签到访客', '预约访客', '邀请访客', '常驻访客'],
+  vnum: ['访客总数', '离开人数', '正在拜访人数', '总数', '签到人数', '未到人数', '访客'],
+  vdate: ['开始日期', '结束日期', '选择日期'],
+  vtime: ['开始时间', '结束时间'],
+  visitor: {
+    vname: '访客姓名',
+    vphone: '访客手机号',
+    vcom: '访客公司',
+    ename: '受访人姓名',
+    ephone: '受访人手机号',
+    ecom: '受访人手机号',
+    ordertime: '预约时间',
+    visittime: '来访时间',
+    leavetime: '离开时间',
+    followPeople: '随访人员',
+    list: '访客详细信息',
+    manager: '主管',
+    editEmp: '编辑员工'
+  },
+  role: {
+    tip: '请先选择角色组',
+    tip1: '选择角色组',
+    tip2: '请选择角色'
+  },
+  export: {
+    title: '访客列表导出项设置'
+  },
+  
+
+  signStatus: ['已签到', '已签出', '已预约', '已过期', '已发送', '已查看', '已接受', '已拒绝', '已授权', '未授权'],
+  
+  record: '共找到',
+  record1: '条，关于',
+  record2: '记录',
+  version: [{
+    type: 0,
+    name: '免费版'
+  }, {
+    type: [1, 2],
+    name: '商务版'
+  }, {
+    type: 3,
+    name: '工厂版'
+  }],
+  endTimeText: '到期',
+  guide: {
+    guide1: {
+      title: '欢迎加入来访通',
+      desc: '您只需完成以下操作，即可对酷访通进行自定义设置。如需帮助，请点击页面右侧“问题咨询”',
+      inputTitle: '填写公司信息',
+      inputPlaceholder: '公司名备注（最多六个字）',
+      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
+      next: '接下来：添加员工',
+      btn: '下一步'
+    },
+    guide2: {
+      title: '添加员工信息',
+      desc: '添加员工后即能体验我们最强大的功能：自动通知员工有客来访。请至少添加一条员工信息。支持RTX、员工通讯录Excel表格导入，更推荐您尝试手动添加，直接将员工信息录入后台。',
+      inputTitle: '填写公司信息',
+      inputPlaceholder: '公司名备注（最多六个字）',
+      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
+      next: '接下来：登记设置',
+      btn: '下一步'
+    },
+    guide3: {
+      title: '登记内容设置',
+      desc: '您的访客将在iPad页面进行登记，我们为您提供以下登记内容，您可以对其进行个性化设置',
+      inputTitle: '填写公司信息',
+      inputPlaceholder: '公司名备注（最多六个字）',
+      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
+      next: '接下来：通知设置',
+      btn: '下一步'
+    },
+    guide4: {
+      title: '通知方式设置',
+      desc: '我们为您提供微信、邮件、钉钉、RTX、短信五种通知方式，点击右侧开关，设置员工接收通知方式',
+      inputTitle: '填写公司信息',
+      inputPlaceholder: '公司名备注（最多六个字）',
+      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
+      next: '接下来：迎接来访者',
+      btn: '下一步'
+    },
+    guide5: {
+      title: 'Pad端设置',
+      desc: '您的访客将在iPad页面进行登记，我们为您提供以下登记内容，您可以对其进行个性化设置',
+      inputTitle: '填写公司信息',
+      inputPlaceholder: '公司名备注（最多六个字）',
+      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
+      next: '接下来：迎接来访者',
+      btn: '进入后台管理'
+    }
+  },
+
+
+  phoneIdnum: {
+    text: '*身份证与手机号二选一',
+    tips: '手机号与身份证号至少填一项'
+  },
+  sex: ['男', '女'],
+  idNumTip: ['验证通过!', '身份证号码位数不对!', "身份证号码出生日期超出范围或含有非法字符!", "身份证号码校验错误!", "身份证地区非法!"],
+
   people: {
     emp: '员工',
     visit: '访客',
@@ -296,7 +500,7 @@ export default {
   },
   black: {
     wins: {
-      title:'新增黑名单'
+      title: '新增黑名单'
     }
   },
   pad: {
@@ -394,7 +598,7 @@ export default {
       comShow: '公司形象展示选择',
       comTextShow: '文字展示（6个字以内）',
       comPicShow: '图片展示（建议尺寸168x42px）',
-      vType:'访客贴纸打印样式',
+      vType: '访客贴纸打印样式',
       cardText: '适用于贴在身上',
       cardSize: '尺寸',
       cardStyle: '样式',
@@ -492,64 +696,7 @@ export default {
     areaAddress: '区域地址',
     contact: '关联审批人'
   },
-  btn: {
-    editBtn: '编辑',
-    createNow: '立即创建',
-    shouBtn: '收起',
-    visible: '可见',
-    backListBtn: '返回列表',
-    saveBtn: '保存',
-    addBtn: '添加',
-    addSelectBtn: '添加选项',
-    saveAndBtn: '保存并继续添加',
-    exportBtn: '导出配置',
-    export: '导出',
-    overview: '预览',
-    searchBtn: '搜索',
-    picBtn: '选择图片',
-    addBlackBtn: '添加黑名单',
-    dotDeleteBtn: '批量删除',
-    dotUpdateBtn: '批量修改',
-    editSpecial: '编辑专用账号',
-    dotSendCard: '批量发卡',
-    sendFaceBtn: '下发全部人脸',
-    addProjectBtn: '添加项目',
-    editProjectBtn: '编辑项目',
-    moveProjectBtn: '调整项目',
-    addVisitorBtn: '添加访客',
-    cardBtn: '生成访客卡',
-    updateBtn: '修改',
-    deleteBtn: '删除',
-    insetBtn: '必填项',
-    initPwdBtn: '初始化密码',
-    cancelBtn: '取消',
-    haveCancel: '已取消',
-    confirmBtn: '确定',
-    edit1: '操作',
-    addComBtn: '添加公司',
-    downMobanBtn: '下载模板',
-    uploadComBtn: '上传公司',
-    uploadlgo: '上传logo',
-    uploadExcel: '上传excel',
-    addMeeting: '增加会议',
-    editMeeting: '会议管理',
-    saveMobanBtn: '保存模板',
-    sendInvite: '发送会议邀请',
-    addDepartBtn: '添加子部门',
-    addEmpBtn: '添加员工',
-    editEmpBtn: '员工编辑',
-    exportListBtn: '导入通讯录',
-    editDepart:'编辑部门',
-    moveDepart:'调整部门',
-    synBtn: '同步',
-    addRoleGroup: '新增角色组',
-    addRole: '新增角色',
-    editGroup:'角色组编辑',
-    editRole:'角色编辑',
-    addMember: '添加成员',
-    batchOut: '批量签出',
-    sendInvite: '发送邀请'
-  },
+
   role: {
     rgroup: '角色组名称',
     rolename: '角色名称',
@@ -562,7 +709,7 @@ export default {
     desc3: '查看模板',
     desc4: '点此修改',
     desc5: '您已经选择',
-    list: ['Excel导入','RTX同步','钉钉同步'],
+    list: ['Excel导入', 'RTX同步', '钉钉同步'],
     desc6: '您当前已选择"',
     desc7: '"方式导入通讯录',
     desc8: '作为导入通讯录的方式，',
@@ -614,34 +761,16 @@ export default {
     logotip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片',
     slidetip: '提示：建议上传1536x2048像素的图片'
   },
-  outTip: {
-    title: '确认退出吗?',
-    desc: '提示',
-    conform: '确定',
-    cancel:'取消'
-  },
-  loginselect: [{
-    name: '管理员登录',
-    type: 0
-  },{
-    name: '超级管理员登录',
-    type: 1
-  },{
-    name: '入驻企业登录',
-    type: 2
-  },{
-    name: '员工登录',
-    type: 3
-  },{
-    name: '前台登录',
-    type: 4
-  }],
+  
+
   deleteTip: {
     title: '删除提示',
     desc: '是否要删除?',
     success: '删除成功!',
     cancelD: '已取消删除'
   },
+
+
   validPassword: {
     tip1: '密码格式不正确',
     tip2: '密码长度不小于6位'
@@ -661,64 +790,10 @@ export default {
   validStage: {
     tip1: '账号不能为空'
   },
-  login: {
-    title: '管理员登录',
-    logIn: '登录',
-    username: '账号',
-    password: '密码',
-    forgot: {
-      title: '忘记密码？',
-      page: {
-        title: '忘记密码',
-        desc: '输入您的电子邮件地址，我们会送您如何重置密码的说明',
-        btn: '发送重置链接'
-      }
-    },
-    or: '或者',
-    signup: '企业注册',
-    any: '随便填',
-    thirdparty: '第三方登录',
-    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
-  },
-  superLogin:{
-    title: '超级管理员登录',
-    logIn: '登录',
-    username: '账号',
-    password: '密码',
-    checkNameTip: '超级账号格式不正确,以LFT_开头',
-    any: '随便填',
-    thirdparty: '第三方登录',
-    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
-  },
-  companyLogin:{
-    title: '入驻企业登录',
-    logIn: '登录',
-    username: '账号',
-    password: '密码',
-    any: '随便填',
-    thirdparty: '第三方登录',
-    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！',
-    scom: '请选择公司',
-    ptip: '初始化密码请及时修改，以防信息泄露'
-  },
-  empLogin:{
-    title: '员工登录',
-    logIn: '登录',
-    username: '账号',
-    password: '密码',
-    any: '随便填',
-    thirdparty: '第三方登录',
-    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
-  },
-  stageLogin:{
-    title: '前台登录',
-    logIn: '登录',
-    username: '账号',
-    password: '密码',
-    any: '随便填',
-    thirdparty: '第三方登录',
-    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
-  },
+  imgCode: '换个验证码？',
+
+
+
   responseNote: {
     1: '无效的用户',
     2: '无效的密码',
@@ -737,131 +812,29 @@ export default {
     55: '发起人不在员工列表中，请重新发起会议',
     119: '验证码无效'
   },
-  navlist: [{
-    name: '访客',
-    dirname: 'index',
-    link: 'index.html',
-    children: []
-  },{
-    name: '人员',
-    dirname: 'emp',
-    link: 'emp.html',
-    children: [{
-      name: '公司员工',
-      dirname: 'emplist',
-      link: 'emplist.html',
-      children: []
-    },{
-      name: '常驻访客',
-      dirname: 'visitlist',
-      link: 'visitlist.html',
-      children: []
-    },{
-      name: '黑名单',
-      dirname: 'blacklist',
-      link: 'blacklist.html',
-      children: []
-    }]
-  },{
-    name: '通知',
-    dirname: 'notice',
-    link: 'notice.html',
-    children: []
-  },{
-    name: '自定义设置',
-    dirname: 'setting',
-    link: 'setting.html',
-    children: [{
-      name: '前台设置',
-      dirname: 'setting',
-      link: 'pad.html',
-      children: []
-    },{
-      name: '预约邀请',
-      dirname: 'setting',
-      link: 'reserve.html',
-      children: []
-    },{
-      name: '智能门禁',
-      dirname: 'setting',
-      link: 'key.html',
-      children: []
-    }]
-  },{
-    name: '会议',
-    dirname: 'meeting',
-    link: 'meeting.html',
-    children: []
-  }],
-  empnav: [{
-    name: '邀请',
-    dirname: 'order',
-    link: '',
-    children: []
-  },{
-    name: '邀请列表',
-    dirname: 'list',
-    link: 'list',
-    children: []
-  }],
-  homepage:{
+
+
+  homepage: {
     name: '官网首页',
     link: '#'
   },
   hlogo: {
     text: '来访通'
   },
-  moban: {
-    text: '发起会议',
-    text1: '会议邀请记录',
-    tip: '邀请发送成功',
-    tip1: '您在会议邀请记录列表查看邀请列表',
-    tip2: '知道了',
-    tip3: '会议内容',
-    tip4: '会议地址',
-    tip5: '至少添加一名访客',
-    tip6: '至少添加一条来访者信息',
-    visitMess: '来访者信息',
-    address: '公司地址',
-    traffic: '停车信息及周边交通',
-    compro: '公司简介',
-    inviteLink: '邀请函链接',
-    single:'单独邀请',
-    dot: '批量邀请',
-    facemoban: '面试模板',
-    busmoban: '商务模板',
-    ctitle: '填写来访者相关信息，即可生成短信邀请函，发送至对方手机。',
-    cdesc: '预约短信内更多公司相关信息',
-    tip7: '您可以选择逐条编辑，也可以通过Excel批量导入',
-    mtitle: '邀请短信内更多公司相关信息',
-    emptip: '限制员工编辑开关开启，模板不可编辑',
-    hello: '您好！',
-    hello1: '诚邀您前来',
-    hello2: '详情请点击邀请函',
-    interview: {
-      title: '邀请函内容',
-      desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
-      defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">这里是{company}，感谢您对我公司的信任和选择。通过对您简历的认真审核，我们认为您已具备进入下一轮筛选的资格。为了进一步了解，现邀请您参加面试，具体安排如下：</p><br/>'
-    },
-    business: {
-      title: '邀请函内容',
-      desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
-      defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">我是{company}的{empid}，很高兴代表我司与您联系。为更好的沟通交流工作事宜，诚挚希望与您进行会面，期待您的来访！</p><br/>'
-    }
-  },
+
   account: {
     siderBar: {
       title: '账户信息',
       list: [{
         name: '基本资料',
         link: 'base'
-      },{
+      }, {
         name: '账户安全',
         link: 'safe'
-      },{
+      }, {
         name: '前台验证账号',
         link: 'stage'
-      },{
+      }, {
         name: '多企业服务模式',
         link: 'coms'
       }]
@@ -877,10 +850,10 @@ export default {
       tip: '支持PC、手机端验证'
     }
   },
-  downlist:['账号管理','修改密码','退出账号'],
+
   footer: {
     ftext1: '版权所有',
     ftext2: '南京访客乐网络科技有限公司. 保留一切权利.',
-    flink: '苏ICP备15058768号' 
+    flink: '苏ICP备15058768号'
   }
 }

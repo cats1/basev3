@@ -1,12 +1,12 @@
 <template>
 	<div>
 		<el-row class="margintop20 marginbom20">
-	        <p>{{$t('moban.ctitle')}}
-	        	<el-button class="right" @click="goDot">{{$t('moban.dot')}}</el-button></p>
+	        <p class="lh36">{{$t('moban.ctitle')}}
+	        	<el-button class="right" @click="goDot"><i class="fa fa-list"></i>{{$t('moban.dot')}}</el-button></p>
 	    </el-row>
 	    <div class="boxshadow paddinglr30 paddingtb20">
-	    	<el-form :model="form" :rules="rules" ref="danform" label-width="100px" style="width:70%;">
-	    	    <h3>{{$t('moban.visitMess')}}</h3>
+	    	<el-form label-position="left" :model="form" :rules="rules" ref="danform" style="width:50%;">
+	    	  <h3 class="marginbom20">{{$t('moban.visitMess')}}</h3>
 		    	<el-form-item :label="$t('form.name.text')" prop="name">
 		    	  <el-input v-model="form.name"></el-input>
 		    	</el-form-item>
@@ -36,7 +36,7 @@
 		    		<el-input v-model="form.remark"></el-input>
 		    	</el-form-item>
 		    	<el-form-item :label="$t('form.time.text7')" prop="qrcodeType">
-		    		<el-row>
+		    		<el-row class="block">
 		    			<el-col :span="12">
 			    			<el-select v-model="timetype">
 							    <el-option
@@ -93,10 +93,10 @@ export default {
       	visitType: ''
       },
       rules: {
-      	name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-      	phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
-      	appointmentDate: [{ required: true, message: '请选择邀请时间', trigger: 'blur' }],
-      	qrcodeType: [{ required: true, message: '有效期', trigger: 'blur' }]
+      	name: [{ required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
+      	phone: [{ required: true, message: this.$t('formCheck.validphone.tip2'), trigger: 'blur' }],
+      	appointmentDate: [{ required: true, message: this.$t('formCheck.time.tip1'), trigger: 'blur' }],
+      	qrcodeType: [{ required: true, message: this.$t('form.time.text7'), trigger: 'blur' }]
       },
       timetype: 0,
       visitType: 0,

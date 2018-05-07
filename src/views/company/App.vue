@@ -1,23 +1,16 @@
 <template>
-  <div class="dashboard-container">
-    <companynav active-index="index"></companynav>
-    <div class="page-container">
-      <transition name="fade" mode="out-in">
-        <router-view></router-view>
-      </transition>
-    </div>
-    <footbom></footbom>
+  <div >
+    <lay-out></lay-out>
   </div>
 </template>
 <script>
-import companynav from '@/components/headnav/companynav'
-import footbom from '@/components/footer/footbom'
+import layOut from '@/components/company/layOut'
 export default {
   name: 'App',
   data () {
     return {}
   },
-  components: { companynav, footbom },
+  components: { layOut },
   created () {
     console.log(this.$route.name)
   }
