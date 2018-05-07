@@ -242,15 +242,15 @@ export default {
     uploadWait: 'Please wait……'
   },
   moban: {
-    text: '发起会议',
-    text1: '会议邀请记录',
-    tip: '邀请发送成功',
-    tip1: '您在会议邀请记录列表查看邀请列表',
-    tip2: '知道了',
-    tip3: '会议内容',
-    tip4: '会议地址',
-    tip5: '至少添加一名访客',
-    tip6: '至少添加一条来访者信息',
+    text: 'Launch a conference',
+    text1: 'invitation record of the meeting',
+    tip: 'send invitation successfully',
+    tip1: 'You look at the invitation list at the conference invitation record list',
+    tip2: 'Got it',
+    tip3: 'Conference content',
+    tip4: 'Conference address',
+    tip5: 'Add at least one visitor',
+    tip6: 'Add at least one visitor information',
     visitMess: 'visitor’s information',
     address: 'Company address',
     traffic: 'Parking information and surrounding traffic',
@@ -265,9 +265,9 @@ export default {
     tip7: 'You can choose one by one editing or batch import through Excel.',
     mtitle: 'Invite more company related information in SMS',
     emptip: 'Restrict staff edit switch to open, template can not be edited.',
-    hello: '您好！',
-    hello1: '诚邀您前来',
-    hello2: '详情请点击邀请函',
+    hello: 'Hello!',
+    hello1: 'Sincerely invite you to come',
+    hello2: 'Please click the invitation for details',
     interview: {
       title: 'The content of the invitation',
       desc: 'Writing specifications such as: {visitor}visitor name, {company}company name,{empid}reserved employee ID cannot be modified',
@@ -282,57 +282,57 @@ export default {
   tablehead: ['order number', 'Conference name', 'time', 'Initiator', 'theme', 'QR code', 'phone', 'Cause', 'Launch time', 'company', 'status', 'Sending State'],
   formCheck: {
     validPassword: {
-      tip1: '密码格式不正确',
-      tip2: '密码长度不小于6位',
-      tip3: '密码不能为空',
-      tip4: '请输入密码',
-      tip5: '两次输入密码不一致',
-      tip6: '请再次输入密码'
+      tip1: 'Incorrect password format',
+      tip2: 'The password length is not less than 6 bits',
+      tip3: 'The password can not be empty',
+      tip4: 'Please input a password',
+      tip5: 'Two input password inconsistencies',
+      tip6: 'Please enter the password again'
     },
     validEmail: {
-      tip1: '邮箱格式不正确',
-      success: '邮件发送成功！',
-      holder: '邮箱',
-      tip2: '邮箱不能为空'
+      tip1: 'Incorrect mailbox format',
+      success: 'Email is successful!',
+      holder: 'email',
+      tip2: 'Mailbox cannot be empty'
     },
     validphone: {
-      tip1: '手机号格式不正确',
-      tip2: '手机号不能为空',
-      holder: '手机号码'
+      tip1: 'The format of the phone number is not correct',
+      tip2: 'Cell phone number can not be empty',
+      holder: 'Phone number'
     },
     validCompany: {
-      tip1: '公司名称不能为空',
-      tip2: '部门不能为空'
+      tip1: 'The name of the company can not be empty',
+      tip2: 'The Department can’t be empty'
     },
     validCompanyPro: {
-      tip1: '公司简称不能为空',
-      tip2: '最长6个字符'
+      tip1: 'The company can not be short for short',
+      tip2: 'The longest 6 characters'
     },
     validName: {
-      tip1: '姓名不能为空',
-      tip2: '包含非法字符',
-      tip3: '姓名不能为空',
-      tip4: '请选择会议发起人',
-      tip5: '员工姓名不能为空'
+      tip1: 'The name cannot be empty',
+      tip2: 'Contain illegal characters',
+      tip3: 'The name cannot be empty',
+      tip4: 'Please choose the sponsor of the conference',
+      tip5: 'Employee name can not be empty'
     },
     validEmpName: {
-      holder: '员工姓名'
+      holder: 'Employee name'
     },
     validAccont: {
-      tip1: '请输入账号'
+      tip1: 'Please enter the account number'
     },
     time: {
       tip1: 'Please check the time',
-      tip2: '日期不能为空',
-      minute: '分钟',
-      day: '天',
-      times: '次'
+      tip2: 'The date can not be empty',
+      minute: 'minute',
+      day: 'day',
+      times: 'second'
     },
     meeting: {
-      tip1: '请填写主题'
+      tip1: 'Please fill in the theme'
     },
     remark: {
-      tip1: '请填写备注'
+      tip1: 'Please fill in the notes'
     }
   },
   timetype: [{
@@ -358,53 +358,50 @@ export default {
   },
   meeting: {},
   nodata: 'no data',
-  dataM: '数据管理',
-  vstatus: ['已发送', '已签到', '已查看', '已接受', '已拒绝', '已签出', '未授权', '已授权', '已预约', '已过期'],
-  vtype: ['签到访客', '预约访客', '邀请访客', '常驻访客'],
-  vnum: ['访客总数', '离开人数', '正在拜访人数', '总数', '签到人数', '未到人数', '访客'],
-  vdate: ['开始日期', '结束日期', '选择日期'],
-  vtime: ['开始时间', '结束时间'],
+  dataM: 'Data management',
+  vstatus: ['sent', 'signed in', 'viewed', 'Accepted', 'refused', 'signed out', 'Unauthorized', 'Authorized', 'reserved', 'Expired'],
+  vtype: ['Sign-in visitors', 'Reserved visitors', 'Invited visitors', 'Resident visitors'],
+  vnum: ['Total number of visitors', 'Number of visitors that have left', 'Number of people visiting', 'Total', 'Number of sign-in', 'Number of people absent', 'Visitor'],
+  vdate: ['Start date', 'End date', 'Selection date'],
+  vtime: ['start time', 'End time'],
   visitor: {
-    vname: '访客姓名',
-    vphone: '访客手机号',
-    vcom: '访客公司',
-    ename: '受访人姓名',
-    ephone: '受访人手机号',
-    ecom: '受访人手机号',
-    ordertime: '预约时间',
-    visittime: '来访时间',
-    leavetime: '离开时间',
-    followPeople: '随访人员',
-    list: '访客详细信息',
-    manager: '主管',
-    editEmp: '编辑员工'
+    vname: 'the name of the visitor',
+    vphone: 'Visitor’s cell phone number',
+    vcom: 'Visitor company',
+    ename: 'Name of the visitor',
+    ephone: 'Phone of the visitor',
+    ecom: 'Phone number of the interviewee',
+    ordertime: 'the reservation time',
+    visittime: 'Time of visit',
+    leavetime: 'Time of departure',
+    followPeople: 'follow-up personnel',
+    list: 'Visitor details',
+    manager: 'Director',
+    editEmp: 'Editors'
   },
   role: {
-    tip: '请先选择角色组',
-    tip1: '选择角色组',
-    tip2: '请选择角色'
+    tip: 'Please select the role group',
+    tip1: 'Selection of role groups',
+    tip2: 'Please choose the role'
   },
   export: {
-    title: '访客列表导出项设置'
+    title: 'Visitor list export item settings'
   },
-  
-
-  signStatus: ['已签到', '已签出', '已预约', '已过期', '已发送', '已查看', '已接受', '已拒绝', '已授权', '未授权'],
-  
-  record: '共找到',
-  record1: '条，关于',
-  record2: '记录',
+  signStatus: ['Signed in', 'Signed out', 'Reserved', 'Expired', 'Sent', 'Viewed', 'Accepted', 'Refused', 'Authorized', 'Unauthorized'],
+  record: 'Found',
+  record1: 'in total，about',
+  record2: 'Record',
   version: [{
     type: 0,
-    name: '免费版'
+    name: 'free'
   }, {
     type: [1, 2],
-    name: '商务版'
+    name: 'Business'
   }, {
     type: 3,
-    name: '工厂版'
+    name: 'Factory'
   }],
-  endTimeText: '到期',
+  endTimeText: 'expired',
   guide: {
     guide1: {
       title: '欢迎加入来访通',
@@ -455,36 +452,35 @@ export default {
 
 
   phoneIdnum: {
-    text: '*身份证与手机号二选一',
-    tips: '手机号与身份证号至少填一项'
+    text: '*ID card and mobile number choose one',
+    tips: 'Make at least one phone number and ID number'
   },
-  sex: ['男', '女'],
-  idNumTip: ['验证通过!', '身份证号码位数不对!', "身份证号码出生日期超出范围或含有非法字符!", "身份证号码校验错误!", "身份证地区非法!"],
-
+  sex: ['male', 'Female'],
+  idNumTip: ['Verification passed!', 'the number of your ID number is incorrect!', "Identity number birth date is out of range or contains illegal characters!", "ID number verification error!", "ID Area illegal!"],
   people: {
-    emp: '员工',
-    visit: '访客',
-    inviteVisit: '邀请访客',
-    orderVisit: '签到访客',
-    and: '和'
+    emp: 'Employee',
+    visit: 'Visitor',
+    inviteVisit: 'Invite visitors',
+    orderVisit: 'Check-in visitor',
+    and: 'And'
   },
   status: {
-    on: '启用',
-    off: '停用',
-    text: '状态',
-    startText: '开启状态'
+    on: 'Enable',
+    off: 'Disabled',
+    text: 'Status',
+    startText: 'Open state'
   },
   key: {
-    htitle: '设备管理',
-    title: '设备信息',
-    ctitle: '设备组员',
-    ctitle1: '设备列表',
-    title1: '开启日志',
-    ctitle2: '设备开启记录',
-    addGroup: '添加设备组',
-    updateGroup: '修改设备组',
-    groupName: '组名称',
-    groupId: '组编号',
+    htitle: 'Equipment Management',
+    title: 'Device Information',
+    ctitle: 'Equipment team member',
+    ctitle1: 'Device List',
+    title1: 'Open log',
+    ctitle2: 'Device open record',
+    addGroup: 'Add device group',
+    updateGroup: 'Modify device group',
+    groupName: 'Group name',
+    groupId: 'Group number',
     groupRule: '使用规则',
     groupAuth: '访问权限',
     groupStatus: '授权后默认开启',
@@ -758,39 +754,35 @@ export default {
     noemp: '该部门暂无员工'
   },
   picTips: {
-    logotip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片',
-    slidetip: '提示：建议上传1536x2048像素的图片'
+    logotip: 'Tip: support JPEG, PNG format, it is recommended that you use a background transparent PNG image',
+    slidetip: 'Tip: It is recommended to upload a 1536x2048 pixel image'
   },
-
-
   deleteTip: {
-    title: '删除提示',
-    desc: '是否要删除?',
-    success: '删除成功!',
-    cancelD: '已取消删除'
+    title: 'Delete prompt',
+    desc: 'Do you want to delete?',
+    success: 'successfully deleted!',
+    cancelD: 'Undeleted'
   },
   validPassword: {
-    tip1: '密码格式不正确',
-    tip2: '密码长度不小于6位'
+    tip1: 'Incorrect password format',
+    tip2: 'Password length is not less than 6'
   },
   validEmail: {
-    tip1: '邮箱格式不正确',
-    success: '邮件发送成功！',
-    tip2: '请输入邮箱'
+    tip1: 'E-mail format is incorrect',
+    success: 'Mail sent successfully!',
+    tip2: 'please input your email'
   },
   imgcode: {
-    tip1: '验证码不能为空'
+    tip1: 'verification code must be filled'
   },
   validphone: {
-    tip1: '手机号格式不正确',
-    tip2: '手机号不能为空'
+    tip1: 'Phone number format is incorrect',
+    tip2: 'Phone number can not be empty'
   },
   validStage: {
-    tip1: '账号不能为空'
+    tip1: 'Account cannot be empty'
   },
   imgCode: 'Change code?',
-
-
   responseNote: {
     1: '无效的用户',
     2: '无效的密码',
@@ -811,45 +803,43 @@ export default {
   },
 
   homepage: {
-    name: '官网首页',
+    name: 'Website homepage',
     link: '#'
   },
   hlogo: {
     text: '来访通'
   },
-
   account: {
     siderBar: {
-      title: '账户信息',
+      title: 'Account information',
       list: [{
-        name: '基本资料',
+        name: 'Basic information',
         link: 'base'
       }, {
-        name: '账户安全',
+        name: 'Account security',
         link: 'safe'
       }, {
-        name: '前台验证账号',
+        name: 'Verify the account by the Reception',
         link: 'stage'
       }, {
-        name: '多企业服务模式',
+        name: 'Multi-enterprise service model',
         link: 'coms'
       }]
     },
     base: {
-      title: '基本资料'
+      title: 'Basic Information'
     },
     safe: {
-      title: '账户安全'
+      title: 'Account Security'
     },
     stage: {
-      title: '验证端账号',
-      tip: '支持PC、手机端验证'
+      title: 'Account at the verification terminal',
+      tip: 'Support the verification at the PC terminal and mobile terminal'
     }
   },
-
   footer: {
-    ftext1: '版权所有',
-    ftext2: '南京访客乐网络科技有限公司. 保留一切权利.',
-    flink: '苏ICP备15058768号'
+    ftext1: 'All Rights Reserved',
+    ftext2: 'Nanjing Fangkele Network Technology Co., Ltd. reserves its rights.',
+    flink: 'ICP License No. 15058768 by Jiangsu Communications Administration'
   }
 }
