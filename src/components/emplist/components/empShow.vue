@@ -135,6 +135,7 @@ export default {
         let {status,result} = res
         if (status === 0) {
           let total = result.length
+          this.$emit('sendlist',result)
           this.total = result.length
           if (total > 0) {
           	let g_info = []

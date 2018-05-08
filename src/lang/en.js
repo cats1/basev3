@@ -13,6 +13,7 @@ export default {
   nextStep: 'The next step',
   prevStep: 'Previous',
   emptip: 'Please select an employee as the default cc person (can not choose)',
+  sempholder: 'Search employee name or card number',
   loginselect: ['Administrator', 'Headquarters Administrator', 'Settled Enterprise', 'Employee', 'Reception'],
   login: {
     title: 'Administrator',

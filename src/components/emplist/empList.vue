@@ -10,9 +10,10 @@
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
-          <el-input v-model="sform.name" @change="searchEmp" placeholder="搜索员工姓名或卡号">
+          <!-- @change="searchEmp" -->
+          <el-autocomplete v-model="state4" :fetch-suggestions="querySearchAsync" value-key="empName" @select="handleSelect" :placeholder="$t('sempholder')">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
-          </el-input>
+          </el-autocomplete>
           <div class="comempwrap">
             <div class="comwraptitle">
               <div class="comwraplogo">
@@ -29,7 +30,7 @@
                 <com-show :is-show="showType ===0"></com-show>
               </template>
               <template v-else>
-                <emp-show :slist="sempArray" :all-show="allShow" :update-show="updateShow" :is-show="showType ===1" @scheckkit="getCurList" @sempkit="getCurEmp" @removedkit="changeRemove"></emp-show>
+                <emp-show :slist="sempArray" :all-show="allShow" :update-show="updateShow" :is-show="showType ===1" @scheckkit="getCurList" @sempkit="getCurEmp" @removedkit="changeRemove" @sendlist="getAllEmp"></emp-show>
               </template>
             </transition>
           </div>
@@ -77,7 +78,11 @@ export default {
       },
       rightType: 3,
       sempArray: [],
-      updateShow: false
+      updateShow: false,
+      empList: [],
+      restaurants: [],
+      state4: '',
+      timeout:  null
   	}
   },
   computed: {
@@ -100,8 +105,8 @@ export default {
       this.$router.push({name: 'group'})
     } else {
       this.$router.push({name: 'emplist'})
-      this.getEmpList()
     }
+
   },
   methods: {
     changeBtnType (type) {
@@ -157,27 +162,11 @@ export default {
       this.editType = 1
       this.curEmp = pitem
     },
-    getEmpList () {
-      let nform = {
-        userid: getCache('userid')
-      }
-      this.$store.dispatch('GetEmpList',nform).then(res => {
-        let {status,result} = res
-        if (status === 0) {
-          console.log(result)
-          this.total = result.length
-        }
-      })
-    },
-    getUpdateEmp () {
-      this.dialogVisible = false
-      this.getProjectList()
-      this.getEmpList()
-    },
-    getDeleteEmp () {
-      this.dialogVisible = false
-      this.getProjectList()
-      this.getEmpList()
+    getAllEmp (result) {
+      console.log(result)
+      this.restaurants = result
+      this.empList = result
+      this.total = result.length
     },
     editEmp (row, event, column) {
       console.log(row)
@@ -187,11 +176,14 @@ export default {
     searchEmp (val) {
       console.log(val)
       if (val !== '') {
-        this.$store.dispatch('getEmpByName',this.sform).then(res => {
+        let sform = {
+          name: val,
+          userid: getCache('userid')
+        }
+        this.$store.dispatch('getEmpByName',sform).then(res => {
           let {status,result} = res
           if (status === 0) {
-            this.dataList = result
-            this.total = 0
+            console.log(result)
           }
         })
       }
@@ -210,6 +202,26 @@ export default {
     getmove () {
       this.getProjectList()
       this.getEmpList()
+    },
+    querySearchAsync(queryString, cb) {
+      var restaurants = this.restaurants;
+      var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
+
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+          cb(results);
+      }, 3000 * Math.random());
+    },
+    createStateFilter(queryString) {
+      return (state) => {
+        return (state.empName.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      }
+    },
+    handleSelect(item) {
+      console.log(item)
+      this.btnType = 1
+      this.editType = 1
+      this.curEmp = item
     }
   }
 }
