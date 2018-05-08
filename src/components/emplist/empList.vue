@@ -10,7 +10,7 @@
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
-          <el-input v-model="sform.name" @change="searchEmp">
+          <el-input v-model="sform.name" @change="searchEmp" placeholder="搜索员工姓名或卡号">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
           <div class="comempwrap">
@@ -39,7 +39,7 @@
         <template v-if="btnType === 1">
           <add-com-emp-show :edit-type="editType" :emp-obj="curEmp"></add-com-emp-show>
         </template>
-        <template v-if="btnType === 3">
+        <template v-else-if="btnType === 3">
           <special :slist="sempArray" @onekit="doOneNext" @removekit="getCurList" @twokit="setTwoAccount"></special>
         </template>
         <template v-else>
