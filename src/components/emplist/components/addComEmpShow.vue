@@ -181,14 +181,15 @@ export default {
       console.log(val)
       if (this.editType !== 0) {
         this.form = val
-        this.range = [new Date(val.startDate),new Date(val.endDate)]
+        this.range = [val.startDate,val.endDate]
       }
     }
   },
   mounted () {
     if (this.editType !== 0) {
         this.form = this.empObj
-        this.range = [new Date(this.empObj.startDate),new Date(this.empObj.endDate)]
+        console.log(777)
+        this.range = [this.empObj.startDate,this.empObj.endDate]
     }
     if (this.btnType === 1) {
       this.bType = 'primary'
@@ -243,20 +244,19 @@ export default {
             email: this.form.empEmail,
             phone: this.form.empPhone,
             employeeid: this.form.empid,
-            deptIds: [],
             emptype: 2,
             empPosition: '',
             telephone: '',
             workbay: '',
             visitType: '面试',
-            subaccountId: '',
+            subaccountId: this.form.subaccountId,
             empNickname: this.form.empNickname,
-            remark: '',
+            remark: this.form.remark,
             deptIds: [],
-            cardNo: '',
-            egids: '',
-            startDate: '',
-            endDate: ''
+            cardNo: this.form.cardNo,
+            egids: this.form.egids,
+            startDate: formatDate(this.range[0],'yyyyMMdd'),
+            endDate: formatDate(this.range[1],'yyyyMMdd')
           }
           this.$store.dispatch('updateEmployee',nform).then(res => {
             let {status} = res
@@ -277,14 +277,14 @@ export default {
             telephone: '',
             workbay: '',
             visitType: '面试',
-            subaccountId: '',
+            subaccountId: this.form.subaccountId,
             empNickname: this.form.empNickname,
-            remark: '',
+            remark: this.form.remark,
             deptIds: [],
-            cardNo: '',
-            egids: '',
-            startDate: '',
-            endDate: ''
+            cardNo: this.form.cardNo,
+            egids: this.form.egids,
+            startDate: formatDate(this.range[0],'yyyyMMdd'),
+            endDate: formatDate(this.range[1],'yyyyMMdd')
           }
           this.$store.dispatch('addEmployee',nform).then(res => {
             let {status} = res
