@@ -1,14 +1,14 @@
 <template>
 	<div>
-		<p>请选择一个员工，作为的默认抄送人（可以不选择）</p>
+		<p>{{$t('emptip')}}</p>
 		<div class="muttagswrap margintop20 paddingtb20 paddinglr30 border minheight100">
 			<template v-for="(item,index) in empArray">
         <emp-tag :e-obj="item" :index="index" @checkkit="checkTag"></emp-tag> 
 			</template>
 		</div>
 		<div class="margintop20">
-			<el-button type="default" @click="doPrev">上一步</el-button>
-			<el-button type="primary" @click="doNext">下一步</el-button>
+			<el-button type="default" @click="doPrev">{{$t('prevStep')}}</el-button>
+			<el-button type="primary" @click="doNext">{{$t('nextStep')}}</el-button>
 		</div>
 		
 	</div>

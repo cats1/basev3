@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-select class="margintop20" v-model="visitType" placeholder="选择关联拜访事由">
+		<el-select class="margintop20" v-model="visitType" :placeholder="$t('contactvtype')">
 		    <el-option
 		      v-for="item in options"
 		      :key="item"
@@ -9,7 +9,7 @@
 		    </el-option>
 		</el-select>
 		<div class="margintop20">
-			<el-button type="primary" @click="doNext">下一步</el-button>
+			<el-button type="primary" @click="doNext">{{$t('nextStep')}}</el-button>
 		</div>
 		
 	</div>
@@ -47,7 +47,7 @@ export default {
       } else {
       	this.$message({
       	  type: 'warning',
-      	  message: '选择关联拜访事由'
+      	  message: this.$t('contactvtype')
       	})
       } 
     },

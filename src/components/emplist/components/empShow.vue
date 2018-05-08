@@ -2,7 +2,7 @@
 	<div>
     <template v-for="(item,index) in defaultList">
       <div class="empitemwrap">
-        <span class="empitemtitle" @click="doDefaultTitleShow(index)">接待账号：{{item.title}}</span>
+        <span class="empitemtitle" @click="doDefaultTitleShow(index)">{{$t('recepaccount')}}：{{item.title}}</span>
         <el-collapse-transition>
           <div class="empsectionwrap" v-show="item.isShow">
             <template v-for="(pitem,pindex) in item.children">

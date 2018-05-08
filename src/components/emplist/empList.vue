@@ -17,7 +17,7 @@
             <div class="comwraptitle">
               <div class="comwraplogo">
                 <i class="fa fa-users fa-2x"></i>
-                <p>所有员工({{total}})</p>
+                <p>{{$t('depart.allEmp')}}({{total}})</p>
               </div>
               <ul class="emplist">
                 <li :class="{'active': showType === 0}" @click="selectType(0)"><i class="fa fa-sitemap"></i></li>
@@ -105,7 +105,6 @@ export default {
   },
   methods: {
     changeBtnType (type) {
-      console.log(type)
       this.btnType = type
     },
     changeRemove () {

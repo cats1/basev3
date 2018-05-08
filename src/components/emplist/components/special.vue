@@ -1,10 +1,10 @@
 <template>
   <div class="boxshadow margintop20 paddingtb20 paddinglr30">
-  	<h3>编辑专用账号</h3>
+  	<h3>{{$t('btn.editSpecial')}}</h3>
     <ul class="processlist">
-      <li :class="{'active': step === 0}">1、关联拜访事由</li>
-      <li :class="{'active': step === 1}">2、选择员工</li>  
-      <li :class="{'active': step === 2}">3、选择抄送</li>
+      <li :class="{'active': step === 0}">1、{{$t('contactvtype1')}}</li>
+      <li :class="{'active': step === 1}">2、{{$t('semp')}}</li>  
+      <li :class="{'active': step === 2}">3、{{$t('scopy')}}</li>
     </ul>
   	<template v-if="step === 0">
   	  <special-one :vtype="visitType" @nextkit="getNext"></special-one>

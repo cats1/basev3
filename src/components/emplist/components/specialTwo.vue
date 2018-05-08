@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<p>拜访事由: {{visitType}}</p>
-		<p>选择员工:</p>
+		<p>{{$t('visitcause')}}: {{visitType}}</p>
+		<p>{{$t('semp')}}:</p>
 		<div class="muttagswrap margintop20 paddingtb20 paddinglr30 border minheight100">
 			<template v-for="(item,index) in empArray">
 				<el-tag class="marginr10"
@@ -12,8 +12,8 @@
 			</template>
 		</div>
 		<div class="margintop20">
-			<el-button type="default" @click="doPrev">上一步</el-button>
-			<el-button type="primary" @click="doNext">下一步</el-button>
+			<el-button type="default" @click="doPrev">{{$t('prevStep')}}</el-button>
+			<el-button type="primary" @click="doNext">{{$t('nextStep')}}</el-button>
 		</div>
 		
 	</div>
