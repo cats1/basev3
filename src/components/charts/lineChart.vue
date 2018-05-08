@@ -16,6 +16,10 @@ export default {
       type: String,
       default: 'chart'
     },
+    ptitle: {
+      type: String,
+      default: ''
+    },
     width: {
       type: String,
       default: '630px'
@@ -36,13 +40,15 @@ export default {
       pieDate: [],
       pieShow: false,
       xData: [],
-      yData: []
+      yData: [],
+      lineTitle: ''
     }
   },
   watch: {
     piedata (val) {
       this.pieDate = val
       if (this.pieDate.length>0) {
+        this.lineTitle = this.ptitle === '' ? this.$t('visitData') : this.ptitle
         this.setdata()
         this.pieShow = true
       } else {
@@ -53,6 +59,7 @@ export default {
   created () {},
   mounted() {
     if (this.piedata.length>0) {
+      this.lineTitle = this.ptitle === '' ? this.$t('visitData') : this.ptitle
       this.setdata()
       this.pieShow = true
     }
@@ -100,15 +107,16 @@ export default {
       this.chart.setOption(
         {
           title : {
-            text: '访客数据',
+            text: this.lineTitle,
             x: 'center'
           },
+          color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
           tooltip : {
             trigger: 'axis'
           },
           legend: {
             show: false,
-            data:['访客数据']
+            data:[this.lineTitle]
           },
           toolbox: {
               show : false,
@@ -135,9 +143,9 @@ export default {
           ],
           series : [
               {
-                  name:'访客数据',
+                  name:this.lineTitle,
                   type:'line',
-                  stack: '访客数量',
+                  stack: this.$t('visitCount'),
                   data:this.yData
               }
           ]

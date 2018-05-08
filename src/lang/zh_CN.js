@@ -1,4 +1,10 @@
 export default {
+  searchVnameHolder: '搜索访客姓名',
+  signOutWinTitle: '签出窗口',
+  isLeave: '确认离开？',
+  visittype: '拜访类型',
+  visitData: '访客数据',
+  visitCount: '访客数量',
   loginselect: ['管理员登录', '总部管理员', '入驻企业登录', '员工登录', '前台登录'],
   login: {
     title: '管理员登录',
@@ -40,17 +46,17 @@ export default {
     link: 'emp.html',
     children: [{
       name: '公司员工',
-      dirname: 'emplist',
+      dirname: 'emp',
       link: 'emplist.html',
       children: []
     }, {
       name: '常驻访客',
-      dirname: 'visitlist',
+      dirname: 'emp',
       link: 'visitlist.html',
       children: []
     }, {
       name: '黑名单',
-      dirname: 'blacklist',
+      dirname: 'emp',
       link: 'blacklist.html',
       children: []
     }]
@@ -387,10 +393,10 @@ export default {
   export: {
     title: '访客列表导出项设置'
   },
-  
+
 
   signStatus: ['已签到', '已签出', '已预约', '已过期', '已发送', '已查看', '已接受', '已拒绝', '已授权', '未授权'],
-  
+
   record: '共找到',
   record1: '条，关于',
   record2: '记录',
@@ -761,7 +767,7 @@ export default {
     logotip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片',
     slidetip: '提示：建议上传1536x2048像素的图片'
   },
-  
+
 
   deleteTip: {
     title: '删除提示',

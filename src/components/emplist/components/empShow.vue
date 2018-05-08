@@ -1,12 +1,24 @@
 <template>
 	<div>
+    <template v-for="(item,index) in defaultList">
+      <div class="empitemwrap">
+        <span class="empitemtitle" @click="doDefaultTitleShow(index)">接待账号：{{item.title}}</span>
+        <el-collapse-transition>
+          <div class="empsectionwrap" v-show="item.isShow">
+            <template v-for="(pitem,pindex) in item.children">
+              <emp-item :semp-array="sempArray" :emp-item="pitem" :is-close="true" @scheckkit="getCheckItem" @sempkit="checkItem" @removedkit="moveDefault"></emp-item>
+            </template>
+          </div>
+        </el-collapse-transition>
+      </div>
+    </template>
 		<template v-for="(item,index) in empBarList">
 			<div class="empitemwrap">
 			  <span class="empitemtitle" @click="doTitleShow(index)">{{item.title}}</span>
 			  <el-collapse-transition>
 				<div class="empsectionwrap" v-show="item.isShow">
 				  <template v-for="(pitem,pindex) in item.children">
-            <emp-item :emp-item="pitem" :check-show="checkShow" @scheckkit="getCheckItem" @sempkit="checkItem"></emp-item>
+            <emp-item :semp-array="sempArray" :emp-item="pitem" :check-show="checkShow" @scheckkit="getCheckItem" @sempkit="checkItem"></emp-item>
 				  </template>
 				</div>
 			  </el-collapse-transition>
@@ -29,6 +41,14 @@ export default {
     allShow: {
       type: Boolean,
       default: false
+    },
+    slist: {
+      type: Array,
+      default: []
+    },
+    updateShow:{
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -42,11 +62,14 @@ export default {
       vt_hash: {},
       py_hash: {},
       checkShow: false,
-      checked: false
+      checked: false,
+      sempArray: this.slist,
+      defaultList: []
   	}
   },
   watch: {
   	isShow (val) {
+      console.log(val)
   	  if (val) {
   	  	this.getEmpList()
   	  }
@@ -60,6 +83,14 @@ export default {
         this.checkShow = false
         this.getEmpList()
       }
+    },
+    slist(val) {
+      this.sempArray = val
+    },
+    updateShow (val) {
+      if (val) {
+        this.getEmpList()
+      }
     }
   },
   computed: {},
@@ -70,6 +101,23 @@ export default {
   },
   methods: {
     numberToBoolean: numberToBoolean,
+    moveDefault (item) {
+      let nform = [{
+        userid: getCache('userid'),
+        employeeid: item.empid,
+        emptype: 1,
+        visitType: null
+      }]
+      this.$store.dispatch('updateEmpVisitType',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.$emit('removedkit') 
+        }
+      })
+    },
+    doDefaultTitleShow (index) {
+      this.defaultList[index].isShow = !this.defaultList[index].isShow
+    },
   	doTitleShow (index) {
   	  this.empBarList[index].isShow = !this.empBarList[index].isShow
   	},
@@ -216,18 +264,25 @@ export default {
 				}
           	}
           	this.py_hash = py_hash
-          	this.setDefaultAccount(cur_vt_arr)
+          	this.setDefaultAccount(cur_vt_arr,vt_hash)
           	this.setEmp()
           }
         }
       })
     },
-    setDefaultAccount (cur_vt_arr) {
-      console.log(cur_vt_arr)
+    setDefaultAccount (cur_vt_arr,vt_hash) {
       /* 显示默认接待账号 */
-      for (let i = 0; i < cur_vt_arr.length; i++) {
-        
+      let darray = []
+      for (let i=0;i<cur_vt_arr.length;i++) {
+        let key = cur_vt_arr[i]
+        let empObj = {
+          'title': key,
+          'isShow': this.allShow,
+          'children': vt_hash[key]
+        }
+        darray.push(empObj)
       }
+      this.defaultList = darray
     },
     setEmp () {
       let character = getCharacter()

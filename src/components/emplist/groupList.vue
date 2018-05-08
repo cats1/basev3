@@ -149,8 +149,14 @@ export default {
   	}
   },
   created () {
-    this.getProjectList()
-    this.getEmpListPages()
+    let subAccount = parseInt(getCache('subAccount')) || 0
+    if (subAccount === 0) {
+      this.$router.push({name: 'group'})
+      this.getProjectList()
+      this.getEmpListPages()
+    } else {
+      this.$router.push({name: 'emplist'})
+    }
   },
   methods: {
     getUpdateEmp () {

@@ -30,7 +30,6 @@ export default {
   methods: {
   	getList (val,type,nform) {
       this.vlist = val
-      console.log(type)
       this.vtype = type
       this.nform = nform
   	}

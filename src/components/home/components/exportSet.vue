@@ -8,7 +8,6 @@
 		  <div class="exportwap">
     		  	<span class="exsection">{{$t('form.name.text1')}}
     		  		<el-checkbox v-model="exportTable[0]"></el-checkbox>
-            }
     		  	</span>
             <span class="exsection">{{$t('form.phone.text1')}}
             	<el-checkbox v-model="exportTable[1]"></el-checkbox></span>
@@ -18,10 +17,9 @@
             	<el-checkbox v-model="exportTable[3]"></el-checkbox></span>
             <span class="exsection">{{$t('checkVtype[3]')}}
                 <el-checkbox v-model="exportTable[4]"></el-checkbox></span>
-            <template v-show="process.env.Door">
+            <template v-if="isDoorShow">
               <span class="exsection">{{$t('notice.doorset.signinDoor')}}
                 <el-checkbox v-model="exportTable[5]"></el-checkbox></span>
-              }
               <span class="exsection">{{$t('notice.doorset.signoutDoor')}}
                   <el-checkbox v-model="exportTable[6]"></el-checkbox>
               </span>
@@ -64,20 +62,39 @@
 import {downloadDoc} from '@/utils/common'
 import { getCache } from '@/utils/auth'
 export default {
-  props: ['vtype','nform'],
+  props: {
+    nform: {
+      type: Object,
+      default: {}
+    },
+    vtype: {
+      type: Number,
+      default: 0
+    },
+    extendShow: {
+      type: Boolean,
+      default: true
+    }
+  },
   data () {
   	return {
   	  dialogVisible: false,
   	  exportTable:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   	  type: this.vtype,
-      isDoorShow: process.env.Door
+      isDoorShow: this.extendShow
   	}
   },
   computed: {},
   watch: {
   	vtype (val) {
   	  this.type = val
-  	}
+  	},
+    extendShow (val) {
+      this.isDoorShow = val
+    }
+  },
+  mounted () {
+    console.log(this.isDoorShow)
   },
   methods: {
   	getExport () {

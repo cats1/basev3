@@ -4,7 +4,7 @@
 	  	<export-address-list :btn-type="btnType" @exportkit="changeBtnType"></export-address-list>
       <add-com-emp :btn-type="btnType" @addkit="changeBtnType"></add-com-emp>
       <dot-update :btn-type="btnType" :slist="sempArray" @addkit="changeUpdate" @cancelkit="changeCancel" @deletekit="changeDeleteEmp"></dot-update>
-      <edit-special :btn-type="btnType" @addkit="changeBtnType"></edit-special>
+      <edit-special :btn-type="btnType" @addkit="changeBtnType" ></edit-special>
       <dot-send-card></dot-send-card>
 	  </div>
 	  <el-row :gutter="20">
@@ -29,7 +29,7 @@
                 <com-show :is-show="showType ===0"></com-show>
               </template>
               <template v-else>
-                <emp-show :all-show="allShow" :is-show="showType ===1" @scheckkit="getCurList" @sempkit="getCurEmp"></emp-show>
+                <emp-show :slist="sempArray" :all-show="allShow" :update-show="updateShow" :is-show="showType ===1" @scheckkit="getCurList" @sempkit="getCurEmp" @removedkit="changeRemove"></emp-show>
               </template>
             </transition>
           </div>
@@ -40,7 +40,7 @@
           <add-com-emp-show :edit-type="editType" :emp-obj="curEmp"></add-com-emp-show>
         </template>
         <template v-if="btnType === 3">
-          <special></special>
+          <special :slist="sempArray" @onekit="doOneNext" @removekit="getCurList" @twokit="setTwoAccount"></special>
         </template>
         <template v-else>
           <export-address-book></export-address-book>
@@ -76,7 +76,8 @@ export default {
         userid: getCache('userid')
       },
       rightType: 3,
-      sempArray: []
+      sempArray: [],
+      updateShow: false
   	}
   },
   computed: {
@@ -93,13 +94,23 @@ export default {
       return formatDate(date, 'yyyy-MM-dd')
     }
   },
-  created () {
-    this.getEmpList()
+  created () {    
+    let subAccount = parseInt(getCache('subAccount')) || 0
+    if (subAccount === 0) {
+      this.$router.push({name: 'group'})
+    } else {
+      this.$router.push({name: 'emplist'})
+      this.getEmpList()
+    }
   },
   methods: {
     changeBtnType (type) {
       console.log(type)
       this.btnType = type
+    },
+    changeRemove () {
+      this.updateShow = true
+      this.allShow = false
     },
     changeCancel (type) {
       this.allShow = false
@@ -111,12 +122,19 @@ export default {
       this.btnType = 0
       this.showType = 1
     },
+    setTwoAccount () {
+      this.allShow = false
+      //this.sempArray = []
+    },
     selectType (type) {
       this.showType = type
     },
     changeUpdate (type) {
       this.allShow = true
       this.btnType = type
+    },
+    doOneNext (type) {
+      this.allShow = true
     },
     getCurList (item,val) {
       if (val) {

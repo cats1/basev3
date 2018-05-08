@@ -47,3 +47,27 @@ export function batchSignOut(data) {
     data
   })
 }
+//VisitorSignOutByVid
+export function VisitorSignOutByVid(data) {
+  return request({
+    url: '/VisitorSignOutByVid',
+    method: 'post',
+    data
+  })
+}
+//updateEmpVisitType
+export function updateEmpVisitType(data) {
+  return request({
+    url: '/updateEmpVisitType',
+    method: 'post',
+    data
+  })
+}
+//updateDefaultNotify
+export function updateDefaultNotify(data) {
+  return request({
+    url: '/updateDefaultNotify',
+    method: 'post',
+    data
+  })
+}

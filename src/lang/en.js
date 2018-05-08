@@ -1,4 +1,9 @@
 export default {
+  searchVnameHolder: 'Search visitor name',
+  signOutWinTitle: 'sign out window',
+  isLeave: 'Confirm leave?',
+  visittype: 'Visit type',
+  visitData: 'Visitor data',
   loginselect: ['Administrator', 'Headquarters Administrator', 'Settled Enterprise', 'Employee', 'Reception'],
   login: {
     title: 'Administrator',
@@ -40,17 +45,17 @@ export default {
     link: 'emp.html',
     children: [{
       name: 'Company Employee',
-      dirname: 'emplist',
+      dirname: 'emp',
       link: 'emplist.html',
       children: []
     }, {
       name: 'Resident Visitors',
-      dirname: 'visitlist',
+      dirname: 'emp',
       link: 'visitlist.html',
       children: []
     }, {
       name: 'Blacklist',
-      dirname: 'blacklist',
+      dirname: 'emp',
       link: 'blacklist.html',
       children: []
     }]
@@ -274,7 +279,7 @@ export default {
       defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">这里是{company}，感谢您对我公司的信任和选择。通过对您简历的认真审核，我们认为您已具备进入下一轮筛选的资格。为了进一步了解，现邀请您参加面试，具体安排如下：</p><br/>'
     },
     business: {
-      title: '邀请函内容',
+      title: 'The content of the invitation',
       desc: '书写规范形如:{visitor}来访者名字、{company}公司名称、{empid}预约员工id不可修改',
       defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">我是{company}的{empid}，很高兴代表我司与您联系。为更好的沟通交流工作事宜，诚挚希望与您进行会面，期待您的来访！</p><br/>'
     }
@@ -404,49 +409,49 @@ export default {
   endTimeText: 'expired',
   guide: {
     guide1: {
-      title: '欢迎加入来访通',
-      desc: '您只需完成以下操作，即可对酷访通进行自定义设置。如需帮助，请点击页面右侧“问题咨询”',
-      inputTitle: '填写公司信息',
-      inputPlaceholder: '公司名备注（最多六个字）',
-      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
-      next: '接下来：添加员工',
-      btn: '下一步'
+      title: 'Welcome to join us',
+      desc: 'You only need to complete the following operations to customize the Cool Visit. For help, please click on the “Consultation” on the right side of the page.',
+      inputTitle: 'Please fill in the information about the company',
+      inputPlaceholder: 'Company name remarks (up to six words)',
+      inputDesc: 'Prompt: The remark of the company name is used for WeChat and visitor stickers',
+      next: 'Next: Notification settings',
+      btn: 'Next'
     },
     guide2: {
-      title: '添加员工信息',
-      desc: '添加员工后即能体验我们最强大的功能：自动通知员工有客来访。请至少添加一条员工信息。支持RTX、员工通讯录Excel表格导入，更推荐您尝试手动添加，直接将员工信息录入后台。',
-      inputTitle: '填写公司信息',
-      inputPlaceholder: '公司名备注（最多六个字）',
-      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
-      next: '接下来：登记设置',
-      btn: '下一步'
+      title: 'Add employee information',
+      desc: 'After adding the employees, you can experience our most powerful function: to automatically notify the employees of the visitors. Please add at least one piece of employee information. Support RTX and the Excel import of the employee address book. It’s more recommended that you can try to add by hand, and directly enter the employee information into the backstage.',
+      inputTitle: 'Please fill in the information about the company',
+      inputPlaceholder: 'Company name remarks (up to six words)',
+      inputDesc: 'Prompt: The remark of the company name is used for WeChat and visitor stickers',
+      next: 'Next: Notification settings',
+      btn: 'Next'
     },
     guide3: {
-      title: '登记内容设置',
-      desc: '您的访客将在iPad页面进行登记，我们为您提供以下登记内容，您可以对其进行个性化设置',
-      inputTitle: '填写公司信息',
-      inputPlaceholder: '公司名备注（最多六个字）',
-      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
-      next: '接下来：通知设置',
-      btn: '下一步'
+      title: 'Registration content setting',
+      desc: 'Your visitors will register on the iPad page. We will provide you with the following registration contents, and you can personalize it.',
+      inputTitle: 'Please fill in the information about the company',
+      inputPlaceholder: 'Company name remarks (up to six words)',
+      inputDesc: 'Prompt: The remark of the company name is used for WeChat and visitor stickers',
+      next: 'Next: Notification settings',
+      btn: 'Next'
     },
     guide4: {
-      title: '通知方式设置',
-      desc: '我们为您提供微信、邮件、钉钉、RTX、短信五种通知方式，点击右侧开关，设置员工接收通知方式',
-      inputTitle: '填写公司信息',
-      inputPlaceholder: '公司名备注（最多六个字）',
-      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
-      next: '接下来：迎接来访者',
-      btn: '下一步'
+      title: 'Notification mode setting',
+      desc: 'We will provide you with five modes of notification, WeChat, email, DingTalk, RTX and SMS. Please click on the switch on the right to set up the way the employee receives the notification.',
+      inputTitle: 'Please fill in the information about the company',
+      inputPlaceholder: 'Company name remarks (up to six words)',
+      inputDesc: 'Prompt: The remark of the company name is used for WeChat and visitor stickers',
+      next: 'Next: Welcome the visitors',
+      btn: 'Next'
     },
     guide5: {
-      title: 'Pad端设置',
-      desc: '您的访客将在iPad页面进行登记，我们为您提供以下登记内容，您可以对其进行个性化设置',
-      inputTitle: '填写公司信息',
-      inputPlaceholder: '公司名备注（最多六个字）',
-      inputDesc: '提示：公司名备注用于微信以及访客贴纸',
-      next: '接下来：迎接来访者',
-      btn: '进入后台管理'
+      title: 'Pad terminal settings',
+      desc: 'Your visitors will register on the iPad page. We will provide you with the following registration contents, and you can personalize it.',
+      inputTitle: 'Please fill in the information about the company',
+      inputPlaceholder: 'Company name remarks (up to six words)',
+      inputDesc: 'Prompt: The remark of the company name is used for WeChat and visitor stickers',
+      next: 'Next: Welcome the visitors',
+      btn: 'enter background management'
     }
   },
 
@@ -481,277 +486,277 @@ export default {
     updateGroup: 'Modify device group',
     groupName: 'Group name',
     groupId: 'Group number',
-    groupRule: '使用规则',
-    groupAuth: '访问权限',
-    groupStatus: '授权后默认开启',
-    addEquip: '添加设备',
-    equipeName: '设备名称',
-    equipMark: '设备标识',
-    extendMark: '扩展标识',
-    doorNumber: '门号',
-    equipIp: '设备IP',
-    equipPort: '设备端口号',
-    headNumber: '读头编号',
-    equipDist: '设备组分配'
+    groupRule: 'Service regulations',
+    groupAuth: 'Access authority',
+    groupStatus: 'Default opening after authorization',
+    addEquip: 'Add Equipment',
+    equipeName: 'Equipment name',
+    equipMark: 'Equipment identification',
+    extendMark: 'Extension identification',
+    doorNumber: 'Door number',
+    equipIp: 'Equipment IP',
+    equipPort: 'Equipment port number',
+    headNumber: 'Read head number',
+    equipDist: 'Distribution of equipment group'
   },
   black: {
     wins: {
-      title: '新增黑名单'
+      title: 'New blacklist'
     }
   },
   pad: {
-    usualSet: '通用设置',
-    padSet: 'pad设置',
-    scolor: '选择颜色',
-    inputColor: '输入色值'
+    usualSet: 'General settings',
+    padSet: 'Pad settings',
+    scolor: 'choose the color',
+    inputColor: 'Input color value'
   },
   notice: {
     tip: {
-      title: '提醒通知',
-      desc: '点击右侧开关，设置员工接收通知方式'
+      title: 'Reminder notification',
+      desc: 'Please click on the switch on the right to set up the way the employee receives the notification.'
     },
     black: {
-      title: '黑名单开关',
-      desc: '黑名单功能打开后，黑名单中的人将无法进行预约，登记操作。',
+      title: 'Blacklist switch',
+      desc: 'After the blacklist function is turned on, people in the blacklist will not be able to make an reservation or to register.',
     },
     weixin: {
-      title: '微信',
-      desc: '当有访客签到时，通过微信服务号"来访通"通知员工,员工需提前在服务号使用通讯录中的手机号注册。',
+      title: 'WeChat',
+      desc: 'When a visitor signs in, notify the employee through the WeChat service account “Cool Visit”. The employee should register with the phone number in the address book on the service account ahead of time.',
     },
     email: {
-      title: '邮件',
-      desc: '当有访客签到时，通过邮件通知员工',
-      ptitle: '请选择邮件配置方式',
-      defaults: '默认配置',
-      ddesc: '默认配置将由系统exchange账号发送通知',
-      tips: '修改成功',
-      server1: 'Exchange服务器',
-      server2: 'SMTP服务器'
+      title: 'Email',
+      desc: 'Notify employees by email when a visitor signs in',
+      ptitle: 'Please select the mail configuration method',
+      defaults: 'Default configuration',
+      ddesc: 'In the default configuration, notifications will be sent from the exchange account of the system.',
+      tips: 'Successfully modified',
+      server1: 'Exchange server',
+      server2: 'SMTP server'
     },
     sms: {
-      title: '短信',
-      desc: '短信通知员工，以及快捷回复时，短信通知访客'
+      title: 'SMS',
+      desc: 'Notify employees by SMS, and notify visitors by SMS when quick reply.'
     },
     yuyin: {
-      title: '语音电话',
-      desc: '当访客在前台Pad签到时，通过语音电话通知受访员工'
+      title: 'Voice call',
+      desc: 'When a visitor signs in on the Pad of the Reception notify the interviewed employee through a voice call.'
     },
     dd: {
-      title: '钉钉',
-      desc: '当有访客签到时，通过钉钉通知员工',
-      tip: '如果要开启此项通知方式，请点击此处设置导入通讯录方式'
+      title: 'DingTalk',
+      desc: 'Notify the employee by DingTalk when a visitor signs in.',
+      tip: 'If you want to turn on this notification method, click here to set the way to import contacts'
     },
     rtx: {
       title: 'RTX',
-      desc: '当有访客签到时，通过RTX通知员工',
-      tip: '如果要开启此项通知方式，请点击此处设置导入通讯录方式'
+      desc: 'Notify employees through RTX when a visitor signs in',
+      tip: 'If you want to turn on this notification method, click here to set the way to import contacts'
     },
     order: {
-      title: '预约授权',
-      desc: '开启后，访客预约拜访需要员工在“来访通”服务号中进行授权。'
+      title: 'Reservation authorization',
+      desc: 'After opening, the visitors need to be authorized to make a reservation in the service account of “Cool Visit”.'
     },
     invite: {
-      title: '邀请函模板',
-      desc: '员工在发送邀请短信时，点击打开邀请函查看具体面谈时间、地点、企业文化等信息，邀请函编辑后可成为所有员工',
-      empTitle: '限制员工修改',
-      empDesc: '邀请函模板限制员工修改开关，开关打开后，员工登录后将不能修改模板'
+      title: 'Invitation template',
+      desc: 'When the invitation message is sent, the employee clicks on the invitation to see the interview time, place, enterprise culture and so on. After the invitation is edited, the invitation will be available for all the employees.',
+      empTitle: 'Restrict employee modification',
+      empDesc: 'The invitation template restricts the switch for employee to modify. After the switch is turned on, the employee will not be able to modify the template after login.'
     },
     stagetime: {
-      title: '前台验证有效期',
-      desc: '设置前台验证访客预约信息的时间范围，如果时间未到请让访客等候，过时请让访客重新预约',
-      preExtendTime: '预约时间前:',
-      latExtendTime: '预约时间后:'
+      title: 'Term of validity of the Reception verification',
+      desc: 'Please set up the time range of the Reception to verify the visitor’s reservation information. If the time is not available, please let the visitor wait. Please ask visitors to make a reservation again if they are over time.',
+      preExtendTime: 'before the reservation time:',
+      latExtendTime: 'after the reservation time:'
     },
     codetime: {
-      title: '二维码有效期',
-      desc: '设置邀请函中二维码开门有效时间',
-      qrMaxCount: '二维码最大使用次数:',
-      qrMaxDuration: '二维码最长使用时间'
+      title: 'Validity period of QR Code',
+      desc: 'Please set up the valid time of the QR Code in the invitation.',
+      qrMaxCount: 'Maximum time of use for the QR Code:',
+      qrMaxDuration: 'Maximum time of use for the QR Code'
     },
     codesign: {
-      title: '二维码签到',
-      desc: '开启后，邀请函中出现“二维码”模块，可用于前台PC扫码枪（访客列表页面右侧进入）、手机验证端进行扫描验证。'
+      title: 'Sign in by the QR Code',
+      desc: 'After opening, the “QR Code” module will appear in the invitation, which can be used for the scanning verification for the PC barcode scanner at the Reception (on the right side of the list of visitors) and the mobile verification terminal.'
     },
     clogo: {
-      title: '企业LOGO',
-      desc: '我们将在Pad首屏展示您的企业LOGO',
-      tip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片'
+      title: 'Enterprise LOGO',
+      desc: 'We will show your enterprise LOGO on the first screen of the Pad.',
+      tip: 'Prompt: Support the JPEG and PNG. It is recommended to choose a PNG picture with transparent background.'
     },
     vset: {
-      title: '访客登记设置',
-      desc: '您可以设置访客所需填写的信息',
-      cdesc: '您可以自定义设置访客登记的内容',
-      vdesc: '此信息为可选项，可设置为可见',
-      vselfdesc: '这是您自定义添加，必填输入项',
-      vselfdesc1: '这是您自定义添加，选填输入项'
+      title: 'Visitor registration setting',
+      desc: 'You can set information for visitors',
+      cdesc: 'You can customize the content of guest registration',
+      vdesc: 'This information is optional and can be set to visible',
+      vselfdesc: 'This is your custom add, required input',
+      vselfdesc1: 'This is your custom addition, optional input'
     },
     vpaper: {
-      title: '访客贴纸选择',
-      desc: '您可以查看访客贴纸的样式、尺寸及展示内容',
-      printType: '打印机型号',
-      printBlackType: '黑白打印访客贴纸（适配Brother QL-720NW打印机）',
-      printColorType: '彩色打印访客贴纸',
-      comShow: '公司形象展示选择',
-      comTextShow: '文字展示（6个字以内）',
-      comPicShow: '图片展示（建议尺寸168x42px）',
-      vType: '访客贴纸打印样式',
-      cardText: '适用于贴在身上',
-      cardSize: '尺寸',
-      cardStyle: '样式',
-      cardText1: '适用于90*60mm卡套',
-      cardText2: '5寸标准相纸',
-      cardText3: '4寸微信相纸',
-      codeWinTitle: '二维码头像',
-      insertLink: '插入链接',
+      title: 'Selection of visitor sticker',
+      desc: 'You can view the style, size and content displayed of the visitor stickers.',
+      printType: 'Printer model',
+      printBlackType: 'Black and white printing of visitor stickers (suitable for Brother QL-720NW printer)',
+      printColorType: 'Color printing of visitor stickers',
+      comShow: 'Selection of corporate image display',
+      comTextShow: 'Text display (within 6 characters)',
+      comPicShow: 'Picture display (recommended size 168x42px)',
+      vType: 'Printing style of the visitor sticker',
+      cardText: 'Applicable for sticking to the body',
+      cardSize: 'Size',
+      cardStyle: 'Style',
+      cardText1: 'Suitable for 90*60mm card sleeves',
+      cardText2: '5-inch standard printing paper',
+      cardText3: '4-inch WeChat printing paper',
+      codeWinTitle: 'QR Code avatar',
+      insertLink: 'Insert a link',
       uploadPic: 'upload picture'
     },
     safe: {
-      title: '安全协议',
-      desc: '点击编辑访问安全协议的内容，访客阅读并勾选“已阅读"后方能进入下一步。',
+      title: 'Security protocol',
+      desc: 'Please click on “Edit” to access the contents of the security protocol, and visitors should read and check "Read" before entering the next step.',
       dialog: {
-        title: '安全协议设置'
+        title: 'Security protocol settings'
       }
     },
     once: {
-      title: '曾经来过',
-      desc: '访客再次到访时可以只输入手机号完成签到'
+      title: 'Once visited',
+      desc: 'Visitors only need to enter the phone number to sign in when they visit again.'
     },
     sos: {
-      title: '登出开关',
-      desc: '开启后Pad首页出现“登出”入口，访客离开时点击输入手机号完成签离。'
+      title: 'Logout switch',
+      desc: 'After turning on, the entry to “Logout” appears on the Pad homepage. Enter the phone number to complete the sign-out when the visitors leave.'
     },
     team: {
-      title: '团队到访',
-      desc: '您可以选择开启该功能，提高团队到访时的接待效率',
+      title: 'Team visit',
+      desc: 'You can choose to turn on the function to improve the reception efficiency of the team when they visit.',
       dialog: {
-        title: '默认头像'
+        title: 'Default avatar'
       }
     },
     pics: {
-      title: '首屏轮播图片',
-      desc: '选择2-5张企业形象图片，将在Pad首屏轮播展示'
+      title: 'Carousel pictures on the first screen',
+      desc: 'Select two to five pictures representing corporate image, which will be displayed by carousel on the first screen.'
     },
     themecolor: {
-      title: '企业颜色',
-      desc: '您可以自定义设置Pad客户端的外观颜色'
+      title: 'Enterprise color',
+      desc: 'You can customize the appearance color of the Pad client.'
     },
     innerphoto: {
-      title: '内置头像设置',
-      desc: '当访客在拍照时选择“跳过”时，展示内置头像，您可设置企业形象相关的头像，如果内置头像全部删除，则访客无法跳过拍照流程。',
+      title: 'Built-in avatar settings',
+      desc: 'Display the built-in avatars when visitors select "Skip" when taking photos. You can set up an avatar related to the corporate image. If all the built-in avatars are deleted, visitors can not skip the photo-taking process.',
       dialog: {
-        title: '默认头像'
+        title: 'Default avatar'
       }
     },
     facein: {
-      title: '刷脸签到',
-      desc: '开启后，邀请函中出现“刷脸签到”模块，访客上传照片后，可在前台Pad上的“已预约——刷脸签到”中进行刷脸签到。'
+      title: 'Sign in by face swiping',
+      desc: 'After turning on, there will be a module of “Face swiping to sign in” in the invitation. After uploading the photos, visitors can sign in “Reserved—Sign-in by face swiping” on the Pad of the Reception.'
     },
     doorset: {
-      title: '门岗设置',
-      desc: '添加门卫操作',
+      title: 'Security settings',
+      desc: 'Add guard operations',
       dialog: {
-        title: '门岗信息设置',
-        add: '增加门岗'
+        title: 'Security information settings',
+        add: 'Increase the gate'
       },
-      signinDoor: '签入门岗',
-      signoutDoor: '签出门岗',
-      signinGuard: '签入警卫',
-      signoutGuard: '签出警卫'
+      signinDoor: 'Sign in the gate',
+      signoutDoor: 'Sign out the gate',
+      signinGuard: 'Sign in by guard',
+      signoutGuard: 'Sign out by guard'
     },
     worktime: {
-      title: '工作时间设置',
-      desc: '设置工作时间，以便访客在此时间段内才能开门，并在下班后提醒仍有访客未签出。',
+      title: 'Working time settings',
+      desc: 'Please set up working hours so that visitors can open the door during this time period. Remind that there are visitors who haven’t signed out after work.',
       dialog: {
-        title: '时间段设置',
-        upDuty: '上班时间填写',
-        offDuty: '下班时间填写'
+        title: 'Time settings',
+        upDuty: 'Please fill in the starting time.',
+        offDuty: 'Please fill in the closing time.'
       }
     },
     coms: {
-      title: '多企业服务模式',
-      desc: '适用于众创空间、物业等办公服务主体，可为入驻企业提供Pad端形象展示和访客管理服务。',
+      title: 'Multi-enterprise service model',
+      desc: 'It can be applied to maker space, property and other subjects for office services, providing image display and visitor management services at the Pad terminal for settled enterprises.',
       dialog: {
-        title: '企业信息',
-        title1: '企业联系人信息',
-        title2: '所有公司'
+        title: 'Corporate Information',
+        title1: 'Corporate contact information',
+        title2: 'All companies'
       },
       deletetip: {
-        title: '删除子公司',
-        desc: '确定删除子公司？'
+        title: 'Delete subsidiary',
+        desc: 'Are you sure to delete a subsidiary?'
       }
     }
   },
   approve: {
-    title: '设置审批流程',
-    desc: '根据拜访区域设置审批人，预约需经过审批人审批后方可通过。',
-    atitle: '审批流程开关',
-    adesc: '审批功能打开后，访问申请需要根据审批条件进行多级审批',
-    astitle: '设置审批条件',
-    addArea: '新增新区域',
-    areaName: '区域名称',
-    areaAddress: '区域地址',
-    contact: '关联审批人'
+    title: 'Please set up the approval process.',
+    desc: 'Please set up the approver according to the visit area. The reservation must be approved by the approver before the adoption.',
+    atitle: 'Switch of the approval process',
+    adesc: 'After the approval function is turned on, the application for access must be approved at multiple levels according to the conditions of approval.',
+    astitle: 'Please set up the approval conditions.',
+    addArea: 'Add a new area',
+    areaName: 'Area name',
+    areaAddress: 'Address of the area',
+    contact: 'Associate Approver'
   },
 
   role: {
-    rgroup: '角色组名称',
-    rolename: '角色名称',
-    rolegroup: '角色组'
+    rgroup: 'Role group name',
+    rolename: 'role name',
+    rolegroup: 'the role groups'
   },
   exporttype: {
-    title: '通过Excel导入',
-    desc1: '表格内需要包含：姓名、邮箱、手机号码,',
-    desc2: '支持csv、xls、xlsx后缀的Excel文档格式',
-    desc3: '查看模板',
-    desc4: '点此修改',
-    desc5: '您已经选择',
-    list: ['Excel导入', 'RTX同步', '钉钉同步'],
-    desc6: '您当前已选择"',
-    desc7: '"方式导入通讯录',
-    desc8: '作为导入通讯录的方式，',
-    desc9: '每天00:00自动同步RTX',
-    ip: 'IP地址',
-    ipSet: 'IP设置',
-    ddSet: '钉钉设置',
+    title: 'Import through Excel',
+    desc1: 'The table needs to include: name, email address, phone number.',
+    desc2: 'Excel file format support for csv, xls, xlsx suffixes',
+    desc3: 'View the template',
+    desc4: 'Click here to modify',
+    desc5: 'You have chosen',
+    list: ['Import Excel', 'RTX synchronization', 'DingTalk synchronization'],
+    desc6: 'You have chosen"',
+    desc7: '"as a way of importing the address book.',
+    desc8: 'as a way of importing the address book.',
+    desc9: 'Synchronize RTX automatically every day at 00:00',
+    ip: 'IP address',
+    ipSet: 'The setting of IP',
+    ddSet: 'The setting of DingTalk',
     CorpID: 'CorpID',
     CorpSecret: 'CorpSecret',
-    agentid: '微应用 agentid',
-    port: '端口',
-    isNull: '不能为空',
-    tip1: '钉钉已打开，无法开启RTX',
-    tip2: 'RTX已打开，无法开启钉钉',
-    tip3: '钉钉开关已打开，RTX开关无法开启，如若开启RTX，请先关闭钉钉',
-    tip4: 'RTX设置未打开，无法开启自动同步',
-    tip5: '钉钉设置未打开，无法开启自动同步',
-    tip6: 'RTX开关已打开，钉钉开关无法开启，如若开启钉钉，请先关闭RTX'
+    agentid: 'the micro application agentid',
+    port: 'Port',
+    isNull: 'can not be empty.',
+    tip1: 'DingTalk has been turned on and the RTX failed to be turned on.',
+    tip2: 'RTX has been turned on and the DingTalk failed to be turned on',
+    tip3: 'The DingTalk switch has been turned on and the RTX switch cannot be turned on. If you turn on the RTX, please turn off DingTalk first.',
+    tip4: 'The RTX setting is not turned on and the automatic synchronization cannot be turned on.',
+    tip5: 'The setting of DingTalk is not turned on, and the automatic synchronization cannot be turned on.',
+    tip6: 'The RTX switch has been turned on and the DingTalk switch cannot be turned on. If you turn on the DingTalk, please turn off RTX first.'
   },
   emplist: {
-    pro: '组织架构',
-    com: '角色',
-    pad: '是否在Pad端不可搜索',
-    cardTip: '此功能仅用于批量发卡，过程中将删除原有数据，发卡将持续数分钟！'
+    pro: 'Organizational Structure',
+    com: 'Role',
+    pad: 'Whether it is not searchable at the Pad terminal',
+    cardTip: 'This function is only used for batch issuance of the cards, and the original data will be deleted in the process. The card issuance will last for several minutes.'
   },
   project: {
-    pro: '项目列表',
-    com: '公司列表',
-    addprotitle: '新增项目',
-    proname: '项目名称'
+    pro: 'Project List',
+    com: 'Lists of Companies',
+    addprotitle: 'New Project',
+    proname: 'Project name'
   },
   depart: {
-    departName: '部门名称',
-    prevDepartName: '上级部门',
-    manager: '设置主管',
-    selectDepart: '选择部门',
-    hasDepart: '已选部门',
-    dlist: '部门列表',
-    selectPrevDepart: '选择上级部门',
-    next: '下级',
-    sup: '选择项目已达上限',
-    tip: '主公司无法编辑',
-    smember: '选择人员',
-    hasMember: '已选人员',
-    allEmp: '所有员工',
-    noemp: '该部门暂无员工'
+    departName: 'Department name',
+    prevDepartName: 'Superior department',
+    manager: 'Set up the director',
+    selectDepart: 'Select the department',
+    hasDepart: 'Selected department',
+    dlist: 'Department list',
+    selectPrevDepart: 'Select superior department',
+    next: 'Subordinate',
+    sup: 'The selected item has reached the upper limit',
+    tip: 'The main company cannot edit',
+    smember: 'Select people',
+    hasMember: 'Selected people',
+    allEmp: 'All employees',
+    noemp: 'The department has no employees'
   },
   picTips: {
     logotip: 'Tip: support JPEG, PNG format, it is recommended that you use a background transparent PNG image',

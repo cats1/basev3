@@ -11,6 +11,10 @@ export default {
       type: String,
       default: 'chart'
     },
+    ptitle: {
+      type: String,
+      default: ''
+    },
     id: {
       type: String,
       default: 'chart'
@@ -67,9 +71,10 @@ export default {
       this.chart.setOption(
         {
           title : {
-              text: '拜访类型',
+              text: this.ptitle === '' ? this.$t('visittype') : this.ptitle,
               x:'center'
           },
+          color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
           tooltip : {
               trigger: 'item',
               formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -98,7 +103,7 @@ export default {
           calculable : false,
           series : [
               {
-                  name:'拜访类型',
+                  name: this.ptitle === '' ? this.$t('visittype') : this.ptitle,
                   type:'pie',
                   radius : '30%',
                   center: ['40%', '50%'],

@@ -5,7 +5,7 @@
     <div class="vlist-wrap boxshadow margintop20 paddingtb20">
       <template v-if="vlist.length > 0">
         <template v-for="(vitem,index) in vlist">
-          <visit-item :vdata="vitem" :index="index" :item-check="vCheck[index]" @checkkit="changeCheck"></visit-item>
+          <visit-item :vdata="vitem" :index="index" :item-check="vCheck[index]" @checkkit="changeCheck" @outkit="getSignout"></visit-item>
         </template>
       </template>
       <template v-else>
@@ -50,6 +50,9 @@ export default {
     this.getSignVisitor()
   },
   methods: {
+    getSignout () {
+      this.getList(this.onShowType)
+    },
     getValue (val) {
       let nval = formatDate(val,'yyyy-MM-dd')
       this.form.date = nval
@@ -85,7 +88,6 @@ export default {
       }
     },
     changeCheck (val,index) {
-      console.log(val,index)
       this.vCheck[index] = val
       let _self = this
       let varray = []

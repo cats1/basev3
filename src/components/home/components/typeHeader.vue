@@ -1,6 +1,6 @@
 <template>
-	<div class="box-section">
-		<h3><el-button type="text" @click="showVisit">{{$t('vnum[6]')}}<template v-if="cShow === false">
+	<div class="boxshadow">
+		<h3 class="paddinglr30 paddingtb20"><el-button type="text" @click="showVisit">{{$t('vnum[6]')}}<template v-if="cShow === false">
         <i class="el-icon-caret-bottom"></i>
       </template>
       <template v-else>
@@ -10,32 +10,33 @@
         <i class="fa fa-line-chart"></i>{{$t('dataM')}}</el-button>
     </h3>
     <el-collapse-transition>
-      <div class="margintop20 marginbom20" v-show="cShow === true">
+      <div class="marginbom20 paddinglr30" v-show="cShow === true">
         <template v-for="(item,index) in $t('vtype')">
           <span class="vtypespan" :class="{'isActive': index === ctype}" @click="setVtype(index)">{{item}}</span>
         </template>
       </div>
     </el-collapse-transition>
-    <div class="margintop20">
+    <div class="paddinglr30 paddingbom20">
       <template v-if="ctype === 0 || ctype === 3">
-        <el-button type="default" @click="getTotal">{{$t('vnum[0]')}}({{total}})</el-button>
-        <el-button type="default" @click="getLeavel">{{$t('vnum[1]')}}({{LeavelNo}})</el-button>
-        <el-button type="default" @click="getOn">{{$t('vnum[2]')}}({{onNo}})</el-button>
+        <el-button :type="clickType === 0 ? 'primary' : 'default'" @click="getTotal">{{$t('vnum[0]')}}({{total}})</el-button>
+        <el-button :type="clickType === 1 ? 'primary' : 'default'" @click="getLeavel">{{$t('vnum[1]')}}({{LeavelNo}})</el-button>
+        <el-button :type="clickType === 2 ? 'primary' : 'default'" @click="getOn">{{$t('vnum[2]')}}({{onNo}})</el-button>
       </template>
       <template v-else-if="ctype === 1 || ctype === 2">
-        <el-button type="default" @click="getTotal">{{$t('vnum[3]')}}({{total}})</el-button>
-        <el-button type="default" @click="getOn">{{$t('vnum[4]')}}({{onNo}})</el-button>
-        <el-button type="default" @click="getLeavel">{{$t('vnum[5]')}}({{LeavelNo}})</el-button>
+        <el-button :type="clickType === 0 ? 'primary' : 'default'" @click="getTotal">{{$t('vnum[3]')}}({{total}})</el-button>
+        <el-button :type="clickType === 2 ? 'primary' : 'default'" @click="getOn">{{$t('vnum[4]')}}({{onNo}})</el-button>
+        <el-button :type="clickType === 1 ? 'primary' : 'default'" @click="getLeavel">{{$t('vnum[5]')}}({{LeavelNo}})</el-button>
       </template>
-      <el-input class="right" style="width:200px;" v-model="sname" @change="searchName">
+      <el-input class="right" style="width:200px;" v-model="sname" 
+      :fetch-suggestions="searchName" :placeholder="$t('searchVnameHolder')" @change="searchName" clearable>
         <i slot="prefix" class="el-input__icon el-icon-search"></i>
       </el-input>
     </div>
     <el-collapse-transition>
-      <div class="paddingtb20" v-show="signOutShow">
+      <div class="paddingbom20 paddinglr30" v-show="signOutShow">
         <el-button type="primary" @click="signDotOut">{{$t('btn.batchOut')}}</el-button>
         <div class="right" v-show="doOutShow">
-          <el-button @click="doConfirmOut">{{$t('btn.confirmBtn')}}</el-button>
+          <el-button type="success" @click="doConfirmOut">{{$t('btn.confirmBtn')}}</el-button>
           <el-button @click="doCancelOut">{{$t('btn.cancelBtn')}}</el-button>
         </div>
       </div>
@@ -76,7 +77,9 @@ export default {
       sname: '',
       signOutShow: false,
       doOutShow: false,
-      form: []
+      form: [],
+      clickType: 0,
+      btype: 'default'
     }
   },
   watch: {
@@ -108,23 +111,26 @@ export default {
       this.cShow = !this.cShow
     },
     searchName (val) {
-      console.log(val)
       this.$emit('searchkit',val)
     },
     setVtype (type) {
+      this.clickType = 0
       this.ctype = type
       this.signOutShow = false
       this.$emit('changekit',type)
     },
     getTotal () {
+      this.clickType = 0
       this.signOutShow = false
       this.$emit('totalkit')
     },
     getLeavel () {
+      this.clickType = 1
       this.signOutShow = false
       this.$emit('leavelkit')
     },
     getOn () {
+      this.clickType = 2
       if (this.ctype === 0) {
         this.signOutShow = true
       } else {
@@ -156,11 +162,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-  .isActive{
-    color: #409EFF;
-  }
-  .vtypespan{
-    padding: 10px 10px;
-  }
-</style>

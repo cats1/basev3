@@ -1,9 +1,14 @@
 <template>
 		<div class="visitwrap paddinglr30 paddingtb20">
-        <div class="vavatar">
+        <div class="vavatar" @mouseover.prevent="doHover" @mouseout.prevent="doHoverOut">
           <div class="vstatus" :style="{'background': color}">{{statusText}}</div>
             <img :src="vdata.vphoto" alt="" v-if="vdata.vphoto">
             <img :src="dlogo" alt="" v-else>
+          <transition name="el-fade-in">
+            <div v-show="maskShow" class="vavatar-mask" @click.prevent="signOutRecord">
+              <i class="fa fa-trash-o fa-4x"></i>
+            </div>
+          </transition>
         </div>
         <div class="vcontent">
           <div class="vcontentheader">
@@ -25,39 +30,16 @@
                 <li>{{$t('visitor.followPeople')}}:{{}}</li>
                 <li>{{$t('form.remark.text')}}:{{vdata.remark}}</li>
               </ul>
-              <el-button type="text" slot="reference">{{vdata.vname}}</el-button>
+              <el-button class="" type="text" slot="reference">{{vdata.vname}}</el-button>
             </el-popover>
-            <!-- <el-button size="mini" >{{}}</el-button> -->
+            <el-button size="mini" v-show="vtext !==''">{{vtext}}</el-button>
             <div class="vdatewrap" >
-              <template v-if="parseInt(vdata.signinType) === 0 || parseInt(vdata.signinType) === 3">
-                <p v-show="vdata.visitdate">{{$t('form.time.text')}}: {{vdata.visitdate|formatDate}}</p>
-                <p v-show="vdata.signOutDate">{{$t('form.time.text1')}}: {{vdata.signOutDate|formatDate}}</p>
-              </template>
-              <template v-else-if="parseInt(vdata.signinType) === 2">
-                <template v-if="vdata.visitdate">
-                  <p v-show="vdata.visitdate">{{$t('form.time.text')}}: {{vdata.visitdate|formatDate}}</p>
-                </template>
-                <template v-else>
-                  <p v-show="vdata.appointmentDate">{{$t('form.time.text2')}}: {{vdata.appointmentDate|formatDate}}</p>
-                </template>
-                <p v-show="vdata.signOutDate">{{$t('form.time.text1')}}: {{vdata.signOutDate|formatDate}}</p>
-              </template>
-              <template v-else-if="parseInt(vdata.signinType) === 1">
-                <template v-if="vdata.visitdate">
-                  <p v-show="vdata.visitdate">{{$t('form.time.text')}}: {{vdata.visitdate|formatDate}}</p>
-                </template>
-                <template v-else>
-                  <p v-show="vdata.appointmentDate">{{$t('form.time.text3')}}: {{vdata.appointmentDate|formatDate}}</p>
-                </template>
-                <p v-show="vdata.signOutDate">{{$t('form.time.text1')}}: {{vdata.signOutDate|formatDate}}</p>
-              </template>
-              <template v-else>
-                <p v-show="vdata.visitdate">{{$t('form.time.text')}}: {{vdata.visitdate|formatDate}}</p>
-                <p v-show="vdata.signOutDate">{{$t('form.time.text1')}}: {{vdata.signOutDate|formatDate}}</p>
-              </template>
+              <p v-show="vdata.appointmentDate&&!vdata.signOutDate">{{$t('form.time.text3')}}: {{vdata.appointmentDate|formatDate}}</p>
+              <p v-show="vdata.visitdate">{{$t('form.time.text')}}: {{vdata.visitdate|formatDate}}</p>
+              <p v-show="vdata.signOutDate">{{$t('form.time.text1')}}: {{vdata.signOutDate|formatDate}}</p>
             </div>
           </div>
-          <div class="vcontentfooter paddingtb20">
+          <div class="vcontentfooter">
             <ul class="vflist">
               <li>{{$t('checkVtype[2]')}}：{{vdata.empName}}</li>
               <li>{{$t('checkVtype[3]')}}:{{vdata.visitType}}</li>
@@ -69,6 +51,19 @@
             <el-checkbox v-model="checked" @change="doCheck"></el-checkbox>
           </div>
         </div>
+        <el-dialog
+          :title="$t('signOutWinTitle')"
+          :visible.sync="dialogVisible"
+          width="30%" center>
+          <div class="center">
+            <h3>{{$t('isLeave')}}</h3>
+            <span>{{vdata.vname}} {{vdata.vphone}}</span>
+          </div>
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="signOutConfirm">{{$t('btn.confirmBtn')}}</el-button>
+            <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
+          </span>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -91,13 +86,17 @@ export default {
   },
   data () {
   	return {
+      dialogVisible: false,
       cdata: {},
       statusText: '',
       permissionSwitch: getCache('permissionSwitch'),
       color: '#36b22b',
       time: 0,
       dlogo: require('@/assets/img/avatar.jpg'),
-      checked: false
+      checked: false,
+      vtext: '',
+      maskShow: false,
+      remarkValue: ''
     }
   },
   watch: {
@@ -110,22 +109,49 @@ export default {
   },
   filters:{
     formatDate (time) {
-      let date = new Date(time)
-      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+      if (time) {
+        let date = new Date(time)
+        return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+      } else {
+        return ''
+      }
     }
   },
   created () {
     this.checkStatus()
   },
   mounted () {
-    console.log(this.vdata)
-    /*this.$nextTick(function(){
-      this.cdata = this.vdata
-    })*/
   },
   methods: {
+    doHover () {
+      this.maskShow = true
+    },
+    doHoverOut () {
+      this.maskShow = false
+    },
+    signOutRecord () {
+      let remarkValue = ''
+      let pdetail = ''
+      if (this.vdata.remark) {
+        pdetail = this.vdata.vname + ' ' + this.vdata.vphone
+        remarkValue = this.vdata.remark + '\n';
+      }
+      this.remarkValue = remarkValue
+      this.dialogVisible = true
+    },
+    signOutConfirm () {
+      let nform = {
+        vid: this.vdata.vid
+      }
+      this.$store.dispatch('VisitorSignOutByVid',nform).then(res => {
+        let {status} = res
+        if (status === 0) {
+          this.dialogVisible = false
+          this.$emit('outkit')
+        }
+      })
+    },
     doCheck (val) {
-      console.log(val)
       if (val) {
 
       } else {
@@ -135,6 +161,7 @@ export default {
     },
   	checkStatus () {
       if (parseInt(this.vdata.signinType) === 1) {//邀请访客
+        this.vtext = '邀请访客'
         switch (this.vdata.status) {
           case 0:
             this.statusText = this.$t('vstatus[0]')

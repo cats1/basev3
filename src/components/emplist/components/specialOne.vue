@@ -1,11 +1,6 @@
 <template>
 	<div>
-		<ul class="processlist">
-			<li class="active">1、关联拜访事由</li>
-			<li>2、选择员工</li>  
-			<li>3、选择抄送</li>
-		</ul>
-		<el-select class="margintop20" v-model="value" placeholder="请选择">
+		<el-select class="margintop20" v-model="visitType" placeholder="选择关联拜访事由">
 		    <el-option
 		      v-for="item in options"
 		      :key="item"
@@ -23,27 +18,36 @@
 import {getCache} from '@/utils/auth'
 import {stringToArray,arrayToString} from '@/utils/common'
 export default {
+  props: {
+    vtype: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
   	return {
   	  dialogVisible: false,
       bType: 'default',
       options: [],
-      value: ''
+      visitType: this.vtype
   	}
   },
-  mounted () {
+  watch: {
+    vtype (val) {
+      this.visitType = val
+    }
   },
   mounted () {
   	this.GetVisitType()
   },
   methods: {
     doNext () {
-      if (this.value !== '') {
-      	this.$emit('nextkit',1,this.value)
+      if (this.visitType !== '') {
+      	this.$emit('nextkit',1,this.visitType)
       } else {
       	this.$message({
       	  type: 'warning',
-      	  message: '請選擇拜訪事由'
+      	  message: '选择关联拜访事由'
       	})
       } 
     },
