@@ -1,5 +1,5 @@
 <template>
-	<div class="pitem">
+	<div class="pitem" @mouseover="doHover" @mouseout="doOut">
 	    <template v-if="slideShow">
 	        <el-checkbox v-model="checked" @change="getCheckItem"><i class="fa fa-user-circle-o"></i>{{eobj.empName}}</el-checkbox>
 	    </template>
@@ -41,7 +41,7 @@ export default {
   	  slideShow: this.checkShow,
   	  checked: false,
       empArray: this.sempArray,
-      closeShow: true
+      closeShow: false
   	}
   },
   watch: {
@@ -57,6 +57,18 @@ export default {
     }
   },
   methods: {
+    doHover () {
+      if (this.isClose) {
+        this.closeShow = true
+      } else {
+        this.closeShow = false
+      }
+    },
+    doOut () {
+      if (this.isClose) {
+        this.closeShow = false
+      }
+    },
     removeDefault () {
       this.$emit('removedkit',this.eobj)
     },
