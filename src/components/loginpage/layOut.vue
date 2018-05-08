@@ -2,11 +2,25 @@
   <div >
     <login-nav></login-nav>
     <div class="title-container">
-	    <h3 class="title">{{title}}</h3>
-	</div>
+      <template v-if="loginType === 0">
+        <h3 class="title">{{this.$t('loginselect[0]')}}</h3>
+      </template>
+      <template v-else-if="loginType === 1">
+        <h3 class="title">{{this.$t('loginselect[1]')}}</h3>
+      </template>
+      <template v-else-if="loginType === 2">
+        <h3 class="title">{{this.$t('loginselect[2]')}}</h3>
+      </template>
+      <template v-else-if="loginType === 3">
+        <h3 class="title">{{this.$t('loginselect[3]')}}</h3>
+      </template>
+      <template v-else-if="loginType === 4">
+        <h3 class="title">{{this.$t('loginselect[4]')}}</h3>
+      </template>
+	  </div>
     <div class="login-container">      
       <div class="form-container">
-        <login-select :ltype="loginType" @clickit="changeLogin"></login-select>
+        <login-select :ltype="loginType" @sendkit="changeLogin"></login-select>
         <template v-if="loginType === 0">
           <manger-login></manger-login>
         </template>
@@ -34,15 +48,11 @@ export default {
   name: 'App',
   data () {
     return {
-      loginType: 0,
-      title: this.$t('loginselect[0]')
+      loginType: 0
     }
   },
   watch: {
-  	loginType (val) {
-      let list = this.$t('loginselect')
-      this.title = list[val]
-  	}
+  	loginType (val) {}
   },
   methods: {
     changeLogin (type) {

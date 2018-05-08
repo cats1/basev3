@@ -1,9 +1,32 @@
 <template>
 	<div class="loginselectwrap">
 		<el-dropdown @command="handleCommand">
-		  <span class="el-dropdown-link">
-		    {{defaultValue}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
-		  </span>
+      <template v-if="type === 0">
+        <span class="el-dropdown-link">
+        {{this.$t('loginselect[0]')}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
+        </span>
+      </template>
+      <template v-else-if="type === 1">
+        <span class="el-dropdown-link">
+        {{this.$t('loginselect[1]')}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
+        </span>
+      </template>
+      <template v-else-if="type === 2">
+        <span class="el-dropdown-link">
+        {{this.$t('loginselect[2]')}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
+        </span>
+      </template>
+      <template v-else-if="type === 3">
+        <span class="el-dropdown-link">
+        {{this.$t('loginselect[3]')}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
+        </span>
+      </template>
+      <template v-else-if="type === 4">
+        <span class="el-dropdown-link">
+        {{this.$t('loginselect[4]')}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
+        </span>
+      </template>
+		  
 		  <el-dropdown-menu slot="dropdown">
 		  	<template v-for="(item,index) in $t('loginselect')">
 		  		<el-dropdown-item :command="index">{{item}}</el-dropdown-item>
@@ -23,19 +46,18 @@ export default{
   },
   data () {
   	return {
-  	  type: this.ltype,
-      defaultValue: this.$t('loginselect[0]')
+  	  type: this.ltype
   	}
   },
   watch: {
-    ltype (val) {}
+    ltype (val) {
+      this.type = val
+    }
   },
   methods: {
     handleCommand(command) {
       this.type = command
-      let list = this.$t('loginselect')
-      this.defaultValue = list[command]
-      this.$emit('clickit', command)
+      this.$emit('sendkit',command)
     }
   }
 }
