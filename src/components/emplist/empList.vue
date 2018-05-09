@@ -44,7 +44,7 @@
           <special :slist="sempArray" @onekit="doOneNext" @removekit="getCurList" @twokit="setTwoAccount"></special>
         </template>
         <template v-else>
-          <export-address-book></export-address-book>
+          <export-address-book @upab="getUploadAB"></export-address-book>
         </template> 
         
 	  	</el-col>
@@ -109,6 +109,11 @@ export default {
 
   },
   methods: {
+    getUploadAB () {
+      this.allShow = false
+      this.btnType = 0
+      this.showType = 1
+    },
     changeBtnType (type) {
       this.btnType = type
     },

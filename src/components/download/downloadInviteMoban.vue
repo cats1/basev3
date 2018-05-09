@@ -10,6 +10,7 @@
 	</div>
 </template>
 <script>
+import {getCache} from '@/utils/auth'
 import {downMoban,getBaseUrl,getBaseLink} from '@/utils/common'
 export default {
   props: {
@@ -23,7 +24,12 @@ export default {
   },
   methods: {
     getDown () {
-      let link = getBaseLink() + '/addorderbook_templete.xlsx'
+      let link
+      if (parseInt(getCache('subAccount')) === 1) {
+        link = getBaseLink() + '/addorderbooks_templete.xlsx'
+      } else {
+        link = getBaseLink() + '/addorderbook_templete.xlsx'
+      }
       downMoban(link)
     }
   }

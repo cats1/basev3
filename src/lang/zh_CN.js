@@ -15,6 +15,7 @@ export default {
   prevStep: '上一步',
   emptip: '请选择一个员工，作为的默认抄送人（可以不选择）',
   sempholder: '搜索员工姓名或卡号',
+  as: '归类为',
   loginselect: ['管理员登录', '总部管理员', '入驻企业登录', '员工登录', '前台登录'],
   login: {
     title: '管理员登录',

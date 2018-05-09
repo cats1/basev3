@@ -4,7 +4,7 @@
           <use-excel @changetype="getChangetype"></use-excel>
         </div>
         <div class="" v-else-if="useType === 1">
-          <use-rtx @changetype="getChangetype"></use-rtx>
+          <use-rtx @changetype="getChangetype" @upab="getUploadAB"></use-rtx>
         </div>
         <div class="" v-else-if="useType === 2">
           <use-ding @changetype="getChangetype"></use-ding>
@@ -50,6 +50,9 @@ export default {
         this.useType = 0
       }
     },
+    getUploadAB () {
+      this.$emit('upab')
+    }
   }
 }
 </script>

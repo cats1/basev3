@@ -4,16 +4,14 @@
   	<transition name="el-zoom-in-bottom">
 	  	<div ref="bomwins" class="bottomwins boxshadow" v-show="bomShow">
         <el-dropdown >
-          <el-button>
-            归类为
-          </el-button>
+          <el-button type="primary">{{$t('as')}}</el-button>
           <el-dropdown-menu slot="dropdown" >
             <template v-for="ditem in comList">
               <el-dropdown-item ><span @click="handleClick(ditem)">{{ditem.companyName}}</span></el-dropdown-item>
             </template>
           </el-dropdown-menu>
         </el-dropdown>
-	  		<el-button @click="deleteEmp">删除</el-button>
+	  		<el-button type="danger" icon="el-icon-delete" @click="deleteEmp">删除</el-button>
 	  		<el-button @click="cancelEdit">取消</el-button>
 	  	</div>
     </transition>

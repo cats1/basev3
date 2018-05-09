@@ -11,7 +11,7 @@
 					<p class="margintop20 paddingtb20">{{$t('exporttype.desc1')}}
 						<span class="links">{{$t('exporttype.desc3')}}</span>
 					{{$t('exporttype.desc2')}}</p>
-					<emp-group-upload></emp-group-upload>
+					<emp-group-upload @sendkit="getUploadAB"></emp-group-upload>
 					<down-invite-moban :btype="1"></down-invite-moban>
 				</div>
 			</div>
@@ -33,6 +33,9 @@ export default {
   methods: {
   	changeType () {
   	  this.$emit('changetype',4)
+  	},
+  	getUploadAB () {
+  	  this.$emit('upab')
   	}
   }
 }

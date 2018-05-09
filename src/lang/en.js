@@ -14,6 +14,7 @@ export default {
   prevStep: 'Previous',
   emptip: 'Please select an employee as the default cc person (can not choose)',
   sempholder: 'Search employee name or card number',
+  as: 'Categorized as',
   loginselect: ['Administrator', 'Headquarters Administrator', 'Settled Enterprise', 'Employee', 'Reception'],
   login: {
     title: 'Administrator',
