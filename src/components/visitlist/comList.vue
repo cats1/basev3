@@ -6,12 +6,15 @@
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
-	  			<el-radio-group v-model="vtype" @change="changeVtype">
+          <el-input v-model="sform.name" @change="searchEmp" :placeholder="$t('searchVnameHolder')">
+            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+          </el-input>
+	  			<el-radio-group class="margintop20" v-model="vtype" @change="changeVtype">
 			      <el-radio-button label="pro"><router-link to="/">{{$t('project.pro')}}</router-link></el-radio-button>
 			      <el-radio-button label="com"><router-link to="/com">{{$t('project.com')}}</router-link></el-radio-button>
 			    </el-radio-group>
-			    <div>
-			    	<el-tree :data="list" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+			    <div class="emptreewrap">
+			    	<el-tree :data="list" :highlight-current="true" node-key="id" :props="defaultProps" :default-expanded-keys="[0]" :default-checked-keys="[1]" @node-click="handleNodeClick"></el-tree>
 			    </div>
 	  		</div>
 	  	</el-col>
@@ -19,43 +22,38 @@
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
 	  			<el-table :data="dataList" border @selection-change="handleSelectionChange">
 		  			<el-table-column
-				      type="selection"
-				      width="55">
-				    </el-table-column>
+              type="selection"
+              width="40">
+            </el-table-column>
 				    <el-table-column
-				      label="姓名"
-				      width="120">
-				      <template slot-scope="scope">{{ scope.row.name }}</template>
-				    </el-table-column>
+              :label="$t('form.name.text')">
+              <template slot-scope="scope">{{ scope.row.name }}</template>
+            </el-table-column>
 				    <el-table-column
-				      label="公司名称"
-				      width="120">
-				      <template slot-scope="scope">{{ scope.row.company }}</template>
-				    </el-table-column>
+              :label="$t('form.company.text')">
+              <template slot-scope="scope">{{ scope.row.company }}</template>
+            </el-table-column>
 				    <el-table-column
-				      label="项目名称"
-				      width="120">
-				      <template slot-scope="scope">{{ scope.row.pName }}</template>
-				    </el-table-column>
+              :label="$t('project.proname')">
+              <template slot-scope="scope">{{ scope.row.pName }}</template>
+            </el-table-column>
 				    <el-table-column
-				      label="负责人"
-				      width="120">
-				      <template slot-scope="scope">{{ scope.row.leader }}</template>
-				    </el-table-column>
+              :label="$t('chargePerson')">
+              <template slot-scope="scope">{{ scope.row.leader }}</template>
+            </el-table-column>
 				    <el-table-column
-				      label="负责人手机"
-				      width="120">
-				      <template slot-scope="scope">{{ scope.row.phone }}</template>
-				    </el-table-column>
+              :label="$t('chargePersonPhone')">
+              <template slot-scope="scope">{{ scope.row.phone }}</template>
+            </el-table-column>
 				    <el-table-column
-				      label="工作区域">
-				      <template slot-scope="scope">{{ scope.row.area }}</template>
-				    </el-table-column>
+              :label="$t('workArea')">
+              <template slot-scope="scope">{{ scope.row.area }}</template>
+            </el-table-column>
 				    <el-table-column
-				      label="服务期限">
-				      <template slot-scope="scope">{{ scope.row.startDate }}-{{ scope.row.endDate }}</template>
-				    </el-table-column>
-	  		    </el-table>
+              :label="$t('form.time.text4')" width="200">
+              <template slot-scope="scope">{{ scope.row.startDate }}-{{ scope.row.endDate }}</template>
+            </el-table-column>
+	  		  </el-table>
 		  		<div class="page-footer">
 		  		<el-pagination
 			      @size-change="handleSizeChange"
@@ -74,7 +72,7 @@
 </template>
 <script>
 import {getCache} from '@/utils/auth'
-import {getBarList} from '@/utils/common'
+import {getComBarList} from '@/utils/common'
 export default {
   data () {
   	return {
@@ -91,6 +89,12 @@ export default {
   	  	startIndex:1,
   	  	userid: getCache('userid')
   	  },
+      sform: {
+        name: '',
+        requestedCount: 10,
+        startIndex: 1,
+        userid: getCache('userid')
+      },
   	  dform: {
   	  	userid: getCache('userid'),
   	  	rids: []
@@ -123,13 +127,12 @@ export default {
   	  this.$store.dispatch('getAllResidentCompany',nform).then(res => {
   	  	let {status,result} = res
   	  	if (status === 0) {
-  	  	  this.list = getBarList(result,'company','pid','pcount')
+  	  	  this.list = getComBarList(result,'company','pid','pcount')
   	  	  if (result.length>0) {
             this.nform.company = result[0].company
             this.getResidentVisitor()
   	  	  }
-  	  	  console.log(this.list)
-  	  	} else {}
+  	  	}
   	  })
   	},
   	getResidentVisitor () {
@@ -168,7 +171,18 @@ export default {
           this.getProjectList()
       	}
       })
-  	}
+  	},
+    searchEmp (val) {
+      if (val !== '') {
+        this.$store.dispatch('getResidentVisitorByName',this.sform).then(res => {
+          let {status,result} = res
+          if (status === 0) {
+            this.dataList = result.list
+            this.total = result.count
+          }
+        })
+      }
+    }
   }
 }
 </script>

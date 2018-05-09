@@ -8,7 +8,9 @@
 				<v-history></v-history>
 			</div>
 			<div class="menuleft">			
-				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#2a2c2f" text-color="#fff" active-text-color="#2274e6">
+				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
+		  text-color="#fff"
+		  active-text-color="#2274e6">
 				  <template v-for="(item,index) in $t('navlist')">
 				  	<template v-if="item.children.length === 0">
 				  		<el-menu-item :index="item.dirname"><a :href="item.link" target="_self">{{item.name}}</a></el-menu-item>
@@ -25,9 +27,7 @@
 				</el-menu>
 		    </div>
 		    <div class="menuright">
-		    	<template v-show="homepageShow">
-		    		<a :href="$t('homepage.link')" class="gohomepage">{{$t('homepage.name')}}</a>
-		    	</template>
+		    	<a :href="$t('homepage.link')" class="gohomepage" v-show="homepageShow">{{$t('homepage.name')}}</a>
 		    	<lang-select class="international right-menu-item"></lang-select>
 		    	<el-dropdown>
 				  <span class="el-dropdown-link">

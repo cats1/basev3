@@ -1,5 +1,6 @@
 import { addProject,Compressface,addResidentVisitor,updateProject,
-	updateAllResidentFace,getRvQrcode,updateResidentVisitor,getResidentVisitorByName } from '@/api/visit'
+	updateAllResidentFace,getRvQrcode,updateResidentVisitor,
+	getResidentVisitorByName,updateResidentFace } from '@/api/visit'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 const user = {
@@ -114,6 +115,22 @@ const user = {
 		getResidentVisitorByName({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        getResidentVisitorByName(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		updateResidentFace({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        updateResidentFace(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+                    Message({
+                  	  message: '头像下发成功！',
+                  	  type: 'success'
+                	})
+		          }
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)

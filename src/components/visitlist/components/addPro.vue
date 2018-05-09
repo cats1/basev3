@@ -1,6 +1,6 @@
 <template>
 	<div class="btnsection">
-	  <el-button @click="dialogVisible = true"><i class="fa fa-plus"></i>{{$t('btn.addProjectBtn')}}</el-button>
+	  <el-button :type="bType" @click="dialogVisible = true"><i class="fa fa-plus"></i>{{$t('btn.addProjectBtn')}}</el-button>
 	  <el-dialog
 		  :title="$t('project.addprotitle')"
 		  :visible.sync="dialogVisible"
@@ -23,9 +23,16 @@
 <script>
 import {getCache} from '@/utils/auth'
 export default {
+  props: {
+    btnType: {
+      type: Number,
+      default: 0
+    }
+  },
   data () {
   	return {
   	  dialogVisible: false,
+      bType: 'default',
   	  proform: {
   	  	pName: '',
   	  	remark: '',
@@ -37,17 +44,33 @@ export default {
   	  }
   	}
   },
+  watch: {
+    btnType (val) {
+      if (val === 0) {
+        this.bType = 'primary'
+      } else {
+        this.bType = 'default'
+      }
+    }
+  },
+  mounted () {
+    if (this.btnType === 0) {
+      this.bType = 'primary'
+    } else {
+      this.bType = 'default'
+    }
+  },
   methods: {
    saveProject () {
         this.$refs['proform'].validate((valid) => {
           if (valid) {
             this.$store.dispatch('addProject',this.proform).then(res => {
-		   	  	let {status} = res
-		   	  	if (status === 0) {
-		          this.dialogVisible = false
-		          this.$emit('addkit')
-		   	  	}
-		   	})
+  		   	  	let {status} = res
+  		   	  	if (status === 0) {
+  		          this.dialogVisible = false
+  		          this.$emit('addkit')
+  		   	  	}
+		   	    })
           } else {
             return false;
           }

@@ -1,10 +1,10 @@
 <template>
 	<div>
 	  <div class="boxshadow paddinglr30 paddingtb20" style="overflow:hidden;">
-      <add-pro @addkit="getaddpro"></add-pro>
-      <add-visit :pid="nform.pid" @sendav="getaddv"></add-visit>
-      <edit-pro :epdata="probj" @editkit="geteditv"></edit-pro>
-      <move-pro :cardarray="cardarray" @movekit="getmove"></move-pro>
+      <add-pro :btn-type="btnType" @addkit="getaddpro"></add-pro>
+      <add-visit :btn-type="btnType" :pro-list="projectList" :pid="nform.pid" @sendav="getaddv" :edit-type="editType" :cur-emp="curEmp" @addemp="getBtnType"></add-visit>
+      <edit-pro :epdata="probj" @editpro="getBtnType" @editkit="geteditv"></edit-pro>
+      <move-pro :cardarray="cardarray" :pro-list="projectList" @movekit="getmove"></move-pro>
       <make-visit-card :cardarray="cardarray"></make-visit-card>
       <delete-visit :drids="dform.rids" @senddkit="getDev"></delete-visit>
       <send-all-face></send-all-face> 
@@ -12,7 +12,7 @@
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
-          <el-input v-model="sform.name" @change="searchEmp">
+          <el-input v-model="sform.name" @change="searchEmp" :placeholder="$t('searchVnameHolder')">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
 	  			<el-radio-group class="margintop20" v-model="vtype" @change="changeVtype">
@@ -20,43 +20,43 @@
 			      <el-radio-button label="com"><router-link to="/com">{{$t('project.com')}}</router-link></el-radio-button>
 			    </el-radio-group>
 			    <div class="emptreewrap">
-			    	<el-tree :data="list" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+			    	<el-tree :data="list" :highlight-current="true" node-key="id" :props="defaultProps" :default-expanded-keys="[0]" :default-checked-keys="[1]" @node-click="handleNodeClick"></el-tree>
 			    </div>
 	  		</div>
 	  	</el-col>
 	  	<el-col :span="18" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
-	  			<el-table :data="dataList" border @selection-change="handleSelectionChange">
+	  			<el-table :data="dataList" border @selection-change="handleSelectionChange" @row-click="checkRow">
 		  			<el-table-column
 				      type="selection"
-				      width="55">
+				      width="40">
 				    </el-table-column>
 				    <el-table-column
-				      label="姓名">
+				      :label="$t('form.name.text')">
 				      <template slot-scope="scope">{{ scope.row.name }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="公司名称">
+				      :label="$t('form.company.text')">
 				      <template slot-scope="scope">{{ scope.row.company }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="项目名称">
+				      :label="$t('project.proname')">
 				      <template slot-scope="scope">{{ scope.row.pName }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="负责人">
+				      :label="$t('chargePerson')">
 				      <template slot-scope="scope">{{ scope.row.leader }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="负责人手机">
+				      :label="$t('chargePersonPhone')">
 				      <template slot-scope="scope">{{ scope.row.phone }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="工作区域">
+				      :label="$t('workArea')">
 				      <template slot-scope="scope">{{ scope.row.area }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      label="服务期限" width="200">
+				      :label="$t('form.time.text4')" width="200">
 				      <template slot-scope="scope">{{ scope.row.startDate }}-{{ scope.row.endDate }}</template>
 				    </el-table-column>
 	  		    </el-table>
@@ -85,8 +85,10 @@ export default {
   data () {
   	return {
       list: [],
+      btnType: 0,
       total:0,
       dataList:[],
+      projectList: [],
       sform: {
         name: '',
         requestedCount: 10,
@@ -108,7 +110,9 @@ export default {
   	  	rids: []
   	  },
       probj: {},
-      cardarray: []
+      cardarray: [],
+      curEmp: {},
+      editType: 0
   	}
   },
   computed: {
@@ -131,7 +135,6 @@ export default {
   	  }
   	},
     searchEmp (val) {
-      console.log(val)
       if (val !== '') {
         this.$store.dispatch('getResidentVisitorByName',this.sform).then(res => {
           let {status,result} = res
@@ -143,12 +146,17 @@ export default {
       }
     },
     getaddpro () {
+      this.btnType = 0
       this.getProjectList()
     },
     getmove () {
       this.getProjectList()
     },
+    getBtnType (val) {
+      this.btnType = val
+    },
     getaddv (val) {
+      this.btnType = 1
       if (val === this.nform.pid) {
         this.getResidentVisitor()
       }
@@ -168,14 +176,13 @@ export default {
   	  	let {status,result} = res
   	  	if (status === 0) {
   	  	  this.list = getBarList(result,'pName','pid','pcount')
+          this.projectList = result
   	  	  if (result.length>0) {
-            console.log(result[0])
             this.nform.pid = result[0].pid
             this.probj = result[0]
             this.getResidentVisitor()
   	  	  }
-  	  	  console.log(this.list)
-  	  	} else {}
+  	  	}
   	  })
   	},
   	getResidentVisitor () {
@@ -206,7 +213,13 @@ export default {
   	  val.forEach(function(ele,index){
         _self.dform.rids.push(ele.rid)
   	  })
-  	}
+  	},
+    checkRow (val) {
+      this.editType = 1
+      this.btnType = 1
+      this.curEmp = val
+      console.log(val)
+    }
   }
 }
 </script>

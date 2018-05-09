@@ -1,6 +1,6 @@
 <template>
 	<div class="btnsection">
-	  <el-button @click="dialogVisible = true"><i class="fa fa-edit"></i>{{$t('btn.editProjectBtn')}}</el-button>
+	  <el-button :type="bType" @click="editPro"><i class="fa fa-edit"></i>{{$t('btn.editProjectBtn')}}</el-button>
 	  <el-dialog
 		  :title="$t('btn.editProjectBtn')"
 		  :visible.sync="dialogVisible"
@@ -24,10 +24,21 @@
 import {getCache} from '@/utils/auth'
 export default {
   props: ['epdata'],
+  props: {
+    btnType: {
+      type: Number,
+      default: 0
+    },
+    epdata: {
+      type: Object,
+      default: {}
+    }
+  },
   data () {
   	return {
   	  dialogVisible: false,
   	  proform: this.epdata,
+      bType: 'default',
   	  rules: {
   	  	pName: [
   	  	  { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }]
@@ -37,13 +48,28 @@ export default {
   watch: {
     epdata (val) {
       this.proform = val
+    },
+    btnType (val) {
+      if (val === 2) {
+        this.bType = 'primary'
+      } else {
+        this.bType = 'default'
+      }
     }
   },
   mounted () {
-    console.log(this.epdata)
+    if (this.btnType === 2) {
+      this.bType = 'primary'
+    } else {
+      this.bType = 'default'
+    }
   },
   methods: {
-   saveProject () {
+    editPro () {
+      this.dialogVisible = true
+      this.$emit('editpro',2)
+    },
+    saveProject () {
         this.$refs['proform'].validate((valid) => {
           if (valid) {
             this.$store.dispatch('updateProject',this.proform).then(res => {

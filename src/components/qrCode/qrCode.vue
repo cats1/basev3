@@ -1,19 +1,19 @@
 <template>
 	<div>
-		<!-- <div :id="id">
-      <img :src="url" alt="">
-    </div> -->
-    <canvas class="canvascode" :id="id" :width="width" :height="height"></canvas>
+		<template v-if="ctype === 0">
+      <canvas class="canvascode" :id="id" :width="width" :height="height"></canvas>
+    </template>
+    <template v-else-if="ctype === 1">
+      <div :id="id"></div>
+    </template>
 	</div>
 </template>
 <script>
 import QRCode from 'qrcode'
+import Qrcode from 'qrcodejs2'
 export default {
   props: {
-    mid: {
-      type: Number,
-      default: 0
-    },
+    mid: null,
     width: {
       type: Number,
       default: 120
@@ -21,32 +21,42 @@ export default {
     height: {
       type: Number,
       default: 120
+    },
+    ctype:{
+      type: Number,
+      default: 0
     }
   },
   data () {
   	return {
       id: 'qrcode'+ this.mid,
-      url: ''
+      url: '',
+      code: this.mid
   	}
   },
+  watch: {
+    mid (val) {
+      this.code = val
+      this.initQrcode(val)
+    },
+  },
   methods: {
-  	initQrcode () {
-  	  let link = 'http://www.coolvisit.com/wechat/meeting.html?mid=' + this.mid
-      /*QRCode.toDataURL(link).then(url => {
-	       this.url = url
-  	  }).catch(err => {
-  	    console.error(err)
-  	  })*/
-      QRCode.toCanvas(document.getElementById(this.id), link,function (error) {
-        if (error) console.error(error)
-      })
+  	initQrcode (val) {
+      if (this.ctype === 0) {
+        let link = 'http://www.coolvisit.com/wechat/meeting.html?mid=' + this.mid
+        QRCode.toCanvas(document.getElementById(this.id), link,function (error) {
+           if (error) console.error(error)
+        })
+      } else {
+        let qrcode = new Qrcode(this.id, {  
+          width: 196,  
+          height: 196, // 高度  
+          text: val // 二维码内容  
+        }) 
+      }
 	  }
   },
-  mounted () {
-  	this.$nextTick(function () {
-      this.initQrcode()
-    })
-  }
+  mounted () {}
 }
 </script>
 <style lang="scss" scoped>

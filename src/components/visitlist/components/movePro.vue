@@ -18,7 +18,16 @@ import {getCache} from '@/utils/auth'
 import lrMenu from '@/components/menu/lrMenu'
 export default {
   components: {lrMenu},
-  props: ['cardarray'],
+  props: {
+    proList: {
+      type: Array,
+      default: []
+    },
+    cardarray: {
+      type: Array,
+      default: []
+    }
+  },
   data () {
   	return {
   	  dialogVisible: false,
@@ -31,7 +40,7 @@ export default {
   	  	pName: [
   	  	  { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }]
   	  },
-      leftList: [],
+      leftList: this.proList,
       cList: [],
       empArray: this.cardarray
   	}
@@ -39,39 +48,35 @@ export default {
   watch: {
     cardarray (val) {
       this.empArray = val
-      console.log(val)
-    } 
-  },
-  mounted () {
-    this.init()
+    },
+    proList(val) {
+      this.leftList = val
+    }
   },
   methods: {
     getSelect (val) {
-      console.log(val)
       this.cList = val
-      console.log(this.empArray)
       this.empArray[0].pid = val[0].pid
       this.empArray[0].pName = val[0].pName
     },
     init () {
+      console.log(this.empArray.length)
       if (this.empArray.length > 1) {
         this.$message({
-          message: '最多选择一名员工',
+          message: this.$t('moreOneVisit'),
+          type: 'warning'
+        })
+      } else if (this.empArray.length === 0) {
+        this.$message({
+          message: this.$t('selectVisit'),
           type: 'warning'
         })
       } else {
-        this.getProjectList()
+        this.dialogVisible = true
       }
     },
     doMove () {
-      if (this.empArray.length>0) {
-        this.dialogVisible = true
-      } else {
-        this.$message({
-          message: '请先选择访客',
-          type: 'warning'
-        })
-      }
+      this.init()
     },
     saveProject () {
       this.$store.dispatch('updateResidentVisitor',this.empArray[0]).then(res => {
@@ -79,17 +84,6 @@ export default {
         if (status === 0) {
           this.dialogVisible = false
           this.$emit('movekit')
-        }
-      })
-    },
-    getProjectList () {
-      let nform = {
-        userid: getCache('userid')
-      }
-      this.$store.dispatch('getProject',nform).then(res => {
-        let {status,result} = res
-        if (status === 0) {
-          this.leftList = result
         }
       })
     }

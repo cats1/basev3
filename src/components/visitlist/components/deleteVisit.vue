@@ -20,9 +20,7 @@ export default {
   	  this.dform.rids = val
   	}
   },
-  mounted () {
-  	console.log(this.drids)
-  },
+  mounted () {},
   methods: {
   	deleteEmp () {
       this.$store.dispatch('delResidentVisitor',this.dform).then(res => {

@@ -2,7 +2,7 @@
 	<div>
 	  <div class="boxshadow paddinglr30 paddingtb20 block">
       <add-depart :parent="parent" :dlist="list" @addkit="getAddkit"></add-depart>
-      <add-emp :parent="parent" :dlist="list" @addempkit="getAddkit"></add-emp>
+      <add-emp :parent="parent" :edit-type="editType" :cur-emp="curEmp" :dlist="list" @addempkit="getAddkit"></add-emp>
       <export-address-list @exportkit="changeExport"></export-address-list>
       <edit-depart :parent-node="parentNode" :parent="parent" :dlist="list" @addkit="getAddkit" :emp-list="dataList"></edit-depart>
       <move-depart :parent="parent" :dlist="list" :semp="sempArray" @movekit="getmove"></move-depart>
@@ -84,12 +84,12 @@
         </div>
 	  	</el-col>
 	  </el-row>
-    <el-dialog
+    <!-- <el-dialog
       :title="$t('visitor.editEmp')"
       :visible.sync="dialogVisible"
       width="50%">
       <emp-detail :parent="parent" :dlist="list" :cur-emp="curEmp" @updateempkit="getUpdateEmp" @deleempkit="getDeleteEmp"></emp-detail>
-    </el-dialog>
+    </el-dialog> -->
 	</div>
 </template>
 <script>
@@ -106,6 +106,7 @@ export default {
       total:0,
       dataList:[],
       dialogVisible: false,
+      editType: 0,
       sform: {
         name: '',
         userid: getCache('userid')
@@ -171,8 +172,9 @@ export default {
     },
     editEmp (row, event, column) {
       console.log(row)
+      this.editType = 1
       this.curEmp = row
-      this.dialogVisible = true
+      //this.dialogVisible = true
     },
     searchEmp (val) {
       console.log(val)
@@ -222,6 +224,8 @@ export default {
       }
     },
     getAddkit () {
+      this.editType = 0
+      this.curEmp = {}
       this.getProjectList()
       this.getEmpList()
     },

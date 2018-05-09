@@ -1,12 +1,13 @@
 <template>
 	<div class="lrmenuwrap">
 		<div class="lrmenu-left">
-		  <h3>公司名称</h3>
+		  <h3>{{$t('project.proname')}}</h3>
 		  <template v-for="item in leftList">
 		  	<p class="lrmenu-item" @click="selectItem(item)"><img :src="logo" alt="">{{item.pName}}</p>
 		  </template>
 		</div>
 		<div class="lrmenu-right">
+      <h3>{{$t('project.seProname')}}</h3>
 		  <template v-for="(item,index) in clist">
 		  	<p class="lrmenu-item"><img :src="logo" alt="">{{item.pName}}
 		  		<span class="lrmenu-item-close" @click="removeItem(item,index)"><i class="fa fa-close"></i></span></p>

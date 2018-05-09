@@ -63,3 +63,11 @@ export function getResidentVisitorByName(data) {
     data
   })
 }
+//updateResidentFace
+export function updateResidentFace(data) {
+  return request({
+    url: '/updateResidentFace',
+    method: 'post',
+    data
+  })
+}

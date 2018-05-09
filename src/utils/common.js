@@ -118,7 +118,7 @@ export function arrayToString(value) {
     return ''
   }
 }
-export function getBarList(array, name, id, count) {
+export function getComBarList(array, name, id, count) {
   let list = []
   array.forEach(function(element, index) {
     let obj = {
@@ -128,7 +128,35 @@ export function getBarList(array, name, id, count) {
       pcount: element[count],
       children: []
     }
+    if (parseInt(element[count]) === 0) {
+      obj.label = element[name]
+    }
     list.push(obj)
+  })
+  return list
+}
+export function getBarList(array, name, id, count) {
+  let list = [{
+    label: getCache('company'),
+    name: getCache('company'),
+    pid: '',
+    pcount: 0,
+    dp: 'root',
+    children: [],
+    id: 0
+  }]
+  array.forEach(function(element, index) {
+    let obj = {
+      label: element[name] + '(' + element[count] + ')',
+      name: element[name],
+      pid: element[id],
+      pcount: element[count],
+      children: []
+    }
+    if (parseInt(element[count]) === 0) {
+      obj.label = element[name]
+    }
+    list[0].children.push(obj)
   })
   return list
 }

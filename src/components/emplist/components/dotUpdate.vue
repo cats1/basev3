@@ -11,8 +11,8 @@
             </template>
           </el-dropdown-menu>
         </el-dropdown>
-	  		<el-button type="danger" icon="el-icon-delete" @click="deleteEmp">删除</el-button>
-	  		<el-button @click="cancelEdit">取消</el-button>
+	  		<el-button type="danger" icon="el-icon-delete" @click="deleteEmp">{{$t('btn.deleteBtn')}}</el-button>
+	  		<el-button @click="cancelEdit">{{$t('btn.cancelBtn')}}</el-button>
 	  	</div>
     </transition>
   </div>
@@ -111,7 +111,7 @@ export default {
         if (status === 0) {
           let comArray = [{
             id: 0,
-            companyName: '默认'
+            companyName: this.$t('defaultText')
           }]
           for (let i=0;i<result.length;i++) {
             let item = result[i]
