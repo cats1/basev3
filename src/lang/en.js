@@ -40,6 +40,9 @@ export default {
   h1text: 'Add approval process settings',
   h2text: 'Part of the function optimization;',
   h3text: 'Gate setting',
+  h4text: 'Add guest and blacklist modules',
+  h5text: '新增安全协议设置；',
+  h6text: '新增会议管理，增加会议室、查看会议室预订记录等功能。',
   loginselect: ['Administrator', 'Headquarters Administrator', 'Settled Enterprise', 'Employee', 'Reception'],
   login: {
     title: 'Administrator',
