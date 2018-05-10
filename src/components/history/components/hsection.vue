@@ -1,13 +1,47 @@
 <template>
-	<div class="hsection boxshadow">
-		<p class="hstitle"><span >{{version}}</span></p>
+	<div class="hsection marginbom20 boxshadow paddinglr20 paddingtb20">
+		<p class="hstitle">
+			<span class="version">{{version}}</span>
+			<span class="newlogo" v-show="isNewShow">New</span>
+			<span class="hsdate">{{dates}}</span>
+		</p>
+		<div class="hbody paddingtb20">
+	      <slot></slot>
+	    </div>
 	</div>
 </template>
 <script>
 export default {
+  props: {
+  	vtitle: {
+  	  type: String,
+  	  default: ''
+  	},
+  	vdate: {
+  	  type: String,
+  	  default: ''
+  	},
+  	isNew: {
+  	  type: Boolean,
+  	  default: false
+  	}
+  },
   data () {
   	return {
-  	  version: 'V2.1.0'
+  	  version: this.vtitle,
+  	  dates: this.vdate,
+  	  isNewShow: this.isNew
+  	}
+  },
+  watch: {
+  	vtitle (val) {
+  	  this.version = val
+  	},
+  	vdate (val) {
+  	  this.dates = val
+  	},
+  	isNew (val) {
+  	  this.isNewShow = val
   	}
   }
 }
