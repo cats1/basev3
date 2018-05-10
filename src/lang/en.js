@@ -37,6 +37,9 @@ export default {
   faceError: 'Face registration failed, please re-register the picture',
   regPhoto: 'Registration photo',
   uploadComLogo: 'Upload company logo',
+  h1text: 'Add approval process settings',
+  h2text: 'Part of the function optimization;',
+  h3text: 'Gate setting',
   loginselect: ['Administrator', 'Headquarters Administrator', 'Settled Enterprise', 'Employee', 'Reception'],
   login: {
     title: 'Administrator',

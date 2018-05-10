@@ -38,6 +38,9 @@ export default {
   faceError: '人脸注册失败，请重新注册头像',
   regPhoto: '注册头像',
   uploadComLogo: '上传公司logo',
+  h1text: '新增审批流程设置',
+  h2text: '部分功能优化；',
+  h3text: '门岗设置；',
   loginselect: ['管理员登录', '总部管理员', '入驻企业登录', '员工登录', '前台登录'],
   login: {
     title: '管理员登录',

@@ -2,9 +2,9 @@
 	<div class="">
 		<hsection vtitle="V2.1.0" vdate="2017-09-20" :is-new="true">
 			<div>
-				<p>1.新增审批流程设置；</p>
-				<p>2.部分功能优化；</p>
-				<p>3.门岗设置；</p>
+				<p>1.{{$t('h1text')}}</p>
+				<p>2.{{$t('h2text')}}</p>
+				<p>3.{{$t('h3text')}}</p>
 			</div>
 		</hsection>
 		<hsection vtitle="V2.0.1" vdate="2017-07-03">
