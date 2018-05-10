@@ -61,5 +61,12 @@ export default new Router({
   	    {path: '/coms',name: 'coms',component: _import('account/companys')}
   	  ]}
   	]
+  },{
+    path: '/history',
+    name: 'history',
+    component: _import('home/layOut'),
+    children: [
+      {path: '/',name: 'history',component: _import('history/layOut')}
+    ]
   }]
 })

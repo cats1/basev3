@@ -529,7 +529,12 @@ label {
 .noboxshadow {
   box-shadow: 0 0 0 0 #b7bcc1 !important;
 }
-
+.hsection{
+  .hstitle{
+    height: 50px;
+    border-bottom: 1px solid #ccc;
+  }
+}
 .photo-item-wrap {
   width: 164px;
   height: auto;
