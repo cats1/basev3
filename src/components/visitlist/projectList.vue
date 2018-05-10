@@ -16,8 +16,8 @@
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
 	  			<el-radio-group class="margintop20" v-model="vtype" @change="changeVtype">
-			      <el-radio-button label="pro"><router-link to="/">{{$t('project.pro')}}</router-link></el-radio-button>
-			      <el-radio-button label="com"><router-link to="/com">{{$t('project.com')}}</router-link></el-radio-button>
+			      <el-radio-button label="pro">{{$t('project.pro')}}</el-radio-button>
+			      <el-radio-button label="com">{{$t('project.com')}}</el-radio-button>
 			    </el-radio-group>
 			    <div class="emptreewrap">
 			    	<el-tree :data="list" :highlight-current="true" node-key="id" :props="defaultProps" :default-expanded-keys="[0]" :default-checked-keys="[1]" @node-click="handleNodeClick"></el-tree>
@@ -112,15 +112,8 @@ export default {
       probj: {},
       cardarray: [],
       curEmp: {},
-      editType: 0
-  	}
-  },
-  computed: {
-  	vtype: {
-  	  get: function () {
-  	  	return this.$route.name
-  	  },
-  	  set: function () {}
+      editType: 0,
+      vtype: 'pro'
   	}
   },
   created () {
@@ -128,11 +121,7 @@ export default {
   },
   methods: {
   	changeVtype (val) {
-  	  if(val === 'pro') {
-  	  	this.$router.push({path:'/'})
-  	  } else {
-  	  	this.$router.push({path:'/com'})
-  	  }
+      this.$emit('typekit',val)
   	},
     searchEmp (val) {
       if (val !== '') {

@@ -31,8 +31,8 @@ export default {
     if (this.btnType === 1) {
       this.bType = 'primary'
     } else {
-        this.bType = 'default'
-      }
+      this.bType = 'default'
+    }
   },
   methods: {
     addEmp () {

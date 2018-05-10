@@ -4,6 +4,7 @@
 	</div>
 </template>
 <script>
+import {getCache} from '@/utils/auth'
 export default {
   props: {
     btnType: {
@@ -34,7 +35,9 @@ export default {
   },
   methods: {
   	getExport () {
-  	  this.$emit('exportkit',0)
+      let subAccount = parseInt(getCache('subAccount')) || 0
+      let val = subAccount === 0 ? 2 : 0
+  	  this.$emit('exportkit',val)
   	}
   }
 }

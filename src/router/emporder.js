@@ -10,13 +10,10 @@ export default new Router({
   routes: [{
   	path: '/',
   	name: 'order',
-  	component: order,
+  	component: layOut,
   	children: [
   	{path: '/',name: 'order',component:danOrder},
-  	{path: '/dot',name: 'dot',component:dotOrder}]
-  },{
-  	path: '/list',
-  	name: 'list',
-  	component: orderList
+  	{path: '/dot',name: 'dot',component:dotOrder},
+    {path: '/list',name: 'list',component:orderList}]
   }]
 })

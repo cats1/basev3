@@ -1,20 +1,16 @@
 <template>
-  <div class="dashboard-container">
-    <supernav ></supernav>
-    <page-center></page-center>
-    <footbom></footbom>
+  <div id="app">
+    <transition name="fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 <script>
-import supernav from '@/components/headnav/supernav'
-import PageCenter from '@/components/pagecontainer/PageCenter'
-import footbom from '@/components/footer/footbom'
 export default {
   name: 'App',
   data () {
     return {}
-  },
-  components: { supernav, footbom, PageCenter }
+  }
 }
 </script>
 <style>

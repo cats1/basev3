@@ -36,6 +36,7 @@ export default {
   downloading: 'downloading……',
   faceError: 'Face registration failed, please re-register the picture',
   regPhoto: 'Registration photo',
+  uploadComLogo: 'Upload company logo',
   loginselect: ['Administrator', 'Headquarters Administrator', 'Settled Enterprise', 'Employee', 'Reception'],
   login: {
     title: 'Administrator',
@@ -69,32 +70,32 @@ export default {
   navlist: [{
     name: 'Visitor',
     dirname: 'index',
-    link: 'index.html',
+    link: 'index',
     children: []
   }, {
     name: 'Emplist',
     dirname: 'emp',
-    link: 'emp.html',
+    link: 'emp',
     children: [{
       name: 'Company Employee',
       dirname: 'emp',
-      link: 'emplist.html',
+      link: 'emp',
       children: []
     }, {
       name: 'Resident Visitors',
       dirname: 'emp',
-      link: 'visitlist.html',
+      link: 'visitlist',
       children: []
     }, {
       name: 'Blacklist',
       dirname: 'emp',
-      link: 'blacklist.html',
+      link: 'blacklist',
       children: []
     }]
   }, {
     name: 'Notification',
     dirname: 'notice',
-    link: 'notice.html',
+    link: 'notice',
     children: []
   }, {
     name: 'Custom Settings',
@@ -103,23 +104,23 @@ export default {
     children: [{
       name: 'Reception Settings',
       dirname: 'setting',
-      link: 'pad.html',
+      link: 'pad',
       children: []
     }, {
       name: 'Reservation & Invitation',
       dirname: 'setting',
-      link: 'reserve.html',
+      link: 'reserve',
       children: []
     }, {
       name: 'Intelligent Door Access',
       dirname: 'setting',
-      link: 'key.html',
+      link: 'key',
       children: []
     }]
   }, {
     name: 'Conference ',
     dirname: 'meeting',
-    link: 'meeting.html',
+    link: 'meeting',
     children: []
   }],
   empnav: [{
@@ -415,11 +416,6 @@ export default {
     list: 'Visitor details',
     manager: 'Director',
     editEmp: 'Editors'
-  },
-  role: {
-    tip: 'Please select the role group',
-    tip1: 'Selection of role groups',
-    tip2: 'Please choose the role'
   },
   export: {
     title: 'Visitor list export item settings'
@@ -729,11 +725,13 @@ export default {
     areaAddress: 'Address of the area',
     contact: 'Associate Approver'
   },
-
   role: {
     rgroup: 'Role group name',
     rolename: 'role name',
-    rolegroup: 'the role groups'
+    rolegroup: 'the role groups',
+    tip: 'Please select the role group',
+    tip1: 'Selection of role groups',
+    tip2: 'Please choose the role'
   },
   exporttype: {
     title: 'Import through Excel',

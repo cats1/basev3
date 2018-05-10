@@ -3,7 +3,7 @@
 }
 .guidewrap {
   width: 880px;
-  margin: 0 auto;
+  margin: 30px auto;
   .guidelogo{
   	text-align: left;
   }
@@ -48,5 +48,8 @@
   .guidebom {
     padding: 60px 0;
     text-align: center;
+    .desc{
+      margin-bottom: 50px;
+    }
   }
 }

@@ -1,13 +1,14 @@
 <template>
 	<div class="btnsection">
-    <el-button @click="editBtn()"><i class="fa fa-user-plus"></i>{{$t('btn.addEmpBtn')}}</el-button>
+    <el-button :type="bType" @click="editBtn()"><i class="fa fa-user-plus"></i>{{$t('btn.addEmpBtn')}}</el-button>
 	  <el-dialog
 		  :title="$t('btn.addEmpBtn')"
 		  :visible.sync="dialogVisible"
-		  width="50%" >
+		  width="50%" @close="handClose">
 		  <el-form :model="form" :rules="rules" ref="empform" label-width="100px" class="demo-ruleForm">
         <el-form-item prop="avatar">
           <upload-user-photo :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
+          <reg-face :rform="form"></reg-face>
         </el-form-item>
         <el-form-item :label="$t('form.name.text')" prop="empName">
           <el-input v-model="form.empName"></el-input>
@@ -15,7 +16,7 @@
         <el-form-item :label="$t('form.name.text3')" >
           <el-input v-model="form.empNickname"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('form.depart.text')" >
+        <el-form-item class="is-required" :label="$t('form.depart.text')" >
           <div class="last_inner" @click="setEmpShow">
             <template v-for="item in departArray">
               <span>{{item.name}}</span>
@@ -47,7 +48,7 @@
           <el-date-picker
             v-model="dateRange"
             type="daterange"
-            range-separator="-"
+            range-separator="-" format="yyyyMMdd" value-format="yyyyMMdd"
             :start-placeholder="$t('vtime[0]')"
             :end-placeholder="$t('vtime[1]')" @change="setrange">
           </el-date-picker>
@@ -61,7 +62,7 @@
       :title="$t('depart.selectDepart')"
       :visible.sync="innerVisible"
       append-to-body>
-        <depart-menu :left-data="dlist" :right-data="cobj" @menukit="setdepart"></depart-menu>
+        <depart-menu :left-data="dlist" :check-num="10" :right-data="departArray" @menukit="setdepart"></depart-menu>
         <span slot="footer" class="dialog-footer">
           <el-button @click="innerVisible = false">{{$t('btn.cancelBtn')}}</el-button>
           <el-button type="primary" @click="saveSelect">{{$t('btn.confirmBtn')}}</el-button>
@@ -81,6 +82,7 @@ import {formatDate} from '@/utils/index'
 import departMenu from '@/components/menu/departMenu'
 import {gateGroup} from '@/components/account/components'
 import {stringToArray,arrayToString} from '@/utils/common'
+import regFace from './regFace'
 export default {
   props: {
     parent: {
@@ -98,33 +100,18 @@ export default {
     curEmp: {
       type: Object,
       default: {}
+    },
+    btnType: {
+      type: Number,
+      default: 1
     }
   },
-  components: {uploadUserPhoto,departMenu,gateGroup},
+  components: {uploadUserPhoto,departMenu,gateGroup,regFace},
   data () {
   	return {
   	  dialogVisible: false,
       innerVisible: false,
-  	  empform: {
-  	  	userid: getCache('userid'),
-        employee_name: '',
-        empNo: '',
-        email: '',
-        phone: '',
-        empNickname: '',
-        empPosition: '',
-        emptype: 2,
-        telephone: '',
-        workbay: '',
-        visitType: "",
-        subaccountId: 0,
-        deptIds: [],
-        remark: '',
-        avatar: '',
-        egids: '',
-        startDate: '',
-        endDate: ''
-  	  },
+      bType: 'default',
       form: {
         userid: getCache('userid'),
         empName: '',
@@ -150,7 +137,7 @@ export default {
   	  	empName: [
           { required: true, message: this.$t('formCheck.validName.tip5'), trigger: 'blur' }],
         deptIds: [
-          { required: true, message: this.$t('formCheck.validCompany.tip2'), trigger: 'change' },
+          { required: true, message: this.$t('formCheck.validCompany.tip2'), trigger: 'blur' },
           { min: 1, message: this.$t('formCheck.validCompany.tip2'), trigger: 'blur' }],
         egids: [
           { required: true, message: this.$t('form.gate.tip'), trigger: 'blur' }],
@@ -159,7 +146,7 @@ export default {
         startDate: [
           { required: true, message: this.$t('formCheck.time.tip2'), trigger: 'blur' }]
   	  },
-      dateRange: [],
+      dateRange: ['',''],
       parentObj: this.parent,
       proform: {},
       cobj: [],
@@ -169,9 +156,7 @@ export default {
   },
   watch: {
     parent (val) {
-      console.log(val)
       this.parentObj = val
-      //this.departform.parentId = val.pid
       this.cobj.push(val)
       let darray = []
       darray.push(val)
@@ -181,41 +166,55 @@ export default {
       }
     },
     editType (val) {
-      console.log(val)
-      this.editBtn()
+      if (val === 1) {
+        this.editBtn()
+      }
     },
     curEmp (val) {
-      console.log(val)
-      if (this.editType !== 0) {
-        this.form = val
-        this.dateRange = [val.startDate,val.endDate]
+      this.form = val
+      if (val.startDate) {
+        this.dateRange[0] = val.startDate
       }
-      
+      if (val.endDate) {
+        this.dateRange[1] = val.endDate
+      }
+    },
+    btnType (val) {
+      if (val === 1) {
+        this.bType = 'primary'
+      } else {
+        this.bType = 'default'
+      }
     }
   },
   mounted () {
+    if (this.btnType === 1) {
+      this.bType = 'primary'
+    } else {
+      this.bType = 'default'
+    }
     if (this.editType !== 0) {
-        this.form = this.curEmp
-        this.dateRange = [this.curEmp.startDate,this.curEmp.endDate]
+      this.form = this.curEmp
+      this.dateRange = [this.curEmp.startDate,this.curEmp.endDate]
     }
   },
   methods: {
     stringToArray: stringToArray,
     editBtn () {
+      this.$emit('clickit',this.btnType)
       this.dialogVisible = true
     },
     getUserPhoto (url) {
       this.form.avatar = url
     },
     setrange (val) {
-      this.form.startDate = formatDate(new Date(val[0]),'yyyy-MM-dd')
-      this.form.endDate = formatDate(new Date(val[1]),'yyyy-MM-dd')
+      this.form.startDate = new Date(val[0])
+      this.form.endDate = new Date(val[1])
     },
     setEmpShow () {
       this.innerVisible = true
     },
     getGate (val) {
-      console.log(val)
       this.form.egids = arrayToString(val)
     },
     saveProject () {
@@ -228,7 +227,6 @@ export default {
               }
             })
             this.form.deptIds = darray
-            console.log(this.form)
             if (this.editType === 0) {
               this.addEmployee()
             } else {
@@ -241,24 +239,26 @@ export default {
     },
     addEmployee () {
       let nform = {
-            userid: getCache('userid'),
-            employee_name: this.form.empName,
-            empNo: this.form.empNo,
-            email: this.form.empEmail,
-            phone: this.form.empPhone,
-            emptype: 2,
-            empPosition: this.form.empPosition,
-            telephone: this.form.telephone,
-            workbay: this.form.workbay,
-            visitType: '面试',
-            subaccountId: this.form.subaccountId,
-            empNickname: this.form.empNickname,
-            remark: this.form.remark,
-            deptIds: [],
-            egids: this.form.egids,
-            startDate: formatDate(this.dateRange[0],'yyyyMMdd'),
-            endDate: formatDate(this.dateRange[1],'yyyyMMdd')
-          }
+        avatar: this.form.avatar,
+        deptIds: [],
+        egids: this.form.egids,
+        email: this.form.empEmail  || '',
+        empNickname: this.form.empNickname || '',
+        empNo: this.form.empNo  || '',
+        empPosition: this.form.empPosition  || '',
+        employee_name: this.form.empName,
+        employeeid: this.form.empid,
+        emptype: 2,
+        endDate: this.dateRange[1].replace(/-/g,''),
+        phone: this.form.empPhone,
+        remark: this.form.remark  || '',
+        startDate: this.dateRange[0].replace(/-/g,''),
+        subaccountId: 0,
+        telephone: this.form.telephone  || '',
+        userid: getCache('userid'),
+        visitType: '',
+        workbay: this.form.workbay
+      }
       this.$store.dispatch('addEmployee',nform).then(res => {
         let {status} = res
         if (status === 0) {
@@ -269,12 +269,33 @@ export default {
       })
     },
     updateEmployee () {
-      this.$store.dispatch('updateEmployee',this.empform).then(res => {
+      let nform = {
+          avatar: this.form.avatar,
+          deptIds: this.form.deptIds,
+          egids: this.form.egids,
+          email: this.form.empEmail,
+          empNickname: this.form.empNickname  || '',
+          empNo: this.form.empNo  || '',
+          empPosition: this.form.empPosition  || '',
+          employee_name: this.form.empName,
+          employeeid: this.form.empid,
+          emptype: 0,
+          endDate: this.dateRange[1].replace(/-/g,''),
+          phone: this.form.empPhone,
+          remark: this.form.remark  || '',
+          startDate: this.dateRange[0].replace(/-/g,''),
+          subaccountId: 0,
+          telephone: this.form.telephone,
+          userid: getCache('userid'),
+          visitType: '',
+          workbay: this.form.workbay
+      }
+      this.$store.dispatch('updateEmployee',nform).then(res => {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
           this.$refs['empform'].resetFields()
-          this.$emit('addempkit')
+          this.$emit('updateempkit')
         }
       })
     },
@@ -286,12 +307,14 @@ export default {
           arr.push(element.pid)
         }
       })
-      this.empform.deptIds = arr
+      this.form.deptIds = arr
       this.innerVisible = false
     },
     setdepart (val) {
-      console.log(val)
       this.menuList = val
+    },
+    handClose () {
+      this.$emit('updateempkit')
     }
   }
 }

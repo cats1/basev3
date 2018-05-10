@@ -277,3 +277,11 @@ export function webActivateAccount(data) {
     data
   })
 }
+//updateFace
+export function updateFace(data) {
+  return request({
+    url: '/updateFace',
+    method: 'post',
+    data
+  })
+}

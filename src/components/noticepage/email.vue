@@ -171,6 +171,9 @@ export default {
       this.form.ssl = 0
       this.updateEmail()
     }
+  },
+  mounted () {
+    console.log(parseInt(getCache('emailType')))
   }
 }
 </script>

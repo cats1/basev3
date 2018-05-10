@@ -1,6 +1,6 @@
 <template>
 	<div class="btnsection">
-    <el-button @click="dialogVisible = true"><i class="fa fa-plus"></i>{{$t('btn.addDepartBtn')}}</el-button>
+    <el-button @click="editBtn()"><i class="fa fa-plus"></i>{{$t('btn.addDepartBtn')}}</el-button>
 	  <el-dialog
 		  :title="$t('btn.addDepartBtn')"
 		  :visible.sync="dialogVisible"
@@ -57,7 +57,8 @@ export default {
       parentObj: this.parent,
       departArray: [],
       menuList: [],
-      cobj: []
+      cobj: [],
+      btnType: 0
   	}
   },
   watch: {
@@ -77,6 +78,10 @@ export default {
     console.log(this.parent)
   },
   methods: {
+    editBtn () {
+      this.$emit('clickit',this.btnType)
+      this.dialogVisible = true
+    },
     setdepart (val) {
       if (val.length > 0) {
         this.parentObj = val[0]
@@ -88,6 +93,7 @@ export default {
       }
     },
     setDepShow () {
+      this.$emit('clickit',0)
       this.innerVisible = true
     },
     saveProject () {

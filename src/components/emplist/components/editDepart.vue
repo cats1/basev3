@@ -84,7 +84,8 @@ export default {
       menuList: [],
       cobj: [],
       parentNodeObj: [],
-      managerObj: []
+      managerObj: [],
+      btnType: 3
   	}
   },
   computed: {
@@ -195,6 +196,7 @@ export default {
           type: 'error'
         })
       } else {
+        this.$emit('clickit',this.btnType)
         this.dialogVisible = true
       }
     },

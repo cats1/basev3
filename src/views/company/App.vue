@@ -1,17 +1,22 @@
 <template>
-  <div >
-    <lay-out></lay-out>
+  <div id="app">
+    <transition name="fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 <script>
-import layOut from '@/components/company/layOut'
 export default {
   name: 'App',
   data () {
-    return {}
+    return {
+      activeIndex: 'index'
+    }
   },
-  components: { layOut },
   created () {
+    console.log(this.$route.name)
+  },
+  mounted () {
     console.log(this.$route.name)
   }
 }

@@ -7,24 +7,25 @@
 				</h1>
 				<v-history></v-history>
 			</div>
-			<div class="menuleft">			
-				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
-		  text-color="#fff"
-		  active-text-color="#2274e6">
-				  <template v-for="(item,index) in $t('navlist')">
-				  	<template v-if="item.children.length === 0">
-				  		<el-menu-item :index="item.dirname"><a :href="item.link" target="_self">{{item.name}}</a></el-menu-item>
-				  	</template>
-				  	<template v-else>
-				  		<el-submenu :index="item.dirname">
-						    <template slot="title">{{item.name}}</template>
-						    <template v-for="citem in item.children">
-						    	<el-menu-item :index="citem.dirname"><a :href="citem.link" target="_self">{{citem.name}}</a></el-menu-item>
-						    </template>
-						</el-submenu>
-				  	</template>		  	
-				  </template>
-				</el-menu>
+			<div class="menuleft">
+			   <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff"
+			    active-text-color="#2274e6">
+			  	  <el-menu-item index="index"><router-link to="/">{{$t('navlist[0].name')}}</router-link></el-menu-item>
+			  	  <el-submenu index="emp">
+				    <template slot="title">{{$t('navlist[1].name')}}</template>
+					<template v-for="citem in $t('navlist[1].children')">
+						<el-menu-item :index="citem.dirname"><router-link :to="citem.link">{{citem.name}}</router-link></el-menu-item>
+					</template>
+				  </el-submenu>
+				  <el-menu-item index="notice"><router-link to="/notice">{{$t('navlist[2].name')}}</router-link></el-menu-item>
+				  <el-submenu index="setting">
+				    <template slot="title">{{$t('navlist[3].name')}}</template>
+					<template v-for="citem in $t('navlist[3].children')">
+						<el-menu-item :index="citem.dirname"><router-link :to="citem.link">{{citem.name}}</router-link></el-menu-item>
+					</template>
+				  </el-submenu>
+				  <el-menu-item index="meeting"><router-link to="/meeting">{{$t('navlist[4].name')}}</router-link></el-menu-item>
+			    </el-menu>
 		    </div>
 		    <div class="menuright">
 		    	<a :href="$t('homepage.link')" class="gohomepage" v-show="homepageShow">{{$t('homepage.name')}}</a>
@@ -41,7 +42,7 @@
 				    <i class="el-icon-arrow-down el-icon--right"></i>
 				  </span>
 				  <el-dropdown-menu slot="dropdown">
-				  	<el-dropdown-item ><a href="account.html" target="_self">{{$t('downlist[0]')}}</a></el-dropdown-item>
+				  	<el-dropdown-item ><router-link to="/account">{{$t('downlist[0]')}}</router-link></el-dropdown-item>
 				  	<el-dropdown-item ><a href="javascript:void(0);" @click="doFuncOut" target="_self">{{$t('downlist[2]')}}</a></el-dropdown-item>			  	
 				  </el-dropdown-menu>
 				</el-dropdown>

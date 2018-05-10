@@ -15,8 +15,8 @@
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
 	  			<el-radio-group class="margintop20" v-model="vtype" @change="changeVtype">
-			      <el-radio-button label="group"><router-link to="/group">{{$t('emplist.pro')}}</router-link></el-radio-button>
-			      <el-radio-button label="role"><router-link to="/role">{{$t('emplist.com')}}</router-link></el-radio-button>
+			      <el-radio-button label="emplist">{{$t('emplist.pro')}}</el-radio-button>
+			      <el-radio-button label="role">{{$t('emplist.com')}}</el-radio-button>
 			    </el-radio-group>
 			    <div class="roletreewrap">
 			    	<el-tree :data="list" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
@@ -96,15 +96,8 @@ export default {
   	  },
       parent: {},
       parentNode: {},
-      vempObj: []
-  	}
-  },
-  computed: {
-  	vtype: {
-  	  get: function () {
-  	  	return this.$route.name
-  	  },
-  	  set: function () {}
+      vempObj: [],
+      vtype: 'role'
   	}
   },
   created () {
@@ -112,7 +105,6 @@ export default {
   },
   methods: {
     searchEmp (val) {
-      console.log(val)
       if (val !== '') {
         this.$store.dispatch('getEmpByName',this.sform).then(res => {
           let {status,result} = res
@@ -144,11 +136,7 @@ export default {
       this.getResidentVisitor()
     },
   	changeVtype (val) {
-  	  if(val === 'group') {
-  	  	this.$router.push({path:'/'})
-  	  } else {
-  	  	this.$router.push({path:'/role'})
-  	  }
+  	  this.$router.push({name:val})
   	},
   	getProjectList () {
   	  let nform = {

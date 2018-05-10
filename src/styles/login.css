@@ -122,4 +122,18 @@ a.topnav {
 .language {
   color: #000; }
 
+.signup-container {
+  position: fixed;
+  height: auto;
+  min-height: 100%;
+  width: 100%;
+  background-color: #fff;
+  overflow: auto; }
+  .signup-container .form-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 50%;
+    margin: 20px auto; }
+
 /*# sourceMappingURL=login.css.map */

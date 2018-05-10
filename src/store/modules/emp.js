@@ -5,7 +5,7 @@ import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	batchDelEmployee,updateAllFace,SearchRecordsByPhone,addAppointment,getEmptempByPost,
 	GetUserInfo,getSubAccountById,getEmptemplateByType,getUsertemplate,getSubAccountTemp,
 	getEmpByName,updateEmpPwd,addEmptemplate,SynchronCardNo,
-	updateEmpSubAccount,resetEmpPwd,webActivateAccount } from '@/api/emp'
+	updateEmpSubAccount,resetEmpPwd,webActivateAccount,updateFace } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 const user = {
@@ -466,6 +466,22 @@ const user = {
 		          if (status === 0) {
 		          	Message({
                   		message: '激活成功',
+                  		type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		updateFace({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        updateFace(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	Message({
+                  		message: '人脸注册成功',
                   		type: 'success'
                 	})
 		          }

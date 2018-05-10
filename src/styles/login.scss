@@ -1,6 +1,7 @@
 $bg:#fff;
 $light_gray:#eee;
 $dark_gray:#889aa4;
+
 .login-container {
   position: fixed;
   height: auto;
@@ -159,4 +160,19 @@ a.topnav{
 
 .language {
   color: #000;
+}
+.signup-container {
+  position: fixed;
+  height: auto;
+  min-height: 100%;
+  width: 100%;
+  background-color: $bg;
+  overflow: auto;
+  .form-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 50%;
+    margin: 20px auto;
+  }
 }

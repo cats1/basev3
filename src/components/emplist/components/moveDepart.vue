@@ -29,7 +29,8 @@ export default {
   	  innerVisible: false,
   	  cobj: [],
   	  departArray: [],
-  	  parentNodeObj: []
+  	  parentNodeObj: [],
+      btnType: 4
   	}
   },
   watch: {
@@ -49,13 +50,14 @@ export default {
   },
   methods: {
   	doMove () {
-  	  console.log(this.semp)
+      this.$emit('clickit',this.btnType)
   	  if (this.semp.length === 0) {
   	  	this.$message({
           message: '请先选择员工',
           type: 'error'
         })
   	  } else {
+
   	  	this.innerVisible = true
   	  }
   	},

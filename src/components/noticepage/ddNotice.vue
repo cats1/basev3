@@ -1,7 +1,7 @@
 <template>
 	<div class="marginbom20">
       <one-notice :n-icon="imgSrc" :n-title="$t('notice.dd.title')" :n-desc="$t('notice.dd.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
-      <p class="tiplink">{{$t('notice.dd.tip')}}</p>	
+      <p class="tiplink"><a href="emplist.html#/exportset">{{$t('notice.dd.tip')}}</a></p>	
 	</div>
 </template>
 <script>

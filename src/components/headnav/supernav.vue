@@ -53,10 +53,10 @@ export default {
   methods: {
     	getCache: getCache,
     	init () {
-    	  let pwd = lftDePwdRule(getCache('password'))
+    	  /*let pwd = lftDePwdRule(getCache('password'))
     	  if (pwd === '888888') {
     	  	this.winShow = true
-    	  }
+    	  }*/
     	},
     	doFuncPwd () {
     	  this.winShow = true

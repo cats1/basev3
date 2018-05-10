@@ -80,6 +80,7 @@ export default {
       this.leftItem = this.checkIsSelect(val)
     },
     rightData (val) {
+      console.log(val)
       this.clist = val
       this.rightItem = val
     },

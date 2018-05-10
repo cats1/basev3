@@ -8,7 +8,7 @@
 		  <el-form :model="proform" :rules="rules" ref="proform" label-width="100px" class="demo-ruleForm">
 			  <el-form-item >
 			    <upload-user-photo :photourl="proform.avatar" @sendkit="getUserPhoto"></upload-user-photo>
-          <reg-photo :rform="proform"></reg-photo>
+          <reg-photo :rform="proform" v-show="editType !== 0"></reg-photo>
 			  </el-form-item>
         <el-form-item :label="$t('form.name.text')" prop="name">
           <el-input v-model="proform.name"></el-input>

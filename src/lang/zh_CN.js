@@ -37,6 +37,7 @@ export default {
   downloading: '正在下载……',
   faceError: '人脸注册失败，请重新注册头像',
   regPhoto: '注册头像',
+  uploadComLogo: '上传公司logo',
   loginselect: ['管理员登录', '总部管理员', '入驻企业登录', '员工登录', '前台登录'],
   login: {
     title: '管理员登录',
@@ -70,57 +71,57 @@ export default {
   navlist: [{
     name: '访客',
     dirname: 'index',
-    link: 'index.html',
+    link: 'index',
     children: []
   }, {
     name: '人员',
     dirname: 'emp',
-    link: 'emp.html',
+    link: 'emp',
     children: [{
       name: '公司员工',
       dirname: 'emp',
-      link: 'emplist.html',
+      link: 'emp',
       children: []
     }, {
       name: '常驻访客',
       dirname: 'emp',
-      link: 'visitlist.html',
+      link: 'visitlist',
       children: []
     }, {
       name: '黑名单',
       dirname: 'emp',
-      link: 'blacklist.html',
+      link: 'blacklist',
       children: []
     }]
   }, {
     name: '通知',
     dirname: 'notice',
-    link: 'notice.html',
+    link: 'notice',
     children: []
   }, {
     name: '自定义设置',
     dirname: 'setting',
-    link: 'setting.html',
+    link: 'setting',
     children: [{
       name: '前台设置',
       dirname: 'setting',
-      link: 'pad.html',
+      link: 'pad',
       children: []
     }, {
       name: '预约邀请',
       dirname: 'setting',
-      link: 'reserve.html',
+      link: 'reserve',
       children: []
     }, {
       name: '智能门禁',
       dirname: 'setting',
-      link: 'key.html',
+      link: 'key',
       children: []
     }]
   }, {
     name: '会议',
     dirname: 'meeting',
-    link: 'meeting.html',
+    link: 'meeting',
     children: []
   }],
   empnav: [{
@@ -417,18 +418,10 @@ export default {
     manager: '主管',
     editEmp: '编辑员工'
   },
-  role: {
-    tip: '请先选择角色组',
-    tip1: '选择角色组',
-    tip2: '请选择角色'
-  },
   export: {
     title: '访客列表导出项设置'
   },
-
-
   signStatus: ['已签到', '已签出', '已预约', '已过期', '已发送', '已查看', '已接受', '已拒绝', '已授权', '未授权'],
-
   record: '共找到',
   record1: '条，关于',
   record2: '记录',
@@ -734,11 +727,13 @@ export default {
     areaAddress: '区域地址',
     contact: '关联审批人'
   },
-
   role: {
     rgroup: '角色组名称',
     rolename: '角色名称',
-    rolegroup: '角色组'
+    rolegroup: '角色组',
+    tip: '请先选择角色组',
+    tip1: '选择角色组',
+    tip2: '请选择角色'
   },
   exporttype: {
     title: '通过Excel导入',

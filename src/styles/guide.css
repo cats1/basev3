@@ -3,7 +3,7 @@
 
 .guidewrap {
   width: 880px;
-  margin: 0 auto; }
+  margin: 30px auto; }
   .guidewrap .guidelogo {
     text-align: left; }
   .guidewrap .guidecell {
@@ -39,5 +39,7 @@
   .guidewrap .guidebom {
     padding: 60px 0;
     text-align: center; }
+    .guidewrap .guidebom .desc {
+      margin-bottom: 50px; }
 
 /*# sourceMappingURL=guide.css.map */

@@ -3,8 +3,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.scss'
 import App from './App'
-import '@/icons'
 import store from '@/store'
+import router from '@/router/super'
 import i18n from '@/lang'
 import 'font-awesome/css/font-awesome.css'
 Vue.use(ElementUI, {
@@ -16,6 +16,7 @@ new Vue({
   el: '#app',
   store,
   i18n,
+  router,
   components: { App },
   template: '<App/>'
 })
