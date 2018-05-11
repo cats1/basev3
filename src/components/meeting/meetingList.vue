@@ -30,7 +30,7 @@
 		    </el-table-column>
 		    <el-table-column :label="$t('tablehead[5]')" align="center">
 		      <template slot-scope="scope">
-		      	<qr-code :mid="scope.row.mid" :width="36" :height="36"></qr-code>
+		      	<qr-code :mid="scope.row.mid" :ctype="0" :is-show="true" :width="36" :height="36"></qr-code>
 		      </template>
 		    </el-table-column>
 		    <el-table-column

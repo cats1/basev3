@@ -58,3 +58,11 @@ export function RetrievePassword(data) {
     data
   })
 }
+//ModifyPassword
+export function ModifyPassword(data) {
+  return request({
+    url: '/ModifyPassword',
+    method: 'post',
+    data
+  })
+}

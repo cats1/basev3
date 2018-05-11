@@ -3,7 +3,7 @@ import { Message } from 'element-ui'
 import i18n from '@/lang'
 const noticeMessages = i18n.messages[i18n.locale].responseNote
 import store from '@/store'
-import { getCache } from '@/utils/auth'
+import { getCache,clearCookie } from '@/utils/auth'
 const LocationHost = window.location.host
 const LocationProtocol = window.location.protocol
 var baseURL = process.env.BASE_API
@@ -40,17 +40,26 @@ service.interceptors.response.use(
       if (status == 0) {
         return response.data
       } else if (status == 28) {
+        clearCookie()
         Message({
           message: noticeMessages[status],
           type: 'error',
-          duration: 5 * 1000,
+          duration: 4 * 1000,
           onClose: function () {
             window.location.href = 'signin.html'
           }
         })
       } else {
+        let messages = ''
+        if (i18n.locale === 'zh') {
+          if (noticeMessages[status]) {
+            messages = noticeMessages[status]
+          }
+        } else {
+          messages = response.data.reason
+        }
         Message({
-          message: noticeMessages[status],
+          message: messages,
           type: 'error',
           duration: 5 * 1000
         })
@@ -62,13 +71,12 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error)// for debug
     Message({
       message: error.message,
       type: 'error',
       duration: 5 * 1000
     })
-   // window.location.href = 'signin.html'
+    // window.location.href = 'signin.html'
     return Promise.reject(error)
   })
 

@@ -9,7 +9,13 @@
 				<p class="guide-top-title">{{$t('guide.guide4.title')}}</p>
 				<p class="guide-top-desc">{{$t('guide.guide4.desc')}}</p>
 			</div>
-			<div class="guidebody"></div>
+			<div class="guidebody">
+				<rtx class="bgwhite" :link-is-show="false"></rtx>
+				<email class="bgwhite"></email>
+				<weixin class="bgwhite"></weixin>
+				<dd-notice class="bgwhite" :link-is-show="false"></dd-notice>
+				<sms-notice class="bgwhite"></sms-notice>
+			</div>
 			<div class="guidebom">
 				<p class="desc">{{$t('guide.guide4.next')}}</p>
 				<el-button type="primary" @click="goNext">{{$t('guide.guide4.btn')}}</el-button>
@@ -19,8 +25,9 @@
 </template>
 <script>
 import stepOne from './stepOne'
+import {email,weixin,smsNotice,ddNotice,rtx} from '@/components/noticepage'
 export default {
-  components: { stepOne },
+  components: { stepOne,email,weixin,smsNotice,ddNotice,rtx },
   data () {
   	return {
   	  threeset: false,
@@ -29,7 +36,7 @@ export default {
   },
   methods: {
   	goNext () {
-  	  this.$router.push({path:'five'})
+  	  this.$router.push({path:'done'})
   	}
   },
   created () {}

@@ -49,11 +49,8 @@ export default {
   },
   computed: {},
   watch: {
-    mobj (val) {
-      console.log(val)
-    },
+    mobj (val) {},
     mdata (val) {
-      console.log(val)
       this.marray = val
     }
   },
@@ -144,7 +141,6 @@ export default {
         if (status === 0) {
           this.defaultmoban = result
           this.defaultmoban.address = result.address
-          console.log(this.defaultmoban)
           this.mform.mdate = result.mdate
           this.mform.remark = result.remark
           this.mform.sponsor = result.sponsor

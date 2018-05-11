@@ -1,4 +1,4 @@
-import { managerLogin, getCode, isCodeTrue, RetrievePassword, Register } from '@/api/login'
+import { managerLogin, getCode, isCodeTrue, RetrievePassword, Register, ModifyPassword } from '@/api/login'
 import { getToken, setToken, removeToken, setCache, getCache,clearCookie } from '@/utils/auth'
 const user = {
 	state: {
@@ -75,6 +75,15 @@ const user = {
 		isCodeTrue({ commit },data) {
 			return new Promise((resolve, reject) => {
 		        isCodeTrue(data).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		ModifyPassword({ commit },data) {
+			return new Promise((resolve, reject) => {
+		        ModifyPassword(data).then(response => {
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)

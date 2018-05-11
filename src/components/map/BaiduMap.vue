@@ -2,7 +2,7 @@
   <div class="clearfix block">
     <div class="searchmapwrap">
         <el-input type="text" v-model="maddress" class="form-control address_name" :id="inputid" @change="getAddress" @blur="getAddress"></el-input>
-        <el-button type="text" class="cancel_bt" id="searchBtn" @click="doSearch">{{$t('btn.editBtn')}}</el-button>
+        <el-button type="text" class="cancel_bt marginlr20" id="searchBtn" @click="doSearch">{{$t('btn.editBtn')}}</el-button>
         <div class="searchResultPanel" :id="panelid" ></div>
     </div>
   	<div class="mapwrap">
@@ -68,18 +68,17 @@ export default {
         } else {
           createLftMap(this.mapid,this.inputid,this.panelid,'','',this.maddress,'',1)
         }
-        //document.getElementById(this.mapid).style.display = 'block'
         document.getElementById(this.inputid).value = this.maddress
       }
     },
     doSearch () {
       let values = document.getElementById(this.inputid).value
       searchByStationName(values,0,function(pot){
-        console.log(pot)
+        //console.log(pot)
       })
     },
     getAddress (val) {
-      console.log(val)
+      //console.log(val)
     }
   }
 }

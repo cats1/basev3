@@ -36,6 +36,7 @@ $dark_gray:#889aa4;
     padding: 20px;
     padding-top: 70px;
     box-shadow: 0.5px 0.87px 4px 0 #b7bcc1;
+    padding-bottom: 100px;
   }
   .tips {
     font-size: 14px;
@@ -102,20 +103,23 @@ $dark_gray:#889aa4;
     }
   }
 }
-a.topnav{
-  color: #2196F3;//
+
+a.topnav {
+  color: #2196F3; //
   padding: 0 10px;
   border-right: 1px solid #c7c7c7;
-  &:focus, &:hover{
+  &:focus,
+  &:hover {
     color: #2196F3;
   }
-  &.active{
+  &.active {
     color: #c7c7c7;
   }
-  &:last-child{
-    border:none;
+  &:last-child {
+    border: none;
   }
 }
+
 .title-container {
   position: relative;
   .title {
@@ -161,6 +165,18 @@ a.topnav{
 .language {
   color: #000;
 }
+
+.mheader {
+  .language {
+    color: #fff;
+  }
+}
+.lheader{
+  .language {
+    color: #000;
+  }
+}
+
 .signup-container {
   position: fixed;
   height: auto;

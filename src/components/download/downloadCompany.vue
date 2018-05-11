@@ -4,14 +4,14 @@
 	</div>
 </template>
 <script>
-import {downMoban} from '@/utils/common'
+import {downMoban,getBaseLink} from '@/utils/common'
 export default {
   data () {
   	return {}
   },
   methods: {
     getDown () {
-      let link = process.env.BASE_LINK + '/company.xlsx'
+      let link = getBaseLink() + '/company.xlsx'
       downMoban(link)
     }
   }

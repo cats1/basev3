@@ -21,7 +21,10 @@ export function getBaseLink() {
   if (LocationHost.indexOf('localhost') > -1) {
     baseURL = process.env.BASE_LINK
   } else {
-    baseURL = LocationProtocol + '//' + LocationHost + '/base'
+    let url = window.location.href
+    let hurl = url.split('.html')[0]
+    let durl = hurl.substring(0,hurl.lastIndexOf("/"))
+    baseURL = durl
   }
   return baseURL
 }
@@ -522,4 +525,13 @@ export function getQueryStringByName(name) {
     return "";
   }
   return result[1];
+}
+export function getHtmlDocName() {
+    var str = window.location.href;
+    str = str.substring(str.lastIndexOf("/") + 1);
+    if (str.indexOf('?') > -1) {
+      str = str.substring(0, str.lastIndexOf("?"));
+    }
+    str = str.substring(0, str.lastIndexOf("."));
+    return str;
 }

@@ -2,7 +2,7 @@
 	<div class="hsection marginbom20 boxshadow paddinglr20 paddingtb20">
 		<p class="hstitle">
 			<span class="version">{{version}}</span>
-			<span class="newlogo" v-show="isNewShow">New</span>
+			<span class="newlogo" v-show="isNewShow">{{$t('newtext')}}</span>
 			<span class="hsdate">{{dates}}</span>
 		</p>
 		<div class="hbody paddingtb20">

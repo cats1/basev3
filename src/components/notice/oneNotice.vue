@@ -48,6 +48,15 @@ export default {
       clickFlag: false
     }
   },
+  watch: {
+    switchFlag (val) {
+      if (val === 0 || !val) {
+        this.switchValue = false
+      } else {
+        this.switchValue = true
+      }
+    }
+  },
   methods: {
     setSwitch () {
       this.$emit('gswitch', this.switchValue)

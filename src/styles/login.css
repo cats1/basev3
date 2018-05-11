@@ -27,7 +27,8 @@
     margin: 0 auto;
     padding: 20px;
     padding-top: 70px;
-    box-shadow: 0.5px 0.87px 4px 0 #b7bcc1; }
+    box-shadow: 0.5px 0.87px 4px 0 #b7bcc1;
+    padding-bottom: 100px; }
   .login-container .tips {
     font-size: 14px;
     color: #fff;
@@ -120,6 +121,12 @@ a.topnav {
     z-index: 10; }
 
 .language {
+  color: #000; }
+
+.mheader .language {
+  color: #fff; }
+
+.lheader .language {
   color: #000; }
 
 .signup-container {

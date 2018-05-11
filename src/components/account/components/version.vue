@@ -2,16 +2,18 @@
 	<div class="baseversion">
 		<h3>{{name}}</h3>
 		<img :src="src" alt="">
-		<p v-show="userType!=='0'">{{endTime | parseTime}}{{$t('endTimeText')}}</p>
+		<p v-show="userType!=='0'">{{endTime | formatDate}}</p>
 	</div>
 </template>
 <script>
 import { getCache } from '@/utils/auth'
-import { parseTime,formatDate } from '@/utils'
+import { formatDate } from '@/utils'
 export default {
   name: 'version',
   data () {
-  	return {}
+  	return {
+      endTime: getCache('expireDate')
+    }
   },
   computed: {
   	userType: {
@@ -43,19 +45,13 @@ export default {
   	  	}
   	  },
   	  set () {}
-  	},
-  	endTime: {
-  	  get () {
-  	  	return getCache('expireDate')
-  	  },
-  	  set () {}
   	}
   },
   filters:{
-    parseTime (time) {
-      return parseTime(time, 'yyyy-mm-dd')
+    formatDate (time) {
+      let date = new Date(parseInt(time))
+      return formatDate(date, 'yyyy-MM-dd hh:mm')
     }
-  },
-  created () {}
+  }
 }
 </script>

@@ -9,7 +9,11 @@
 @import './card.scss';
 @import './font.scss';
 @import './element-ui.scss';
-
+#app{
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+}
 body {
   margin: 0;
   padding: 0;
@@ -567,6 +571,11 @@ label {
       color: #999;
     }
   }
+  .hbody{
+    p{
+      line-height: 36px;
+    }
+  }
 }
 .photo-item-wrap {
   width: 164px;
@@ -616,7 +625,9 @@ label {
     }
   }
 }
-
+.bgwhite{
+  background: #fff;
+}
 .links {
   color: #428bca;
 }
@@ -1304,7 +1315,12 @@ div.mce-edit-area {
 
 
 
-
+.fivebom{
+  .desc{
+    font-size: 16px;
+    line-height: 36px;
+  }
+}
 
 
 
@@ -1317,7 +1333,15 @@ div.mce-edit-area {
   color: #e33636;
   border-color: #e33636;
 }
-
+.el-button--white {
+  color: #4297f2;
+  border-color: transparent;
+}
+.el-button--whiteline {
+  color: #fff;
+  border-color: #fff;
+  background: transparent;
+}
 .box-card {
   text-align: left;
   .el-card__header {
@@ -1478,6 +1502,10 @@ div.mce-edit-area {
       color: #ccc\9;
     }
   }
+  &.posfooter{
+    position: relative;
+    bottom: 0;
+  }
 }
 
 .mobandialog {
@@ -1507,4 +1535,8 @@ div.mce-edit-area {
 .canvascode {
   width: 96px!important;
   height: 96px!important;
+}
+.downcode{
+  width: 126px!important;
+  height: 126px!important;
 }

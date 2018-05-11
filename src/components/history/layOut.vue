@@ -44,6 +44,7 @@
 				<p>1.{{$t('h16text')}}</p>
 				<p>2.{{$t('h17text')}}</p>
 				<p>3.{{$t('h18text')}}</p>
+				<p>4.{{$t('h188text')}}</p>
 			</div>
 		</hsection>
 		<hsection vtitle="V1.1.7" vdate="2016-04-06">

@@ -12,12 +12,6 @@ export default {
     return {
       activeIndex: 'index'
     }
-  },
-  created () {
-    console.log(this.$route.name)
-  },
-  mounted () {
-    console.log(this.$route.name)
   }
 }
 </script>

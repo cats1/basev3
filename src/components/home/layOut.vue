@@ -20,14 +20,13 @@ export default {
       indexList: ['data'],
       empList: ['emplist','role','visitlist','blacklist'],
       noticeList: ['notice'],
-      settingList: ['pad','reserve','key','list','record'],
-      meetingList: ['meeting']
+      settingList: ['pad','reserve','approve','key','list','record'],
+      meetingList: ['meeting','mdetail']
     }
   },
   components: { headnav, footbom },
   created () {
     let name = this.$route.name
-    console.log(name)
     if (this.checkIndex()) {
       this.activeIndex = 'index'
     } else if (this.checkEmp()) {

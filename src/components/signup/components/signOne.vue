@@ -6,25 +6,25 @@
          <p class="desc">{{$t('signup.desc')}}</p>
       </div>
       <el-form-item prop="email">
-        <el-input name="email" type="text" v-model="form.email" autoComplete="on" placeholder="email" />
+        <el-input name="email" type="text" v-model="form.email" autoComplete="on" :placeholder="$t('validEmail.tip2')" />
       </el-form-item>
       <el-form-item prop="name">
-        <el-input name="name" type="text" v-model="form.name" autoComplete="on" placeholder="name" />
+        <el-input name="name" type="text" v-model="form.name" autoComplete="on" :placeholder="$t('yourName')"/>
       </el-form-item>
       <el-form-item prop="phone">
-        <el-input name="phone" type="text" v-model="form.phone" autoComplete="on" placeholder="phone" />
+        <el-input name="phone" type="text" v-model="form.phone" autoComplete="on" :placeholder="$t('yourPhone')" />
       </el-form-item>
       <el-form-item prop="smscode">
         <sms-code :phone="form.phone" @comit="getSmsCode"></sms-code>
       </el-form-item>
       <el-form-item prop="company">
-        <el-input name="company" type="text" v-model="form.company" autoComplete="on" placeholder="company" />
+        <el-input name="company" type="text" v-model="form.company" autoComplete="on" :placeholder="$t('yourCompany')" />
       </el-form-item>
       <el-form-item prop="password">
-        <el-input name="password" type="password" v-model="form.password" autoComplete="on" placeholder="password" />
+        <el-input name="password" type="password" v-model="form.password" autoComplete="on" :placeholder="$t('passText')" />
       </el-form-item>
       <el-form-item prop="repassword">
-        <el-input name="repassword" type="password" v-model="form.repassword" autoComplete="on" placeholder="repassword" />
+        <el-input name="repassword" type="password" v-model="form.repassword" autoComplete="on" :placeholder="$t('comfirmPassText')" />
       </el-form-item>
       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click="doRegister">{{$t('signup.button')}}</el-button>
        <or-line :value="$t('login.or')"></or-line>

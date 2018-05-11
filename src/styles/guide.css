@@ -30,7 +30,7 @@
   .guidewrap .guidebody {
     background: #e7f1fb;
     position: relative;
-    padding: 60px 180px;
+    padding: 60px 80px;
     text-align: left; }
     .guidewrap .guidebody h2 {
       font-size: 24px;
@@ -41,5 +41,40 @@
     text-align: center; }
     .guidewrap .guidebom .desc {
       margin-bottom: 50px; }
+
+.listitem {
+  width: 30px;
+  height: 30px;
+  background: #3481dd;
+  color: #fff;
+  line-height: 30px;
+  margin-right: 20px;
+  display: inline-block;
+  text-align: center;
+  border-radius: 50%; }
+
+.codedownwrap {
+  position: relative; }
+  .codedownwrap .circlewrap {
+    width: 160px;
+    height: 160px;
+    background: #4197f2;
+    border-radius: 50%;
+    font-size: 12px;
+    padding: 40px 0;
+    text-align: center; }
+    .codedownwrap .circlewrap .el-button {
+      font-size: 12px;
+      width: auto;
+      margin-bottom: 10px; }
+  .codedownwrap .dcodewrap {
+    width: 138px;
+    height: 138px;
+    position: absolute;
+    top: -30px;
+    left: 170px;
+    background: #d2d2d2;
+    border-radius: 6px;
+    padding: 6px 6px; }
 
 /*# sourceMappingURL=guide.css.map */

@@ -17,7 +17,7 @@ export default new Router({
       {path: '/guide2',name: 'guide2',component: _import('signup/components/guideTwo')},
       {path: '/guide3',name: 'guide3',component: _import('signup/components/guideThree')},
       {path: '/guide4',name: 'guide4',component: _import('signup/components/guideFour')},
-      {path: '/guide5',name: 'guide5',component: _import('signup/components/guideFive')}
+      {path: '/done',name: 'guide5',component: _import('signup/components/guideFive')}
     ]
   }]
 })

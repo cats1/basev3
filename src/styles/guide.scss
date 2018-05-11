@@ -1,11 +1,12 @@
-.guide-container{
-	background: #f3f3f3;
+.guide-container {
+  background: #f3f3f3;
 }
+
 .guidewrap {
   width: 880px;
   margin: 30px auto;
-  .guidelogo{
-  	text-align: left;
+  .guidelogo {
+    text-align: left;
   }
   .guidecell {
     background: #fff;
@@ -14,12 +15,11 @@
   .guidetop {
     padding: 60px 0;
     text-align: center;
-    position:relative;
+    position: relative;
     .guidesteps {
       position: absolute;
       top: 22px;
-      right: -21px;
-      //background: url('../assets/img/dr.png') no-repeat right;
+      right: -21px; //background: url('../assets/img/dr.png') no-repeat right;
     }
     .guide-top-title {
       color: #777;
@@ -37,19 +37,57 @@
   .guidebody {
     background: #e7f1fb;
     position: relative;
-    padding: 60px 180px;
+    padding: 60px 80px;
     text-align: left;
-    h2{
-    	font-size: 24px;
-        margin-bottom: 15px;
-        font-weight: 300;
+    h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      font-weight: 300;
     }
   }
   .guidebom {
     padding: 60px 0;
     text-align: center;
-    .desc{
+    .desc {
       margin-bottom: 50px;
     }
+  }
+}
+.listitem{
+  width: 30px;
+  height: 30px;
+  background: #3481dd;
+  color: #fff;
+  line-height: 30px;
+  margin-right: 20px;
+  display: inline-block;
+  text-align: center;
+  border-radius: 50%;
+}
+.codedownwrap {
+  position: relative;
+  .circlewrap {
+    width: 160px;
+    height: 160px;
+    background: #4197f2;
+    border-radius: 50%;
+    font-size: 12px;
+    padding: 40px 0;
+    text-align: center;
+    .el-button{
+      font-size: 12px;
+      width: auto;
+      margin-bottom: 10px;
+    }
+  }
+  .dcodewrap {
+    width: 138px;
+    height: 138px;
+    position: absolute;
+    top: -30px;
+    left: 170px;
+    background: #d2d2d2;
+    border-radius: 6px;
+    padding: 6px 6px;
   }
 }

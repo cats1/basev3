@@ -8,7 +8,7 @@ export default new Router({
   	name: 'visitor',
   	component: _import('home/layOut'),
   	children: [
-  	  {path: '/',name: 'index',component: _import('home/manager')},
+  	  {path: '/',name: 'index',component: _import('home/managerLeftRight')},
   	  {path: '/data',name: 'data',component: _import('home/components/dataControl')}
   	]
   },{
@@ -16,8 +16,8 @@ export default new Router({
   	name: 'emp',
   	component: _import('home/layOut'),
   	children: [
-  	  {path: '',name: 'emplist',component: _import('emplist/index')},
-	  {path: '/role',name: 'role', component: _import('emplist/roleList')},
+  	  {path: '/',name: 'emplist',component: _import('emplist/index')},
+	    {path: '/role',name: 'role', component: _import('emplist/roleList')},
   	  {path: '/visitlist/:vtype?',name: 'visitlist',component: _import('visitlist/layOut')},
   	  {path: '/blacklist',name: 'blacklist',component: _import('black/layOut')}
   	]
@@ -35,6 +35,7 @@ export default new Router({
   	children: [
   	  {path: '/pad',name: 'pad',component: _import('pad/layOut')},
   	  {path: '/reserve',name: 'reserve',component: _import('reserve/layOut')},
+      {path: '/approve',name: 'approve',component: _import('reserve/components/approvePage')},
   	  {path: '/key',name: 'key',component: _import('key/layOut'),children:[
   	  	{path: '/',name: 'group',component: _import('key/components/equipGroup')},
   	  	{path: '/list',name: 'list',component: _import('key/components/equipList')},

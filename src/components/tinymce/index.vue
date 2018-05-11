@@ -82,7 +82,7 @@ export default {
         height: this.height,
         language: lang,
         body_class: 'panel-body ',
-        object_resizing: false,
+        object_resizing: true,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
         menubar: this.menubar,
         plugins: plugins,

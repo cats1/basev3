@@ -9,7 +9,21 @@
 				<p class="guide-top-title">{{$t('guide.guide5.title')}}</p>
 				<p class="guide-top-desc">{{$t('guide.guide5.desc')}}</p>
 			</div>
-			<div class="guidebody"></div>
+			<div class="guidebody">
+				<el-row>
+					<el-col :span="12">
+						<ipad></ipad>
+					</el-col>
+					<el-col :span="12">
+						<andorid></andorid>
+					</el-col>
+				</el-row>
+				<div class="fivebom margintop20">
+					<p class="desc"><span class="listitem">1</span>{{$t('downtip1')}}</p>
+					<p class="desc"><span class="listitem">2</span>{{$t('downtip2')}}</p>
+					<p class="desc"><span class="listitem">3</span>{{$t('downtip3')}}</p>
+				</div>
+			</div>
 			<div class="guidebom">
 				<el-button type="primary" @click="goNext">{{$t('guide.guide5.btn')}}</el-button>
 			</div>
@@ -17,9 +31,11 @@
 	</div>
 </template>
 <script>
+import andorid from './andorid'
+import ipad from './ipad'
 import stepOne from './stepOne'
 export default {
-  components: { stepOne },
+  components: { stepOne,andorid,ipad },
   data () {
   	return {
       imgSrc: require('@/assets/img/guide-logo.png')

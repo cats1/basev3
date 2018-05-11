@@ -15,10 +15,10 @@
 				</div>
 			</div>
 			<div class="guidebody" v-else>
-				<el-input style="margin-bottom:30px;"></el-input>
-				<el-input style="margin-bottom:30px;"></el-input>
-				<el-input style="margin-bottom:30px;"></el-input>
-				<el-input style="margin-bottom:30px;"></el-input>
+				<el-input style="margin-bottom:30px;" :placeholder="$t('yourName')"></el-input>
+				<el-input style="margin-bottom:30px;" :placeholder="$t('visitcause')"></el-input>
+				<el-input style="margin-bottom:30px;" :placeholder="$t('yourPhone')"></el-input>
+				<el-input style="margin-bottom:30px;" :placeholder="$t('yourVisitor')"></el-input>
 			</div>
 			<div class="guidebom">
 				<p class="desc">{{$t('guide.guide3.next')}}</p>
@@ -39,17 +39,10 @@ export default {
   },
   methods: {
   	perSet () {
-      this.$router.push({params: {
-      	id: 'set'
-      }})
+      this.threeset = true
   	},
   	goNext () {
-  	  this.$router.push({path:'/four'})
-  	}
-  },
-  created () {
-  	if (this.$route.params.id === 'set') {
-      this.threeset = true
+  	  this.$router.push({path:'guide4'})
   	}
   }
 }	

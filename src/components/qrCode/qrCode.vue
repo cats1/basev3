@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<template v-if="ctype === 0">
-      <canvas class="canvascode" :id="id" :width="width" :height="height"></canvas>
+      <canvas :class="className" :id="id" :style="{'width':width+'!important'}" :width="width" :height="height"></canvas>
     </template>
     <template v-else-if="ctype === 1">
       <div :id="id"></div>
@@ -14,6 +14,10 @@ import Qrcode from 'qrcodejs2'
 export default {
   props: {
     mid: null,
+    link: {
+      type: String,
+      default: ''
+    },
     width: {
       type: Number,
       default: 120
@@ -25,6 +29,14 @@ export default {
     ctype:{
       type: Number,
       default: 0
+    },
+    isShow: {
+      type: Boolean,
+      default: false
+    },
+    className: {
+      type: String,
+      default: 'canvascode'
     }
   },
   data () {
@@ -39,12 +51,19 @@ export default {
       this.code = val
       this.initQrcode(val)
     },
+    link (val) {
+      this.initQrcode(val)
+    }
   },
   methods: {
   	initQrcode (val) {
       if (this.ctype === 0) {
         let link = 'http://www.coolvisit.com/wechat/meeting.html?mid=' + this.mid
         QRCode.toCanvas(document.getElementById(this.id), link,function (error) {
+           if (error) console.error(error)
+        })
+      } else if (this.ctype === 3) {
+        QRCode.toCanvas(document.getElementById(this.id), this.link,function (error) {
            if (error) console.error(error)
         })
       } else {
@@ -56,7 +75,11 @@ export default {
       }
 	  }
   },
-  mounted () {}
+  mounted () {
+    if (this.isShow) {
+      this.initQrcode(this.link)
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

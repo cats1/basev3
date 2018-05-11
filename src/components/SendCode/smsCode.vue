@@ -1,11 +1,11 @@
 <template>
 	<div class="smscodewrap">
-		<el-input name="code" type="text" v-model="code" autoComplete="on" placeholder="code" @change="setCode"/>
+		<el-input name="code" type="text" v-model="code" autoComplete="on" :placeholder="$t('smsCode')" @change="setCode"/>
 		<template v-if="show">
-			<el-button class="codebtn" type="primary" @click="sendCode">发送验证码</el-button>
+			<el-button class="codebtn" type="primary" @click="sendCode">{{$t('sendSmsCode')}}</el-button>
 		</template>
 		<template v-else>
-			<el-button class="codebtn" type="primary" disabled>重新获取({{count}}s)</el-button>
+			<el-button class="codebtn" type="primary" disabled>{{$t('reget')}}({{count}}s)</el-button>
 		</template>
 		
 	</div>
@@ -47,7 +47,6 @@ export default {
   	  	  phone: this.phone
   	  	}
   	    this.$store.dispatch('sendSmsCode',form).then(res => {
-  	      console.log(res)
   	      this.timeClick()
   	    })
   	  } else {

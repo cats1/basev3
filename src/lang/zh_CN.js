@@ -1,6 +1,12 @@
 export default {
   searchVnameHolder: '搜索访客姓名',
+  passText: '密码',
+  comfirmPassText: '确认密码',
   signOutWinTitle: '签出窗口',
+  switchLanguage: '语言切换成功！',
+  sendSmsCode: '发送验证码',
+  smsCode: '验证码',
+  reget: '重新获取',
   isLeave: '确认离开？',
   visittype: '拜访类型',
   visitcause: '拜访事由',
@@ -38,6 +44,7 @@ export default {
   faceError: '人脸注册失败，请重新注册头像',
   regPhoto: '注册头像',
   uploadComLogo: '上传公司logo',
+  newtext: '新',
   h1text: '新增审批流程设置',
   h2text: '部分功能优化；',
   h3text: '门岗设置；',
@@ -56,6 +63,7 @@ export default {
   h16text: '新增身份证扫码签到；',
   h17text: '新增访客验证app客户端；',
   h18text: '新增开关配置页面；',
+  h188text: '新增当日访客数统计',
   h19text: '新增二维码扫描签到功能；',
   h20text: '新增语音通知、电话控制打印功能。',
   h21text: '页面全新改版',
@@ -86,6 +94,19 @@ export default {
   h46text: '通知页面功能：提供微信、RTX、邮件三种通知方式，通过开关设置具体接收方式；',
   h47text: '自定义设置-企业形象页面：支持企业logo、iPad首屏轮播图、iPad外观颜色及访客头像自定义设置；',
   h48text: '自定义设置-访客登记页面：支持访客登记信息自定义设置，可创建输入项及选择项；',
+  resetPwd: '重置密码',
+  inputNewPwd: '请输入账户的新密码',
+  submitNewPwd: '提交新密码',
+  yourName: '您的姓名',
+  yourPhone: '您的手机号',
+  yourCompany: '您的公司',
+  yourVisitor: '您要拜访的人',
+  qrcodeDown: '二维码下载',
+  appStoreDown: 'App Store 下载',
+  localDown: '本地下载',
+  downtip1: '请Pad 扫描上侧二维码下载，或者在App Store及本地下载来下载“来访通”客户端',
+  downtip2: '打开"来访通"，用注册邮箱登录使用',
+  downtip3: '尝试以访客身份登记信息，试运行“来访通”',
   loginselect: ['管理员登录', '总部管理员', '入驻企业登录', '员工登录', '前台登录'],
   login: {
     title: '管理员登录',
@@ -128,23 +149,23 @@ export default {
     children: [{
       name: '公司员工',
       dirname: 'emp',
-      link: 'emp',
+      link: '/emp',
       children: []
     }, {
       name: '常驻访客',
       dirname: 'emp',
-      link: 'visitlist',
+      link: '/visitlist',
       children: []
     }, {
       name: '黑名单',
       dirname: 'emp',
-      link: 'blacklist',
+      link: '/blacklist',
       children: []
     }]
   }, {
     name: '通知',
     dirname: 'notice',
-    link: 'notice',
+    link: '/notice',
     children: []
   }, {
     name: '自定义设置',
@@ -153,17 +174,17 @@ export default {
     children: [{
       name: '前台设置',
       dirname: 'setting',
-      link: 'pad',
+      link: '/pad',
       children: []
     }, {
       name: '预约邀请',
       dirname: 'setting',
-      link: 'reserve',
+      link: '/reserve',
       children: []
     }, {
       name: '智能门禁',
       dirname: 'setting',
-      link: 'key',
+      link: '/key',
       children: []
     }]
   }, {
@@ -843,16 +864,12 @@ export default {
     logotip: '提示：支持JPEG、PNG格式，推荐您使用背景透明的PNG图片',
     slidetip: '提示：建议上传1536x2048像素的图片'
   },
-
-
   deleteTip: {
     title: '删除提示',
     desc: '是否要删除?',
     success: '删除成功!',
     cancelD: '已取消删除'
   },
-
-
   validPassword: {
     tip1: '密码格式不正确',
     tip2: '密码长度不小于6位'
@@ -873,9 +890,6 @@ export default {
     tip1: '账号不能为空'
   },
   imgCode: '换个验证码？',
-
-
-
   responseNote: {
     1: '无效的用户',
     2: '无效的密码',
@@ -885,17 +899,84 @@ export default {
     6: '用户未更新',
     7: '无效的验证码',
     8: '昵称不可用',
+    9: '昵称已存在',
+    10: '没有这样的帖子',
+    11: '不唯一',
+    12: '非父母职位',
+    13: '禁止',
+    14: '缺少声明',
+    15: '已经删除',
+    16: '无效的单词',
+    21: '上传失败',
+    22: '发送短信失败',
+    23: '昵称不唯一',
     24: '手机号不唯一',
+    25: '电话不唯一',
+    26: '无效的通道',
     27: '无效的token',
-    28: '无token',
-    44: '拜访类型错误',
-    46: '公司已存在',
-    51: '钉钉设置失败',
+    28: '尚未登录，请先登录',
+    29: 'token已过期',
+    30: '标签名已存在',
+    31: '标签超出限制',
+    32: '此标签不存在',
+    33: '此通道不存在',
+    34: '已经看过',
+    35: '已标记',
+    36: '未查看',
+    37: '已经收藏过了',
+    37: '已经收藏过了',
+    38: '为收藏',
+    39: '无效的链接',
+    40: '发送邮件失败',
+    41: '邮件通知已关闭',
+    43: '短信使用已超过限额，请先购买短信',
+    44: '同步次数超过限定次数',
+    //44: '拜访类型错误',
+    45: '修改配置失败',
+    46: '公司名称已存在',
+    47: '没有快速绑定',
+    48: '没有uuid',
+    49: '更新员工失败',
+    50: '添加员工失败',
+    51: '钉钉验证失败，请输入正确信息',
+    52: '信息已发送',
+    53: '短信开关未打开，请在通知页面开启',
+    54: '过期日期',
     55: '发起人不在员工列表中，请重新发起会议',
-    119: '验证码无效'
+    56: '邀请函暂无模板，请联系管理员设置邀请函模板',
+    57: '无记录',
+    58: '手机号错误',
+    59: '未发现模板',
+    60: '帐户已禁用',
+    61: '添加人员失败',
+    62: '会议已经开始',
+    63: '会议已结束',
+    64: '您来早了',
+    65: '您迟到了',
+    66: '无内容',
+    67: '账号已锁定',
+    68: '扫描成功',
+    69: '无效的昵称',
+    70: '插入失败',
+    71: '设备标识已存在',
+    72: '扩展标识已存在',
+    74: '添加失败',
+    92: '会议进行中，不能取消',
+    110: '无效操作',
+    119: '验证码无效',
+    123: '该部门已存在',
+    601: '暂无该套餐',
+    602: '没有这样的记录',
+    603: '无效的记录',
+    604: '没有这样的类别',
+    605: '无效的地址',
+    606: '无效的排序顺序',
+    607: '无效的库存',
+    608: '暂无该库存',
+    617: '无效的发票',
+    619: '所选订单中包含正在开票或者已开票的订单',
+    123: '该部门已存在'
   },
-
-
   homepage: {
     name: '官网首页',
     link: '#'
@@ -903,7 +984,6 @@ export default {
   hlogo: {
     text: '来访通'
   },
-
   account: {
     siderBar: {
       title: '账户信息',
