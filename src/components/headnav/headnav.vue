@@ -8,7 +8,7 @@
 				<v-history></v-history>
 			</div>
 			<div class="menuleft">
-			   <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff"
+			   <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#2a2c2f" text-color="#fff"
 			    active-text-color="#2274e6">
 			  	  <el-menu-item index="index"><router-link to="/">{{$t('navlist[0].name')}}</router-link></el-menu-item>
 			  	  <el-submenu index="emp">

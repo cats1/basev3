@@ -15,8 +15,10 @@
   },
   "dependencies": {
     "html2canvas": "^1.0.0-alpha.12",
+    "nprogress": "^0.2.0",
     "qrcodejs2": "0.0.2",
     "vue": "^2.5.2",
+    "vue-event-calendar": "^1.5.2",
     "vue-i18n": "^7.3.2",
     "vue-qart": "^2.1.1",
     "vue-quill-editor": "^3.0.6",

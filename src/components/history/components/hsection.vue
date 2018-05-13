@@ -1,5 +1,5 @@
 <template>
-	<div class="hsection marginbom20 boxshadow paddinglr20 paddingtb20">
+	<div class="hsection bgwhite marginbom20 boxshadow paddinglr20 paddingtb20">
 		<p class="hstitle">
 			<span class="version">{{version}}</span>
 			<span class="newlogo" v-show="isNewShow">{{$t('newtext')}}</span>

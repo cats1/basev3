@@ -1,6 +1,6 @@
 <template>
 	<div >
-		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
+		<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
 			<h3>{{$t('btn.exportListBtn')}}</h3>
 			<div class="exportwrap">
 				<div class="exportwrap-left">

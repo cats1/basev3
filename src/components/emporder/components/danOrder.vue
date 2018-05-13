@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<el-row class="margintop20 marginbom20">
+		<el-row class="margintop20 marginbom20 ">
 	        <p class="lh36">{{$t('moban.ctitle')}}
 	        	<el-button class="right" @click="goDot"><i class="fa fa-list"></i>{{$t('moban.dot')}}</el-button></p>
 	    </el-row>
-	    <div class="boxshadow paddinglr30 paddingtb20">
+	    <div class="boxshadow bgwhite paddinglr30 paddingtb20">
 	    	<el-form label-position="left" :model="form" :rules="rules" ref="danform" style="width:50%;">
 	    	  <h3 class="marginbom20">{{$t('moban.visitMess')}}</h3>
 		    	<el-form-item :label="$t('form.name.text')" prop="name">

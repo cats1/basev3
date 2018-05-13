@@ -21,7 +21,7 @@ export default {
       beforeUpload (file) {
       	let _self = this
         UploadSubAccount(file,function(result){
-          this.$message({
+          _self.$message({
             message: '文件上传成功',
             type: 'success'
           })

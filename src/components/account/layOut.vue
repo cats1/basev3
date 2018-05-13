@@ -2,7 +2,7 @@
 	<div class="page-container">
       <el-row :gutter="20">
         <el-col :span="4">
-          <dl class="barlist boxshadow">
+          <dl class="barlist boxshadow bgwhite">
           	<dt>{{$t('account.siderBar.title')}}</dt>
           	<template v-for="(item,index) in $t('account.siderBar.list')">
           		<router-link :to="item.link" tag="dd" :active-class="activeClass"><span class="bluelines"></span>{{item.name}}</router-link>

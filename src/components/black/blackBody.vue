@@ -1,10 +1,10 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 paddingtb20 marginbom20">
+	  <div class="boxshadow bgwhite paddinglr30 paddingtb20 marginbom20">
 		<el-button type="default" @click="dialogVisible = true"><i class="fa fa-user-times"></i>{{$t('btn.addBlackBtn')}}</el-button>
 		<el-button type="redline" @click="deleteBlack"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
 	  </div>
-	  <div class="boxshadow paddinglr30 paddingtb20">
+	  <div class="boxshadow bgwhite paddinglr30 paddingtb20">
 	  	<el-table :data="list" border  @selection-change="handleSelectionChange">
 	  		<el-table-column
 		      type="selection"

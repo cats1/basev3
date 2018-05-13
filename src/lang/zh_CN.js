@@ -1,5 +1,6 @@
 export default {
   searchVnameHolder: '搜索访客姓名',
+  goBackIndex: '返回首页',
   passText: '密码',
   comfirmPassText: '确认密码',
   signOutWinTitle: '签出窗口',

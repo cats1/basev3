@@ -1,11 +1,11 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 paddingtb20">
+	  <div class="boxshadow paddinglr30 bgwhite paddingtb20">
 		<el-button type="redline" @click="deleteEmp"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button> 
 	  </div>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
-	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
+	  		<div class="boxshadow bgwhite margintop20 paddinglr30 paddingtb20">
           <el-input v-model="sform.name" @change="searchEmp" :placeholder="$t('searchVnameHolder')">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
@@ -19,7 +19,7 @@
 	  		</div>
 	  	</el-col>
 	  	<el-col :span="18" >
-	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
+	  		<div class="boxshadow bgwhite margintop20 paddinglr30 paddingtb20">
 	  			<el-table :data="dataList" border @selection-change="handleSelectionChange">
 		  			<el-table-column
               type="selection"

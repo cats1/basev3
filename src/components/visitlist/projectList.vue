@@ -1,6 +1,6 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 paddingtb20" style="overflow:hidden;">
+	  <div class="boxshadow paddinglr30 paddingtb20 bgwhite" style="overflow:hidden;">
       <add-pro :btn-type="btnType" @addkit="getaddpro"></add-pro>
       <add-visit :btn-type="btnType" :pro-list="projectList" :pid="nform.pid" @sendav="getaddv" :edit-type="editType" :cur-emp="curEmp" @addemp="getBtnType"></add-visit>
       <edit-pro :epdata="probj" @editpro="getBtnType" @editkit="geteditv"></edit-pro>
@@ -11,7 +11,7 @@
 	  </div>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
-	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
+	  		<div class="boxshadow bgwhite margintop20 paddinglr30 paddingtb20">
           <el-input v-model="sform.name" @change="searchEmp" :placeholder="$t('searchVnameHolder')">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
@@ -25,7 +25,7 @@
 	  		</div>
 	  	</el-col>
 	  	<el-col :span="18" >
-	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
+	  		<div class="boxshadow bgwhite margintop20 paddinglr30 paddingtb20">
 	  			<el-table :data="dataList" border @selection-change="handleSelectionChange" @row-click="checkRow">
 		  			<el-table-column
 				      type="selection"

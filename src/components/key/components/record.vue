@@ -1,5 +1,5 @@
 <template>
-	<div class="boxshadow paddinglr30 paddingtb20">
+	<div class="boxshadow bgwhite paddinglr30 paddingtb20">
 		<el-form ref="form" :inline="true" :model="form" label-width="120px">
 			<el-form-item :label="$t('key.equipMark')">
 				<el-input v-model="form.deviceCode"></el-input>

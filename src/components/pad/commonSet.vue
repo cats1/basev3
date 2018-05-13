@@ -1,10 +1,10 @@
 <template>
   <div >
     <h-title>{{$t('pad.usualSet')}}</h-title>
-    <com-logo></com-logo>
-    <v-sign></v-sign>
-    <card-paper></card-paper>
-    <safe></safe>
+    <com-logo class="bgwhite"></com-logo>
+    <v-sign class="bgwhite"></v-sign>
+    <card-paper class="bgwhite"></card-paper>
+    <safe class="bgwhite"></safe>
   </div>
 </template>
 <script>

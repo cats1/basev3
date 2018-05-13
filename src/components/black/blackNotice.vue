@@ -1,6 +1,6 @@
 <template>
 	<div class="marginbom20">
-      <one-notice :n-icon="imgSrc" :n-title="$t('notice.black.title')" :n-desc="$t('notice.black.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>		
+    <one-notice class="bgwhite" :n-icon="imgSrc" :n-title="$t('notice.black.title')" :n-desc="$t('notice.black.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>		
 	</div>
 </template>
 <script>

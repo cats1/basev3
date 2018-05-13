@@ -40,12 +40,12 @@ service.interceptors.response.use(
       if (status == 0) {
         return response.data
       } else if (status == 28) {
-        clearCookie()
         Message({
           message: noticeMessages[status],
           type: 'error',
           duration: 4 * 1000,
           onClose: function () {
+            clearCookie()
             window.location.href = 'signin.html'
           }
         })

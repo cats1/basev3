@@ -4,10 +4,10 @@
         <h2>{{$t('notice.tip.title')}}</h2>
         <p>{{$t('notice.tip.desc')}}</p>
       </el-row>
-      <weixin ></weixin>
-      <email ></email>
-      <sms-notice></sms-notice>
-      <yuyin></yuyin>
+      <weixin class="bgwhite"></weixin>
+      <email class="bgwhite"></email>
+      <sms-notice class="bgwhite"></sms-notice>
+      <yuyin class="bgwhite"></yuyin>
       <dd-notice :link-is-show="false"></dd-notice>
       <rtx :link-is-show="false"></rtx>
   </div>

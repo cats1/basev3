@@ -1,6 +1,6 @@
 <template>
-  <div class="dashboard-container">
-    <stagenav active-index="index"></stagenav>
+  <div id="app" class="dashboard-container">
+    <stagenav></stagenav>
     <div class="page-container">
       <transition name="fade" mode="out-in">
         <router-view></router-view>

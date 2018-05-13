@@ -1,7 +1,7 @@
 <template>
 	<div class="marginbom20">
-      <approve-switch></approve-switch>
-      <approve-list></approve-list>	
+      <approve-switch class="bgwhite"></approve-switch>
+      <approve-list class="bgwhite"></approve-list>	
 	</div>
 </template>
 <script>

@@ -7,7 +7,7 @@ export default new Router({
   routes: [{
   	path: '/',
   	name: 'stage',
-  	component: _import('stage/index')
+  	component: _import('home/managerLeftRight')
   },{
   	path: '/data',
   	name: 'sdata',

@@ -1,6 +1,6 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 paddingtb20 block">
+	  <div class="boxshadow paddinglr30 paddingtb20 block bgwhite">
 	  	<export-address-list :btn-type="btnType" @exportkit="changeBtnType"></export-address-list>
       <add-com-emp :btn-type="btnType" @addkit="changeBtnType"></add-com-emp>
       <dot-update :btn-type="btnType" :slist="sempArray" @addkit="changeUpdate" @cancelkit="changeCancel" @deletekit="changeDeleteEmp"></dot-update>
@@ -9,7 +9,7 @@
 	  </div>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
-	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
+	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
           <!-- @change="searchEmp" -->
           <el-autocomplete v-model="state4" :fetch-suggestions="querySearchAsync" value-key="empName" @select="handleSelect" :placeholder="$t('sempholder')">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
@@ -38,13 +38,13 @@
 	  	</el-col>
 	  	<el-col :span="18" >     
         <template v-if="btnType === 1">
-          <add-com-emp-show :edit-type="editType" :emp-obj="curEmp"></add-com-emp-show>
+          <add-com-emp-show class="bgwhite" :edit-type="editType" :emp-obj="curEmp"></add-com-emp-show>
         </template>
         <template v-else-if="btnType === 3">
-          <special :slist="sempArray" @onekit="doOneNext" @removekit="getCurList" @twokit="setTwoAccount"></special>
+          <special class="bgwhite" :slist="sempArray" @onekit="doOneNext" @removekit="getCurList" @twokit="setTwoAccount"></special>
         </template>
         <template v-else>
-          <export-address-book @upab="getUploadAB"></export-address-book>
+          <export-address-book  @upab="getUploadAB"></export-address-book>
         </template> 
         
 	  	</el-col>

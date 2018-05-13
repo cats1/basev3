@@ -21,7 +21,7 @@
 			    </el-submenu>
 		  </el-menu>
         </el-col>
-        <el-col :span="20">
+        <el-col :span="20" >
           <transition name="fade" mode="out-in">
             <router-view></router-view>
           </transition>

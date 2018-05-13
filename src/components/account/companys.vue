@@ -1,5 +1,5 @@
 <template>
-  <div class="boxshadow">
+  <div class="boxshadow bgwhite">
     <coms-notice></coms-notice>
   </div>
 </template>

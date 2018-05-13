@@ -1,5 +1,6 @@
 export default {
   searchVnameHolder: 'Search visitor name',
+  goBackIndex: 'Return home',
   passText: 'Password',
   comfirmPassText: 'Confirm password',
   signOutWinTitle: 'sign out window',

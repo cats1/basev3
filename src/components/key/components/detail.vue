@@ -1,5 +1,5 @@
 <template>
-	<div class="block boxshadow">
+	<div class="block boxshadow bgwhite">
       <g-title>{{$t('key.title')}}</g-title>
       <el-row class="margintop20 paddinglr30" style="width:60%;">
 				<el-form ref="eform" :rules="rules" :model="form" label-width="120px" >

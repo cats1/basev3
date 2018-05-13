@@ -1,11 +1,11 @@
 <template>
   <div class="dashboard-container">
-    <order style="margin-top:20px;"></order>
-    <invite-moban></invite-moban>
-    <stage-time></stage-time>
-    <code-time></code-time>
-    <code-sign></code-sign>
-    <approve-set></approve-set>
+    <order class="bgwhite" style="margin-top:20px;"></order>
+    <invite-moban class="bgwhite"></invite-moban>
+    <stage-time class="bgwhite"></stage-time>
+    <code-time class="bgwhite"></code-time>
+    <code-sign class="bgwhite"></code-sign>
+    <approve-set class="bgwhite"></approve-set>
   </div>
 </template>
 <script>

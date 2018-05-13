@@ -4,7 +4,7 @@
 	        <p class="lh36">{{$t('moban.ctitle')}}
             <el-button class="right" @click="goDan"><i class="fa fa-dot-circle-o"></i>{{$t('moban.single')}}</el-button></p>
 	    </el-row>
-	    <div class="boxshadow paddinglr30 paddingtb20">
+	    <div class="boxshadow bgwhite paddinglr30 paddingtb20">
 	    	<h3>{{$t('moban.visitMess')}}
           <div class="right">
             <down-invite-moban></down-invite-moban>

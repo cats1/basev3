@@ -1,5 +1,5 @@
 <template>
-	<div class="boxshadow margintop20 paddinglr30 paddingtb20">
+	<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
 		<h3>{{$t('btn.exportListBtn')}}</h3>
 		<el-select v-model="value" placeholder="请选择">
 			    <el-option

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="boxshadow bgwhite paddinglr30 paddingtb20">
 		<el-table :data="data" border>
 			<el-table-column
 		      type="index"

@@ -1,5 +1,5 @@
 <template>
-	<div class="boxshadow paddinglr30 paddingtb20">
+	<div class="boxshadow bgwhite paddinglr30 paddingtb20">
 		<el-button type="primary" @click="addGroup">{{$t('key.addGroup')}}</el-button>
 		<el-table class="margintop20" :data="list" border>
 			<el-table-column prop="egname"

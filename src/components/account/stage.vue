@@ -1,5 +1,5 @@
 <template>
-	<div class="boxshadow">
+	<div class="boxshadow bgwhite">
     <h2 class="set-title borderbom">{{$t('account.stage.title')}}</h2>
     <el-row class="paddingtb20 paddinglr30">
       <el-col :span="12">

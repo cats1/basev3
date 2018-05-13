@@ -2,14 +2,14 @@
 	<div>
 		<el-row :gutter="20">
 			<el-col :span="8">
-				<data-left @getvlist="getList"></data-left>
+				<data-left class="bgwhite" @getvlist="getList"></data-left>
 			</el-col>
 			<el-col :span="16">
-				<data-right :ldata="vlist"></data-right>
+				<data-right class="bgwhite" :ldata="vlist"></data-right>
 			</el-col>
 		</el-row>
 		<el-row>
-			<data-bottom :vdata="vlist" :vtype="vtype" :nform="nform"></data-bottom>
+			<data-bottom class="bgwhite" :vdata="vlist" :vtype="vtype" :nform="nform"></data-bottom>
 		</el-row>
 	</div>
 </template>

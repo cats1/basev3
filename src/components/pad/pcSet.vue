@@ -1,8 +1,8 @@
 <template>
   <div >
     <h-title>PC设置</h-title>
-    <door-set></door-set>
-    <work-time></work-time>
+    <door-set class="bgwhite"></door-set>
+    <work-time class="bgwhite"></work-time>
   </div>
 </template>
 <script>

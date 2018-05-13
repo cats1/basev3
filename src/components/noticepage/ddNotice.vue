@@ -1,6 +1,6 @@
 <template>
 	<div class="marginbom20">
-      <one-notice :n-icon="imgSrc" :n-title="$t('notice.dd.title')" :n-desc="$t('notice.dd.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
+      <one-notice class="bgwhite" :n-icon="imgSrc" :n-title="$t('notice.dd.title')" :n-desc="$t('notice.dd.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
       <p class="tiplink" v-show="linkShow">{{$t('notice.dd.tip')}}</p>
       <el-dialog :title="$t('exporttype.ddSet')"
       :visible.sync="dialogVisible"

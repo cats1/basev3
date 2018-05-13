@@ -69,5 +69,9 @@ export default new Router({
     children: [
       {path: '/',name: 'history',component: _import('history/layOut')}
     ]
+  },{
+    path: '*',
+    name: '404',
+    component: _import('error/404')
   }]
 })

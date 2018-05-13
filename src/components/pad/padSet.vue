@@ -1,13 +1,13 @@
 <template>
   <div >
     <h-title>{{$t('pad.padSet')}}</h-title>
-    <once-again></once-again>
-    <sign-out-switch></sign-out-switch>
-    <team-set></team-set>
-    <slide-pic></slide-pic>
-    <com-color></com-color>
-    <inner-photo></inner-photo>
-    <face-in></face-in>
+    <once-again class="bgwhite"></once-again>
+    <sign-out-switch class="bgwhite"></sign-out-switch>
+    <team-set class="bgwhite"></team-set>
+    <slide-pic class="bgwhite"></slide-pic>
+    <com-color class="bgwhite"></com-color>
+    <inner-photo class="bgwhite"></inner-photo>
+    <face-in class="bgwhite"></face-in>
   </div>
 </template>
 <script>

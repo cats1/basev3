@@ -1,5 +1,5 @@
 <template>
-	<div class="box-section">
+	<div class="box-section bgwhite">
         <el-button type="primary" @click="dialogVisible = true"><i class="fa fa-plus"></i>{{$t('btn.addMeeting')}}</el-button>
         <el-table
 		    ref="meetTable"

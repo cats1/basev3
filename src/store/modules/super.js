@@ -85,7 +85,7 @@ const user = {
                     setCache('logo', result.logo)
                     setCache('username', result.username)
                     setCache('userid', result.userid)
-                    setCache('token', result.id + '-' + result.token)
+                    setCache('token', result.token)
 		          }
 		          setToken(result.token)
 		          resolve(response)

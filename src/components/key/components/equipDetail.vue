@@ -1,5 +1,5 @@
 <template>
-	<div class="block boxshadow">
+	<div class="block bgwhite boxshadow">
       <template v-if="editType === 1">
         <g-title>{{$t('key.addGroup')}}</g-title>
       </template>

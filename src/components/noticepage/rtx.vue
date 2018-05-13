@@ -1,6 +1,6 @@
 <template>
 	<div class="marginbom20">
-      <one-notice :n-icon="imgSrc" :n-title="$t('notice.rtx.title')" :n-desc="$t('notice.rtx.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
+      <one-notice class="bgwhite" :n-icon="imgSrc" :n-title="$t('notice.rtx.title')" :n-desc="$t('notice.rtx.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
       <p class="tiplink" v-show="linkShow">{{$t('notice.rtx.tip')}}</p>
       <el-dialog :title="$t('exporttype.ipSet')"
         :visible.sync="dialogVisible"
