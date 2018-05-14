@@ -1,6 +1,6 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 paddingtb20 block">
+	  <div class="boxshadow paddinglr30 paddingtb20 block bgwhite">
       <add-depart :btn-type="btnType" :parent="parent" :dlist="list" @addkit="getAddkit" @clickit="changeRightType"></add-depart>
       <add-emp :btn-type="btnType" :parent="parent" :edit-type="editType" :cur-emp="curEmp" :dlist="list" @addempkit="getAddkit" @updateempkit="getUpdatekit" @clickit="changeRightType"></add-emp>
       <export-address-list @exportkit="changeExport"></export-address-list>
@@ -11,7 +11,7 @@
 	  </div>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
-	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
+	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
           <el-input v-model="sform.name" @change="searchEmp">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
@@ -26,10 +26,10 @@
 	  	</el-col>
 	  	<el-col :span="18" >        
         <div class="" v-if="rightType === 2">
-          <export-address-book></export-address-book>
+          <export-address-book ></export-address-book>
         </div>
         <div class="" v-else>
-          <div class="boxshadow margintop20 paddinglr30 paddingtb20">
+          <div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
             <el-table :data="dataList" border @selection-change="handleSelectionChange" @row-click="editEmp">
               <el-table-column
                 type="selection"

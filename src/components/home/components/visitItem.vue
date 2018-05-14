@@ -4,12 +4,13 @@
           <div class="vstatus" :style="{'background': color}">{{statusText}}</div>
             <img :src="vdata.vphoto" alt="" v-if="vdata.vphoto">
             <img :src="dlogo" alt="" v-else>
-          <transition name="el-fade-in">
-            <div v-show="maskShow" class="vavatar-mask" @click.prevent="signOutRecord">
-              <i class="fa fa-trash-o fa-4x"></i>
-            </div>
-          </transition>
-        </div>
+            <transition name="el-fade-in">
+              <div v-show="maskShow" class="vavatar-mask" >
+                <el-button type="primary" @click.prevent="signOutRecord">签出</el-button>
+                <!-- <i class="fa fa-trash-o fa-4x"></i> -->
+              </div>
+            </transition>
+          </div>
         <div class="vcontent">
           <div class="vcontentheader">
             <el-popover
@@ -34,17 +35,32 @@
             </el-popover>
             <el-button size="mini" v-show="vtext !==''">{{vtext}}</el-button>
             <div class="vdatewrap" >
-              <p v-show="vdata.appointmentDate&&!vdata.signOutDate">{{$t('form.time.text3')}}: {{vdata.appointmentDate|formatDate}}</p>
+              <template v-if="parseInt(vdata.signinType) === 1">
+                <p v-show="vdata.appointmentDate&&!vdata.signOutDate">{{$t('form.time.text3')}}: {{vdata.appointmentDate|formatDate}}</p>
+              </template>
+              <template v-else>
+                <p v-show="vdata.appointmentDate&&!vdata.signOutDate">{{$t('form.time.text2')}}: {{vdata.appointmentDate|formatDate}}</p>
+              </template>
               <p v-show="vdata.visitdate">{{$t('form.time.text')}}: {{vdata.visitdate|formatDate}}</p>
               <p v-show="vdata.signOutDate">{{$t('form.time.text1')}}: {{vdata.signOutDate|formatDate}}</p>
             </div>
           </div>
           <div class="vcontentfooter">
             <ul class="vflist">
-              <li>{{$t('checkVtype[2]')}}：{{vdata.empName}}</li>
-              <li>{{$t('checkVtype[3]')}}:{{vdata.visitType}}</li>
-              <li>{{$t('tablehead[6]')}}：{{vdata.vphone}}</li>
-              <li>{{$t('form.remark.text')}}：{{vdata.remark}}</li>
+              <template v-if="teamShow">
+                <li>{{$t('checkVtype[2]')}}：{{vdata.empName}}</li>
+                <li>{{$t('tablehead[6]')}}：{{vdata.vphone}}</li>
+                <li>{{$t('form.count.text')}}：{{peopleCount}}</li>
+              </template>
+              <template v-else>
+                <li>{{$t('checkVtype[2]')}}：{{vdata.empName}}</li>
+                <li>{{$t('checkVtype[3]')}}:{{vdata.visitType}}</li>
+                <li>{{$t('tablehead[6]')}}：{{vdata.vphone}}</li>
+                <li>{{$t('form.remark.text')}}：{{vdata.remark}}</li>
+                <template v-show="extendColArray.length > 0">
+                  <li v-for="extend in extendColArray">{{extend.name}}：{{extend.value}}</li>
+                </template>
+              </template>
             </ul>
           </div>
           <div class="itemcheck" v-show="checked">
@@ -68,6 +84,7 @@
 </template>
 <script>
 import {formatDate,timeDiff} from '@/utils/index'
+import {stringToArray,arrayToString,judgeModel,moveBlank,splitArray} from '@/utils/common'
 import { getCache } from '@/utils/auth'
 export default {
   props: {
@@ -82,6 +99,10 @@ export default {
     itemCheck: {
       type: Boolean,
       default: false
+    },
+    extendCol:{
+      type: Array,
+      default: []
     }
   },
   data () {
@@ -96,15 +117,23 @@ export default {
       checked: false,
       vtext: '',
       maskShow: false,
-      remarkValue: ''
+      remarkValue: '',
+      teamShow: false,
+      peopleCount: 0,
+      extendColSet: this.extendCol,
+      extendColArray: []
     }
   },
   watch: {
     vdata (val) {
       this.checkStatus()
+      this.getextendCol()
     },
     itemCheck (val) {
       this.checked = val
+    },
+    extendCol (val) {
+      this.extendColSet = val
     }
   },
   filters:{
@@ -117,14 +146,18 @@ export default {
       }
     }
   },
-  created () {
-    this.checkStatus()
-  },
+  created () {},
   mounted () {
+    this.checkStatus()
+    this.getextendCol()
   },
   methods: {
     doHover () {
-      this.maskShow = true
+      if (!this.vdata.signOutDate) {
+        if (parseInt(this.vdata.signinType) === 0) {
+          this.maskShow = true
+        }
+      }
     },
     doHoverOut () {
       this.maskShow = false
@@ -161,7 +194,7 @@ export default {
     },
   	checkStatus () {
       if (parseInt(this.vdata.signinType) === 1) {//邀请访客
-        this.vtext = '邀请访客'
+        this.vtext = this.$t('vtype[2]')
         switch (this.vdata.status) {
           case 0:
             this.statusText = this.$t('vstatus[0]')
@@ -263,6 +296,43 @@ export default {
           this.statusText = this.$t('vstatus[9]')
           this.color = '#996b33'
         }
+      }
+    },
+    getextendCol () {      
+      if (this.vdata.extendCol != null) {
+        let extendCol = splitArray(this.vdata.extendCol)
+        let modaltype = judgeModel(extendCol)
+        if (modaltype[0] == 0 || modaltype[0] == undefined) { //普通未添加自定义
+
+        } else if (modaltype[0] == 1) { //添加自定义
+          let extendColSet = this.extendColSet
+          let patt1 = new RegExp("input_")
+          let extendColArray = []
+          for (let i = 0; i < extendCol.length; i++) {
+            if (patt1.test(moveBlank(extendCol[i])) > 0) {
+              for (let j = 0; j < extendColSet.length; j++) {
+                let fieldName = extendColSet[j].fieldName
+                if (fieldName === moveBlank(extendCol[i])) {
+                  let exObj = {
+                    name: extendColSet[j].displayName,
+                    value: extendCol[i+1]
+                  }
+                  extendColArray.push(exObj)
+                }
+              }
+            }
+          }
+          this.extendColArray = extendColArray
+        } else if (modaltype[0] == 2) {//团队
+          this.vtext = this.$t('teamText')
+          this.teamShow = true
+          this.peopleCount = extendCol[modaltype[1]]
+        }
+      } else {
+        this.vtext = ''
+        this.teamShow = false
+        this.peopleCount = 0
+        this.extendColArray = []
       }
     }
   }

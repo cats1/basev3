@@ -7,7 +7,7 @@ import { getCache,clearCookie } from '@/utils/auth'
 const LocationHost = window.location.host
 const LocationProtocol = window.location.protocol
 var baseURL = process.env.BASE_API
-if (LocationHost.indexOf('localhost') > -1) {
+if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.53') > -1) {
   baseURL = process.env.BASE_API
 } else {
   baseURL = LocationProtocol + '//' + LocationHost + '/qcvisit'

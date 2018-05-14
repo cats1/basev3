@@ -1,6 +1,6 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 paddingtb20 block">
+	  <div class="boxshadow paddinglr30 paddingtb20 block bgwhite">
       <add-role-group :parent="parent" @addrolekit="getAddRoleGroup"></add-role-group>
       <add-role :parent="parent" @addrolekit="getAddRole"></add-role>
       <edit-role-group :parent="parent" @editrolekit="getAddRole" @delerolekit="getdeleRole"></edit-role-group>
@@ -10,7 +10,7 @@
 	  </div>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
-	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
+	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
           <el-input v-model="sform.name" @change="searchEmp">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
@@ -24,7 +24,7 @@
 	  		</div>
 	  	</el-col>
 	  	<el-col :span="18" >
-	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20">
+	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
 	  			<el-table :data="dataList" border @selection-change="handleSelectionChange">
 		  			<el-table-column
 				      type="selection"

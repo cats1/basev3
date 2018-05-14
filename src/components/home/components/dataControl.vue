@@ -27,6 +27,9 @@ export default {
   	  nform: {}
   	}
   },
+  watch: {
+    vlist (val) {}
+  },
   methods: {
   	getList (val,type,nform) {
       this.vlist = val

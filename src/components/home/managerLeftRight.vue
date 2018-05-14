@@ -9,7 +9,7 @@
         <div class="vlist-wrap boxshadow margintop20 paddingtb20 bgwhite">
           <template v-if="vlist.length > 0">
             <template v-for="(vitem,index) in vlist">
-              <visit-item :vdata="vitem" :index="index" :item-check="vCheck[index]" @checkkit="changeCheck" @outkit="getSignout"></visit-item>
+              <visit-item :extend-col="extendCol" :vdata="vitem" :index="index" :item-check="vCheck[index]" @checkkit="changeCheck" @outkit="getSignout"></visit-item>
             </template>
           </template>
           <template v-else>
@@ -50,10 +50,13 @@ export default {
       leavelNum: 0,
       onNum: 0,
       checkArray: [],
-      onShowType: 0
+      onShowType: 0,
+      extendCol: []
     }
   },
-  created () {},
+  created () {
+    this.GetExtendVisitor()
+  },
   mounted () {
     this.getSignVisitor()
   },
@@ -261,6 +264,17 @@ export default {
           this.leavelList = leavelArray
           this.onList = onArray
           this.initVlist()
+        }
+      })
+    },
+    GetExtendVisitor () {
+      let nform = {
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('GetExtendVisitor',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.extendCol = result
         }
       })
     }

@@ -12,7 +12,7 @@ export default {
   data () {
   	return {
   	  switchOn: numberToBoolean(getCache('processSwitch')),
-      imgSrc: require('@/assets/img/webchatv1.png')
+      imgSrc: require('@/assets/img/approve.png')
   	}
   },
   methods: {

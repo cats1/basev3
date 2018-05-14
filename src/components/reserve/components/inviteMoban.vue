@@ -22,7 +22,7 @@ export default {
   components: { oneNotice, noticeShow, faceAndBus },
   data () {
   	return {
-      imgSrc: require('@/assets/img/webchatv1.png'),
+      imgSrc: require('@/assets/img/invite.png'),
       isShow: false,
       switchOn: numberToBoolean(getCache('tempEditSwitch'))
   	}

@@ -15,7 +15,7 @@ export default {
   components: { noticeShow, oneNotice },
   data () {
   	return {
-      imgSrc: require('@/assets/img/webchatv1.png'),
+      imgSrc: require('@/assets/img/approve.png'),
       isShow: false
   	}
   },

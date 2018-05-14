@@ -24,17 +24,22 @@ export default {
       this.deform.empids = arrays
   	}
   },
-  mounted () {
-  	console.log(this.semp)
-  },
+  mounted () {},
   methods: {
   	deleteEmp () {
-      this.$store.dispatch('batchDelEmployee',this.deform).then(res => {
+      if (this.deform.empids.length > 0) {
+        this.$store.dispatch('batchDelEmployee',this.deform).then(res => {
           let {status} = res
           if (status === 0) {
             this.$emit('delekit')
           }
-      })
+        })
+      } else {
+        this.$message({
+          type: 'warning',
+          message: this.$t('selectEmpTip')
+        })
+      }
   	}
   }
 }

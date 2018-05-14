@@ -37,22 +37,22 @@
 		    		<el-table-column align="center"
 			        prop="signInGate"
 			        :label="$t('notice.doorset.signinDoor')"
-			        width="180" v-show="extend.fieldName === 'gatein'">
+			        width="180" v-if="extend.fieldName === 'gatein'">
 			        </el-table-column>
 			        <el-table-column align="center"
 			        prop="signOutGate"
 			        :label="$t('notice.doorset.signoutDoor')"
-			        width="180" v-show="extend.fieldName === 'gateout'">
+			        width="180" v-else-if="extend.fieldName === 'gateout'">
 			        </el-table-column>
 			        <el-table-column align="center"
 			        prop="signInOpName"
 			        :label="$t('notice.doorset.signinGuard')"
-			        width="180" v-show="extend.fieldName === 'guardin'">
+			        width="180" v-else-if="extend.fieldName === 'guardin'">
 			        </el-table-column>
 			        <el-table-column align="center"
 			        prop="signOutOpName"
 			        :label="$t('notice.doorset.signoutGuard')"
-			        width="180" v-show="extend.fieldName === 'guardout'">
+			        width="180" v-else-if="extend.fieldName === 'guardout'">
 			        </el-table-column>
 		    	</template>
 		    </template>
@@ -155,12 +155,12 @@ export default {
   },
   filters:{
   	formatDate (time) {
-  	  let date = new Date(time)
-  	  return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+  	  if (time) {
+  	  	let date = new Date(time)
+  	    return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+  	  }
   	},
-  	setVphoto (url) {
-      console.log(url)
-  	}
+  	setVphoto (url) {}
   },
   watch: {
   	vdata (val) {
@@ -205,7 +205,6 @@ export default {
                 }
             }
           }
-          console.log(extendArray)
           this.extendArray = extendArray
         }
       })

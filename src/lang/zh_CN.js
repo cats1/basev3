@@ -1,7 +1,11 @@
 export default {
   searchVnameHolder: '搜索访客姓名',
+  teamText: '团队',
   goBackIndex: '返回首页',
+  selectEmpTip: '请选择员工',
   passText: '密码',
+  months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+  weeks: ['日', '一', '二', '三', '四', '五', '六'],
   comfirmPassText: '确认密码',
   signOutWinTitle: '签出窗口',
   switchLanguage: '语言切换成功！',

@@ -93,9 +93,7 @@ export default {
       this.isDoorShow = val
     }
   },
-  mounted () {
-    console.log(this.isDoorShow)
-  },
+  mounted () {},
   methods: {
   	getExport () {
   	  let cArray = []

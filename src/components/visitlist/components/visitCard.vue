@@ -25,7 +25,7 @@ import {getCache} from '@/utils/auth'
 import qrCode from '@/components/qrCode/qrCode'
 import visitCard from './visitCard'
 import html2canvas from 'html2canvas'
-import {downMoban} from '@/utils/common'
+import {downMoban,checkIsNull} from '@/utils/common'
 export default {
   props: {
   	vitem: {
@@ -55,22 +55,30 @@ export default {
       areaUrl: require('@/assets/img/area.png'),
       dateUrl: require('@/assets/img/date.png'),
       codeId: 0,
-      codeString: ''
+      codeString: '',
+      avatarSrc: ''
   	}
   },
   computed: {
-  	avatarSrc: {
+  	/*avatarSrc: {
   	  get () {
+        console.log(this.cards.avatar)
   	  	let avatarSrc = this.cards.avatar ? require('@/assets/img/default.png') : this.cards.avatar
         avatarSrc = avatarSrc.replace('http:', window.location.protocol)
+        console.log(avatarSrc)
         return avatarSrc
   	  },
   	  set () {}
-  	}
+  	}*/
   },
   watch: {
   	vitem (val) {
   	  this.cards = val
+      if (checkIsNull(val.avatar) !== '') {
+        this.avatarSrc = val.avatar
+      } else {
+        this.avatarSrc = require('@/assets/img/default.png')
+      }
   	},
   	index (val) {
   	  this.id = 'vcard_' + val
@@ -78,6 +86,11 @@ export default {
   	cardShow (val) {
   	  this.isShow = val
   	  if (val) {
+        if (checkIsNull(this.cards.avatar) !== '') {
+          this.avatarSrc = this.cards.avatar
+        } else {
+          this.avatarSrc = require('@/assets/img/default.png')
+        }
   	  	this.makeCard()
   	  }
   	}
@@ -85,6 +98,11 @@ export default {
   mounted () {
   	this.init()
   	if (this.isShow) {
+      if (checkIsNull(this.cards.avatar) !== '') {
+        this.avatarSrc = this.cards.avatar
+      } else {
+        this.avatarSrc = require('@/assets/img/default.png')
+      }
   	  this.makeCard()
   	}
   },

@@ -19,7 +19,7 @@ export default {
   components: { noticeShow, oneNotice, setCodeTime },
   data () {
   	return {
-      imgSrc: require('@/assets/img/webchatv1.png'),
+      imgSrc: require('@/assets/img/code.png'),
       isShow: false
   	}
   },

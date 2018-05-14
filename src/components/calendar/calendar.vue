@@ -7,36 +7,39 @@
             <span class="calendar-next"  @click="next">
                 <i class="el-icon-arrow-right"></i>
             </span>
-            <div class="calendar-info" @click.stop="changeYear">
-                <!-- {{monthString}} -->
+            <div class="calendar-info" >
+                <!-- {{monthString}}@click.stop="changeYear" -->
                 <div class="month">
                     <div class="month-inner" :style="{'top':-(this.month*20)+'px'}">
-                        <span v-for="m in months">{{m}}</span>
+                        <span v-for="m in $t('months')">{{m}}</span>
                     </div>
                 </div>
-                <div class="year">{{year}}</div>
+                <el-dropdown @command="getCommand" @visible-change="getCommandClick">
+                  <span class="el-dropdown-link">{{year}}</span>
+                  <el-dropdown-menu slot="dropdown">
+                    <template v-for="y in years">
+                        <el-dropdown-item :command="y">{{y}}</el-dropdown-item>
+                    </template>
+                  </el-dropdown-menu>
+                </el-dropdown>
             </div>
         </div>
         <table cellpadding="5">
-        <thead>
-            <tr>
-                <td v-for="week in weeks" class="week">{{week}}</td>
+            <thead>
+                <tr>
+                    <td v-for="week in $t('weeks')" class="week">{{week}}</td>
+                </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(day,k1) in days" style="{'animation-delay',(k1*30)+'ms'}">
+                <td v-for="(child,k2) in day" :class="{'selected':child.selected,'disabled':child.disabled}" @click="select(k1,k2,$event)">
+                    <span :class="{'blue':k2==0||k2==6||((child.isLunarFestival||child.isGregorianFestival) && lunar)}">{{child.day}}</span>
+                    <div class="text" v-if="child.eventName!=undefined">{{child.eventName}}</div>
+                    <div class="text" :class="{'isLunarFestival':child.isLunarFestival,'isGregorianFestival':child.isGregorianFestival}" v-if="lunar">{{child.lunar}}</div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(day,k1) in days" style="{'animation-delay',(k1*30)+'ms'}">
-            <td v-for="(child,k2) in day" :class="{'selected':child.selected,'disabled':child.disabled}" @click="select(k1,k2,$event)">
-                <span :class="{'blue':k2==0||k2==6||((child.isLunarFestival||child.isGregorianFestival) && lunar)}">{{child.day}}</span>
-                <div class="text" v-if="child.eventName!=undefined">{{child.eventName}}</div>
-                <div class="text" :class="{'isLunarFestival':child.isLunarFestival,'isGregorianFestival':child.isGregorianFestival}" v-if="lunar">{{child.lunar}}</div>
-            </td>
-        </tr>
-        </tbody>
+            </tbody>
         </table>
-        <div class="calendar-years" :class="{'show':yearsShow}">
-            <span v-for="y in years" @click.stop="selectYear(y)" :class="{'active':y==year}">{{y}}</span>
-        </div>
- 
     </div>
 </template>
 
@@ -174,6 +177,12 @@ export default {
         this.init()
     },
     methods: {
+        getCommandClick (value) {
+          this.changeYear()
+        },
+        getCommand (year) {
+          this.selectYear(year)
+        },
         init(){
             let now = new Date();
             this.year = now.getFullYear()
@@ -540,18 +549,18 @@ export default {
             }
         },
         changeYear(){
-            if(this.yearsShow){
+            /*if(this.yearsShow){
                 this.yearsShow=false
                 return false
             }
-            this.yearsShow=true
+            this.yearsShow=true*/
             this.years=[];
             for(let i=~~this.year-10;i<~~this.year+10;i++){
                 this.years.push(i)
             }
         },
         selectYear(value){
-            this.yearsShow=false
+            //this.yearsShow=false
             this.year=value
             this.render(this.year,this.month)
             this.$emit('selectYear',value)

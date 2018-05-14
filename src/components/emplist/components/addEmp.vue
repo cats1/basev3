@@ -6,10 +6,18 @@
 		  :visible.sync="dialogVisible"
 		  width="50%" @close="handClose">
 		  <el-form :model="form" :rules="rules" ref="empform" label-width="100px" class="demo-ruleForm">
-        <el-form-item prop="avatar">
-          <upload-user-photo :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
-          <reg-face :rform="form"></reg-face>
-        </el-form-item>
+        <template v-if="editType === 1">
+          <el-form-item prop="avatar">
+            <upload-user-photo :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
+            <reg-face :rform="form"></reg-face>
+          </el-form-item>
+        </template>
+        <template v-else>
+          <el-form-item >
+            <upload-user-photo :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
+          </el-form-item>
+        </template>
+        
         <el-form-item :label="$t('form.name.text')" prop="empName">
           <el-input v-model="form.empName"></el-input>
         </el-form-item>
@@ -48,7 +56,7 @@
           <el-date-picker
             v-model="dateRange"
             type="daterange"
-            range-separator="-" format="yyyyMMdd" value-format="yyyyMMdd"
+            range-separator="-" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
             :start-placeholder="$t('vtime[0]')"
             :end-placeholder="$t('vtime[1]')" @change="setrange">
           </el-date-picker>
@@ -146,7 +154,7 @@ export default {
         startDate: [
           { required: true, message: this.$t('formCheck.time.tip2'), trigger: 'blur' }]
   	  },
-      dateRange: ['',''],
+      dateRange: [],
       parentObj: this.parent,
       proform: {},
       cobj: [],
@@ -171,7 +179,10 @@ export default {
       }
     },
     curEmp (val) {
+      console.log(val)
       this.form = val
+      console.log(val.startDate)
+      console.log(val.endDate)
       if (val.startDate) {
         this.dateRange[0] = val.startDate
       }
@@ -208,6 +219,7 @@ export default {
       this.form.avatar = url
     },
     setrange (val) {
+      console.log(val)
       this.form.startDate = new Date(val[0])
       this.form.endDate = new Date(val[1])
     },
@@ -240,7 +252,7 @@ export default {
     addEmployee () {
       let nform = {
         avatar: this.form.avatar,
-        deptIds: [],
+        deptIds: this.form.deptIds,
         egids: this.form.egids,
         email: this.form.empEmail  || '',
         empNickname: this.form.empNickname || '',
@@ -264,6 +276,7 @@ export default {
         if (status === 0) {
           this.dialogVisible = false
           this.$refs['empform'].resetFields()
+          this.$refs['empform'].clearValidate()
           this.$emit('addempkit')
         }
       })
@@ -295,6 +308,7 @@ export default {
         if (status === 0) {
           this.dialogVisible = false
           this.$refs['empform'].resetFields()
+          this.$refs['empform'].clearValidate()
           this.$emit('updateempkit')
         }
       })
@@ -315,6 +329,8 @@ export default {
     },
     handClose () {
       this.$emit('updateempkit')
+      this.$refs['empform'].resetFields()
+      this.$refs['empform'].clearValidate()
     }
   }
 }

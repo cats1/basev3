@@ -7,7 +7,7 @@ export function getBaseUrl() {
   const LocationHost = window.location.host
   const LocationProtocol = window.location.protocol
   var baseURL = process.env.BASE_API
-  if (LocationHost.indexOf('localhost') > -1) {
+  if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.53') > -1) {
     baseURL = process.env.BASE_API
   } else {
     baseURL = LocationProtocol + '//' + LocationHost + '/qcvisit'
@@ -18,7 +18,7 @@ export function getBaseLink() {
   const LocationHost = window.location.host
   const LocationProtocol = window.location.protocol
   var baseURL = process.env.BASE_LINK
-  if (LocationHost.indexOf('localhost') > -1) {
+  if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.53') > -1) {
     baseURL = process.env.BASE_LINK
   } else {
     let url = window.location.href
@@ -113,6 +113,14 @@ export function stringToArray(value) {
   } else {
     return []
   }
+}
+export function splitArray(string) {
+    var vkeywords = /\,|\=/;
+    if (string) {
+        return string.split(vkeywords)
+    } else {
+        return []
+    }
 }
 export function arrayToString(value) {
   if (value.length > 0) {
@@ -534,4 +542,30 @@ export function getHtmlDocName() {
     }
     str = str.substring(0, str.lastIndexOf("."));
     return str;
+}
+/* 判断拜访 */
+export function judgeModel(array) {
+    var modalText = 0; //0未添加自定义拜访模式1添加自定义拜访模式2团队拜访
+    var index = 0;
+    var modalArray = [];
+    if (array.length > 0 && array.length <= 8) {
+        for (var i = 0; i < array.length; i++) {
+            var pcount = array[i].replace(/^\s+/g, '');
+            if (pcount == 'peopleCount') {
+                modalText = 2;
+                modalArray[0] = modalText;
+                index = i + 1;
+                modalArray[1] = index;
+            } else {
+                modalArray[0] = modalText;
+            }
+        }
+    } else if (array.length > 8) {
+        modalText = 1;
+        modalArray[0] = modalText;
+    }
+    return modalArray
+}
+export function moveBlank(str) {
+    return str.replace(/\s+/g, "");
 }

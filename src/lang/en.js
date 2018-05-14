@@ -1,7 +1,11 @@
 export default {
   searchVnameHolder: 'Search visitor name',
+  teamText: 'Team',
   goBackIndex: 'Return home',
+  selectEmpTip: 'Please select employee',
   passText: 'Password',
+  months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  weeks: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   comfirmPassText: 'Confirm password',
   signOutWinTitle: 'sign out window',
   switchLanguage: 'Language switching is successful!',
@@ -107,7 +111,7 @@ export default {
   downtip1: 'Please use Pad to scan the QR Code on the upper side to download, or download the client of “Cool Visit” from App Store and Local Download.',
   downtip2: 'Please turn on “Cool Visit” and log in with your registered email address *',
   downtip3: 'Try to register information with the identity of a visitor and try to run the “Cool Visit”.',
-  loginselect: ['Administrator', 'Headquarters Administrator', 'Settled Enterprise', 'Employee', 'Reception'],
+  loginselect: ['Administrator', 'HQ Administrator', 'Settled Enterprise', 'Employee', 'Reception'],
   login: {
     title: 'Administrator',
     logIn: 'Sign in',
@@ -469,7 +473,7 @@ export default {
   dataM: 'Data management',
   vstatus: ['sent', 'signed in', 'viewed', 'Accepted', 'refused', 'signed out', 'Unauthorized', 'Authorized', 'reserved', 'Expired'],
   vtype: ['Sign-in visitors', 'Reserved visitors', 'Invited visitors', 'Resident visitors'],
-  vnum: ['Total number of visitors', 'Number of visitors that have left', 'Number of people visiting', 'Total', 'Number of sign-in', 'Number of people absent', 'Visitor'],
+  vnum: ['Total', 'Left', 'Visiting', 'Total', 'Sign-in', 'Absent', 'Visitor'],
   vdate: ['Start date', 'End date', 'Selection date'],
   vtime: ['start time', 'End time'],
   visitor: {

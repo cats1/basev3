@@ -27,8 +27,11 @@
 	     </el-form-item>
 	     <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doLogin">{{$t('login.logIn')}}</el-button>
        <el-button type="text" style="width:100%;" @click.native.prevent="goForgot">{{$t('login.forgot.title')}}</el-button>
-       <or-line :value="$t('login.or')"></or-line>
-       <el-button type="text" style="width:100%;" @click.native.prevent="goSignUp">{{$t('login.signup')}}</el-button>
+       <template v-show="signupShow">
+          <or-line :value="$t('login.or')"></or-line>
+          <el-button type="text" style="width:100%;" @click.native.prevent="goSignUp">{{$t('login.signup')}}</el-button>
+       </template>
+       
 	     </el-row>
       </el-form>
 </template>
@@ -79,7 +82,8 @@ export default {
       loading: false,
       passwordType: 'password',
       vcode: '',
-      getCode: false
+      getCode: false,
+      signupShow: process.env.signupShow
   	}
   },
   methods: {
