@@ -10,7 +10,7 @@
         </el-collapse-transition>
       </div>
     </notice-show>
-    <el-dialog title="访客登记设置" :visible.sync="visible"
+    <el-dialog :title="$t('notice.vset.title')" :visible.sync="visible"
       width="50%" >
       <el-form :model="form">
         <el-form-item>
@@ -26,8 +26,8 @@
           <el-input v-model="form.peopleCount"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="summitTeamSetting">保存</el-button>
-          <el-button @click="visible = false">取消</el-button>
+          <el-button type="primary" @click="summitTeamSetting">{{$t('btn.saveBtn')}}</el-button>
+          <el-button @click="visible = false">{{$t('btn.cancelBtn')}}</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -45,10 +45,10 @@ export default {
       isShow: false,
       visible: false,
       form: {
-        name: '团队名称',
-        empid: '拜访的人',
-        phone: '拜访人的联系电话',
-        peopleCount: '团队人数'
+        name: this.$t('teamName'),
+        empid: this.$t('yourVisitor'),
+        phone: this.$t('youVisittorPhone'),
+        peopleCount: this.$t('teamNumber')
       },
       g_team_config_arr: []
     }
@@ -156,7 +156,7 @@ export default {
       var order = g_team_config_arr.length + 1
       var item_name = {
         userid: getCache('userid'),
-        displayName: '团队名称',
+        displayName: this.$t('teamName'),
         fieldName: 'name',
         inputType: 'text',
         inputValue: '',
@@ -169,7 +169,7 @@ export default {
       order = order + 1
       var item_emp = {
         userid: getCache('userid'),
-        displayName: '拜访的人',
+        displayName: this.$t('yourVisitor'),
         fieldName: 'empid',
         inputType: 'text',
         inputValue: '',
@@ -181,7 +181,7 @@ export default {
       order = order + 1
       var item_phone = {
         userid: getCache('userid'),
-        displayName: '拜访人的联系电话',
+        displayName: this.$t('youVisittorPhone'),
         fieldName: 'phone',
         inputType: 'text',
         inputValue: '',
@@ -193,7 +193,7 @@ export default {
       order = order + 1
       var item_count = {
         userid: getCache('userid'),
-        displayName: '团队人数',
+        displayName: this.$t('teamNumber'),
         fieldName: 'peopleCount',
         inputType: 'text',
         inputValue: '',

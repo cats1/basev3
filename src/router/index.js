@@ -23,23 +23,25 @@ export default new Router({
   	]
   },{
   	path: '/notice',
-  	name: 'emp',
+  	name: 'notice',
   	component: _import('home/layOut'),
   	children: [
-  	  {path: '/',name: 'notice',component: _import('noticepage/layOut')}
+  	  {path: '',name: 'notice',component: _import('noticepage/layOut')}
   	]
   },{
   	path: '/setting',
-  	name: 'emp',
+  	name: 'setting',
   	component: _import('home/layOut'),
   	children: [
   	  {path: '/pad',name: 'pad',component: _import('pad/layOut')},
   	  {path: '/reserve',name: 'reserve',component: _import('reserve/layOut')},
       {path: '/approve',name: 'approve',component: _import('reserve/components/approvePage')},
   	  {path: '/key',name: 'key',component: _import('key/layOut'),children:[
-  	  	{path: '/',name: 'group',component: _import('key/components/equipGroup')},
-  	  	{path: '/list',name: 'list',component: _import('key/components/equipList')},
-  	  	{path: '/record',name: 'record',component: _import('key/components/record')}
+  	  	{path: '',name: 'group',component: _import('key/components/equipGroup')},
+        {path: 'detail/:egid?',name: 'detail',component: _import('key/components/equipDetail')},
+  	  	{path: 'list',name: 'list',component: _import('key/components/equipList')},
+        {path: 'listd/:eid?',name: 'listd',component: _import('key/components/detail')},
+  	  	{path: 'record',name: 'record',component: _import('key/components/record')}
   	  ]}
   	]
   },{
@@ -55,12 +57,12 @@ export default new Router({
   	name: 'account',
   	component: _import('home/layOut'),
   	children: [
-  	  {path: '/',name: 'account',component: _import('account/layOut'),children:[
-  	    {path: '/base',name: 'base',component: _import('account/base')},
-  	    {path: '/safe',name: 'safe',component: _import('account/safe')},
-  	    {path: '/stage',name: 'stage',component: _import('account/stage')},
-  	    {path: '/coms',name: 'coms',component: _import('account/companys')}
-  	  ]}
+      {path: '/',name: 'account',component: _import('account/layOut'),children:[
+        {path: '',name: 'base',component: _import('account/base')},
+        {path: 'safe',name: 'safe',component: _import('account/safe')},
+        {path: 'stage',name: 'stage',component: _import('account/stage')},
+        {path: 'coms',name: 'coms',component: _import('account/companys')}
+      ]}
   	]
   },{
     path: '/history',

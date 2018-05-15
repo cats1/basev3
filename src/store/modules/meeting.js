@@ -1,6 +1,9 @@
 import { getMeetingByUserid, getMeetingById, getAppointmentByMid,addMeeting,updateMeeting } from '@/api/meeting'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const user = {
 	state: {
 		id: getCache('id'),
@@ -27,7 +30,7 @@ const user = {
 		          let { status } = response
 	              if (status === 0) {
 	              	Message({
-			          message: '会议添加成功',
+			          message: messages['addSuccess'],
 			          type: 'success'
 			        })
 	              }
@@ -52,7 +55,7 @@ const user = {
 		          let { status } = response
 	              if (status === 0) {
 	              	Message({
-			          message: '保存成功',
+			          message: messages['updateSuccess'],
 			          type: 'success'
 			        })
 	              }

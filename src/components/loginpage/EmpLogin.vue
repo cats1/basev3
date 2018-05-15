@@ -5,7 +5,7 @@
           <span class="svg-container svg-container_login">
             <i class="fa fa-user"></i>
           </span>
-         <el-input name="phone" type="text" v-model="loginForm.phone" autoComplete="on" placeholder="phone" />
+         <el-input name="phone" type="text" v-model="loginForm.phone" autoComplete="on" placeholder="account" />
       </el-form-item>
       <el-form-item prop="password">
           <span class="svg-container">
@@ -37,7 +37,7 @@
             </el-select>      
         </el-form-item>
       </transition>
-       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doLogin">{{$t('login.logIn')}}</el-button>
+       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doEmpLogin">{{$t('login.logIn')}}</el-button>
        <el-button type="text" style="width:100%;" @click.native.prevent="goForgot">{{$t('login.forgot.title')}}</el-button>
        <or-line :value="$t('login.or')"></or-line>
        <el-button type="text" style="width:100%;" @click.native.prevent="goActive">{{$t('login.active')}}</el-button>
@@ -54,8 +54,11 @@ export default {
   components: { ImgCode, OrLine },
   data () {
     const isvalidSuperAccount = (rule, value, callback) => {
-      if (!isvalidatPhone(value)) {
-        callback(new Error(this.$t('validphone.tip1')))
+      var reg = new RegExp(/^\\$/);
+      if (!value) {
+        callback(new Error(this.$t('imgcode.tip1')))
+      } else if (value.indexOf('\\') <= 0) {
+        callback(new Error(this.$t('tipEmp')))
       } else {
         callback()
       }
@@ -113,6 +116,41 @@ export default {
     },
     setCode (result) {
       this.loginForm.digest = result.digest
+    },
+    doEmpLogin () {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          let codeData = {
+              'email': '',
+              'phone': this.loginForm.phone,
+              'digest': this.loginForm.digest,
+              'vcode': this.loginForm.vcode
+            }
+            this.$store.dispatch('isCodeTrue',codeData).then((res) => {
+              if (res.status == 0) {
+                this.loading = true
+                let newForm = {
+                  //userid: this.loginForm.userid,
+                  phone: this.loginForm.phone,
+                  empPwd: lftPwdRule(this.loginForm.empPwd,3,5),
+                  digest: this.loginForm.digest
+                }
+                this.$store.dispatch('empLogin', newForm).then((resp) => {
+                    this.loading = false
+                    window.location.href = 'emporder.html'
+                }).catch(() => {
+                  this.loading = false
+                })
+              } else if (res.status === 119) {
+                this.getCode = true
+                this.loginForm.vcode = ''
+              }
+            })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
     doLogin () {
       this.$refs.loginForm.validate(valid => {

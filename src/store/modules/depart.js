@@ -2,6 +2,9 @@ import { addDepartment,addEmployee,getEmployeeFromRtx,UpdateRtxRefresh,
 	updateDepartment,updateDeptEmpRelation,delDepartment,updateEmployee } from '@/api/depart'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const user = {
 	state: {},
 	mutations: {},
@@ -12,7 +15,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
                     Message({
-                  	  message: '添加成功',
+                  	  message: messages['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -28,7 +31,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
                     Message({
-                  	  message: '修改成功',
+                  	  message: messages['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -44,7 +47,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
                     Message({
-                  	  message: '修改成功',
+                  	  message: messages['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -60,7 +63,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
                     Message({
-                  	  message: '添加成功',
+                  	  message: messages['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -74,7 +77,7 @@ const user = {
 			return new Promise((resolve, reject) => {
 		        if (getCache('ddnotify') === 1) {
                     Message({
-                  	  message: '钉钉开关已打开，RTX开关无法开启，如若开启RTX，请先关闭钉钉',
+                  	  message: messages['exporttype'].tip3,
                   	  type: 'warning'
                 	})
 		        } else if (getCache('rtxip')&&getCache('rtxport')) {
@@ -82,7 +85,7 @@ const user = {
 			          let { status, result } = response
 			          if (status === 0) {
 	                    Message({
-	                  	  message: '服务器已处理与RTX的通讯录同步请求',
+	                  	  message: messages['syncSuccess'],
 	                  	  type: 'success'
 	                	})
 			          }
@@ -92,7 +95,7 @@ const user = {
 			        })
 		        } else {
 		        	Message({
-                  	  message: 'RTX设置未打开，无法同步通讯录',
+                  	  message: messages['exporttype'].tip7,
                   	  type: 'warning'
                 	})
 		        }
@@ -102,7 +105,7 @@ const user = {
 			return new Promise((resolve, reject) => {
 		        if (getCache('ddnotify') === 0) {
                     Message({
-                  	  message: '钉钉设置未打开，无法同步通讯录',
+                  	  message: messages['exporttype'].tip8,
                   	  type: 'warning'
                 	})
 		        } else if (getCache('ddnotify') === 1) {
@@ -110,7 +113,7 @@ const user = {
 			          let { status, result } = response
 			          if (status === 0) {
 	                    Message({
-	                  	  message: '钉钉同步成功',
+	                  	  message: messages['syncSuccess'],
 	                  	  type: 'success'
 	                	})
 			          }
@@ -118,11 +121,6 @@ const user = {
 			        }).catch(error => {
 			          reject(error)
 			        })
-		        } else {
-		        	Message({
-                  	  message: '钉钉设置未打开，无法同步通讯录',
-                  	  type: 'warning'
-                	})
 		        }
 		    })
 		},
@@ -133,7 +131,7 @@ const user = {
 			        if (status === 0) {
 			          	setCache('rtxAuto', info.rtxAuto)
 	                    Message({
-	                  	  message: '设置服务器定时自动同步RTX成功',
+	                  	  message: messages['syncSuccess'],
 	                  	  type: 'success'
 	                	})
 			        }
@@ -149,7 +147,7 @@ const user = {
 			        let { status } = response
 			        if (status === 0) {
 	                    Message({
-	                  	  message: '删除成功',
+	                  	  message: messages['deleteSuccess'],
 	                  	  type: 'success'
 	                	})
 			        }
@@ -165,7 +163,7 @@ const user = {
 			        let { status } = response
 			        if (status === 0) {
 	                    Message({
-	                  	  message: '修改成功',
+	                  	  message: messages['updateSuccess'],
 	                  	  type: 'success'
 	                	})
 			        }

@@ -11,14 +11,17 @@
         </template>   
       </ul>
       <div class="chooser">
-        <el-button style="width:100%;" type="text" >选择图片</el-button>
+        <!-- <el-button style="width:100%;" type="text" >{{$t('btn.picBtn')}}</el-button> -->
+        <self-upload-pic @geturl="getUrl"></self-upload-pic>
       </div>
 		</div>
 	</div>
 </template>
 <script>
+import selfUploadPic from '@/components/upload/selfUploadPic'
 export default {
   props: ['imgsrc','index'],
+  components: {selfUploadPic},
   data () {
   	return {
   	  src: this.imgsrc,
@@ -29,6 +32,9 @@ export default {
     submitUpload () {},
     sendPhoto (event,value) {
       this.$emit('getdkit',value)
+    },
+    getUrl (url) {
+      this.$emit('update',url)
     }
   }
 }

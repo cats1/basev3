@@ -1,6 +1,9 @@
 import { UpdateThemeColor,GetExtendVisitor,addExtendVisitor,updateQRcode,updateCardType } from '@/api/pad'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const user = {
 	state: {},
 	mutations: {},
@@ -12,7 +15,7 @@ const user = {
 		          if (status === 0) {
 		          	setCache('themecolor',info.themecolor)
                     Message({
-                  	  message: '修改成功',
+                  	  message: messages['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -38,12 +41,12 @@ const user = {
 		          if (status === 0) {
 		          	if (type === 0) {
                       Message({
-	                  	message: '团队拜访关闭',
+	                  	message: messages['setSuccess'],
 	                  	type: 'success'
 	                  })
 		          	} else {
 		          	  Message({
-	                  	message: '团队拜访缺省配置设置成功',
+	                  	message: messages['setSuccess'],
 	                  	type: 'success'
 	                  })
 		          	}
@@ -81,7 +84,7 @@ const user = {
 		          	setCache('cardText', info.cardText)
 		          	setCache('cardPic', info.cardPic)
 		          	Message({
-	                  message: '访客贴样式更新成功',
+	                  message: messages['updateSuccess'],
 	                  type: 'success'
 	                })
 		          }

@@ -10,14 +10,14 @@
 			        <template slot="title">
 			          <span>{{$t('key.title')}}</span>
 			        </template>
-			        <router-link to="/"><el-menu-item index="equipgroup">{{$t('key.ctitle')}}</el-menu-item></router-link>
-			        <router-link to="/list"><el-menu-item index="equiplist">{{$t('key.ctitle1')}}</el-menu-item></router-link>
+			        <router-link to=""><el-menu-item index="equipgroup">{{$t('key.ctitle')}}</el-menu-item></router-link>
+			        <router-link to="list"><el-menu-item index="equiplist">{{$t('key.ctitle1')}}</el-menu-item></router-link>
 			    </el-submenu>
 			    <el-submenu index="record">
 			        <template slot="title">
 			          <span>{{$t('key.title1')}}</span>
 			        </template>
-			        <router-link to="/record"><el-menu-item index="keyrecord">{{$t('key.ctitle2')}}</el-menu-item></router-link>
+			        <router-link to="record"><el-menu-item index="keyrecord">{{$t('key.ctitle2')}}</el-menu-item></router-link>
 			    </el-submenu>
 		  </el-menu>
         </el-col>

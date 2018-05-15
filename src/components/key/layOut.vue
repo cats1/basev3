@@ -11,13 +11,13 @@
 			          <span>{{$t('key.title')}}</span>
 			        </template>
 			        <router-link :to="{name: 'group'}"><el-menu-item index="group">{{$t('key.ctitle')}}</el-menu-item></router-link>
-			        <router-link to="/list"><el-menu-item index="list">{{$t('key.ctitle1')}}</el-menu-item></router-link>
+			        <router-link :to="{name: 'list'}"><el-menu-item index="list">{{$t('key.ctitle1')}}</el-menu-item></router-link>
 			    </el-submenu>
 			    <el-submenu index="record">
 			        <template slot="title">
 			          <span>{{$t('key.title1')}}</span>
 			        </template>
-			        <router-link to="/record"><el-menu-item index="record">{{$t('key.ctitle2')}}</el-menu-item></router-link>
+			        <router-link :to="{name: 'record'}"><el-menu-item index="record">{{$t('key.ctitle2')}}</el-menu-item></router-link>
 			    </el-submenu>
 		  </el-menu>
         </el-col>

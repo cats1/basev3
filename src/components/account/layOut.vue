@@ -5,9 +5,10 @@
           <dl class="barlist boxshadow bgwhite">
           	<dt>{{$t('account.siderBar.title')}}</dt>
           	<template v-for="(item,index) in $t('account.siderBar.list')">
-          		<router-link :to="item.link" tag="dd" :active-class="activeClass"><span class="bluelines"></span>{{item.name}}</router-link>
+          		<router-link :to="{'name': item.link}" >
+                <dd :class="{'active': $route.name === item.link}"><span class="bluelines"></span>{{item.name}}</dd></router-link>
           	</template>
-          </dl>
+          </dl><!--  -->
         </el-col>
         <el-col :span="20">
           <transition name="fade" mode="out-in">
@@ -24,14 +25,6 @@ export default {
   	return {
       activeClass: 'active'
     }
-  },
-  created () {
-    if (this.$route.name === 'account') {
-      this.$router.push({'name':'base'})
-    }
-  },
-  methods: {
-
   }
 }
 </script>

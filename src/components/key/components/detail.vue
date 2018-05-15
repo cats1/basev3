@@ -113,7 +113,7 @@ export default {
       }  	  
   	},
   	goBack () {
-  	  this.$router.push({name:'equiplist'})
+  	  this.$router.push({name:'list'})
   	}
   },
   created () {

@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <h3 v-show="tShow">关联闸机组</h3>
+    <h3 v-show="tShow">{{$t('form.gate.text3')}}</h3>
 		<ul class="gatelist">
 		  <template v-for="(item,index) in gatelist">
 		  	<li><el-checkbox v-model="checkValue[index]" @change="setchange(item,index)"></el-checkbox>{{item.egname}}</li>

@@ -7,9 +7,8 @@
             <template v-for="(item,index) in bgPicArray">
               <show-photo :ptype="1" class="marginlr20" :index="index" :img-src="item" @deletekit="changeDele"></show-photo>
             </template>
-            
-            <p>{{$t('picTips.slidetip')}}</p>
-            <upload-pic-btn class="margintop20" :imgtype="1" @sendkit="getLogoSrc"></upload-pic-btn>
+            <p v-show="addShow">{{$t('picTips.slidetip')}}</p>
+            <upload-pic-btn class="margintop20" :imgtype="1" @sendkit="getLogoSrc" v-show="addShow"></upload-pic-btn>      
           </div>
         </div>        
       </notice-show>
@@ -28,7 +27,8 @@ export default {
       imgSrc: require('@/assets/img/slides.png'),
       isShow: false,
       bgPicArray: [],
-      logoSrc: getCache('logo')
+      logoSrc: getCache('logo'),
+      addShow: true
   	}
   },
   created () {
@@ -39,6 +39,9 @@ export default {
         _self.bgPicArray.push(element)
       }
     })
+    if (this.bgPicArray.length >= 5) {
+      this.addShow = false
+    }
     if (this.bgPicArray.length === 0) {
       this.bgPicArray.push('')
     }
@@ -71,6 +74,11 @@ export default {
         let {status} = res
         if (status === 0) {
           this.bgPicArray = varray
+          if (this.bgPicArray.length >= 5) {
+            this.addShow = false
+          } else {
+            this.addShow = true
+          }
           if (this.bgPicArray.length === 0) {
             this.bgPicArray.push('')
           }

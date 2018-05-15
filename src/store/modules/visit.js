@@ -3,6 +3,9 @@ import { addProject,Compressface,addResidentVisitor,updateProject,
 	getResidentVisitorByName,updateResidentFace } from '@/api/visit'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const user = {
 	state: {},
 	mutations: {},
@@ -13,7 +16,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
                     Message({
-                  	  message: '添加成功',
+                  	  message: messages['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -29,7 +32,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
                     Message({
-                  	  message: '人脸下发成功',
+                  	  message: messages['sendFaceSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -45,7 +48,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
                     Message({
-                  	  message: '修改成功',
+                  	  message: messages['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -77,7 +80,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
                     Message({
-                  	  message: '添加成功',
+                  	  message: messages['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -93,7 +96,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
                     Message({
-                  	  message: '修改成功',
+                  	  message: messages['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -127,7 +130,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
                     Message({
-                  	  message: '头像下发成功！',
+                  	  message: messages['sendFaceSuccess'],
                   	  type: 'success'
                 	})
 		          }

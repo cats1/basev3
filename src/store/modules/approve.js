@@ -2,6 +2,9 @@ import { updateProcessSwitch,getProcessArea,addProcessArea,
   delProcessArea,addProcessRule,updateProcessArea } from '@/api/approve'
 import { Message } from 'element-ui'
 import { getCache,setCache } from '@/utils/auth'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const user = {
   state: {},
   mutations: {},
@@ -13,7 +16,7 @@ const user = {
           if (status === 0) {
             setCache('processSwitch',info.processSwitch)
             Message({
-              message: '开关设置成功！',
+              message: messages['switchSuccess'],
               type: 'success'
             })
           }
@@ -29,7 +32,7 @@ const user = {
           let {status} = response
           if (status === 0) {
             Message({
-              message: '修改成功！',
+              message: messages['updateSuccess'],
               type: 'success'
             })
           }
@@ -63,7 +66,7 @@ const user = {
           let {status} = response
           if (status === 0) {
             Message({
-              message: '设置成功！',
+              message: messages['setSuccess'],
               type: 'success'
             })
           }
@@ -80,7 +83,7 @@ const user = {
           if (status === 0) {
             setCache('processSwitch',info.processSwitch)
             Message({
-              message: '删除成功！',
+              message: messages['deleteSuccess'],
               type: 'success'
             })
           }

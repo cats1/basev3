@@ -3,6 +3,9 @@ import { SearchVisitByCondition,SearchAppointmentByCondition,searchInviteByCondi
 	VisitorSignOutByVid,updateDefaultNotify,updateEmpVisitType } from '@/api/visitor'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const user = {
 	state: {},
 	mutations: {},
@@ -59,7 +62,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 		            Message({
-		              message: '签出成功！',
+		              message: messages['signOutSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -76,7 +79,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 		            Message({
-		              message: '签出成功！',
+		              message: messages['signOutSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -92,7 +95,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 		            Message({
-		              message: '设置默认抄送人成功!',
+		              message: messages['setSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -108,7 +111,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 		            Message({
-		              message: '设置抄送人类型成功!',
+		              message: messages['setSuccess'],
 		              type: 'success'
 		            })
 		          }

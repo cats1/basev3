@@ -1,6 +1,9 @@
 import {UpdateLogo,UploadBackgroundPic} from '@/api/upload'
 import { Message } from 'element-ui'
 import { getCache,setCache } from '@/utils/auth'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const user = {
   state: {
   	groupD: {}
@@ -19,7 +22,7 @@ const user = {
           if (status === 0) {
           	setCache('logo',info.logoUrl)
             Message({
-              message: 'logo更新成功！',
+              message: messages['setSuccess'],
               type: 'success'
             })
           }
@@ -36,7 +39,7 @@ const user = {
           if (status === 0) {
           	setCache('backgroundPic',info.bgPicUrl)
             Message({
-              message: '轮播图片更新成功！',
+              message: messages['setSuccess'],
               type: 'success'
             })
           }

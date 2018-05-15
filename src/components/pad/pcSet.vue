@@ -1,6 +1,6 @@
 <template>
   <div >
-    <h-title>PC设置</h-title>
+    <h-title>{{$t('pcSetting')}}</h-title>
     <door-set class="bgwhite"></door-set>
     <work-time class="bgwhite"></work-time>
   </div>

@@ -16,9 +16,9 @@ export default {
   name: 'App',
   data () {
     return {
-      activeIndex: 'index',
-      indexList: ['data'],
-      empList: ['emplist','role','visitlist','blacklist'],
+      activeIndex: '',
+      indexList: ['visitor','index','data'],
+      empList: ['emp','emplist','role','visitlist','blacklist'],
       noticeList: ['notice'],
       settingList: ['pad','reserve','approve','key','list','record'],
       meetingList: ['meeting','mdetail']
@@ -26,7 +26,6 @@ export default {
   },
   components: { headnav, footbom },
   created () {
-    let name = this.$route.name
     if (this.checkIndex()) {
       this.activeIndex = 'index'
     } else if (this.checkEmp()) {
@@ -41,52 +40,62 @@ export default {
   },
   methods: {
     checkIndex () {
-      let name = this.$route.name
+      let matched = this.$route.matched
       let flag = false
       this.indexList.forEach(function(element, index) {
-        if (element === name) {
-          flag = true
-        }
+        matched.forEach(function(ele, eindex) {
+          if (element === ele.name) {
+            flag = true
+          }
+        })
       })
       return flag
     },
     checkEmp () {
-      let name = this.$route.name
+      let matched = this.$route.matched
       let flag = false
       this.empList.forEach(function(element, index) {
-        if (element === name) {
-          flag = true
-        }
+        matched.forEach(function(ele, eindex) {
+          if (element === ele.name) {
+            flag = true
+          }
+        })
       })
       return flag
     },
     checkNotice () {
-      let name = this.$route.name
+      let matched = this.$route.matched
       let flag = false
       this.noticeList.forEach(function(element, index) {
-        if (element === name) {
-          flag = true
-        }
+        matched.forEach(function(ele, eindex) {
+          if (element === ele.name) {
+            flag = true
+          }
+        })
       })
       return flag
     },
     checkSetting () {
-      let name = this.$route.name
+      let matched = this.$route.matched
       let flag = false
       this.settingList.forEach(function(element, index) {
-        if (element === name) {
-          flag = true
-        }
+        matched.forEach(function(ele, eindex) {
+          if (element === ele.name) {
+            flag = true
+          }
+        })
       })
       return flag
     },
     checkMeeting () {
-      let name = this.$route.name
+      let matched = this.$route.matched
       let flag = false
       this.meetingList.forEach(function(element, index) {
-        if (element === name) {
-          flag = true
-        }
+        matched.forEach(function(ele, eindex) {
+          if (element === ele.name) {
+            flag = true
+          }
+        })
       })
       return flag
     }

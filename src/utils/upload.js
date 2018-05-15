@@ -1,7 +1,35 @@
 import { getCache } from '@/utils/auth'
-import {getBaseUrl} from '@/utils/common'
+import { getBaseUrl } from '@/utils/common'
 import { Message } from 'element-ui'
+export function formUpload(formid, file, callback) {
+  let mform = document.getElementById(formid)
+  let form = new FormData(mform)
+  let responseJSON
+  form.enctype = "multipart/form-data"
+  form.append('action', 'upload')
+  form.append('filename', file)
+  let xhr = new XMLHttpRequest()
+  xhr.onload = function() {
+    if (xhr.status == 200) {
+      responseJSON = JSON.parse(xhr.responseText)
+      if (responseJSON.status == 0) {
+        let result = responseJSON.result
+        callback && callback(result)
+      } else {
+        Message({
+          message: '图片上传失败',
+          type: 'error'
+        })
+        return
+      }
+    }
+  }
+  xhr.open('post', getBaseUrl() + "/Upload", true)
+  xhr.setRequestHeader("X-COOLVISIT-TOKEN", getCache('token'))
+  xhr.send(form)
+}
 export function uploadCommon(file, callback) {
+  console.log(file)
   if (!testImgFileFormat(file.name)) {
     Message({
       message: '图片格式不正确',

@@ -58,7 +58,7 @@ export default {
   	},
   	addGroup () {
       this.$store.commit('SET_GROUP','')
-  	  this.$router.push({path:'detail'})
+  	  this.$router.push({name:'detail'})
   	},
   	handleEdit (index,row) {
   	  this.$store.commit('SET_GROUP',row)

@@ -1,6 +1,9 @@
 import { superAccountLogin } from '@/api/login'
 import { getRelatedAccount, getAllSuperAccountVCount, getSupAccVCount,ModifySupAccPassword } from '@/api/super'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const user = {
 	state: {
 		id: getCache('id'),
@@ -64,7 +67,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-		              message: '密码修改成功',
+		              message: messages['pwdSuccess'],
 		              type: 'success'
 		            })
 		          }

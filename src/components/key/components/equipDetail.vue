@@ -80,17 +80,17 @@ export default {
   	  
   	},
   	goBack () {
-  	  this.$router.push({name:'equipgroup'})
+  	  this.$router.push({name:'group'})
   	}
   },
   created () {
-  	if (this.$route.params.egid) {
+  	/*if (this.$route.params.egid) {
       this.form = this.$store.state.key.groupD
       this.form.etype = valueToString(this.form.etype)
       this.form.status = valueToString(this.form.status)      
   	} else {
       this.editType = 1
-    }
+    }*/
   },
   mounted () {
 

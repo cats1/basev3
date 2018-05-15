@@ -33,9 +33,7 @@ export default {
     }
   },
   watch: {
-    dphotoArray (val) {
-      console.log(val)
-    }
+    dphotoArray (val) {}
   },
   created () {
     let varray = stringToArray(getCache('defaultPhoto'))

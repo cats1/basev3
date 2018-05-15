@@ -6,6 +6,9 @@ import { subAccountLogin,ModifyUserInfo,UpdateCardText,
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import {EncodeUtf8} from '@/utils/common'
 import { Message } from 'element-ui'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const user = {
 	state: {
 		id: getCache('id'),
@@ -41,7 +44,6 @@ const user = {
 		        subAccountLogin(userInfo).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
-		          	console.log(userInfo)
 		          	setCache('password',userInfo.password)
 		          	for (let key in result) {
 		          		if (key !== 'token' && key !== 'password') {
@@ -73,7 +75,7 @@ const user = {
 			        setCache('username', info.name)
 			        setCache('phone', info.phone)
 			        Message({
-		              message: '资料更新成功',
+		              message: messages['updateSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -103,7 +105,7 @@ const user = {
 		          if (status === 0) {
 		          	setCache('unsubscribe', info.unsubscribe)
 		          	Message({
-		              message: '邮件订阅设置成功',
+		              message: messages['emailOrderSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -119,7 +121,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-		              message: '密码修改成功',
+		              message: messages['pwdSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -136,7 +138,7 @@ const user = {
 		          if (status === 0) {
 		          	setCache('subAccount',info.subAccount)
 		          	Message({
-		              message: '多企业服务模式修改成功',
+		              message: messages['comSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -152,7 +154,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-		              message: '添加验证端账号成功',
+		              message: messages['addSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -168,7 +170,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-		              message: '添加成功',
+		              message: messages['addSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -202,7 +204,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-		              message: '删除成功',
+		              message: messages['deleteSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -218,7 +220,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-		              message: '密码修改成功',
+		              message: messages['pwdSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -234,7 +236,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-		              message: '密码初始化成功',
+		              message: messages['pwdInitSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -251,7 +253,7 @@ const user = {
 		          if (status === 0) {
 		          	Message({
 		              type: 'success',
-		              message: '删除成功!'
+		              message: messages['deleteSuccess']
 		            })
 		          }
 		          resolve(response)
@@ -267,7 +269,7 @@ const user = {
 		          if (status === 0) {
 		          	Message({
 		              type: 'success',
-		              message: '修改成功!'
+		              message: messages['updateSuccess']
 		            })
 		          }
 		          resolve(response)
@@ -283,7 +285,7 @@ const user = {
 		          if (status === 0) {
 		          	Message({
 		              type: 'success',
-		              message: '修改成功!'
+		              message: messages['updateSuccess']
 		            })
 		          }
 		          resolve(response)
@@ -299,7 +301,7 @@ const user = {
 		          if (status === 0) {
 		          	Message({
 		              type: 'success',
-		              message: '增加成功!'
+		              message: messages['addSuccess']
 		            })
 		          }
 		          resolve(response)

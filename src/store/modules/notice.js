@@ -7,6 +7,9 @@ import { UpdateWxConf, updateSMSConf,ivrNotifyConf,updateDDNotify,
 import {updateSecureProtocol,UpdateDefaultPhoto,UploadPic} from '@/api/pad'
 import { Message } from 'element-ui'
 import { getCache,setCache } from '@/utils/auth'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const app = {
   state: {},
   mutations: {},
@@ -18,7 +21,7 @@ const app = {
             if (status === 0) {
                 setCache('msgNotify',info.msgNotify)
                 Message({
-                  message: '微信开关修改成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -35,7 +38,7 @@ const app = {
             if (status === 0) {
                 setCache('smsNotify',info.smsNotify)
                 Message({
-                  message: '短信开关修改成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }  else {
@@ -57,7 +60,7 @@ const app = {
             if (status === 0) {
                 setCache('ivrNotify',info.ivrNotify)
                 Message({
-                  message: '语音开关修改成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -71,12 +74,12 @@ const app = {
       return new Promise((resolve, reject) => {
           if (getCache('ddnotify') === 0) {
             Message({
-              message: '钉钉设置未打开，无法开启自动同步',
+              message: messages['exporttype'].tip5,
               type: 'error'
             })
           } else if(getCache('rtxip') && getCache('rtxport')) {
             Message({
-              message: 'RTX已开启，钉钉无法打开',
+              message: messages['exporttype'].tip2,
               type: 'error'
             })
           } else {
@@ -89,7 +92,7 @@ const app = {
                   setCache('ddcorpsecret',info.ddcorpsecret)
                   setCache('ddagentid',info.ddagentid)
                   Message({
-                    message: '钉钉开关修改成功',
+                    message: messages['updateSuccess'],
                     type: 'success'
                   })
               }
@@ -114,7 +117,7 @@ const app = {
                 setCache('rtxip',info.rtxIp)
                 setCache('rtxport',info.rtxPort)
                 Message({
-                  message: 'RTX设置成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
               }
@@ -132,7 +135,7 @@ const app = {
             if (status === 0) {
                 setCache('scaner',info.ivrNotify)
                 Message({
-                  message: '二维码开关修改成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -149,7 +152,7 @@ const app = {
             if (status === 0) {
                 setCache('tempEditSwitch',info.tempEditSwitch)
                 Message({
-                  message: '开关修改成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -166,7 +169,7 @@ const app = {
             if (status === 0) {
                 setCache('permissionSwitch',info.permissionSwitch)
                 Message({
-                  message: '开关修改成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -184,7 +187,7 @@ const app = {
                 setCache('qrMaxCount',info.qrMaxCount)
                 setCache('qrMaxDuration',info.qrMaxDuration)
                 Message({
-                  message: '二维码有效期设置成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -202,7 +205,7 @@ const app = {
                 setCache('preExtendTime',info.preExtendTime)
                 setCache('latExtendTime',info.latExtendTime)
                 Message({
-                  message: '前台验证有效期设置成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -219,7 +222,7 @@ const app = {
             if (status === 0) {
                 setCache('comeAgain',info.comeAgain)
                 Message({
-                  message: '曾经来过开关修改成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -236,7 +239,7 @@ const app = {
             if (status === 0) {
                 setCache('signOutSwitch',info.signOutSwitch)
                 Message({
-                  message: '登出开关修改成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -253,7 +256,7 @@ const app = {
             if (status === 0) {
                 setCache('faceScaner',info.faceScaner)
                 Message({
-                  message: '刷脸签到开关修改成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -271,7 +274,7 @@ const app = {
                 setCache('offDuty',info.offDuty)
                 setCache('upDuty',info.upDuty)
                 Message({
-                  message: '工作时间设置成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -288,7 +291,7 @@ const app = {
             if (status === 0) {
                 setCache('secureProtocol',info.secureProtocol)
                 Message({
-                  message: '安全协议设置成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -305,7 +308,7 @@ const app = {
             if (status === 0) {
                 setCache('defaultPhoto',info.defaultPhoto)
                 Message({
-                  message: '缺省头像设置成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -330,7 +333,7 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 Message({
-                  message: '门岗设置成功',
+                  message: messages['addSuccess'],
                   type: 'success'
                 })
             }
@@ -347,7 +350,7 @@ const app = {
             if (status === 0) {
               setCache('blackListSwitch',info.blackListSwitch)
                 Message({
-                  message: '黑名单设置成功',
+                  message: messages['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -371,7 +374,7 @@ const app = {
               setCache('exchange',info.exchange)
               setCache('domain',info.domain)
               Message({
-                message: '邮件设置成功',
+                message: messages['setSuccess'],
                 type: 'success'
               })
             }
@@ -387,7 +390,7 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 Message({
-                  message: '图片上传成功',
+                  message: messages['uploadPicSuccess'],
                   type: 'success'
                 })
             }

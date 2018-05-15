@@ -10,10 +10,10 @@
       </div>
     </transition>
     <transition name="el-fade-in">
-      <span v-show="dSrc !== ''" class="photo-edit" @click.prevent="deUpdate">修改头像</span>
+      <span v-show="dSrc !== ''" class="photo-edit" @click.prevent="deUpdate">{{$t('editPhoto')}}</span>
     </transition>
     <el-collapse-transition>
-      <default-avatar ref="defaultavatar" :index="index" v-show="defaultShow" @getdkit="getDPhoto" @blur="doFade"></default-avatar>
+      <default-avatar ref="defaultavatar" :index="index" v-show="defaultShow" @getdkit="getDPhoto" @blur="doFade" @update="updateUrl"></default-avatar>
     </el-collapse-transition>
 	</div>
 </template>
@@ -81,6 +81,9 @@ export default {
         this.defaultShow = false
   	  }
   	},
+    updateUrl (url) {
+      this.$emit('replacekit',url,this.index)
+    },
   	deletePhoto () {
   	  this.dSrc = ''
       this.defaultShow = false

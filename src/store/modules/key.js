@@ -2,6 +2,9 @@ import { getEquipmentGroupByUserid, addEquipmentGroup,
 	updateEquipmentGroup, delEquipmentGroup, getEquipmentbyUserid,
 	addEquipment,updateEquipment,getOpendoorInfo,getEGroupByEid } from '@/api/key'
 import { Message } from 'element-ui'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const user = {
   state: {
   	groupD: {}
@@ -45,7 +48,7 @@ const user = {
           let {status} = response
           if (status === 0) {
             Message({
-              message: '设备组添加成功！',
+              message: messages['addSuccess'],
               type: 'success'
             })
           }
@@ -61,7 +64,7 @@ const user = {
           let {status} = response
           if (status === 0) {
             Message({
-              message: '设备添加成功！',
+              message: messages['addSuccess'],
               type: 'success'
             })
           }
@@ -77,7 +80,7 @@ const user = {
           let {status} = response
           if (status === 0) {
             Message({
-              message: '设备组修改成功！',
+              message: messages['updateSuccess'],
               type: 'success'
             })
           }
@@ -102,7 +105,7 @@ const user = {
           let {status} = response
           if (status === 0) {
             Message({
-              message: '设备修改成功！',
+              message: messages['updateSuccess'],
               type: 'success'
             })
           }
@@ -118,7 +121,7 @@ const user = {
           let {status} = response
           if (status === 0) {
             Message({
-              message: '设备组删除成功！',
+              message: messages['deleteSuccess'],
               type: 'success'
             })
           }
@@ -134,7 +137,7 @@ const user = {
           let {status} = response
           if (status === 0) {
             Message({
-              message: '设备删除成功！',
+              message: messages['deleteSuccess'],
               type: 'success'
             })
           }

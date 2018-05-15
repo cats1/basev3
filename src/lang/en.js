@@ -1,5 +1,36 @@
 export default {
   searchVnameHolder: 'Search visitor name',
+  syncSuccess: 'Synchronization success',
+  activeSuccess: 'Active successfuly!',
+  tipEmp: 'Username must include \\',
+  switchSuccess: 'The switch is set up successfully!',
+  updateSuccess: 'The modification is successful!',
+  addSuccess: 'App successfuly',
+  setSuccess: 'Set up successfuly!',
+  signOutSuccess: 'Sign out success',
+  sendFaceSuccess: 'Face success',
+  regFaceSuccess: 'Face registration success',
+  sendCardSuccess: 'Batch card success',
+  deleteSuccess: 'Delete successfuly!',
+  updateSuccess: 'Data update successfuly',
+  uploadPicSuccess: 'Upload picture successfuly',
+  emailOrderSuccess: 'Mail subscriptions have been set up successfully',
+  pwdSuccess: 'Password modification success',
+  pwdInitSuccess: 'Password initialization success',
+  comSuccess: 'The success of multi enterprise service mode modification',
+  lessOneGate: 'Less one gate',
+  floorNumber: 'Floor',
+  roomNumber: 'Room',
+  comNameHolder: 'Please input company name (6 letters)',
+  teamName: 'Team Name',
+  teamNumber: 'Team Counts',
+  cemail: 'Email',
+  doneBtn: 'Done',
+  newInputItem: 'New Input',
+  newSelectItem: 'New Select',
+  moveSort: 'Sort',
+  editPhoto: 'Update photo',
+  pcSetting: 'PC Settings',
   teamText: 'Team',
   goBackIndex: 'Return home',
   selectEmpTip: 'Please select employee',
@@ -103,8 +134,10 @@ export default {
   submitNewPwd: 'Submit new password',
   yourName: 'Your name',
   yourPhone: 'Your Phone',
+  yourMobile: 'Your Phone',
   yourCompany: 'Your company',
   yourVisitor: 'People you want to visit',
+  youVisittorPhone: 'People’s phone you want to visit',
   qrcodeDown: 'QRcode download',
   appStoreDown: 'App Store download',
   localDown: 'Local download',
@@ -153,17 +186,17 @@ export default {
     children: [{
       name: 'Company Employee',
       dirname: 'emp',
-      link: 'emp',
+      link: '/emp',
       children: []
     }, {
       name: 'Resident Visitors',
       dirname: 'emp',
-      link: 'visitlist',
+      link: '/visitlist',
       children: []
     }, {
       name: 'Blacklist',
       dirname: 'emp',
-      link: 'blacklist',
+      link: '/blacklist',
       children: []
     }]
   }, {
@@ -178,17 +211,17 @@ export default {
     children: [{
       name: 'Reception Settings',
       dirname: 'setting',
-      link: 'pad',
+      link: '/pad',
       children: []
     }, {
       name: 'Reservation & Invitation',
       dirname: 'setting',
-      link: 'reserve',
+      link: '/reserve',
       children: []
     }, {
       name: 'Intelligent Door Access',
       dirname: 'setting',
-      link: 'key',
+      link: '/key',
       children: []
     }]
   }, {
@@ -284,7 +317,8 @@ export default {
       text: 'associate the gate group',
       tip: 'Please choose the gate',
       text1: 'gate information',
-      text2: 'Please choose the associated gate unit'
+      text2: 'Please choose the associated gate unit',
+      text3: 'The associated gate unit'
     },
     photo: {
       tip: 'Please upload a head portrait'
@@ -609,8 +643,8 @@ export default {
   pad: {
     usualSet: 'General settings',
     padSet: 'Pad settings',
-    scolor: 'choose the color',
-    inputColor: 'Input color value'
+    scolor: 'Choose',
+    inputColor: 'Input the color value'
   },
   notice: {
     tip: {
@@ -832,7 +866,9 @@ export default {
     tip3: 'The DingTalk switch has been turned on and the RTX switch cannot be turned on. If you turn on the RTX, please turn off DingTalk first.',
     tip4: 'The RTX setting is not turned on and the automatic synchronization cannot be turned on.',
     tip5: 'The setting of DingTalk is not turned on, and the automatic synchronization cannot be turned on.',
-    tip6: 'The RTX switch has been turned on and the DingTalk switch cannot be turned on. If you turn on the DingTalk, please turn off RTX first.'
+    tip6: 'The RTX switch has been turned on and the DingTalk switch cannot be turned on. If you turn on the DingTalk, please turn off RTX first.',
+    tip7: 'RTX settings are not opened, unable to synchronize the address book',
+    tip8: 'The nail setting is not open and can not synchronize the address book'
   },
   emplist: {
     pro: 'Organizational Structure',
@@ -903,16 +939,16 @@ export default {
     siderBar: {
       title: 'Account information',
       list: [{
-        name: 'Basic information',
+        name: 'Basic',
         link: 'base'
       }, {
-        name: 'Account security',
+        name: 'Security',
         link: 'safe'
       }, {
         name: 'Verify the account by the Reception',
         link: 'stage'
       }, {
-        name: 'Multi-enterprise service model',
+        name: 'Multi-enterprise',
         link: 'coms'
       }]
     },

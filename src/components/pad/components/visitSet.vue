@@ -9,14 +9,14 @@
     <div class="visitsetitem">    	
     	<template v-if="sort">
     		<div class="right">
-    			<span class="setitembom" @click="doSortDone">完成</span>
-    			<span class="setitembom" @click="doSortCancel">取消</span>
+    			<span class="setitembom" @click="doSortDone">{{$t('doneBtn')}}</span>
+    			<span class="setitembom" @click="doSortCancel">{{$t('btn.cancelBtn')}}</span>
     		</div>    		
     	</template>
     	<template v-else>
-    		<span class="setitembom" @click="addInputItem"><img :src="insert" />创建输入项</span>
-	    	<span class="setitembom" @click="addSelectItem"><img :src="option" />创建选择项</span>
-	    	<span class="setitembom right" @click="doSort">调整顺序</span>
+    		<span class="setitembom" @click="addInputItem"><img :src="insert" />{{$t('newInputItem')}}</span>
+	    	<span class="setitembom" @click="addSelectItem"><img :src="option" />{{$t('newSelectItem')}}</span>
+	    	<span class="setitembom right" @click="doSort">{{$t('moveSort')}}</span>
     	</template>    	
     </div>
     </div>
@@ -40,16 +40,16 @@ export default {
       checked: false,
       form: {},
       defaultForm: {
-        name: '您的姓名',
-        visitType: '拜访事由',
-        empid: '您要拜访的人',
-        phone: '您的电话',
-        email: '电子邮箱',
-        vcompany: '您的公司',
-        gatein: '签入门岗',
-        gateout: '签出门岗',
-        guardin: '签入警卫',
-        guardout: '签出警卫'
+        name: this.$t('yourName'),
+        visitType: this.$t('visitcause'),
+        empid: this.$t('yourVisitor'),
+        phone: this.$t('yourMobile'),
+        email: this.$t('cemail'),
+        vcompany: this.$t('yourCompany'),
+        gatein: this.$t('notice.doorset.signinDoor'),
+        gateout: this.$t('notice.doorset.signoutDoor'),
+        guardin: this.$t('notice.doorset.signinGuard'),
+        guardout: this.$t('notice.doorset.signoutGuard')
       },
       g_config_arr: [],
       g_config_arr_old: [],

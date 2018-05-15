@@ -8,7 +8,6 @@
       <div class="quillcons">
         <visit-set></visit-set>
       </div>
-      
     </el-dialog>
   </div>
 </template>

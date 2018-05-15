@@ -8,6 +8,9 @@ import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	updateEmpSubAccount,resetEmpPwd,webActivateAccount,updateFace } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
+import i18n from '@/lang'
+const local = i18n.locale
+const messages = i18n.messages[local]
 const user = {
 	state: {
 		id: getCache('id'),
@@ -181,7 +184,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 		        	Message({
-                  	  message: '修改成功',
+                  	  message: messages['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -197,7 +200,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 		        	Message({
-                  	  message: '黑名单增加成功',
+                  	  message: messages['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -213,7 +216,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 		        	Message({
-                  	  message: '人脸下发成功',
+                  	  message: messages['sendFaceSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -229,7 +232,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 		        	Message({
-                  	  message: '批量发卡成功',
+                  	  message: messages['sendCardSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -245,7 +248,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 					Message({
-                  		message: '黑名单删除成功',
+                  		message: messages['deleteSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -261,7 +264,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 					Message({
-                  		message: '批量删除成功',
+                  		message: messages['deleteSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -277,7 +280,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 					Message({
-                  		message: '批量删除成功',
+                  		message: messages['deleteSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -293,7 +296,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 					Message({
-                  		message: '下发人脸成功',
+                  		message: messages['sendFaceSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -309,7 +312,7 @@ const user = {
 		          let {status} = response
 		          if (status === 0) {
 					Message({
-                  		message: '删除成功',
+                  		message: messages['deleteSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -417,7 +420,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-                  		message: '保存成功',
+                  		message: messages['addSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -433,7 +436,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-                  		message: '修改成功',
+                  		message: messages['updateSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -449,7 +452,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-                  		message: '修改成功',
+                  		message: messages['updateSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -465,7 +468,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-                  		message: '激活成功',
+                  		message: messages['activeSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -481,7 +484,7 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	Message({
-                  		message: '人脸注册成功',
+                  		message: messages['regFaceSuccess'],
                   		type: 'success'
                 	})
 		          }

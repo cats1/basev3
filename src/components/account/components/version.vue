@@ -49,8 +49,12 @@ export default {
   },
   filters:{
     formatDate (time) {
-      let date = new Date(parseInt(time))
-      return formatDate(date, 'yyyy-MM-dd hh:mm')
+      if (time) {
+        let date = new Date(parseInt(time))
+        return formatDate(date, 'yyyy-MM-dd hh:mm')
+      } else {
+        return ''
+      }
     }
   }
 }
