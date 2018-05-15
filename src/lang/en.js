@@ -425,7 +425,7 @@ export default {
       defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">我是{company}的{empid}，很高兴代表我司与您联系。为更好的沟通交流工作事宜，诚挚希望与您进行会面，期待您的来访！</p><br/>'
     }
   },
-  tablehead: ['order number', 'Conference name', 'time', 'Initiator', 'theme', 'QR code', 'phone', 'Cause', 'Launch time', 'company', 'status', 'Sending State'],
+  tablehead: ['#', 'Conference name', 'time', 'Initiator', 'theme', 'QR code', 'phone', 'Cause', 'Launch time', 'company', 'status', 'Sending State'],
   formCheck: {
     validPassword: {
       tip1: 'Incorrect password format',
