@@ -28,7 +28,7 @@
                 <li>{{$t('visitor.ordertime')}}:{{vdata.appointmentDate|formatDate}}</li>
                 <li>{{$t('visitor.visittime')}}:{{vdata.visitdate|formatDate}}</li>
                 <li>{{$t('visitor.leavetime')}}:{{vdata.signOutDate|formatDate}}</li>
-                <li>{{$t('visitor.followPeople')}}:{{}}</li>
+                <li>{{$t('visitor.followPeople')}}:{{vlist}}</li>
                 <li>{{$t('form.remark.text')}}:{{vdata.remark}}</li>
               </ul>
               <el-button class="" type="text" slot="reference">{{vdata.vname}}</el-button>
@@ -84,7 +84,7 @@
 </template>
 <script>
 import {formatDate,timeDiff} from '@/utils/index'
-import {stringToArray,arrayToString,judgeModel,moveBlank,splitArray} from '@/utils/common'
+import {stringToArray,arrayToString,judgeModel,moveBlank,splitArray,checkIsNull} from '@/utils/common'
 import { getCache } from '@/utils/auth'
 export default {
   props: {
@@ -121,7 +121,8 @@ export default {
       teamShow: false,
       peopleCount: 0,
       extendColSet: this.extendCol,
-      extendColArray: []
+      extendColArray: [],
+      vlist: ''
     }
   },
   watch: {
@@ -315,7 +316,7 @@ export default {
                 if (fieldName === moveBlank(extendCol[i])) {
                   let exObj = {
                     name: extendColSet[j].displayName,
-                    value: extendCol[i+1]
+                    value: checkIsNull(extendCol[i+1])
                   }
                   extendColArray.push(exObj)
                 }

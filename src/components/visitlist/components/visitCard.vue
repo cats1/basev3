@@ -2,7 +2,8 @@
 	<div class="directpage1" v-show="isShow" :id="id" ref="id">
 		<div class="pagecardleft">
             <span class="cardpic">
-            	<img :src="avatarSrc" alt="">
+            	<!-- <img :src="avatarSrc" alt=""> -->
+              <img :src="cards.avatar" alt="">
             </span>
             <span class="logopic">{{company}}</span>
         </div>
@@ -56,7 +57,7 @@ export default {
       dateUrl: require('@/assets/img/date.png'),
       codeId: 0,
       codeString: '',
-      avatarSrc: ''
+      avatarSrc: require('@/assets/img/default.png')
   	}
   },
   computed: {
@@ -91,7 +92,9 @@ export default {
         } else {
           this.avatarSrc = require('@/assets/img/default.png')
         }
-  	  	this.makeCard()
+        let _self = this
+        this.checkImgLoad()
+  	  	//this.makeCard()
   	  }
   	}
   },
@@ -103,13 +106,29 @@ export default {
       } else {
         this.avatarSrc = require('@/assets/img/default.png')
       }
-  	  this.makeCard()
+  	  this.checkImgLoad()
   	}
   },
   methods: {
   	init () {
   	  document.body.appendChild(this.$refs.id)
   	},
+    checkImgLoad (callback) {
+      var newImg = new Image()
+      let _self = this
+      newImg.src = this.avatarSrc
+      let flag = false
+      newImg.onerror = () => { // 图片加载错误时的替换图片
+        newImg.src = require('@/assets/img/default.png')
+      }
+      newImg.onload = () => { // 图片加载成功后把地址给原来的img
+        this.avatarSrc = newImg.src
+        console.log(888888888)
+        flag = true
+        _self.makeCard()
+        callback && callback(true)
+      }
+    },
   	makeCard () {
   	  let nRid = this.vitem.rid.replace(/^(C|c)/g, '')
   	  let nform = {
@@ -126,7 +145,7 @@ export default {
   	},
   	makeCanvas () {
   	  let _self = this
-      html2canvas(document.getElementById(this.id)).then(canvas => {
+      html2canvas(document.getElementById(this.id),{useCORS:true}).then(canvas => {
         if (!!window.ActiveXObject || "ActiveXObject" in window) {
             var blob = canvas.msToBlob()　　　　
             window.navigator.msSaveBlob(blob, _self.vitem.name + ".jpg")

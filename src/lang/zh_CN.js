@@ -517,7 +517,7 @@ export default {
     vcom: '访客公司',
     ename: '受访人姓名',
     ephone: '受访人手机号',
-    ecom: '受访人手机号',
+    ecom: '受访人公司',
     ordertime: '预约时间',
     visittime: '来访时间',
     leavetime: '离开时间',
