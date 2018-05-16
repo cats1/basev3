@@ -751,6 +751,7 @@ label {
   display: inline-block;
   float: left;
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .codecontent {
@@ -1048,12 +1049,16 @@ label {
 }
 
 div.mce-edit-area {
-  height: auto;
-  min-height: 200px;
   iframe {
-    height: auto!important;
-    min-height: 200px!important;
+    height: 400px!important;
+    overflow-y: auto!important;
+    body{
+      color: red;
+    }
   }
+  .panel-body{
+      overflow-y: auto!important;
+    }
 }
 
 .el-button--redfont {
@@ -1555,7 +1560,83 @@ div.mce-edit-area {
     }
   }
 }
-
+.lrmenuwrap{
+  width:100%;
+  overflow:hidden;
+  text-align:left;
+  .lrmenu-left,.lrmenu-right{
+    width:50%;
+    height:auto;
+    max-height:300px;
+    display:inline-block;
+    float:left;
+  }
+  .lrmenu-check-wrap{
+    height:auto;
+    max-height:200px;
+    overflow-y: auto;
+  }
+}
+.lrmenu-item{
+  line-height:36px;
+  &.nopointer{
+    pointer-events:none;
+  }
+  img{
+    margin:0 5px;
+  }
+  .lrmenu-item-close{
+    float:right;
+  }
+}
+.leadheadwrap {
+    padding: 5px 11px;
+    overflow: hidden;
+    font-size: 12px;
+    cursor: pointer;
+    .c_selector_navbar_item {
+      max-width: 33%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #38adff;
+      float: left;
+      position: relative;
+      cursor: pointer;
+      font-size: 14px;
+      padding-left: 22px;
+      .iconfont {
+        position: absolute;
+        left: 2px;
+        color: #333;
+        font-size: 14px;
+      }
+  }
+}
+.lrmenu-check-item{
+  position:relative;
+  .lrmenu-check-next {
+    position:absolute;
+    right:0;
+    top:0;
+    height:36px;
+    line-height:36px;
+    border-left:1px solid #38adff;
+    color: #38adff;
+    font-size: 14px;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    padding-left: 10px;
+    border-left: 1px solid #eee;
+    -webkit-text-stroke-width: inherit;
+    text-stroke-width: inherit;
+    &.itemgray {
+      pointer-events: none;
+      color: gray;
+    }
+  }
+}
 .canvascode {
   width: 96px!important;
   height: 96px!important;

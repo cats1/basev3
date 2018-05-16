@@ -1,7 +1,10 @@
 <template>
-	<div>
+	<div class="meetingmoban">
     <h3 class="marginbom20">{{$t('moban.tip3')}}</h3>
-		<tinymce :height=400 ref="editor" v-model="defaultmoban.inviteContent" @input="getcon"></tinymce>
+    <div class="editor-container">
+      <!-- <tinymce-test :height=400 ref="editor" v-model="defaultmoban.inviteContent"></tinymce-test> -->
+		  <tinymce :height=400 ref="editor" v-model="defaultmoban.inviteContent" @input="getcon"></tinymce>
+    </div>
     <h3 class="margintop20 marginbom20">{{$t('moban.tip3')}}</h3>
     <baidu-map :isshow="isshow" class="marginbom20" :address="defaultmoban.address" :sendpot="pot" mapid="mapmeeting" style="width:80%;"></baidu-map>
     <div class="margintop20">
@@ -12,12 +15,13 @@
 </template>
 <script>
 import Tinymce from '@/components/tinymce'
+import tinymceTest from '@/components/tinymce/test'
 import {BaiduMap} from '@/components/map'
 import { getCache } from '@/utils/auth'
 import { valueToString, replaceQuotation,replaceRemoveQuotation } from '@/utils/common'
 export default {
   props: ['mtype','isshow','mid','mdata'],
-  components: { Tinymce,BaiduMap },
+  components: { Tinymce,BaiduMap,tinymceTest },
   data () {
   	return {
       pot: {
@@ -174,3 +178,11 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .meetingmoban{
+    .editor-container {
+        min-height: 500px;
+        margin: 0 0 30px;
+    }
+  }
+</style>

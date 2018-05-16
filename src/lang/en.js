@@ -1,5 +1,6 @@
 export default {
   searchVnameHolder: 'Search visitor name',
+  noPage: 'Sorry,the page is not found!',
   syncSuccess: 'Synchronization success',
   activeSuccess: 'Active successfuly!',
   tipEmp: 'Username must include \\',

@@ -6,38 +6,57 @@
 <script>
 import {getCache} from '@/utils/auth'
 export default {
-  props: ['semp','parent'],
+  props: {
+    vemp: {
+      type: Array,
+      default: []
+    },
+    parent: null
+  },
   data () {
   	return {
   	  form: {
         empids: [],
         rid: ''
       },
+      sArray: this.vemp
   	}
   },
   watch: {
     parent (val) {
       this.form.rid = val.pid
     },
-  	semp (val) {
-      let arrays = []
-      val.forEach(function(element, index) {
-        arrays.push(element.empid)
-      })
-      this.form.empids = arrays
+  	vemp (val) {
+      this.sArray = val
+      this.initEmp()
   	}
   },
   mounted () {
-  	console.log(this.semp)
+    this.initEmp()
   },
   methods: {
+    initEmp () {
+      this.form.rid = this.parent.pid
+      let arrays = []
+      this.sArray.forEach(function(element, index) {
+        arrays.push(element.empid)
+      })
+      this.form.empids = arrays
+    },
   	deleteEmp () {
-      this.$store.dispatch('delRoleEmp',this.form).then(res => {
+      if (this.vemp.length === 0) {
+        this.$message({
+          type: 'warning',
+          message: this.$t('selectEmpTip')
+        })
+      } else {
+        this.$store.dispatch('delRoleEmp',this.form).then(res => {
           let {status} = res
           if (status === 0) {
             this.$emit('delekit')
           }
-      })
+        })
+      }
   	}
   }
 }

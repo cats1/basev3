@@ -16,5 +16,9 @@ export default new Router({
       {path: '/list',name: 'list',component:orderList},
       {path: '/history',name: 'history',component: _import('history/layOut')}
   	]
+  },{
+    path: '*',
+    name: '404',
+    component: _import('error/404One')
   }]
 })

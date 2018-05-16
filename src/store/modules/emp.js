@@ -1,7 +1,7 @@
 import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	delBlacklist,getProject,getResidentVisitor,getAllResidentCompany,
 	getResidentVisitorByCompany,delResidentVisitor,updateAllResidentFace,
-	getRARG,getEmpRoleList,delRoleEmp,getDeptList,getEmpDeptList,getEmpListPages,
+	getRARG,getEmpRoleList,getDeptList,getEmpDeptList,getEmpListPages,
 	batchDelEmployee,updateAllFace,SearchRecordsByPhone,addAppointment,getEmptempByPost,
 	GetUserInfo,getSubAccountById,getEmptemplateByType,getUsertemplate,getSubAccountTemp,
 	getEmpByName,updateEmpPwd,addEmptemplate,SynchronCardNo,
@@ -261,22 +261,6 @@ const user = {
 		delResidentVisitor({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        delResidentVisitor(info).then(response => {
-		          let {status} = response
-		          if (status === 0) {
-					Message({
-                  		message: messages['deleteSuccess'],
-                  		type: 'success'
-                	})
-		          }
-		          resolve(response)
-		        }).catch(error => {
-		          reject(error)
-		        })
-		    })
-		},
-		delRoleEmp({ commit }, info) {
-			return new Promise((resolve, reject) => {
-		        delRoleEmp(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
 					Message({

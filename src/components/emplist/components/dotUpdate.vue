@@ -49,7 +49,10 @@ export default {
     },
     slist (val) {
       this.sempArray = val
-    } 
+    },
+    $route (){
+      alert("改变")
+    }
   },
   mounted () {
     if (this.btnType === 2) {
@@ -59,6 +62,10 @@ export default {
     }
   },
   methods: {
+    fetchDate () {
+      console.log(888)
+      return false
+    },
     addEmp () {
       this.getSubAccountByUserid()
       document.body.appendChild(this.$refs.bomwins)

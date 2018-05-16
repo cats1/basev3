@@ -69,13 +69,11 @@ export default {
   },
   watch: {
   	isShow (val) {
-      console.log(val)
   	  if (val) {
   	  	this.getEmpList()
   	  }
   	},
     allShow (val) {
-      console.log(val)
       if (val) {
         this.checkShow = true
         this.getEmpList()
@@ -305,7 +303,6 @@ export default {
                     cNames = 'empleader'
                 }
                 let chap = chaplist[j]
-                console.log(chap)
                 chap.checked = 0
                 carray.push(chap)
             }

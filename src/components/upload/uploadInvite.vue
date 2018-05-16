@@ -1,31 +1,47 @@
 <template>
-	<div class="uploadcomwrap">
-		<el-upload
-		  class="upload-demo"
-		  action="123"
-		  :before-upload="beforeUpload">
-		  <el-button type="success"><i class="fa fa-cloud-upload"></i>{{$t('btn.uploadExcel')}}</el-button>
-		</el-upload>
-	</div>
+  <form class="uploadformwrap" :id="formId">
+    <input class="uploadinput" type="file" name="uploadpic" :ref="inputId" :id="inputId" @change="getFile"></input>
+    <el-button style="width:100%;" :type="btype"><i class="fa fa-cloud-upload"></i>{{$t('btn.uploadExcel')}}</el-button>
+  </form>
 </template>
 <script>
 import {getCache} from '@/utils/auth'
 import {UploadApponintment} from '@/utils/upload'
 export default {
-   name: 'uploadPicBtn',
-   props: ['ctype'],
+   name: 'uploadInvite',
+   props: {
+    id: {
+      type: String,
+      default: 'upload-form'
+    },
+    imgsrc: {
+      type: String,
+      default: ''
+    },
+    index: {
+      type: Number,
+      default: 0
+    },
+    eType: {
+      type: String,
+      default: 'default'
+    },
+    ctype: null
+   },
    data() {
-      return {}
+      return {
+        src: this.imgsrc,
+        formId: 'uploadform_' + this.id,
+        inputId: 'uploadinput_' + this.id,
+        btype: this.eType
+      }
     },
     methods: {
-      beforeUpload (file) {
-      	let _self = this
-        UploadApponintment(file,function(result){
-          _self.$message({
-            message: '文件上传成功',
-            type: 'success'
-          })
-        	_self.$emit('sendkit',result)
+      getFile (file) {
+        let files = this.$refs[this.inputId].files[0]
+        let _self = this
+        UploadApponintment(files,function(result){
+          _self.$emit('sendkit',result)
         })
       }
     }

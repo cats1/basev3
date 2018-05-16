@@ -2,7 +2,7 @@
 	<div>
 		<h3 class="margintop20 marginbom20 right">
 			<down-invite-moban></down-invite-moban>
-	    <upload-invite @sendkit="getUpload"></upload-invite>
+	    <upload-invite id="excel" eType="success" @sendkit="getUpload"></upload-invite>
 		</h3>
 		<el-table class="marginbom20" :data="table" border>
 			<el-table-column
@@ -43,7 +43,7 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		<meeting-moban :isshow="mobanShow" :mid="mid" :mdata="table" @savekit="saveMeeting" @sendkit="sendMeetInvite"></meeting-moban>
+		<meeting-moban :isshow="isshow" :mid="mid" :mdata="table" @savekit="saveMeeting" @sendkit="sendMeetInvite"></meeting-moban>
     <moban-dialog :mobanFlag="mobanFlag" :ptip="$t('moban.tip1')" @closekit="getClose"></moban-dialog>	
 	</div>
 </template>
@@ -55,7 +55,7 @@ import {mobanDialog} from '@/components/dialog'
 import meetingMoban from '@/components/moban/meettingMoban'
 export default {
   components: {downInviteMoban,uploadInvite,meetingMoban,mobanDialog},
-  props: ['mid'],
+  props: ['mid','isshow'],
   data () {
   	return {
   	  table: [{
@@ -176,16 +176,18 @@ export default {
           nform.push(vobj)
         }
       })
-      console.log(nform)
       if (nform.length === 0) {
         this.$message({
+          showClose: true,
           type: 'error',
           message: this.$t('moban.tip6')
         })
       } else {
         this.$store.dispatch('addAppointment',nform).then(res => {
           let {status} = res
-          this.mobanFlag = true
+          if (status === 0) {
+            this.mobanFlag = true
+          }
         })
       }
     },

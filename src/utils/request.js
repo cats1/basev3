@@ -15,7 +15,7 @@ if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.5
 // create an axios instance
 const service = axios.create({
   baseURL: baseURL, // api的base_url
-  timeout: 5000 // request timeout
+  timeout: 10000 // request timeout
 })
 
 // request interceptor

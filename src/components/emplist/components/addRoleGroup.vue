@@ -1,29 +1,18 @@
 <template>
 	<div class="btnsection">
-    <el-button @click="dialogVisible = true"><i class="fa fa-folder"></i>{{$t('btn.addRoleGroup')}}</el-button>
-	  <el-dialog
-		  :title="$t('btn.addRoleGroup')"
-		  :visible.sync="dialogVisible"
-		  width="30%" >
-		  <el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm">
-			  <el-form-item :label="$t('role.rgroup')" prop="rgName">
-			    <el-input v-model="form.rgName"></el-input>
-			  </el-form-item>
-      </el-form>
-		  <span slot="footer" class="dialog-footer">
-		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
-		    <el-button type="primary" @click="saveProject">{{$t('btn.confirmBtn')}}</el-button>
-		  </span>
-	  </el-dialog>
+    <el-button @click="addGroup"><i class="fa fa-folder"></i>{{$t('btn.addRoleGroup')}}</el-button>
+	  <role-group-form :etype="0" :parent="parent" :is-show="isShow" @editrolekit="doDone"></role-group-form>
 	</div>
 </template>
 <script>
+import roleGroupForm from './roleGroupForm'
 import {getCache} from '@/utils/auth'
 export default {
   props: ['parent'],
+  components: {roleGroupForm},
   data () {
   	return {
-  	  dialogVisible: false,
+  	  isShow: false,
   	  form: {
   	  	rgName: '',
   	  	parentId: '',
@@ -38,33 +27,20 @@ export default {
   },
   watch: {
     parent (val) {
-      console.log(val)
       this.parentObj = val
-      //this.form.parentId = val.pid
       if (val.dp === 'root') {
         this.form.parentId = ''
       }
     }
   },
-  mounted () {
-    console.log(this.parent)
-  },
+  mounted () {},
   methods: {
-   saveProject () {
-        this.$refs['form'].validate((valid) => {
-          if (valid) {
-            this.$store.dispatch('addRARG',this.form).then(res => {
-    		   	  	let {status} = res
-    		   	  	if (status === 0) {
-    		          this.dialogVisible = false
-                  this.$refs['form'].resetFields()
-    		          this.$emit('addrolekit')
-    		   	  	}
-    		   	})
-          } else {
-            return false;
-          }
-        })
+    addGroup () {
+      this.isShow = true
+    },
+    doDone () {
+      this.isShow = false
+      this.$emit('addrolekit')
     }
   }
 }

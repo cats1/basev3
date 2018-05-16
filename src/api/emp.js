@@ -125,14 +125,6 @@ export function getEmpRoleList(data) {
     data
   })
 }
-//delRoleEmp
-export function delRoleEmp(data) {
-  return request({
-    url: '/delRoleEmp',
-    method: 'post',
-    data
-  })
-}
 //getDeptList
 export function getDeptList(data) {
   return request({

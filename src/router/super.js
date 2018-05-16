@@ -8,5 +8,9 @@ export default new Router({
   	name: 'super',
   	component: _import('super/layOut'),
   	children: []
+  },{
+    path: '*',
+    name: '404',
+    component: _import('error/404One')
   }]
 })

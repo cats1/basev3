@@ -1,11 +1,11 @@
 <template>
 	<div class="mdetailwrap">
 		<el-tabs type="border-card">
-		  <el-tab-pane>
+		  <el-tab-pane @tab-click="mobanShow === true">
 		    <span slot="label">{{$t('moban.text')}}</span>
 		    <send-invite :mid="form.mid" :isshow="mobanShow"></send-invite>
 		  </el-tab-pane>
-		  <el-tab-pane >
+		  <el-tab-pane @tab-click="mobanShow === false">
         <span slot="label">{{$t('moban.text1')}}</span>
 		  	<invite-list :mid="form.mid"></invite-list>
 		  </el-tab-pane>

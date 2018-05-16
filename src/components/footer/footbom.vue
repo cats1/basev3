@@ -20,10 +20,9 @@ export default {
   	getYear: getYear,
     getHeight () {
       if (document.body.clientHeight < window.innerHeight) {
-        console.log(11)
         this.posfooter = true
       } else {
-        console.log(888)
+        this.posfooter = false
       }
     }
   }

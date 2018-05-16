@@ -12,5 +12,9 @@ export default new Router({
   	path: '/data',
   	name: 'sdata',
   	component: _import('home/components/dataControl')
+  },{
+    path: '*',
+    name: '404',
+    component: _import('error/404One')
   }]
 })

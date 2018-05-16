@@ -1,92 +1,79 @@
 <template>
-	<div class="btnsection">
-    <el-button @click="dialogVisible = true"><i class="fa fa-folder-open"></i>{{$t('btn.editGroup')}}</el-button>
-	  <el-dialog
-		  :title="$t('btn.editGroup')"
-		  :visible.sync="dialogVisible"
-		  width="30%" >
-		  <el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm">
-			  <el-form-item :label="$t('role.rgroup')" prop="rgName">
-			    <el-input v-model="form.rgName"></el-input>
-			  </el-form-item>
-      </el-form>
-		  <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="saveProject">{{$t('btn.saveBtn')}}</el-button>
-        <el-button type="redline" @click="deleteProject">{{$t('btn.deleteBtn')}}</el-button>
-		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
-		    
-		  </span>
-	  </el-dialog>
-	</div>
+    <div class="btnsection">
+        <el-button @click="addGroup"><i class="fa fa-folder-open"></i>{{$t('btn.editGroup')}}</el-button>
+        <role-group-form :etype="1" :parent="parent" :is-show="isShow" @editrolekit="doDone"></role-group-form>
+    </div>
 </template>
 <script>
-import {getCache} from '@/utils/auth'
+import roleGroupForm from './roleGroupForm'
+import { getCache } from '@/utils/auth'
 export default {
-  props: ['parent'],
-  data () {
-  	return {
-  	  dialogVisible: false,
-  	  form: {
-  	  	rgName: '',
-  	  	parentId: '',
-        rid: '',
-  	  	userid: getCache('userid')
-  	  },
-  	  rules: {
-  	  	rgName: [
-  	  	  { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }]
-  	  },
-      dform: {
-        rid: '',
-        userid: getCache('userid')
-      },
-      parentObj: this.parent
-  	}
-  },
-  watch: {
-    parent (val) {
-      console.log(val)
-      this.parentObj = val
-      this.form.rgName = val.name
-      this.form.rid = val.pid
-      this.dform.rid = val.pid
-      if (val.dp === 'root') {
-        this.form.rid = ''
-        this.dform.rid = ''
-      }
-    }
-  },
-  mounted () {
-    console.log(this.parent)
-  },
-  methods: {
-   saveProject () {
-        this.$refs['form'].validate((valid) => {
-          if (valid) {
-            this.$store.dispatch('updateRARG',this.form).then(res => {
-    		   	  	let {status} = res
-    		   	  	if (status === 0) {
-    		          this.dialogVisible = false
-                  this.$refs['form'].resetFields()
-    		          this.$emit('editrolekit')
-    		   	  	}
-    		   	})
-          } else {
-            return false;
-          }
-        })
+    props: ['parent'],
+    components: { roleGroupForm },
+    data() {
+        return {
+            isShow: false,
+            form: {
+                rgName: '',
+                parentId: '',
+                rid: '',
+                userid: getCache('userid')
+            },
+            rules: {
+                rgName: [
+                    { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }
+                ]
+            },
+            dform: {
+                rid: '',
+                userid: getCache('userid')
+            },
+            parentObj: this.parent
+        }
     },
-    deleteProject () {
-      this.$store.dispatch('delRARG',this.dform).then(res => {
-          let {status} = res
-          if (status === 0) {
-              this.dialogVisible = false
-              this.dateRange = []
-                this.$refs['form'].resetFields()
-              this.$emit('delerolekit')
-          }
-      })
+    mounted() {},
+    methods: {
+        addGroup() {
+            if (!this.parent.name || this.parent.type === 1) {
+                this.$message({
+                    message: this.$t('role.tip'),
+                    type: 'error'
+                })
+            } else {
+                this.isShow = true
+            }
+        },
+        doDone() {
+            this.isShow = false
+            this.$emit('addrolekit')
+        },
+        saveProject() {
+            this.$refs['form'].validate((valid) => {
+                if (valid) {
+                    this.$store.dispatch('updateRARG', this.form).then(res => {
+                        let { status } = res
+                        if (status === 0) {
+                            this.dialogVisible = false
+                            this.$refs['form'].resetFields()
+                            this.$emit('editrolekit')
+                        }
+                    })
+                } else {
+                    return false;
+                }
+            })
+        },
+        deleteProject() {
+            this.$store.dispatch('delRARG', this.dform).then(res => {
+                let { status } = res
+                if (status === 0) {
+                    this.dialogVisible = false
+                    this.dateRange = []
+                    this.$refs['form'].resetFields()
+                    this.$emit('delerolekit')
+                }
+            })
+        }
     }
-  }
 }
 </script>

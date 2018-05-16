@@ -85,6 +85,11 @@ export default {
       timeout:  null
   	}
   },
+  watch: {
+    $route (to, from){
+      alert("改变")
+    }
+  },
   computed: {
   	vtype: {
   	  get: function () {
@@ -168,18 +173,15 @@ export default {
       this.curEmp = pitem
     },
     getAllEmp (result) {
-      console.log(result)
       this.restaurants = result
       this.empList = result
       this.total = result.length
     },
     editEmp (row, event, column) {
-      console.log(row)
       this.curEmp = row
       this.dialogVisible = true
     },
     searchEmp (val) {
-      console.log(val)
       if (val !== '') {
         let sform = {
           name: val,
@@ -188,7 +190,7 @@ export default {
         this.$store.dispatch('getEmpByName',sform).then(res => {
           let {status,result} = res
           if (status === 0) {
-            console.log(result)
+            //console.log(result)
           }
         })
       }
@@ -223,7 +225,6 @@ export default {
       }
     },
     handleSelect(item) {
-      console.log(item)
       this.btnType = 1
       this.editType = 1
       this.curEmp = item

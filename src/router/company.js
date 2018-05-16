@@ -11,8 +11,12 @@ export default new Router({
   	children: [
   	  { path: '/', name: 'index', component: _import('home/managerLeftRight') },
   	  { path: '/data', name: 'data', component: _import('home/components/dataControl') },
-  	  { path: '/invite', name: 'invite', component: _import('company/invite') }
+  	  { path: '/invite', name: 'invite', component: _import('company/invite') },
       {path: '/history',name: 'history',component: _import('history/layOut')}
   	]
+  },{
+    path: '*',
+    name: '404',
+    component: _import('error/404One')
   }]
 })

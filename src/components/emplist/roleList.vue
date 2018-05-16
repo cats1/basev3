@@ -2,9 +2,9 @@
 	<div>
 	  <div class="boxshadow paddinglr30 paddingtb20 block bgwhite">
       <add-role-group :parent="parent" @addrolekit="getAddRoleGroup"></add-role-group>
-      <add-role :parent="parent" @addrolekit="getAddRole"></add-role>
-      <edit-role-group :parent="parent" @editrolekit="getAddRole" @delerolekit="getdeleRole"></edit-role-group>
-      <edit-role :group-list="list" :parent="parent" :parent-node="parentNode" @editrolekit="getAddRole"></edit-role>
+      <add-role :group-list="list" :parent="parent" @updatelist="getAddRole"></add-role>
+      <edit-role-group :parent="parent" @editrolekit="getAddRole" @addrolekit="getdeleRole"></edit-role-group>
+      <edit-role :group-list="list" :parent="parent" :role-node="roleNode" @updatelist="getAddRole"></edit-role>
       <add-member :parent="parent" :vemp="vempObj" @addempkit="getMember"></add-member>
   		<delete-role-emp :parent="parent" :vemp="vempObj" @delekit="getDelete"></delete-role-emp>
 	  </div>
@@ -95,7 +95,7 @@ export default {
   	  	startIndex:1
   	  },
       parent: {},
-      parentNode: {},
+      roleNode: {},
       vempObj: [],
       vtype: 'role'
   	}
@@ -166,7 +166,7 @@ export default {
   	handleNodeClick(data,node) {
       this.parent = data
       console.log(node)
-      this.parentNode = node.parent.data
+      this.roleNode = node.parent.data
       this.nform.rid = data.pid
       this.nform.startIndex = 1
       this.getResidentVisitor()
@@ -180,20 +180,7 @@ export default {
   	  this.getResidentVisitor()
   	},
   	handleSelectionChange (val) {
-  	  //this.clist = val
       this.vempObj = val
-  	  let _self = this
-  	  val.forEach(function(ele,index){
-        _self.dform.empids.push(ele.empid)
-  	  })
-  	},
-  	deleteEmp () {
-      this.$store.dispatch('delRoleEmp',this.dform).then(res => {
-      	let {status} = res
-      	if (status === 0) {
-          this.getProjectList()
-      	}
-      })
   	}
   }
 }

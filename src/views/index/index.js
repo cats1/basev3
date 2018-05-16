@@ -8,11 +8,21 @@ import App from './App'
 import router from '@/router'
 import store from '@/store'
 import i18n from '@/lang'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 Vue.use(ElementUI, {
   size: 'medium',
   i18n: (key, value) => i18n.t(key, value)
 })
 Vue.config.productionTip = false
+router.beforeEach((to, from, next) => {
+  NProgress.start()
+  next()
+})
+
+router.afterEach(() => {
+  NProgress.done()
+})
 new Vue({
   el: '#app',
   store,

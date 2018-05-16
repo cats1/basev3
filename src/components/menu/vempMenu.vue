@@ -1,42 +1,19 @@
 <template>
 	<div class="lrmenuwrap">
 		<div class="lrmenu-left">
-		  <h3>选择人员</h3>
-      <el-input v-model="sname"></el-input>
+		  <h3>{{$t('depart.smember')}}</h3>
+      <el-input v-model="sname" @change="searchItem"></el-input>
       <div class="leadheadwrap">
-        <template v-for="(citem,index) in headItem">
-          <template v-if="index === 0">
-            <div class="c_selector_navbar_item" @click="goitem(citem,index)"><span>{{citem.empName}}</span></div>
-          </template>
-          <template v-else>
-            <div class="c_selector_navbar_item" @click="goitem(citem,index)"><i class="fa fa-angle-right"></i><span>{{citem.empName}}</span></div>
-          </template>  
-        </template>
+        <div class="c_selector_navbar_item" @click="getAllItem"><span>{{$t('depart.allEmp')}}</span></div>
       </div>
-		  <template v-for="(item,index) in leftItem">
-        <div class="lrmenu-check-item">
-          <template v-if="checkValue">
-            <p class="lrmenu-item" >    
-              <el-checkbox :label="item.label" v-model="checkArray[index]" @change="selectItem(item,index)"><img :src="logo" alt="">{{item.empName}}</el-checkbox>
-            </p>
-          </template>
-          <template v-else>
-            <p class="lrmenu-item" :class="{'nopointer': checkArray[index]}" @click="selectItem(item,index)">
-              <img :src="logo" alt="">{{item.empName}}
-            </p>
-          </template>
-          <template v-if="checkLength(item.children) === true">
-            <span class="lrmenu-check-next itemgray" v-if="checkArray[index] === true" >下级</span>
-            <span class="lrmenu-check-next " v-else @click="selectNext(item)">下级</span>
-          </template>
-          <template v-else>
-            <!-- <span>8888</span> -->
-          </template>
-        </div>
-		  </template>
+      <div class="lrmenu-check-wrap">
+  		  <template v-for="(item,index) in leftItem">
+          <check-item :index="index" :emp-obj="item" :check-value="checkValue" :check-array="rightItem" @click="getItem"></check-item>
+  		  </template>
+      </div>
 		</div>
 		<div class="lrmenu-right">
-      <h3>已选人员</h3>
+      <h3>{{$t('depart.hasMember')}}</h3>
 		  <template v-for="(item,index) in rightItem">
 		  	<p class="lrmenu-item"><img :src="logo" alt="">{{item.empName}}
 		  		<span class="lrmenu-item-close" @click="removeItem(item,index)"><i class="fa fa-close"></i></span></p>
@@ -45,6 +22,7 @@
 	</div>
 </template>
 <script>
+import checkItem from './checkItem'
 export default {
   props: {
     leftData: {
@@ -64,6 +42,7 @@ export default {
       default: 0
     }
   },
+  components: {checkItem},
   data () {
   	return {
       sname: '',
@@ -78,7 +57,6 @@ export default {
   },
   watch: {
     leftData (val) {
-      console.log(val)
       this.leftList = val
       this.leftItem = this.checkIsSelect(val)
     },
@@ -86,198 +64,77 @@ export default {
       this.clist = val
       this.rightItem = val
     },
-    checkValue (val) {
-      console.log(val)
-    },
-    checkNum (val) {
-      console.log(val)
-    }
+    checkValue (val) {},
+    checkNum (val) {}
   },
   mounted () {
-    console.log(this.leftData)
     this.rightItem = this.rightData
     this.leftItem = this.checkIsSelect(this.leftData)
-    this.setHead()
   },
   methods: {
-    setHead (){
-      let hobj = {
-        name: '所有员工',
-        item: this.checkIsSelect(this.leftData)
-      }
-      this.headItem.push(hobj)
-    },
-    checkLength (val) {
-      if (val instanceof Array) {
-        return val.length > 0
-      } else {
-        return false
-      }
-    },
-  	selectItem (item,index) {
-      if (this.checkValue) {
-        if (this.checkArray[index]) {
-          if (this.checkNum > 0) {
-            let obj = this.rightItem
-            if (obj.length < this.checkNum) {
-              obj.push(item)
-              this.rightItem = obj
-            } else {
-              this.$message({
-                message: '选择项目已达上限' + this.checkNum,
-                type: 'warning'
-              })
-            }
-          } else {
-            let obj = this.rightItem
-            obj.push(item)
-            this.rightItem = obj
-          }
-        } else {
-          this.rightItem.splice(index,1)
-          this.$emit('menukit',this.rightItem)
-          this.selectItemFalse(item,index)
+    getItem (val,index,item) {
+      if (val) {
+        if (!this.checkRightIsSelect(item)) {
+          this.rightItem.push(item)
         }
       } else {
-        if (this.checkNum > 0) {
-          let obj = this.rightItem
-          if (obj.length < this.checkNum) {
-            obj.push(item)
-            this.rightItem = obj
-          } else {
-            this.$message({
-              message: '选择项目已达上限' + this.checkNum,
-              type: 'warning'
-            })
-          }
-        } else {
-          let obj = this.rightItem
-          obj.push(item)
-          this.rightItem = obj
-        }
+        this.removeRightSelect(item)
       }
-  	  this.$emit('menukit',this.rightItem)
-  	},
-    goitem (item,index) {
-      this.leftItem = this.checkIsSelect(this.headItem[index].item)
-      this.headItem = this.headItem.slice(0,index+1)
+      this.$emit('menukit',this.rightItem)
     },
-    selectNext (item) {
-      this.leftItem = this.checkIsSelect(item.children)
-      let hobj = {
-        name: item.label,
-        item: item.children
-      }
-      this.headItem.push(hobj)
-    },
-    itemIsChecked (item) {
+    checkRightIsSelect (item) {
       let _self = this
-      let cFlag = false
-      _self.rightItem.forEach(function(rele, rindex) {
-        if (item.empid === rele.empid) {
-          cFlag = true
+      let sFlag = false
+      this.rightItem.forEach(function(element, index) {
+        if (element.empid === item.empid) {
+          sFlag = true
         }
       })
-      return cFlag
+      return sFlag
+    },
+    removeRightSelect (item) {
+      let _self = this
+      let sArray = []
+      this.rightItem.forEach(function(element, index) {
+        if (element.empid !== item.empid) {
+          sArray.push(element)
+        }
+      })
+      this.rightItem = sArray
+    },
+    getAllItem () {
+      this.leftItem = this.checkIsSelect(this.leftList)
+    },
+    searchItem (val) {
+      let _self = this
+      let sArray = []
+      this.leftList.forEach(function(element, index) {
+        if (element.empName.indexOf(val) > -1) {
+          sArray.push(element)
+        }
+      })
+      this.checkIsSelect(sArray)
+      this.leftItem = sArray
     },
     checkIsSelect (item) {
       let _self = this
+      this.checkArray = []
       item.forEach(function(element, index) {    
         _self.rightItem.forEach(function(rele, rindex) {
           if (element.empid === rele.empid) {
             element.isChecked = true
-            _self.checkArray[index] = true
+            _self.$set(_self.checkArray,index,true)
           }
         })
       })
-      console.log(item)
       return item
-    },
-    selectItemFalse (item,index) {
-      let _self = this
-      this.leftItem.forEach(function(element, eindex) {
-        if (element.empid === item.empid) {
-          _self.checkArray[index] = false
-        }
-      })
     },
   	removeItem (item,index) {
       this.rightItem.splice(index,1)
+      this.leftItem = this.checkIsSelect(this.leftItem)
       this.$emit('menukit',this.rightItem)
-      this.selectItemFalse(item,index)
   	}
   }
 }
 </script>
-<style lang="scss" scoped>
-.lrmenuwrap{
-	width:100%;
-	overflow:hidden;
-  text-align:left;
-	.lrmenu-left,.lrmenu-right{
-		width:50%;
-		display:inline-block;
-		float:left;
-	}
-}
-.lrmenu-item{
-  line-height:36px;
-  &.nopointer{
-    pointer-events:none;
-  }
-  img{
-  	margin:0 5px;
-  }
-  .lrmenu-item-close{
-  	float:right;
-  }
-}
-.leadheadwrap {
-    padding: 5px 11px;
-    overflow: hidden;
-    font-size: 12px;
-    cursor: pointer;
-    .c_selector_navbar_item {
-      max-width: 33%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      color: #38adff;
-      float: left;
-      position: relative;
-      cursor: pointer;
-      font-size: 14px;
-      padding-left: 22px;
-      .iconfont {
-        position: absolute;
-        left: 2px;
-        color: #333;
-        font-size: 14px;
-      }
-  }
-}
-.lrmenu-check-item{
-  position:relative;
-  .lrmenu-check-next {
-    position:absolute;
-    right:0;
-    top:0;
-    height:36px;
-    line-height:36px;
-    border-left:1px solid #38adff;
-    color: #38adff;
-    font-size: 14px;
-    position: absolute;
-    right: 0;
-    cursor: pointer;
-    padding-left: 10px;
-    border-left: 1px solid #eee;
-    -webkit-text-stroke-width: inherit;
-    text-stroke-width: inherit;
-    &.itemgray {
-      pointer-events: none;
-      color: gray;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

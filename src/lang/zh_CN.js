@@ -1,5 +1,6 @@
 export default {
   searchVnameHolder: '搜索访客姓名',
+  noPage: '非常抱歉，此页面不存在!',
   syncSuccess: '同步成功',
   activeSuccess: '激活成功',
   tipEmp: '用户名必须包含\\',

@@ -26,9 +26,9 @@ export default {
     getDown () {
       let link
       if (parseInt(getCache('subAccount')) === 1) {
-        link = getBaseLink() + '/addorderbooks_templete.xlsx'
+        link = getBaseLink() + '/addressbooks_templete.xlsx'
       } else {
-        link = getBaseLink() + '/addorderbook_templete.xlsx'
+        link = getBaseLink() + '/addressbook_templete.xlsx'
       }
       downMoban(link)
     }

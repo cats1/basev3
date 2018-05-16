@@ -11,6 +11,7 @@
 import editorImage from './components/editorImage'
 import plugins from './plugins'
 import toolbar from './toolbar'
+import $ from 'jquery'
 export default {
   name: 'tinymce',
   components: { editorImage },
@@ -29,8 +30,16 @@ export default {
         return []
       }
     },
+    toolbarShow: {
+      type: Boolean,
+      default: true
+    },
     menubar: {
       default: 'file edit insert view format table'
+    },
+    menubarShow: {
+      type: Boolean,
+      default: true
     },
     height: {
       type: Number,
@@ -83,8 +92,8 @@ export default {
         language: lang,
         body_class: 'panel-body ',
         object_resizing: true,
-        toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
-        menubar: this.menubar,
+        toolbar: this.toolbarShow ? (this.toolbar.length > 0 ? this.toolbar : toolbar) : false,
+        menubar: this.menubarShow ? this.menubar : false,
         plugins: plugins,
         end_container_on_empty_block: true,
         powerpaste_word_import: 'clean',
@@ -103,10 +112,10 @@ export default {
           editor.on('NodeChange Change KeyUp SetContent', () => {
             this.hasChange = true
             this.$emit('input', editor.getBody().innerHTML)//editor.getContent())
+
           })
         }
       })
-
     },
     destroyTinymce() {
       if (window.tinymce.get(this.tinymceId)) {

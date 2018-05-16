@@ -33,13 +33,10 @@ export default {
   },
   watch: {
     parent (val) {
-      console.log(val)
       this.form.rid = val.pid
     }
   },
-  mounted () {
-    console.log(this.parent)
-  },
+  mounted () {},
   methods: {
     stringToArray: stringToArray,
     doShow () {
@@ -66,7 +63,6 @@ export default {
       this.$store.dispatch('GetEmpList',nform).then(res => {
         let {status,result} = res
         if (status === 0) {
-          console.log(88888)
           this.list = result
           this.dialogVisible = true
         }

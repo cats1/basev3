@@ -49,6 +49,7 @@ export default {
       this.init()
     },
     isshow (val) {
+      console.log(val)
       this.init()
     },
     address (val) {
