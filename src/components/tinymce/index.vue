@@ -9,6 +9,7 @@
 
 <script>
 import editorImage from './components/editorImage'
+import tinymceScss from '@/styles/tinymce.scss'
 import plugins from './plugins'
 import toolbar from './toolbar'
 import $ from 'jquery'
@@ -90,7 +91,9 @@ export default {
         selector: `#${this.tinymceId}`,
         height: this.height,
         language: lang,
-        body_class: 'panel-body ',
+        body_class: 'panel-body',
+        visual_anchor_class: 'my-custom-class',
+        //content_css : tinymceScss,
         object_resizing: true,
         toolbar: this.toolbarShow ? (this.toolbar.length > 0 ? this.toolbar : toolbar) : false,
         menubar: this.menubarShow ? this.menubar : false,
@@ -104,6 +107,12 @@ export default {
         imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
         default_link_target: '_blank',
         link_title: false,
+        resize: true,
+        statusbar: false,
+        max_height: 500,
+        //inline: true,
+        branding: false,//该选项允许您禁用“Powered by TinyMCE”品牌。
+        elementpath: false,//该选项允许您禁用编辑器底部状态栏内的元素路径。
         init_instance_callback: editor => {
           if (_this.value) {
             editor.setContent(_this.value)
@@ -163,4 +172,7 @@ export default {
 .editor-upload-btn {
   display: inline-block;
 }
+.panel-body{
+      overflow-y: auto!important;
+    }
 </style>
