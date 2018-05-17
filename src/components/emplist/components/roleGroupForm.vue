@@ -51,6 +51,20 @@ export default {
         },
         isShow(val) {
             this.dialogVisible = val
+        },
+        etype (val) {
+            if (val === 0) {
+                this.form = {
+                    rgName: '',
+                    parentId: '',
+                    rid: '',
+                    userid: getCache('userid')
+                }
+            } else {
+                this.form.rgName = val.name
+                this.form.rid = val.pid
+                this.dform.rid = val.pid
+            }
         }
     },
     mounted() {

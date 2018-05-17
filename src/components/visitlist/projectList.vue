@@ -223,7 +223,6 @@ export default {
       this.editType = 1
       this.btnType = 1
       this.curEmp = val
-      console.log(val)
     }
   }
 }
