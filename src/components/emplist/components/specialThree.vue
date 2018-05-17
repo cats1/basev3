@@ -43,14 +43,12 @@ export default {
   	  this.visitType = val
   	},
   	eArray (val) {
-  		console.log(val)
   	  this.empArray = val
   	}
   },
   mounted () {},
   methods: {
     checkTag (type,index) {
-      console.log(type)
       if (type === '') {
         this.$set(this.empArray[index],'egtype',0)
       } else {

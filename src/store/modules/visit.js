@@ -1,6 +1,6 @@
 import { addProject,Compressface,addResidentVisitor,updateProject,
 	updateAllResidentFace,getRvQrcode,updateResidentVisitor,
-	getResidentVisitorByName,updateResidentFace } from '@/api/visit'
+	getResidentVisitorByName,updateResidentFace,delProject } from '@/api/visit'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
@@ -17,6 +17,22 @@ const user = {
 		          if (status === 0) {
                     Message({
                   	  message: messages['addSuccess'],
+                  	  type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		delProject({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        delProject(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+                    Message({
+                  	  message: messages['deleteSuccess'],
                   	  type: 'success'
                 	})
 		          }

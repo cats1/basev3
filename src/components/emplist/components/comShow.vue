@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="block paddingtb20" v-loading="loading">
 		<template v-for="(item,index) in empBarList">
 			<div class="empitemwrap">
 			  <span class="empitemtitle" @click="doTitleShow(index)">{{item.companyName}}</span>
@@ -43,7 +43,8 @@ export default {
       showType:1,
       total:0,
       empBarList: [],
-      checkShow: false
+      checkShow: false,
+      loading: true
   	}
   },
   watch: {
@@ -97,6 +98,7 @@ export default {
       this.$store.dispatch('GetEmpList',nform).then(res => {
         let {status,result} = res
         if (status === 0) {
+          this.loading = false
           let total = result.length
           let _self = this
           let comArray = []

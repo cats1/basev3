@@ -1,6 +1,6 @@
 <template>
 	<div class="btnsection">
-	  <el-button @click="doMove"><i class="fa fa-unsorted"></i>{{$t('btn.moveProjectBtn')}}</el-button>
+	  <el-button @click="doMove" :type="bType"><i class="fa fa-unsorted"></i>{{$t('btn.moveProjectBtn')}}</el-button>
 	  <el-dialog
 		  :title="$t('btn.moveProjectBtn')"
 		  :visible.sync="dialogVisible"
@@ -19,6 +19,10 @@ import lrMenu from '@/components/menu/lrMenu'
 export default {
   components: {lrMenu},
   props: {
+    btnType: {
+      type: Number,
+      default: 3
+    },
     proList: {
       type: Array,
       default: []
@@ -31,6 +35,7 @@ export default {
   data () {
   	return {
   	  dialogVisible: false,
+      bType: 'default',
   	  proform: {
   	  	pName: '',
   	  	remark: '',
@@ -46,11 +51,25 @@ export default {
   	}
   },
   watch: {
+    btnType (val) {
+      if (val === 3) {
+        this.bType = 'primary'
+      } else {
+        this.bType = 'default'
+      }
+    },
     cardarray (val) {
       this.empArray = val
     },
     proList(val) {
       this.leftList = val
+    }
+  },
+  mounted () {
+    if (this.btnType === 3) {
+      this.bType = 'primary'
+    } else {
+      this.bType = 'default'
     }
   },
   methods: {
@@ -72,6 +91,7 @@ export default {
           type: 'warning'
         })
       } else {
+        this.$emit('movebtn',3)
         this.dialogVisible = true
       }
     },

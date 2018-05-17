@@ -38,9 +38,7 @@ export default {
   	}
   },
   watch: {
-    slist (val) {
-      console.log(val)
-    },
+    slist (val) {},
   },
   mounted () {},
   methods: {

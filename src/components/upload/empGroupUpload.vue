@@ -1,29 +1,48 @@
 <template>
-	<div class="uploadcomwrap">
-		<el-upload
-		  class="upload-demo"
-		  action="123"
-		  :before-upload="beforeUpload">
-		  <el-button type="primary"><i class="fa fa-cloud-upload"></i>{{$t('btn.uploadExcel')}}</el-button>
-		</el-upload>
-	</div>
+  <form class="uploadformwrap" :id="formId">
+    <input class="uploadinput" type="file" name="uploadpic" :ref="inputId" :id="inputId" @change="getFile"></input>
+    <el-button style="width:100%;" :type="btype"><i class="fa fa-cloud-upload"></i>{{$t('btn.uploadExcel')}}</el-button>
+  </form>
 </template>
 <script>
 import {getCache} from '@/utils/auth'
 import {NewUploadAB,UploadAB} from '@/utils/upload'
 export default {
    name: 'empGroupUpload',
-   props: ['ctype'],
+   props: {
+    id: {
+      type: String,
+      default: 'upload-form'
+    },
+    imgsrc: {
+      type: String,
+      default: ''
+    },
+    ctype: {
+      type: Number,
+      default: 0
+    },
+    eType: {
+      type: String,
+      default: 'default'
+    }
+   },
    data() {
-      return {}
+      return {
+        src: this.imgsrc,
+        formId: 'uploadform_' + this.id,
+        inputId: 'uploadinput_' + this.id,
+        btype: this.eType
+      }
     },
     methods: {
-      beforeUpload (file) {
+      getFile (file) {
+        let files = this.$refs[this.inputId].files[0]
       	let _self = this
         if (parseInt(getCache('subAccount')) === 1) {
           UploadAB(file,function(result){
             _self.$message({
-              message: '文件上传成功',
+              message: this.$t('uploadFileSuccess'),
               type: 'success'
             })
             _self.$emit('sendkit',result)
@@ -31,7 +50,7 @@ export default {
         } else {
           NewUploadAB(file,function(result){
             _self.$message({
-              message: '文件上传成功',
+              message: this.$t('uploadFileSuccess'),
               type: 'success'
             })
             _self.$emit('sendkit',result)

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="block paddingtb20" v-loading="loading" >
     <template v-for="(item,index) in defaultList">
       <div class="empitemwrap">
         <span class="empitemtitle" @click="doDefaultTitleShow(index)">{{$t('recepaccount')}}：{{item.title}}</span>
@@ -64,7 +64,8 @@ export default {
       checkShow: false,
       checked: false,
       sempArray: this.slist,
-      defaultList: []
+      defaultList: [],
+      loading: true
   	}
   },
   watch: {
@@ -132,6 +133,7 @@ export default {
       this.$store.dispatch('GetEmpList',nform).then(res => {
         let {status,result} = res
         if (status === 0) {
+          this.loading = false
           let total = result.length
           this.$emit('sendlist',result)
           this.total = result.length

@@ -7,6 +7,14 @@ export function addProject(data) {
     data
   })
 }
+//delProject
+export function delProject(data) {
+  return request({
+    url: '/delProject',
+    method: 'post',
+    data
+  })
+}
 //updateProject
 export function updateProject(data) {
   return request({

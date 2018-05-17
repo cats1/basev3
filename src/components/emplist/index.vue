@@ -19,8 +19,6 @@ export default {
   	  subAccount: parseInt(getCache('subAccount')) || 0
   	}
   },
-  mounted () {
-  	console.log(this.$route)
-  }
+  mounted () {}
 }
 </script>

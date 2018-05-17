@@ -62,7 +62,7 @@ export default {
   watch: {
     value(val) {
       if (!this.hasChange && this.hasInit) {
-        //this.$nextTick(() => window.tinymce.get(this.tinymceId).setContent(val))
+        this.$nextTick(() => window.tinymce.get(this.tinymceId).setContent(val))
       }
     }
   },
@@ -114,7 +114,7 @@ export default {
         branding: false,//该选项允许您禁用“Powered by TinyMCE”品牌。
         elementpath: false,//该选项允许您禁用编辑器底部状态栏内的元素路径。
         init_instance_callback: editor => {
-          /*if (_this.value) {
+          if (_this.value) {
             editor.setContent(_this.value)
           }
           _this.hasInit = true
@@ -122,7 +122,7 @@ export default {
             this.hasChange = true
             this.$emit('input', editor.getBody().innerHTML)//editor.getContent())
 
-          })*/
+          })
         }
       })
     },

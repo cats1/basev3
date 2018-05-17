@@ -146,13 +146,14 @@ export function getComBarList(array, name, id, count) {
   })
   return list
 }
-export function getBarList(array, name, id, count) {
+export function getBarList(array, name, id, count, remark) {
   let list = [{
     label: getCache('company'),
     name: getCache('company'),
     pid: '',
     pcount: 0,
     dp: 'root',
+    remark: null,
     children: [],
     id: 0
   }]
@@ -162,7 +163,8 @@ export function getBarList(array, name, id, count) {
       name: element[name],
       pid: element[id],
       pcount: element[count],
-      children: []
+      children: [],
+      remark: element[remark],
     }
     if (parseInt(element[count]) === 0) {
       obj.label = element[name]

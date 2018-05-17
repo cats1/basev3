@@ -1,10 +1,10 @@
 <template>
 	<div>
 	  <div class="boxshadow paddinglr30 paddingtb20 bgwhite" style="overflow:hidden;">
-      <add-pro :btn-type="btnType" @addkit="getaddpro"></add-pro>
-      <add-visit :btn-type="btnType" :pro-list="projectList" :pid="nform.pid" @sendav="getaddv" :edit-type="editType" :cur-emp="curEmp" @addemp="getBtnType"></add-visit>
-      <edit-pro :epdata="probj" @editpro="getBtnType" @editkit="geteditv"></edit-pro>
-      <move-pro :cardarray="cardarray" :pro-list="projectList" @movekit="getmove"></move-pro>
+      <add-pro :btn-type="btnType" @editpro="getBtnType" @editkit="getaddpro"></add-pro>
+      <add-visit :cur-emp="curEmp" :btn-type="btnType" :pro-list="projectList" :pid="nform.pid" @sendav="getaddv" :edit-type="editType" @addemp="getBtnType"></add-visit>
+      <edit-pro :btn-type="btnType" :epdata="probj" @editpro="getBtnType" @editkit="geteditv"></edit-pro>
+      <move-pro :cardarray="cardarray" :pro-list="projectList" @movekit="getmove" @movebtn="getBtnType"></move-pro>
       <make-visit-card :cardarray="cardarray"></make-visit-card>
       <delete-visit :drids="dform.rids" @senddkit="getDev"></delete-visit>
       <send-all-face></send-all-face> 
@@ -77,13 +77,15 @@
 	</div>
 </template>
 <script>
+import visitEdit from './components/visitEdit'
 import {addPro,addVisit,editPro,movePro,makeVisitCard,deleteVisit,sendAllFace} from './components'
 import {getCache} from '@/utils/auth'
 import {getBarList} from '@/utils/common'
 export default {
-  components: {addPro,addVisit,editPro,movePro,makeVisitCard,deleteVisit,sendAllFace},
+  components: {addPro,addVisit,editPro,movePro,makeVisitCard,deleteVisit,sendAllFace,visitEdit},
   data () {
   	return {
+      dialogVisible: false,
       list: [],
       btnType: 0,
       total:0,
@@ -120,6 +122,9 @@ export default {
     this.getProjectList()
   },
   methods: {
+    getEdit () {
+      this.dialogVisible = false
+    },
   	changeVtype (val) {
       this.$emit('typekit',val)
   	},
@@ -146,11 +151,15 @@ export default {
     },
     getaddv (val) {
       this.btnType = 1
-      if (val === this.nform.pid) {
+      this.editType = 0
+      this.btnType = 1
+      this.curEmp = {}
+      /*if (val === this.nform.pid) {
         this.getResidentVisitor()
-      }
+      }*/
     },
     geteditv () {
+      this.dform.rids = []
       this.getProjectList()
     },
     getDev () {
@@ -164,7 +173,7 @@ export default {
   	  this.$store.dispatch('getProject',nform).then(res => {
   	  	let {status,result} = res
   	  	if (status === 0) {
-  	  	  this.list = getBarList(result,'pName','pid','pcount')
+  	  	  this.list = getBarList(result,'pName','pid','pcount','remark')
           this.projectList = result
   	  	  if (result.length>0) {
             this.nform.pid = result[0].pid
@@ -184,9 +193,16 @@ export default {
   	  })	
   	},
   	handleNodeClick(data) {
-        this.nform.pid = data.pid
-        this.nform.startIndex = 1
-        this.getResidentVisitor()
+      let probj = {
+        pName: data.name,
+        remark: data.remark,
+        pid: data.pid,
+        userid: getCache('userid')
+      }
+      this.probj = probj
+      this.nform.pid = data.pid
+      this.nform.startIndex = 1
+      this.getResidentVisitor()
     },
     handleSizeChange (val) {
   	  this.form.requestedCount = val

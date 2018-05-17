@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<p v-show="rform.face !== 0">{{$t('faceError')}}</p>
-        <el-button type="primary" @click="regPhoto">{{$t('regPhoto')}}</el-button>
+    <el-button type="primary" @click="regPhoto">{{$t('regPhoto')}}</el-button>
 	</div>
 </template>
 <script>
@@ -19,9 +19,7 @@ export default {
   	}
   },
   watch: {
-  	rform (val) {
-  	  console.log(val)
-  	}
+  	rform (val) {}
   },
   methods: {
   	regPhoto () {

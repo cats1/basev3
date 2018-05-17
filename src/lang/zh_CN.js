@@ -1,5 +1,8 @@
 export default {
   searchVnameHolder: '搜索访客姓名',
+  uploadFileSuccess: '文件上传成功',
+  mustSelect: '请选择',
+  selectCard: '请输入关联卡号',
   noPage: '非常抱歉，此页面不存在!',
   syncSuccess: '同步成功',
   activeSuccess: '激活成功',
@@ -14,6 +17,7 @@ export default {
   sendCardSuccess: '批量发卡成功',
   deleteSuccess: '删除成功！',
   updateSuccess: '资料更新成功',
+  selectProject: '请选择项目',
   uploadPicSuccess: '图片上传成功',
   emailOrderSuccess: '邮件订阅设置成功',
   pwdSuccess: '密码修改成功',
@@ -58,6 +62,7 @@ export default {
   prevStep: '上一步',
   emptip: '请选择一个员工，作为的默认抄送人（可以不选择）',
   sempholder: '搜索员工姓名或卡号',
+  sempholder1: '搜索员工姓名',
   as: '归类为',
   defaultText: '默认',
   chargePerson: '负责人',
@@ -316,11 +321,11 @@ export default {
       text7: '有效期'
     },
     gate: {
-      text: '关联闸机',
-      tip: '请选择闸机组',
-      text1: '闸机信息',
-      text2: '请选择关联闸机组',
-      text3: '关联闸机组'
+      text: '关联设备',
+      tip: '请选择设备组',
+      text1: '设备信息',
+      text2: '请选择关联设备组',
+      text3: '关联设备组'
     },
     photo: {
       tip: '请上传头像'
@@ -856,6 +861,7 @@ export default {
     desc7: '"方式导入通讯录',
     desc8: '作为导入通讯录的方式，',
     desc9: '每天00:00自动同步RTX',
+    desc10: '每天00:00自动同步钉钉',
     ip: 'IP地址',
     ipSet: 'IP设置',
     ddSet: '钉钉设置',

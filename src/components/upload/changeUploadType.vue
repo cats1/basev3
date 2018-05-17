@@ -1,13 +1,10 @@
 <template>
 	<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
 		<h3>{{$t('btn.exportListBtn')}}</h3>
-		<el-select v-model="value" placeholder="请选择">
-			    <el-option
-			      v-for="(item,index) in $t('exporttype.list')"
-			      :key="item"
-			      :label="item"
-			      :value="index">
-			    </el-option>
+		<el-select class="margintop20" v-model="value" :placeholder="$t('mustSelect')">
+			<el-option v-for="(item,index) in $t('exporttype.list')"
+			  :key="item" :label="item" :value="index">
+			</el-option>
 		</el-select>
 		<div class="margintop20">
 			<el-button type="primary" @click="confirmGo">{{$t('btn.confirmBtn')}}</el-button>
@@ -38,7 +35,6 @@ export default {
   	}
   },
   mounted () {
-  	console.log(this.etype)
   	this.checkType()
   },
   methods: {

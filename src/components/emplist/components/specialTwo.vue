@@ -46,7 +46,6 @@ export default {
   	  this.visitType = val
   	},
   	eArray (val) {
-  		console.log(val)
   	  this.empArray = val
   	}
   },

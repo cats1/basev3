@@ -12,9 +12,9 @@
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
-          <el-input v-model="sform.name" @change="searchEmp">
+          <el-autocomplete v-model="sname" :fetch-suggestions="querySearchAsync" value-key="empName" @select="handleSelect" :placeholder="$t('sempholder1')">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
-          </el-input>
+          </el-autocomplete>
 	  			<el-radio-group class="margintop20" v-model="vtype" @change="changeVtype">
 			      <el-radio-button label="emplist">{{$t('emplist.pro')}}</el-radio-button>
 			      <el-radio-button label="role">{{$t('emplist.com')}}</el-radio-button>
@@ -125,7 +125,10 @@ export default {
       parentNode: {},
       sempArray: [],
       curEmp: {},
-      vtype: 'emplist'
+      vtype: 'emplist',
+      sname: '',
+      restaurants: [],
+      timeout:  null
   	}
   },
   mounted () {
@@ -161,18 +164,6 @@ export default {
     getUpdatekit () {
       this.editType = 0
       this.curEmp = {}
-    },
-    searchEmp (val) {
-      console.log(val)
-      if (val !== '') {
-        this.$store.dispatch('getEmpByName',this.sform).then(res => {
-          let {status,result} = res
-          if (status === 0) {
-            this.dataList = result
-            this.total = 0
-          }
-        })
-      }
     },
   	changeVtype (val) {
   	  this.$router.push({name:val})
@@ -251,6 +242,7 @@ export default {
     },
   	handleNodeClick(data,node,d) {
       console.log(data)
+      this.rightType = 1
       this.parentNode = node.parent.data
       this.parent = data
       if (data.dp === 'root') {
@@ -289,7 +281,43 @@ export default {
   	  val.forEach(function(ele,index){
         _self.deform.empids.push(ele.empid)
   	  })
-  	}
+  	},
+    searchEmp (val) {
+      if (val !== '') {
+        this.$store.dispatch('getEmpByName',this.sform).then(res => {
+          let {status,result} = res
+          if (status === 0) {
+            this.dataList = result
+            this.total = 0
+          }
+        })
+      }
+    },
+    querySearchAsync(queryString, cb) {
+      this.$store.dispatch('getEmpByName',this.sform).then(res => {
+          let {status,result} = res
+          if (status === 0) {
+            this.restaurants = result
+            let restaurants = this.restaurants
+            let results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants
+            clearTimeout(this.timeout)
+            this.timeout = setTimeout(() => {
+                cb(results)
+            }, 3000 * Math.random())
+          }
+      })
+    },
+    createStateFilter(queryString) {
+      return (state) => {
+        return (state.empName.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      }
+    },
+    handleSelect(item) {
+      let varray = []
+      varray.push(item)
+      this.dataList = varray
+      this.total = 1
+    }
   }
 }
 </script>

@@ -12,35 +12,35 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item prop="empName">
-            <el-input v-model="form.empName" placeholder="请填写姓名">
+            <el-input v-model="form.empName" :placeholder="$t('yourName')">
               <i slot="prefix" class="el-input__icon">
                 <img :src="nameIcon" alt="">
               </i>
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="form.empNickname" placeholder="请填写昵称">
+            <el-input v-model="form.empNickname" :placeholder="$t('form.name.text3')">
               <i slot="prefix" class="el-input__icon">
                 <img :src="nickIcon" alt="">
               </i>
             </el-input>
           </el-form-item>
           <el-form-item prop="empEmail">
-            <el-input v-model="form.empEmail" placeholder="请填写邮箱">
+            <el-input v-model="form.empEmail" :placeholder="$t('form.email.text')">
               <i slot="prefix" class="el-input__icon">
                 <img :src="emailIcon" alt="">
               </i>
             </el-input>
           </el-form-item>
-          <el-form-item prop="empPhone" placeholder="请填写手机">
-            <el-input v-model="form.empPhone" >
+          <el-form-item prop="empPhone" >
+            <el-input v-model="form.empPhone" :placeholder="$t('form.phone.text')">
               <i slot="prefix" class="el-input__icon">
                 <img :src="phoneIcon" alt="">
               </i>
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="form.remark" placeholder="请填写备注">
+            <el-input v-model="form.remark" :placeholder="$t('formCheck.remark.tip1')">
               <i slot="prefix" class="el-input__icon">
                 <img :src="remarkIcon" alt="">
               </i>
@@ -50,7 +50,7 @@
             <i class="defaulticon">
               <img :src="defaultIcon" alt="">
             </i>
-            <el-select v-model="form.subaccountId" placeholder="请选择" @change="getCom">
+            <el-select v-model="form.subaccountId" :placeholder="$t('mustSelect')" @change="getCom">
               <el-option
                 v-for="item in comList"
                 :key="item.id"
@@ -60,22 +60,21 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-checkbox v-model="emptype" @change="setEmptype">{{$t('emplist.pad')}}</el-checkbox>
+            <el-checkbox v-model="checked" @change="setEmptype">{{$t('emplist.pad')}}</el-checkbox>
           </el-form-item>
         </el-col>
         <el-col :span="8" class="">
           <p class="marginbom20">{{$t('form.gate.text1')}}</p>
           <el-form-item>
-            <el-input v-model="form.cardNo" placeholder="请输入关联卡号">
+            <el-input v-model="form.cardNo" :placeholder="$t('selectCard')">
               <i slot="prefix" class="el-input__icon">
                 <img :src="cardIcon" alt="">
               </i>
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-date-picker
-              v-model="range"
-              type="daterange"
+            <el-date-picker v-model="range"
+              type="daterange" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
               range-separator="-"
               :start-placeholder="$t('vdate[0]')"
               :end-placeholder="$t('vdate[1]')" @change="getDate">
@@ -99,6 +98,7 @@
   </div>
 </template>
 <script>
+import { isvalidEmail, validatPhone } from '@/utils/validate'
 import {getCache} from '@/utils/auth'
 import { formatDate } from '@/utils'
 import {gateGroup} from '@/components/account/components'
@@ -120,6 +120,22 @@ export default {
   },
   components: {gateGroup},
   data () {
+    const validateEmail = (rule, value, callback) => {
+      if (!value) {
+        callback()
+      } else if (!isvalidEmail(value)) {
+        callback(new Error(this.$t('validEmail.tip1')))
+      } else {
+        callback()
+      }
+    }
+    const validatePhone = (rule, value, callback) => {
+      if (!validatPhone(value)) {
+        callback(new Error(this.$t('validphone.tip1')))
+      } else {
+        callback()
+      }
+    }
   	return {
   	  dialogVisible: false,
       bType: 'default',
@@ -136,7 +152,7 @@ export default {
         empPosition: '',
         telephone: '',
         workbay: '',
-        visitType: '面试',
+        visitType: '',
         subaccountId: '',
         empNickname: '',
         remark: '',
@@ -146,13 +162,15 @@ export default {
         startDate: '',
         endDate: ''
       },
+      checked: false,
       rules: {
         empName:[
           { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
         empPhone:[
-          { required: true, message: this.$t('formCheck.validphone.tip2'), trigger: 'blur' }],
+          { required: true, message: this.$t('formCheck.validphone.tip2'), trigger: 'blur' },
+          { required: true, trigger: 'blur', validator: validatePhone}],
         empEmail:[
-          { required: true, message: this.$t('formCheck.validEmail.tip2'), trigger: 'blur' }],
+          { required: false, trigger: 'blur', validator: validateEmail}],
       },
       range: [],
       nameIcon: require('@/assets/img/e_name.png'),
@@ -178,17 +196,26 @@ export default {
       this.etype = val
     },
     empObj (val) {
-      console.log(val)
       if (this.editType !== 0) {
         this.form = val
-        this.range = [val.startDate,val.endDate]
+        console.log(val)
+        if (val.empType === 3) {
+          this.checked = true
+        } else {
+          this.checked = false
+        }
+        if (val.startDate) {
+          this.range[0] = val.startDate
+        }
+        if (val.endDate) {
+          this.range[1] = val.endDate
+        }
       }
     }
   },
   mounted () {
     if (this.editType !== 0) {
         this.form = this.empObj
-        console.log(777)
         this.range = [this.empObj.startDate,this.empObj.endDate]
     }
     if (this.btnType === 1) {
@@ -200,11 +227,8 @@ export default {
   },
   methods: {
     stringToArray:stringToArray,
-    getCom (val) {
-      console.log(val)
-    },
+    getCom (val) {},
     getDate (val) {
-      console.log(val)
       this.form.startDate = formatDate(val[0],'yyyy-MM-dd')
       this.form.endDate = formatDate(val[1],'yyyy-MM-dd')
     },
@@ -219,7 +243,6 @@ export default {
       this.$emit('addkit',1)
     },
     getGate (val) {
-      console.log(val)
       this.form.egids = arrayToString(val)
     },
     addCancel () {
@@ -244,19 +267,19 @@ export default {
             email: this.form.empEmail,
             phone: this.form.empPhone,
             employeeid: this.form.empid,
-            emptype: 2,
+            emptype: this.form.emptype,
             empPosition: '',
             telephone: '',
             workbay: '',
-            visitType: '面试',
+            visitType: '',
             subaccountId: this.form.subaccountId,
-            empNickname: this.form.empNickname,
+            empNickname: this.form.empNickname || '',
             remark: this.form.remark,
             deptIds: [],
             cardNo: this.form.cardNo,
             egids: this.form.egids,
-            startDate: formatDate(this.range[0],'yyyyMMdd'),
-            endDate: formatDate(this.range[1],'yyyyMMdd')
+            startDate: this.range.length > 0 ? this.range[0].replace(/-/g,'') : '',
+            endDate: this.range.length > 0 ? this.range[1].replace(/-/g,'') : ''
           }
           this.$store.dispatch('updateEmployee',nform).then(res => {
             let {status} = res
@@ -276,15 +299,15 @@ export default {
             empPosition: '',
             telephone: '',
             workbay: '',
-            visitType: '面试',
+            visitType: '',
             subaccountId: this.form.subaccountId,
             empNickname: this.form.empNickname,
             remark: this.form.remark,
             deptIds: [],
             cardNo: this.form.cardNo,
             egids: this.form.egids,
-            startDate: formatDate(this.range[0],'yyyyMMdd'),
-            endDate: formatDate(this.range[1],'yyyyMMdd')
+            startDate: this.range.length > 0 ? formatDate(this.range[0],'yyyyMMdd') : '',
+            endDate: this.range.length > 0 ? formatDate(this.range[1],'yyyyMMdd') : ''
           }
           this.$store.dispatch('addEmployee',nform).then(res => {
             let {status} = res
@@ -302,7 +325,7 @@ export default {
         if (status === 0) {
           let comArray = [{
             id: 0,
-            companyName: '默认'
+            companyName: this.$t('defaultText')
           }]
           for (let i=0;i<result.length;i++) {
             let item = result[i]

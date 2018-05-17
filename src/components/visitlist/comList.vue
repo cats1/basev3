@@ -1,7 +1,7 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 bgwhite paddingtb20">
-		<el-button type="redline" @click="deleteEmp"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button> 
+	  <div class="boxshadow paddinglr30 bgwhite paddingtb20 block">
+      <delete-visit :drids="dform.rids" @senddkit="getDev"></delete-visit>
 	  </div>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
@@ -71,9 +71,11 @@
 	</div>
 </template>
 <script>
+import deleteVisit from './components/deleteVisit'
 import {getCache} from '@/utils/auth'
 import {getComBarList} from '@/utils/common'
 export default {
+  components: {deleteVisit},
   data () {
   	return {
       list: [],
@@ -109,6 +111,10 @@ export default {
   	changeVtype (val) {
       this.$emit('typekit',val)
   	},
+    getDev () {
+      this.getProjectList()
+      this.getResidentVisitor()
+    },
   	getProjectList () {
   	  let nform = {
   	  	userid: getCache('userid')
@@ -147,19 +153,10 @@ export default {
   	  this.getResidentVisitor()
   	},
   	handleSelectionChange (val) {
-  	  //this.clist = val
   	  let _self = this
   	  val.forEach(function(ele,index){
         _self.dform.rids.push(ele.rid)
   	  })
-  	},
-  	deleteEmp () {
-      this.$store.dispatch('delResidentVisitor',this.dform).then(res => {
-      	let {status} = res
-      	if (status === 0) {
-          this.getProjectList()
-      	}
-      })
   	},
     searchEmp (val) {
       if (val !== '') {

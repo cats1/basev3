@@ -22,11 +22,7 @@ const user = {
 		          if (status == 0) {
                     for (let key in result) {
 		          		if (key !== 'token') {
-		          			if (result[key]) {
-		          				setCache(key, result[key])
-		          			} else {
-		          				setCache(key, '')
-		          			}
+		          			setCache(key, result[key] || '')
 		          		} else {
 		          		  setCache('token', result.userid + '-' + result.token)
 		          		}

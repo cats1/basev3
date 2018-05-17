@@ -179,10 +179,7 @@ export default {
       }
     },
     curEmp (val) {
-      console.log(val)
       this.form = val
-      console.log(val.startDate)
-      console.log(val.endDate)
       if (val.startDate) {
         this.dateRange[0] = val.startDate
       }

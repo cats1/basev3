@@ -23,12 +23,20 @@ export default {
   mounted () {},
   methods: {
   	deleteEmp () {
-      this.$store.dispatch('delResidentVisitor',this.dform).then(res => {
-      	let {status} = res
-      	if (status === 0) {
-          this.$emit('senddkit')
-      	}
-      })
+      if (this.dform.rids.length === 0) {
+        this.$message({
+          showClose: true,
+          type: 'warning',
+          message: this.$t('selectEmpTip')
+        })
+      } else {
+        this.$store.dispatch('delResidentVisitor',this.dform).then(res => {
+          let {status} = res
+          if (status === 0) {
+            this.$emit('senddkit')
+          }
+        })
+      }
   	}
   }
 }
