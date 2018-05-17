@@ -3,7 +3,7 @@
 		<el-button @click="doMove"><i class="fa fa-unsorted"></i>{{$t('btn.moveDepart')}}</el-button>
 		<el-dialog
 	      width="50%"
-	      title="选择部门"
+	      :title="$t('depart.selectDepart')"
 	      :visible.sync="innerVisible">
 	        <depart-menu :left-data="dlist" :right-data="cobj" :check-num="6" :check-value="true" @menukit="setdepart"></depart-menu>
 	        <span slot="footer" class="dialog-footer">
@@ -53,7 +53,7 @@ export default {
       this.$emit('clickit',this.btnType)
   	  if (this.semp.length === 0) {
   	  	this.$message({
-          message: '请先选择员工',
+          message: this.$t('selectEmpTip'),
           type: 'error'
         })
   	  } else {

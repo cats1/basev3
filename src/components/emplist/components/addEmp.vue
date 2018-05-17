@@ -50,7 +50,7 @@
           <el-input v-model="form.workbay"></el-input>
         </el-form-item>
         <el-form-item :label="$t('form.gate.text')" prop="egids">
-          <gate-group :t-show="false" :check-array="stringToArray(form.egids)" @getclist="getGate"></gate-group>
+          <gate-group :t-show="false" :check-array="egids" @getclist="getGate"></gate-group>
         </el-form-item>
         <el-form-item :label="$t('form.time.text4')" prop="startDate">
           <el-date-picker
@@ -159,7 +159,8 @@ export default {
       proform: {},
       cobj: [],
       departArray: [],
-      menuList: []
+      menuList: [],
+      egids: []
   	}
   },
   watch: {
@@ -180,6 +181,9 @@ export default {
     },
     curEmp (val) {
       this.form = val
+      if (val.egids) {
+        this.egids = stringToArray(val.egids)
+      }
       if (val.startDate) {
         this.dateRange[0] = val.startDate
       }
@@ -216,7 +220,6 @@ export default {
       this.form.avatar = url
     },
     setrange (val) {
-      console.log(val)
       this.form.startDate = new Date(val[0])
       this.form.endDate = new Date(val[1])
     },
@@ -224,6 +227,7 @@ export default {
       this.innerVisible = true
     },
     getGate (val) {
+      this.egids = val
       this.form.egids = arrayToString(val)
     },
     saveProject () {
@@ -272,8 +276,10 @@ export default {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
+          this.egids = []
           this.$refs['empform'].resetFields()
           this.$refs['empform'].clearValidate()
+          this.dateRange = []
           this.$emit('addempkit')
         }
       })
@@ -304,6 +310,8 @@ export default {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
+          this.dateRange = []
+          this.egids = []
           this.$refs['empform'].resetFields()
           this.$refs['empform'].clearValidate()
           this.$emit('updateempkit')
@@ -326,6 +334,8 @@ export default {
     },
     handClose () {
       this.$emit('updateempkit')
+      this.dateRange = []
+      this.egids = []
       this.$refs['empform'].resetFields()
       this.$refs['empform'].clearValidate()
     }
