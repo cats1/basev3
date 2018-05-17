@@ -12,7 +12,7 @@ export default {
     epdata: null,
     btnType: {
       type: Number,
-      default: 0
+      default: 2
     },
     epdata: {
       type: Object,

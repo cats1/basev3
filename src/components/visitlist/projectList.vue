@@ -4,7 +4,7 @@
       <add-pro :btn-type="btnType" @editpro="getBtnType" @editkit="getaddpro"></add-pro>
       <add-visit :cur-emp="curEmp" :btn-type="btnType" :pro-list="projectList" :pid="nform.pid" @sendav="getaddv" :edit-type="editType" @addemp="getBtnType"></add-visit>
       <edit-pro :btn-type="btnType" :epdata="probj" @editpro="getBtnType" @editkit="geteditv"></edit-pro>
-      <move-pro :cardarray="cardarray" :pro-list="projectList" @movekit="getmove" @movebtn="getBtnType"></move-pro>
+      <move-pro :btn-type="btnType" :cardarray="cardarray" :pro-list="projectList" @movekit="getmove" @movebtn="getBtnType"></move-pro>
       <make-visit-card :cardarray="cardarray"></make-visit-card>
       <delete-visit :drids="dform.rids" @senddkit="getDev"></delete-visit>
       <send-all-face></send-all-face> 

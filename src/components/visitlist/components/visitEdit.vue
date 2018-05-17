@@ -213,6 +213,7 @@ export default {
           this.$emit('sendav',this.pid)
           this.dateRange = []
           this.$refs.proform.resetFields()
+          this.$refs.proform.clearValidate()
         }
       })
     },
@@ -224,11 +225,15 @@ export default {
           this.$emit('sendav',this.pid)
           this.dateRange = []
           this.$refs.proform.resetFields()
+          this.$refs.proform.clearValidate()
         }
       })
     },
     handClose () {
       this.$emit('sendav',this.pid)
+      this.dateRange = []
+      this.$refs.proform.resetFields()
+      this.$refs.proform.clearValidate()
     }
   }
 }
