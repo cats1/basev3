@@ -67,7 +67,7 @@ export default {
   data () {
   	return {
       form: {
-        userid: getCache('userid'),
+        userId: getCache('userid'),
         account: '',
         password: '',
         sname: ''
