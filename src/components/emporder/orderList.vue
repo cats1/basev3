@@ -3,7 +3,7 @@
 		<el-table :data="data" border>
 			<el-table-column
 		      type="index"
-		      width="30">
+		      width="50">
 		    </el-table-column>
 			<el-table-column prop="vname" :label="$t('form.name.text')"></el-table-column>
 			<el-table-column prop="vphone" :label="$t('form.phone.text')"></el-table-column>
@@ -13,16 +13,16 @@
 			      {{scope.row.appointmentDate | formatDate}}
 			    </template>
 			</el-table-column>
-			<el-table-column prop="company" :label="$t('checkVtype[5]')"></el-table-column>
+			<el-table-column prop="vcompany" :label="$t('checkVtype[5]')"></el-table-column>
 			<el-table-column prop="vphone" :label="$t('moban.inviteLink')" width="300">
 				<template slot-scope="scope">
-			      {{ scope.row.visitType | checkLink}}{{scope.row.encryption}}
+            <clip-link :item="scope.row" ></clip-link>
 			    </template>
 			</el-table-column>
 			<el-table-column prop="remark" :label="$t('form.remark.text')"></el-table-column>
 			<el-table-column prop="status" :label="$t('tablehead[10]')" width="70">
 				<template slot-scope="scope">
-			      {{scope.row.status | checkStatus}}
+			      {{checkStatus(scope.row.status)}}
 			    </template>
 			</el-table-column>
 		</el-table>
@@ -40,10 +40,12 @@
 	</div>
 </template>
 <script>
+import clipLink from '@/components/clipboard/clipLink'
 import {formatDate,setYearAgo} from '@/utils/index'
 import {getBaseUrl} from '@/utils/common'
 import { getCache } from '@/utils/auth'
 export default {
+  components: {clipLink},
   data () {
   	return {
   	  form: {
@@ -63,33 +65,26 @@ export default {
   	formatDate (time) {
   	  let date = new Date(time)
   	  return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
-  	},
+  	}/*,
   	checkLink (type) {
   	  if (type === '商务') {
   	  	return getBaseUrl() + '/bus?id='
   	  } else {
   	  	return getBaseUrl() + '/show?id='
   	  }
-  	},
-  	checkStatus (type) {
-	    switch (type) {
-	        case 0:
-	            return '已发送'
-	        case 1:
-	            return '已签到'
-	        case 2:
-	            return '已查看'
-	        case 3:
-	            return '接受邀请'
-	        case 4:
-	            return '拒绝邀请'
-	        default:
-	            return '已发送'
-
-	    }
-  	}
+  	}*/
   },
   methods: {
+    checkLink (type,encryption) {
+      if (type === '商务') {
+        return getBaseUrl() + '/bus?id=' + encryption
+      } else {
+        return getBaseUrl() + '/show?id=' + encryption
+      }
+    },
+  	checkStatus (type) {
+  		return this.$t('vstatus')[type]
+  	},
   	getList () {
       this.$store.dispatch('SearchRecordsByPhone',this.form).then(res => {
       	let {status,result} = res

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h3 class="margintop20 marginbom20 right">
-			<down-invite-moban></down-invite-moban>
+			<down-invite-moban :btype="1"></down-invite-moban>
 	    <upload-invite id="excel" eType="success" @sendkit="getUpload"></upload-invite>
 		</h3>
 		<el-table class="marginbom20" :data="table" border>

@@ -63,7 +63,6 @@ export default {
   },
   watch: {
     parent (val) {
-      console.log(val)
       this.parentObj = val
       let varray = []
       varray.push(val)
@@ -74,9 +73,7 @@ export default {
       }
     }
   },
-  mounted () {
-    console.log(this.parent)
-  },
+  mounted () {},
   methods: {
     editBtn () {
       this.$emit('clickit',this.btnType)

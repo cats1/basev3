@@ -102,7 +102,6 @@ export default {
   },
   watch: {
     parentNode (val) {
-      console.log(val)
       let parray = []
       parray.push(val)
       this.parentNodeObj = parray
@@ -116,13 +115,11 @@ export default {
       }
     },
     parent (val) {
-      console.log(val)
       this.parentObj = val
       this.departform.deptid = val.pid      
       this.departform.deptName = val.name
     },
     empList (val) {
-      console.log(val)
       let earray = []
       let _self = this
       val.forEach(function(element, index) {
@@ -133,11 +130,9 @@ export default {
         })
       })
       this.managerObj = earray
-      console.log(this.managerObj)
     }
   },
   mounted () {
-    console.log(this.parent)
     this.setMlist()
   },
   methods: {
@@ -154,12 +149,9 @@ export default {
       this.innerVisible1 = false
     },
     setdepart (val) {
-      console.log(val)
       this.parentNodeObj = val
     },
     setemp (val) {
-      console.log(val)
-
       this.managerObj = val
     },
     setDepShow () {
@@ -178,7 +170,6 @@ export default {
     },
     setMlist () {
       let marray = []
-      console.log(this.dp)
       let _self = this
       this.empList.forEach(function(element, index) {
         _self.dp.forEach(function(delement, dindex) {

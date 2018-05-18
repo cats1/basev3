@@ -29,7 +29,6 @@ export function formUpload(formid, file, callback) {
   xhr.send(form)
 }
 export function uploadCommon(file, callback) {
-  console.log(file)
   if (!testImgFileFormat(file.name)) {
     Message({
       message: '图片格式不正确',

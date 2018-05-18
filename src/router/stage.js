@@ -7,14 +7,23 @@ export default new Router({
   routes: [{
   	path: '/',
   	name: 'stage',
-  	component: _import('home/managerLeftRight')
+  	component: _import('home/managerLeftRight'),
+    meta: {
+      title: 'visitor'
+    }
   },{
   	path: '/data',
   	name: 'sdata',
-  	component: _import('home/components/dataControl')
+  	component: _import('home/components/dataControl'),
+    meta: {
+      title: 'data'
+    }
   },{
     path: '*',
     name: '404',
-    component: _import('error/404One')
+    component: _import('error/404One'),
+    meta: {
+      title: '404'
+    }
   }]
 })

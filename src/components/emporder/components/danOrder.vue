@@ -58,10 +58,10 @@
 	    </div>
 	    <div class="margintop20">
 	    	<el-button type="success" @click="sendOrder">{{$t('btn.sendInvite')}}</el-button>
-	    	<el-button type="default" @click="previewFlag = true">{{$t('btn.overview')}}</el-button>
+	    	<el-button type="default" @click="previewOrder">{{$t('btn.overview')}}</el-button>
 	    </div>
         <moban-dialog :mobanFlag="mobanFlag" :ptip="$t('moban.tip1')" @closekit="getClose"></moban-dialog>
-        <preview-dialog :obj="form" :mobanFlag="previewFlag"></preview-dialog>
+        <preview-dialog :obj="form" @closekit="getClose" :mobanFlag="previewFlag"></preview-dialog>
 	</div>
 </template>
 <script>
@@ -140,13 +140,13 @@ export default {
   	sendOrder () {
       this.$refs.danform.validate(valid => {
       	if (valid) {
+          
       		if (this.visitType === 0) {
 		        this.demoban = this.facemoban
-		  	} else {
+		  	  } else {
 		  	  	this.demoban = this.busmoban
-		  	}
+		  	  }
 		  	let date = formatDate(this.form.appointmentDate,'yyyy-MM-dd hh:mm:ss')
-		  	console.log(this.form.appointmentDate)
 		  	let nform = [{
 		  	  	address: this.demoban.address,
 		      	appointmentDate: new Date(Date.parse(date.replace(/-/g, '/'))),
@@ -163,14 +163,23 @@ export default {
 		      	traffic: replaceQuotation(this.demoban.traffic),
 		      	userid: getCache('userid'),
 		      	vcompany: this.form.vcompany,
-		      	visitType: this.visitType === 0 ? this.$t('itype[0].label') : this.$t('itype[1].label')
-		  	}]
-  	  		this.$store.dispatch('addAppointment',nform).then(res => {
-  	  		  let {status} = res
-  	  		  if (status === 0) {
-  	  		  	this.mobanFlag = true
-  	  		  }
-  	  		})
+		      	visitType: this.visitType === 0 ? '面试' : '商务'
+		  	  }]
+          let MaxCount = this.timetype === 0 ? parseInt(getCache('qrMaxDuration')) : parseInt(getCache('qrMaxCount'))
+            if (parseInt(this.form.qrcodeType) > MaxCount) {
+            this.$message({
+              type: 'warning',
+              message: this.$t('uptoMax')
+            })
+            return false
+          } else {
+            this.$store.dispatch('addAppointment',nform).then(res => {
+              let {status} = res
+              if (status === 0) {
+                this.mobanFlag = true
+              }
+            })
+          }
       	}
       })
   	},
@@ -178,7 +187,11 @@ export default {
   	  this.mobanShow = !this.mobanShow
   	},
   	getClose () {
-      console.log('8989')
+      this.mobanFlag = false
+      this.previewFlag = false
+    },
+    previewOrder () {
+      this.previewFlag = true
     }
   }
 }

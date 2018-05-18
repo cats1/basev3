@@ -1,5 +1,5 @@
 <template>
-    <el-dialog :visible.sync="isShow" title="邀请短信模板"
+    <el-dialog :visible.sync="isShow" :title="$t('inviteMoban')"
 	  width="40%" @close="getKnow">
       <div class="previewwrap">
         <div class="messagedetail">
@@ -10,11 +10,7 @@
             <img src="assets/img/talk_bom.png" alt=""></div>
         </div>
       </div>
-      <p class="tips">提示:添加多条来访者信息时，只能预览第一条记录</p>
-	   <!-- <div class="mobanwins">
-	   	 <p>{{pdesc}}</p>
-	   	 <el-button type="success" @click="getKnow">{{$t('moban.tip2')}}</el-button>
-	   </div> -->
+      <p class="tips">{{$t('outTip.desc')}}:{{$t('inviteTip')}}</p>
     </el-dialog>
 </template>
 <script>

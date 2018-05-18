@@ -7,8 +7,8 @@
 		  width="50%" @close="handClose">
 		  <el-form :model="form" :rules="rules" ref="empform" label-width="100px" class="demo-ruleForm">
         <template v-if="editType === 1">
-          <el-form-item prop="avatar">
-            <upload-user-photo :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
+          <el-form-item prop="avatar" class="center">
+            <upload-user-photo id="userphoto" :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
             <reg-face :rform="form"></reg-face>
           </el-form-item>
         </template>

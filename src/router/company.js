@@ -7,16 +7,27 @@ export default new Router({
   routes: [{
   	path: '/',
   	name: 'visitor',
-  	component: _import('emporder/layOut'),
+  	component: _import('company/layOut'),
   	children: [
-  	  { path: '/', name: 'index', component: _import('home/managerLeftRight') },
-  	  { path: '/data', name: 'data', component: _import('home/components/dataControl') },
-  	  { path: '/invite', name: 'invite', component: _import('company/invite') },
-      {path: '/history',name: 'history',component: _import('history/layOut')}
+  	  { path: '/', name: 'index', component: _import('home/managerLeftRight'),meta: {
+        title: 'visitor'
+      }},
+  	  { path: '/data', name: 'data', component: _import('home/components/dataControl'),meta: {
+        title: 'data'
+      } },
+  	  { path: '/invite', name: 'invite', component: _import('company/invite'),meta: {
+        title: 'invite'
+      } },
+      {path: '/history',name: 'history',component: _import('history/layOut'),meta: {
+        title: 'history'
+      }}
   	]
   },{
     path: '*',
     name: '404',
-    component: _import('error/404One')
+    component: _import('error/404One'),
+    meta: {
+      title: '404'
+    }
   }]
 })

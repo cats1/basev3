@@ -1,4 +1,26 @@
 export default {
+  route: {
+    visitor: 'Visitor',
+    data: 'Data',
+    employee: 'Employees',
+    role: 'Role',
+    visitlist: 'Visitlist',
+    backlist: 'Blacklist',
+    notice: 'Notice',
+    pad: 'Reception',
+    reserve: 'Reservation',
+    approve: 'Approval process',
+    key: 'Door Access',
+    meeting: 'Conference',
+    account: 'Account',
+    order: 'Invite',
+    orderList: 'Invitelist',
+    history: 'History',
+    404: '404'
+  },
+  uptoMax: 'Cannot exceed the upper limit',
+  inviteTip: 'If add more visitors,only overview the first',
+  inviteMoban: 'Invite SMS template',
   searchVnameHolder: 'Search visitor name',
   uploadFileSuccess: 'Upload file successfully',
   mustSelect: 'Please select',
@@ -181,7 +203,7 @@ export default {
     button: 'Sign up'
   },
   navlist: [{
-    name: 'Visitor',
+    name: 'Visitors',
     dirname: 'index',
     link: 'index',
     children: []

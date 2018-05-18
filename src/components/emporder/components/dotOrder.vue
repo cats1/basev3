@@ -7,8 +7,8 @@
 	    <div class="boxshadow bgwhite paddinglr30 paddingtb20">
 	    	<h3>{{$t('moban.visitMess')}}
           <div class="right">
-            <down-invite-moban></down-invite-moban>
-            <upload-invite @sendkit="getUpload"></upload-invite>
+            <down-invite-moban :dtype="1" :btype="1"></down-invite-moban>
+            <upload-invite e-type="primary" @sendkit="getUpload"></upload-invite>
           </div>
 	    	</h3>
 	    	<p>{{$t('moban.tip7')}}</p>
@@ -19,49 +19,49 @@
 			    </el-table-column>
 				<el-table-column prop="vname" :label="$t('form.name.text')" width="180">
 					<template slot-scope="scope">
-				      <el-input v-model="scope.row.name"></el-input>
+				      <el-input v-model="scope.row.name" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				    </template>
 				</el-table-column>
 				<el-table-column prop="vphone" :label="$t('form.phone.text')" width="180">
 					<template slot-scope="scope">
-				      <el-input v-model="scope.row.phone"></el-input>
+				      <el-input v-model="scope.row.phone" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				    </template>
 				</el-table-column>
 				<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="180">
 					<template slot-scope="scope">
-				      <el-select v-model="scope.row.visitType" class="block">
-						<el-option style="width:180px"
-						    v-for="item in $t('itype')"
-						    :key="item.value"
-  							:label="item.label"
-  							:value="item.value">
-						</el-option>
-					  </el-select>
+				      <el-select v-model="scope.row.visitType" class="block" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)">
+    						<el-option style="width:180px"
+    						    v-for="item in $t('itype')"
+    						    :key="item.value"
+      							:label="item.label"
+      							:value="item.value">
+    						</el-option>
+					    </el-select>
 				    </template>
 				</el-table-column>
 				<el-table-column prop="appointmentDate" :label="$t('form.time.text6')" width="220">
 					<template slot-scope="scope">
-					    <el-date-picker
+					    <el-date-picker :disabled="!numberToBoolean(scope.row.etype)"
 					      v-model="scope.row.appointmentDate"
-					      type="datetime"
+					      type="datetime" @change="updateType(scope.$index)"
 					      :placeholder="$t('formCheck.time.tip1')">
 					    </el-date-picker>
 				    </template>
 				</el-table-column>
 				<el-table-column prop="company" :label="$t('form.company.text2')">
 					<template slot-scope="scope">
-						<el-input v-model="scope.row.vcompany"></el-input>
+						<el-input v-model="scope.row.vcompany" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				    </template>
 				</el-table-column>
 				<el-table-column prop="remark" :label="$t('form.remark.text')">
 					<template slot-scope="scope">
-						<el-input v-model="scope.row.remark"></el-input>
+						<el-input v-model="scope.row.remark" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				    </template>
 				</el-table-column>
 				<el-table-column prop="status" :label="$t('btn.edit1')" width="100">
 					<template slot-scope="scope">
-					  <el-button type="danger" v-if="numberToBoolean(scope.row.etype)" @click="delettype" icon="el-icon-delete">{{$t('btn.deleteBtn')}}</el-button>
-				      <el-button type="primary" v-else @click="edittype" icon="el-icon-edit">{{$t('btn.addBtn')}}</el-button>
+					  <el-button type="danger" size="small" v-if="numberToBoolean(scope.row.etype)" @click="delettype" icon="el-icon-delete">{{$t('btn.deleteBtn')}}</el-button>
+				      <el-button type="primary" size="small" v-else @click="edittype(scope.$index)" icon="el-icon-edit">{{$t('btn.addBtn')}}</el-button>
 				    </template>
 				</el-table-column>
 			</el-table>
@@ -91,10 +91,11 @@
 		    @getbcon="getbinv" @getbtraffic="getbtraffic" @getbcompro="getbcompro" @getinitface="getinitface" @getinitbus="getinitbus"></bom-moban>
 	    </div>
 	    <div class="margintop20">
-	    	<el-button type="success" @click="sendOrder">{{$t('btn.sendInvite')}}</el-button><el-button type="default">{{$t('btn.overview')}}</el-button>
+	    	<el-button type="success" @click="sendOrder">{{$t('btn.sendInvite')}}</el-button>
+        <el-button type="default" @click="previewOrder">{{$t('btn.overview')}}</el-button>
 	    </div>
       <moban-dialog :mobanFlag="mobanFlag" :ptip="$t('moban.tip1')" @closekit="getClose"></moban-dialog>
-      <preview-dialog :obj="form" :mobanFlag="previewFlag"></preview-dialog>
+      <preview-dialog :obj="data[0]" @closekit="getClose" :mobanFlag="previewFlag"></preview-dialog>
 	</div>
 </template>
 <script>
@@ -201,6 +202,9 @@ export default {
   },
   methods: {
     numberToBoolean:numberToBoolean,
+    updateType (val) {
+      this.data[val].etype = 1
+    },
   	goDan () {
   	  this.$router.push({name: 'order'})
   	},
@@ -223,22 +227,52 @@ export default {
       this.busmoban.companyProfile = val
     },
     getinitface (val) {
-      console.log(val)
       this.facemoban = val
     },
     getinitbus (val) {
-      console.log(val)
       this.busmoban = val
     },
     getUpload (result) {
       this.data = result
+      this.data = result
+      let _self = this
+      this.data.forEach(function(ele,index){
+        _self.$set(ele,'etype',1)
+      })
     },
     edittype (index) {
-      this.$set(this.data[index],'etype',1)
+      console.log(this.data[index].etype)
+      this.data[index].etype = 1
     },
     delettype (index) {
-      let cdata = this.data
-      this.data.splice(index,1)
+      console.log(index)
+      if (this.data.length > 1) {
+        this.data.splice(index,1)
+      } else {
+        this.data[index] = {
+            address: '',
+            appointmentDate: '',
+            companyProfile: '',
+            empid: '',
+            inviteContent: '',
+            latitude: '',
+            longitude: '',
+            name: '',
+            phone: '',
+            qrcodeConf: '',
+            qrcodeType: '',
+            remark: '',
+            traffic: '',
+            userid: '',
+            vcompany: '',
+            visitType: '',
+            etype: 0
+          }
+        this.$message({
+          type: 'error',
+          message: this.$t('moban.tip5')
+        })
+      }
     },
     addVisit () {
       let nform = {
@@ -273,38 +307,51 @@ export default {
   			  } else {
   			  	_self.demoban = _self.busmoban
   			  }
-          let date = new Date(element.appointmentDate)
-          /*if (element.appointmentDate.indexOf('/') >0) {
-            date = Date.parse(element.appointmentDate.replace(/-/g, '/'))
+          if (element.name !== '' && element.phone !== '' && element.visitType !== '' && element.appointmentDate !== '') {
+                let date = new Date(element.appointmentDate)
+                let obj = {
+                  address: _self.demoban.address,
+                  appointmentDate: date,
+                  companyProfile: replaceQuotation(_self.demoban.companyProfile),
+                  empid: getCache('empid'),
+                  inviteContent: replaceQuotation(_self.demoban.inviteContent),
+                  latitude: _self.demoban.latitude,
+                  longitude: _self.demoban.longitude,
+                  name: element.name,
+                  phone: element.phone,
+                  qrcodeConf: _self.timetype === 0 ? '0' : '1',
+                  qrcodeType: _self.form.qrcodeType,
+                  remark: element.remark,
+                  traffic: replaceQuotation(_self.demoban.traffic),
+                  userid: getCache('userid'),
+                  vcompany: element.vcompany,
+                  visitType: _self.visitType === 0 ? '面试' : '商务'
+                }
+                nform.push(obj)
+          }    
+      	})
+          let MaxCount = _self.timetype === 0 ? parseInt(getCache('qrMaxDuration')) : parseInt(getCache('qrMaxCount'))
+          if (parseInt(_self.form.qrcodeType) > MaxCount) {
+            _self.$message({
+              type: 'warning',
+              message: _self.$t('uptoMax')
+            })
+            return false
           } else {
-            date = new Date(element.appointmentDate)
-          }*/
-          let obj = {
-      		  	  	address: _self.demoban.address,
-      		      	appointmentDate: date,
-      		      	companyProfile: replaceQuotation(_self.demoban.companyProfile),
-      		      	empid: getCache('empid'),
-      		      	inviteContent: replaceQuotation(_self.demoban.inviteContent),
-      		      	latitude: _self.demoban.latitude,
-      		      	longitude: _self.demoban.longitude,
-      		      	name: element.name,
-      		      	phone: element.phone,
-      		      	qrcodeConf: _self.timetype === 0 ? '0' : '1',
-      		      	qrcodeType: _self.form.qrcodeType,
-      		      	remark: element.remark,
-      		      	traffic: replaceQuotation(_self.demoban.traffic),
-      		      	userid: getCache('userid'),
-      		      	vcompany: element.vcompany,
-      		      	visitType: element.visitType
-      		  	   }
-      		  	   nform.push(obj)
-      		})
-  	  		this.$store.dispatch('addAppointment',nform).then(res => {
-  	  		  let {status} = res
-  	  		  if (status === 0) {
-              this.mobanFlag = true
+            if (nform.length === 0) {
+              this.$message({
+                type: 'warning',
+                message: this.$t('moban.tip6')
+              })
+            } else {
+              this.$store.dispatch('addAppointment',nform).then(res => {
+                let {status} = res
+                if (status === 0) {
+                  this.mobanFlag = true
+                }
+              })
             }
-  	  		})
+          }
       	}
       })
   	},
@@ -312,7 +359,11 @@ export default {
   	  this.mobanShow = !this.mobanShow
   	},
     getClose () {
-      console.log('8989')
+      this.mobanFlag = false
+      this.previewFlag = false
+    },
+    previewOrder () {
+      this.previewFlag = true
     }
   }
 }

@@ -6,15 +6,7 @@
 			  <el-collapse-transition>
 				<div class="empsectionwrap" v-show="item.isShow">
 				  <template v-for="(pitem,pindex) in item.children">
-				  		<p class="pitem">
-				  			<template v-if="checkShow">
-				  				<el-checkbox v-model="pitem.checked"><i class="fa fa-user-circle-o"></i>{{pitem.empName}}</el-checkbox>
-				  			</template>
-				  			<template v-else>
-				  				<i class="fa fa-user-circle-o"></i>{{pitem.empName}}
-				  			</template>
-					  		
-					  	</p>
+				  		<emp-item :semp-array="sempArray" :emp-item="pitem" :check-show="checkShow" @scheckkit="getCheckItem" @sempkit="checkItem"></emp-item>
 				  </template>
 				</div>
 			  </el-collapse-transition>
@@ -23,17 +15,26 @@
 	</div>
 </template>
 <script>
+import empItem from './empItem'
 import {getCache} from '@/utils/auth'
 import {gb2pinying} from '@/utils/pinyin'
 import {getCharacter,stringToArray,arrayToString} from '@/utils/common'
 export default {
-  components: {},
+  components: {empItem},
   props: {
-  	isShow: {
-  	  type: Boolean,
-  	  default: false
-  	},
+    isShow: {
+      type: Boolean,
+      default: false
+    },
     allShow: {
+      type: Boolean,
+      default: false
+    },
+    slist: {
+      type: Array,
+      default: []
+    },
+    updateShow:{
       type: Boolean,
       default: false
     }
@@ -44,6 +45,9 @@ export default {
       total:0,
       empBarList: [],
       checkShow: false,
+      checked: false,
+      sempArray: this.slist,
+      defaultList: [],
       loading: true
   	}
   },
@@ -54,7 +58,13 @@ export default {
   	  }
   	},
     allShow (val) {
-      console.log(val)
+      this.checkShow = val
+      this.getSubAccountByUserid()
+    },
+    slist(val) {
+      this.sempArray = val
+    },
+    updateShow (val) {
       if (val) {
         this.getSubAccountByUserid()
       }
@@ -62,7 +72,6 @@ export default {
   },
   computed: {},
   mounted () {
-    console.log(this.allShow)
   	if (this.isShow) {
   	  	this.getSubAccountByUserid()
   	}
@@ -71,6 +80,12 @@ export default {
   	doTitleShow (index) {
   	  this.empBarList[index].isShow = !this.empBarList[index].isShow
   	},
+    getCheckItem (item,val) {
+      this.$emit('scheckkit',item,val)
+    },
+    checkItem (pitem) {
+      this.$emit('sempkit',pitem)
+    },
     getSubAccountByUserid () {
       let nform = {
         userid: getCache('userid')

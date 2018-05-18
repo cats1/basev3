@@ -67,9 +67,7 @@ export default {
             }
         }
     },
-    mounted() {
-        console.log(this.parent)
-    },
+    mounted() {},
     methods: {
         saveProject() {
             this.$refs['form'].validate((valid) => {

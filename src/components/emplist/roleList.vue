@@ -146,7 +146,6 @@ export default {
   	  	let {status,result} = res
   	  	if (status === 0) {
   	  	  this.list = getCBarList(result,'rgName','rid','childRoleList')
-          console.log(this.list)
   	  	  if (result.length>0) {
             this.nform.rid = result[0].rid
             this.getResidentVisitor()
@@ -165,7 +164,6 @@ export default {
   	},
   	handleNodeClick(data,node) {
       this.parent = data
-      console.log(node)
       this.roleNode = node.parent.data
       this.nform.rid = data.pid
       this.nform.startIndex = 1

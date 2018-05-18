@@ -109,6 +109,7 @@ export default {
               console.log(newForm)
               this.$store.dispatch('LoginManager',newForm).then((resp) => {
                 this.getUserInfo()
+                window.location.href = 'stage.html'
               }).catch(() => {
                 this.loading = false
               })

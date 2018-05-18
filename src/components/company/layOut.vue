@@ -18,9 +18,7 @@ export default {
     return {}
   },
   components: { companynav, footbom },
-  created () {
-    console.log(this.$route.name)
-  }
+  created () {}
 }
 </script>
 <style>

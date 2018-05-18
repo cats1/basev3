@@ -61,11 +61,16 @@ export default {
       this.bType = 'default'
     }
   },
+  /*beforeDestroy () {
+    this.bomShow = false
+    this.$emit('cancelkit',2)
+  },*/
+  destroyed () {
+    if (this.bomShow && this.$el) {
+      document.body.removeChild(document.getElementsByClassName('bottomwins')[0])
+    }
+  },
   methods: {
-    fetchDate () {
-      console.log(888)
-      return false
-    },
     addEmp () {
       this.getSubAccountByUserid()
       document.body.appendChild(this.$refs.bomwins)

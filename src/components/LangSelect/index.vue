@@ -6,6 +6,7 @@
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item command="zh" :disabled="language==='zh'">中文</el-dropdown-item>
       <el-dropdown-item command="en" :disabled="language==='en'">English</el-dropdown-item>
+      <!-- <el-dropdown-item command="more" divided>更多</el-dropdown-item> -->
     </el-dropdown-menu>
   </el-dropdown>
 </template>
@@ -16,14 +17,31 @@ export default {
       return this.$store.getters.language
     }
   },
+  watch: {
+    $route (val) {
+      this.setTitle()
+    }
+  },
+  mounted () {
+    this.setTitle()
+  },
   methods: {
+    setTitle () {
+      if (this.$route) {
+        let title = this.$route.meta.title
+        document.title = this.$t('route.' + title) + ' | 来访通 Coolvisit.com'
+      }
+    },
     handleSetLanguage(lang) {
-      this.$i18n.locale = lang
-      this.$store.dispatch('setLanguage', lang)
-      this.$message({
-        message: this.$t('switchLanguage'),
-        type: 'success'
-      })
+      if (lang !== 'more') {
+        this.$i18n.locale = lang
+        this.$store.dispatch('setLanguage', lang)
+        this.setTitle()
+        this.$message({
+          message: this.$t('switchLanguage'),
+          type: 'success'
+        })
+      }
     }
   }
 }

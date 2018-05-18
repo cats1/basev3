@@ -11,14 +11,25 @@ export default new Router({
   	name: 'visitor',
   	component: _import('emporder/layOut'),
   	children: [
-  	  {path: '/',name: 'order',component:danOrder},
-      {path: '/dot',name: 'dot',component:dotOrder},
-      {path: '/list',name: 'list',component:orderList},
-      {path: '/history',name: 'history',component: _import('history/layOut')}
+  	  {path: '/',name: 'order',component:danOrder,meta: {
+        title: 'order'
+      }},
+      {path: '/dot',name: 'dot',component:dotOrder,meta: {
+        title: 'order'
+      }},
+      {path: '/list',name: 'list',component:orderList,meta: {
+        title: 'orderList'
+      }},
+      {path: '/history',name: 'history',component: _import('history/layOut'),meta: {
+        title: 'history'
+      }}
   	]
   },{
     path: '*',
     name: '404',
-    component: _import('error/404One')
+    component: _import('error/404One'),
+    meta: {
+      title: '404'
+    }
   }]
 })

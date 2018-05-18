@@ -61,6 +61,14 @@ export default {
   mounted () {
     this.init()
   },
+  beforeDestroy () {
+    //console.log('before destory')
+    //console.log(this.$el)
+  },
+  destroyed () {
+    //console.log('destoryed')
+    this.$el.remove()
+  },
   methods: {
     init () {
       if (this.isshow) {

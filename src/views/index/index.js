@@ -17,6 +17,9 @@ Vue.use(ElementUI, {
 Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  if (to.meta.title) {
+    //document.title = to.meta.title
+  }
   next()
 })
 
@@ -26,8 +29,8 @@ router.afterEach(() => {
 new Vue({
   el: '#app',
   store,
-  i18n,
   router,
+  i18n,
   components: { App },
   template: '<App/>'
 })

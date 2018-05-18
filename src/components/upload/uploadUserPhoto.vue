@@ -1,26 +1,41 @@
 <template>
 	<div>
-		<el-upload
-		  class="avatar-uploader"
-		  action="1"
-		  :show-file-list="false"
-		  :on-success="handleAvatarSuccess"
-		  :before-upload="beforeAvatarUpload">
-		  <img v-if="imageUrl" :src="imageUrl" class="avatar">
-		  <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
-		  <img v-else :src="defaulPhoto" class="el-icon-plus avatar-uploader-icon" alt="">
-		</el-upload>
+    <form class="uploadformwrap" :id="formId">
+      <input class="uploadinput" type="file" name="uploadpic" :ref="inputId" :id="inputId" @change="getFile"></input>
+      <div class="avatar-uploader">
+        <div tabindex="0" class="el-upload el-upload--text">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <img v-else :src="defaulPhoto" class="el-icon-plus avatar-uploader-icon" alt="">
+        </div>
+      </div>
+    </form>
 	</div>
 </template>
 <script>
 import {getCache} from '@/utils/auth'
 import {uploadCommon} from '@/utils/upload'
 export default {
-	props: ['photourl'],
+    props: {
+      photourl: '',
+      id: {
+        type: String,
+        default: 'upload-form'
+      },
+      imgsrc: {
+        type: String,
+        default: ''
+      },
+      index: {
+        type: Number,
+        default: 0
+      }
+    },
     data() {
       return {
         imageUrl: this.photourl || '',
-        defaulPhoto: require('@/assets/img/photo.png')
+        defaulPhoto: require('@/assets/img/photo.png'),
+        formId: 'uploadform_' + this.id,
+        inputId: 'uploadinput_' + this.id
       }
     },
     watch: {
@@ -32,15 +47,16 @@ export default {
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw)
       },
-      beforeAvatarUpload(file) {
+      getFile (file) {
+        let files = this.$refs[this.inputId].files[0]
         let _self = this
-        uploadCommon(file,function(result){
-        	_self.imageUrl = result.url
-        	_self.$emit('sendkit',result.url)
-        	let nform = {
-        	  photoUrl: result.url
-        	}
-        	_self.$store.dispatch('Compressface',nform)
+        uploadCommon(files,function(result){
+          _self.imageUrl = result.url
+          _self.$emit('sendkit',result.url)
+          let nform = {
+            photoUrl: result.url
+          }
+          _self.$store.dispatch('Compressface',nform)
         })
       }
     }

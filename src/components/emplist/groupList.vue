@@ -20,7 +20,7 @@
 			      <el-radio-button label="role">{{$t('emplist.com')}}</el-radio-button>
 			    </el-radio-group>
 			    <div class="emptreewrap">
-			    	<el-tree :data="list" :highlight-current="true" node-key="id" :default-expanded-keys="[0]" :default-checked-keys="[1]" :props="defaultProps" @getNode="getNode" @node-click="handleNodeClick"></el-tree>
+			    	<el-tree :data="list" :highlight-current="true" node-key="id" :default-expanded-keys="[0]" :props="defaultProps" @getNode="getNode" @node-click="handleNodeClick"></el-tree><!-- :default-checked-keys="defaultGet"  -->
 			    </div>
 	  		</div>
 	  	</el-col>
@@ -87,6 +87,8 @@ export default {
   components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace,empDetail,exportAddressBook},
   data () {
   	return {
+      defaultOpen: [0],
+      defaultGet: [0],
       list: [],
       total:0,
       dataList:[],
@@ -136,7 +138,6 @@ export default {
   },
   methods: {
     changeRightType (val) {
-      console.log(val)
       this.rightType = val
     },
     getUpdateEmp () {
@@ -150,7 +151,6 @@ export default {
       this.getEmpList()
     },
     editEmp (row, event, column) {
-      console.log(row)
       this.editType = 1
       this.curEmp = row
       this.editType = 1
@@ -188,7 +188,6 @@ export default {
       this.rightType = type
     },
     changeExport (val) {
-      console.log(val)
       this.rightType = val
     },
     getDelete () {
@@ -214,7 +213,7 @@ export default {
   	  	let {status,result} = res
   	  	if (status === 0) {
   	  	  this.list = getCgBarList(result,'deptName','deptid','empCount','deptManagerEmpid','childDeptList')
-          console.log(this.list)
+          this.getEmpList()
           this.parent = this.list[0]
   	  	}
   	  })
@@ -237,14 +236,12 @@ export default {
         } else {}
       })  
     },
-    getNode (data) {
-      console.log(data)
-    },
+    getNode (data) {},
   	handleNodeClick(data,node,d) {
-      console.log(data)
       this.rightType = 1
       this.parentNode = node.parent.data
       this.parent = data
+      //this.defaultGet = [parseInt(data.id)]
       if (data.dp === 'root') {
         this.dtype = 0
         this.rform.startIndex = 1

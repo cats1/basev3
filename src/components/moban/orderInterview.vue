@@ -5,9 +5,9 @@
     <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
     <baidu-map :isshow="mapShow" class="marginbom20" :address="address" :sendpot="pot" :mapid="mapid" style="width:80%;"></baidu-map>
     <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
-    <tinymce :height=400 :img-show="false" :toolbar="profileToolbar" menubar="" :id="trafficId" ref="teditor" v-model="traffic" @input="gettraffic"></tinymce>
+    <tinymce :height=400 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="trafficId" ref="teditor" v-model="traffic" @input="gettraffic"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.compro')}}</h3>
-    <tinymce :height=400 :img-show="false" :toolbar="profileToolbar" menubar="" :id="companyProfileId" ref="comeditor" v-model="companyProfile" @input="getcompro"></tinymce>
+    <tinymce :height=400 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="companyProfileId" ref="comeditor" v-model="companyProfile" @input="getcompro"></tinymce>
     <div class="margintop20">
       <el-button type="primary" @click="saveMoban">{{$t('btn.saveMobanBtn')}}</el-button>
     </div>

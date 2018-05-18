@@ -26,7 +26,7 @@
             </div>
             <transition name="el-fade-in-linear">
               <template v-if="showType ===0">
-                <com-show :is-show="showType ===0"></com-show>
+                <com-show :slist="sempArray" :all-show="allShow" :update-show="updateShow" :is-show="showType === 0" @scheckkit="getCurList" @sempkit="getCurEmp" @removedkit="changeRemove" @sendlist="getAllEmp"></com-show>
               </template>
               <template v-else>
                 <emp-show :slist="sempArray" :all-show="allShow" :update-show="updateShow" :is-show="showType ===1" @scheckkit="getCurList" @sempkit="getCurEmp" @removedkit="changeRemove" @sendlist="getAllEmp"></emp-show>
@@ -40,7 +40,7 @@
           <add-com-emp-show class="bgwhite" :edit-type="editType" :emp-obj="curEmp"></add-com-emp-show>
         </template>
         <template v-else-if="btnType === 3">
-          <special class="bgwhite" :slist="sempArray" @onekit="doOneNext" @removekit="getCurList" @twokit="setTwoAccount"></special>
+          <special class="bgwhite" :slist="sempArray" @onekit="doOneNext" @removekit="getCurList" @twokit="setTwoAccount" @donekit="specialDone"></special>
         </template>
         <template v-else>
           <export-address-book  @upab="getUploadAB"></export-address-book>
@@ -121,7 +121,14 @@ export default {
       this.btnType = 0
       this.showType = 1
     },
+    specialDone () {
+      console.log('done')
+      this.sempArray = []
+    },
     changeBtnType (type) {
+      let varray = []
+      //console.log(this.sempArray)
+      this.sempArray = varray
       this.btnType = type
     },
     changeRemove () {

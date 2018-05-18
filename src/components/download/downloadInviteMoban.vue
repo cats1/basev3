@@ -17,6 +17,10 @@ export default {
     btype: {
       type: Number,
       default: 0
+    },
+    dtype: {
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -25,10 +29,14 @@ export default {
   methods: {
     getDown () {
       let link
-      if (parseInt(getCache('subAccount')) === 1) {
-        link = getBaseLink() + '/addressbooks_templete.xlsx'
+      if (this.dtype === 0) {        
+        if (parseInt(getCache('subAccount')) === 1) {
+          link = getBaseLink() + '/addressbooks_templete.xlsx'
+        } else {
+          link = getBaseLink() + '/addressbook_templete.xlsx'
+        }
       } else {
-        link = getBaseLink() + '/addressbook_templete.xlsx'
+        link = getBaseLink() + '/addorderbook_templete.xlsx'
       }
       downMoban(link)
     }
