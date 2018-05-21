@@ -3,8 +3,6 @@ import { updateProcessSwitch,getProcessArea,addProcessArea,
 import { Message } from 'element-ui'
 import { getCache,setCache } from '@/utils/auth'
 import i18n from '@/lang'
-const local = i18n.locale
-const messages = i18n.messages[local]
 const user = {
   state: {},
   mutations: {},
@@ -15,8 +13,9 @@ const user = {
           let {status} = response
           if (status === 0) {
             setCache('processSwitch',info.processSwitch)
+            let local = this.state.app.language
             Message({
-              message: messages['switchSuccess'],
+              message: i18n.messages[local]['switchSuccess'],
               type: 'success'
             })
           }
@@ -31,8 +30,9 @@ const user = {
         updateProcessArea(info).then(response => {
           let {status} = response
           if (status === 0) {
+            let local = this.state.app.language
             Message({
-              message: messages['updateSuccess'],
+              message: i18n.messages[local]['updateSuccess'],
               type: 'success'
             })
           }
@@ -65,8 +65,9 @@ const user = {
         addProcessRule(info).then(response => {
           let {status} = response
           if (status === 0) {
+            let local = this.state.app.language
             Message({
-              message: messages['setSuccess'],
+              message: i18n.messages[local]['setSuccess'],
               type: 'success'
             })
           }
@@ -81,9 +82,10 @@ const user = {
         delProcessArea(info).then(response => {
           let {status} = response
           if (status === 0) {
+            let local = this.state.app.language
             setCache('processSwitch',info.processSwitch)
             Message({
-              message: messages['deleteSuccess'],
+              message: i18n.messages[local]['deleteSuccess'],
               type: 'success'
             })
           }

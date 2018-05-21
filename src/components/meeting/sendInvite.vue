@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<h3 class="margintop20 marginbom20 right">
-			<down-invite-moban :btype="1"></down-invite-moban>
-	    <upload-invite id="excel" eType="success" @sendkit="getUpload"></upload-invite>
+			<down-invite-moban :dtype="1" :btype="1"></down-invite-moban>
+	    <upload-invite id="excel" e-type="primary" @sendkit="getUpload"></upload-invite>
 		</h3>
 		<el-table class="marginbom20" :data="table" border>
 			<el-table-column
@@ -13,33 +13,33 @@
 		      property="name"
 		      :label="$t('form.name.text')">
 		        <template slot-scope="scope">
-				    <el-input v-model="scope.row.name"></el-input>
+				    <el-input v-model="scope.row.name" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				</template>
 		    </el-table-column>
 		    <el-table-column property="phone"
 		      :label="$t('form.phone.text')">
 		        <template slot-scope="scope">
-				    <el-input v-model="scope.row.phone"></el-input>
+				    <el-input v-model="scope.row.phone" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				</template>
 		    </el-table-column>
 		    <el-table-column
 		      property="vcompany"
 		      :label="$t('form.company.text2')">
 		        <template slot-scope="scope">
-				    <el-input v-model="scope.row.vcompany"></el-input>
+				    <el-input v-model="scope.row.vcompany" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				</template>
 		    </el-table-column>
 		    <el-table-column
 		      property="date"
 		      :label="$t('form.remark.text')">
 		        <template slot-scope="scope">
-				    <el-input v-model="scope.row.remark"></el-input>
+				    <el-input v-model="scope.row.remark" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				</template>
 		    </el-table-column>
 		    <el-table-column prop="status" :label="$t('btn.edit1')" width="120">
 				<template slot-scope="scope">
-					<el-button type="error" v-if="scope.row.etype === 1" @click="delettype">{{$t('btn.deleteBtn')}}</el-button>
-				    <el-button type="primary" v-else @click="edittype">{{$t('btn.addBtn')}}</el-button>
+          <el-button type="danger" size="small" v-if="numberToBoolean(scope.row.etype)" @click="delettype" icon="el-icon-delete">{{$t('btn.deleteBtn')}}</el-button>
+          <el-button type="primary" size="small" v-else @click="edittype(scope.$index)" icon="el-icon-edit">{{$t('btn.addBtn')}}</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -53,6 +53,7 @@ import {uploadInvite} from '@/components/upload'
 import { getCache } from '@/utils/auth'
 import {mobanDialog} from '@/components/dialog'
 import meetingMoban from '@/components/moban/meettingMoban'
+import { replaceQuotation,booleanToNumber,numberToBoolean } from '@/utils/common'
 export default {
   components: {downInviteMoban,uploadInvite,meetingMoban,mobanDialog},
   props: ['mid','isshow'],
@@ -128,6 +129,7 @@ export default {
   },
   created () {},
   methods: {
+    numberToBoolean:numberToBoolean,
   	getUpload (result) {
       this.table = result
       let _self = this

@@ -1,11 +1,6 @@
-import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import Cookies from 'js-cookie'
-import elementEnLocale from 'element-ui/lib/locale/lang/en' // element-ui lang
-import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN'// element-ui lang
-import enLocale from './en'
-import zhLocale from './zh_CN'
-//import {checkLanguage} from '@/utils/common'
+import i18n from '@/lang'
+import Vue from 'vue'
 Vue.use(VueI18n)
 const messages = {
   en: {
@@ -31,7 +26,6 @@ function checkLanguage() {
 }
 const i18n = new VueI18n({
   locale: Cookies.get('language') || checkLanguage(),
-  messages
+  messages // set locale messages
 })
-
 export default i18n

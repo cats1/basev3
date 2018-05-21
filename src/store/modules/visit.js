@@ -4,8 +4,6 @@ import { addProject,Compressface,addResidentVisitor,updateProject,
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
-const local = i18n.locale
-const messages = i18n.messages[local]
 const user = {
 	state: {},
 	mutations: {},
@@ -15,8 +13,9 @@ const user = {
 		        addProject(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['addSuccess'],
+                  	  message: i18n.messages[local]['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -31,8 +30,9 @@ const user = {
 		        delProject(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['deleteSuccess'],
+                  	  message: i18n.messages[local]['deleteSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -47,8 +47,9 @@ const user = {
 		        updateAllResidentFace(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['sendFaceSuccess'],
+                  	  message: i18n.messages[local]['sendFaceSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -63,8 +64,9 @@ const user = {
 		        updateProject(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['updateSuccess'],
+                  	  message: i18n.messages[local]['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -95,8 +97,9 @@ const user = {
 		        addResidentVisitor(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['addSuccess'],
+                  	  message: i18n.messages[local]['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -111,8 +114,9 @@ const user = {
 		        updateResidentVisitor(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['updateSuccess'],
+                  	  message: i18n.messages[local]['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -145,8 +149,9 @@ const user = {
 		        updateResidentFace(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['sendFaceSuccess'],
+                  	  message: i18n.messages[local]['sendFaceSuccess'],
                   	  type: 'success'
                 	})
 		          }

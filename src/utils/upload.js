@@ -1,6 +1,8 @@
 import { getCache } from '@/utils/auth'
 import { getBaseUrl } from '@/utils/common'
 import { Message } from 'element-ui'
+import i18n from '@/lang'
+import {getLanguage} from '@/utils/i18n'
 export function formUpload(formid, file, callback) {
   let mform = document.getElementById(formid)
   let form = new FormData(mform)
@@ -17,7 +19,7 @@ export function formUpload(formid, file, callback) {
         callback && callback(result)
       } else {
         Message({
-          message: '图片上传失败',
+          message: i18n.messages[getLanguage()].uploadPicError,
           type: 'error'
         })
         return
@@ -31,7 +33,7 @@ export function formUpload(formid, file, callback) {
 export function uploadCommon(file, callback) {
   if (!testImgFileFormat(file.name)) {
     Message({
-      message: '图片格式不正确',
+      message: i18n.messages[getLanguage()].picFormatError,
       type: 'error'
     })
   } else {
@@ -49,7 +51,7 @@ export function uploadCommon(file, callback) {
           callback && callback(result)
         } else {
           Message({
-            message: '图片上传失败',
+            message: i18n.messages[getLanguage()].uploadPicError,
             type: 'error'
           })
           return
@@ -84,7 +86,7 @@ function testFileFormat(filename) {
 export function UploadSubAccount(file, callback) {
   if (!testFileFormat(file.name)) {
     Message({
-      message: '文件格式不正确',
+      message: i18n.messages[getLanguage()].fileFormatError,
       type: 'error'
     })
   } else {
@@ -101,13 +103,13 @@ export function UploadSubAccount(file, callback) {
         if (responseJSON.status == 0) {
           let result = responseJSON.result
           Message({
-            message: '文件上传成功',
+            message: i18n.messages[getLanguage()].uploadFileSuccess,
             type: 'success'
           })
           callback && callback(result)
         } else {
           Message({
-            message: '文件上传失败',
+            message: i18n.messages[getLanguage()].uploadFileError,
             type: 'error'
           })
           return
@@ -123,7 +125,7 @@ export function UploadSubAccount(file, callback) {
 export function UploadApponintment(file, callback) {
   if (!testFileFormat(file.name)) {
     Message({
-      message: '文件格式不正确',
+      message: i18n.messages[getLanguage()].fileFormatError,
       type: 'error'
     })
   } else {
@@ -140,13 +142,13 @@ export function UploadApponintment(file, callback) {
         if (responseJSON.status == 0) {
           let result = responseJSON.result
           Message({
-            message: '文件上传成功',
+            message: i18n.messages[getLanguage()].uploadFileSuccess,
             type: 'success'
           })
           callback && callback(result)
         } else {
           Message({
-            message: '文件上传失败',
+            message: i18n.messages[getLanguage()].uploadFileError,
             type: 'error'
           })
           return
@@ -162,7 +164,7 @@ export function UploadApponintment(file, callback) {
 export function NewUploadAB(file, callback) {
   if (!testFileFormat(file.name)) {
     Message({
-      message: '文件格式不正确',
+      message: i18n.messages[getLanguage()].fileFormatError,
       type: 'error'
     })
   } else {
@@ -179,13 +181,13 @@ export function NewUploadAB(file, callback) {
         if (responseJSON.status == 0) {
           let result = responseJSON.result
           Message({
-            message: '文件上传成功',
+            message: i18n.messages[getLanguage()].uploadFileSuccess,
             type: 'success'
           })
           callback && callback(result)
         } else {
           Message({
-            message: '文件上传失败',
+            message: i18n.messages[getLanguage()].uploadFileError,
             type: 'error'
           })
           return
@@ -200,7 +202,7 @@ export function NewUploadAB(file, callback) {
 export function UploadAB(file, callback) {
   if (!testFileFormat(file.name)) {
     Message({
-      message: '文件格式不正确',
+      message: i18n.messages[getLanguage()].fileFormatError,
       type: 'error'
     })
   } else {
@@ -217,13 +219,13 @@ export function UploadAB(file, callback) {
         if (responseJSON.status == 0) {
           let result = responseJSON.result
           Message({
-            message: '文件上传成功',
+            message: i18n.messages[getLanguage()].uploadFileSuccess,
             type: 'success'
           })
           callback && callback(result)
         } else {
           Message({
-            message: '文件上传失败',
+            message: i18n.messages[getLanguage()].uploadFileError,
             type: 'error'
           })
           return

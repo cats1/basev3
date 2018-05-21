@@ -5,8 +5,7 @@
     </template>
     <template v-else-if="btype === 1">
       <el-button type="success" @click="getDown"><i class="fa fa-cloud-download"></i>{{$t('btn.downMobanBtn')}}</el-button>
-    </template>
-		
+    </template>		
 	</div>
 </template>
 <script>

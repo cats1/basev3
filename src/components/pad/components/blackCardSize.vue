@@ -43,9 +43,6 @@ export default {
       this.cardType = val
     }
   },
-  mounted () {
-    console.log(this.ctype)
-  },
   methods: {
     doAcitve (type) {
       this.cardType = type

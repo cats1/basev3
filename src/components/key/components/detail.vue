@@ -77,7 +77,6 @@ export default {
   },
   methods: {
     getSelect (val) {
-      console.log(val)
       let varray = []
       val.forEach(function(ele,index){
         varray.push(ele.egid)
@@ -96,29 +95,40 @@ export default {
       })
     },
   	submitForm () {
-      console.log(parseInt(this.editType))
       if (parseInt(this.editType) !== 1) {
         this.$refs.eform.validate(valid => {
           if (valid) {
-            console.log(this.form)
-            this.$store.dispatch('updateEquipment',this.form)
+            this.$store.dispatch('updateEquipment',this.form).then(res => {
+              let {status} = res
+              if (status === 0) {
+                this.$router.back(-1)
+                this.$store.commit('remove_group')
+              }
+            })
           }
         })
       } else {
         this.$refs.eform.validate(valid => {
           if (valid) {
-            this.$store.dispatch('addEquipment',this.form)
+            this.$store.dispatch('addEquipment',this.form).then(res => {
+              let {status} = res
+              if (status === 0) {
+                this.$router.back(-1)
+              }
+            })
           }
         })
       }  	  
   	},
   	goBack () {
   	  this.$router.push({name:'list'})
+      this.$store.commit('remove_group')
   	}
   },
   created () {
     this.getGroupList()
-  	if (this.$route.params.eid) {      
+  	if (this.$route.params.eid) {
+    this.$store.commit('get_group',this.$route.params.eid)      
       this.form = this.$store.state.key.groupD
       if (this.form.egids === null) {
         this.form.egids = []
@@ -128,9 +138,6 @@ export default {
   	} else {
       this.editType = 1
     }
-  },
-  mounted () {
-
   }
 }
 </script>

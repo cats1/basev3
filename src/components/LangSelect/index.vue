@@ -23,6 +23,7 @@ export default {
     }
   },
   mounted () {
+    this.$store.dispatch('setLanguage', this.$i18n.locale)
     this.setTitle()
   },
   methods: {

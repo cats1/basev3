@@ -66,6 +66,7 @@ export default {
     //console.log(this.$el)
   },
   destroyed () {
+    console.log(8888)
     //console.log('destoryed')
     this.$el.remove()
   },

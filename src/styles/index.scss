@@ -1071,6 +1071,9 @@ div.mce-edit-area {
   iframe {
     height: 400px!important;
     overflow-y: auto!important;
+    html{
+      overflow-y: auto;
+    }
     body{
       color: red;
     }

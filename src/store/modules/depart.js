@@ -3,8 +3,6 @@ import { addDepartment,addEmployee,getEmployeeFromRtx,UpdateRtxRefresh,
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
-const local = i18n.locale
-const messages = i18n.messages[local]
 const user = {
 	state: {},
 	mutations: {},
@@ -14,8 +12,9 @@ const user = {
 		        addDepartment(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['addSuccess'],
+                  	  message: i18n.messages[local]['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -30,8 +29,9 @@ const user = {
 		        updateDepartment(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['updateSuccess'],
+                  	  message: i18n.messages[local]['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -46,8 +46,9 @@ const user = {
 		        updateDeptEmpRelation(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['updateSuccess'],
+                  	  message: i18n.messages[local]['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -62,8 +63,9 @@ const user = {
 		        addEmployee(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['addSuccess'],
+                  	  message: i18n.messages[local]['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -76,16 +78,18 @@ const user = {
 		getEmployeeFromRtx({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        if (getCache('ddnotify') === 1) {
+		        	let local = this.state.app.language
                     Message({
-                  	  message: messages['exporttype'].tip3,
+                  	  message: i18n.messages[local]['exporttype'].tip3,
                   	  type: 'warning'
                 	})
 		        } else if (getCache('rtxip')&&getCache('rtxport')) {
                     getEmployeeFromRtx(info).then(response => {
 			          let { status, result } = response
 			          if (status === 0) {
+			          	let local = this.state.app.language
 	                    Message({
-	                  	  message: messages['syncSuccess'],
+	                  	  message: i18n.messages[local]['syncSuccess'],
 	                  	  type: 'success'
 	                	})
 			          }
@@ -94,8 +98,9 @@ const user = {
 			          reject(error)
 			        })
 		        } else {
+		        	let local = this.state.app.language
 		        	Message({
-                  	  message: messages['exporttype'].tip7,
+                  	  message: i18n.messages[local]['exporttype'].tip7,
                   	  type: 'warning'
                 	})
 		        }
@@ -104,16 +109,18 @@ const user = {
 		getEmployeeFromDD({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        if (getCache('ddnotify') === 0) {
+		        	let local = this.state.app.language
                     Message({
-                  	  message: messages['exporttype'].tip8,
+                  	  message: i18n.messages[local]['exporttype'].tip8,
                   	  type: 'warning'
                 	})
 		        } else if (getCache('ddnotify') === 1) {
                     getEmployeeFromDD(info).then(response => {
 			          let { status, result } = response
 			          if (status === 0) {
+			          	let local = this.state.app.language
 	                    Message({
-	                  	  message: messages['syncSuccess'],
+	                  	  message: i18n.messages[local]['syncSuccess'],
 	                  	  type: 'success'
 	                	})
 			          }
@@ -130,8 +137,9 @@ const user = {
 			        let { status, result } = response
 			        if (status === 0) {
 			          	setCache('rtxAuto', info.rtxAuto)
+			          	let local = this.state.app.language
 	                    Message({
-	                  	  message: messages['syncSuccess'],
+	                  	  message: i18n.messages[local]['syncSuccess'],
 	                  	  type: 'success'
 	                	})
 			        }
@@ -146,8 +154,9 @@ const user = {
 		        delDepartment(info).then(response => {
 			        let { status } = response
 			        if (status === 0) {
+			        	let local = this.state.app.language
 	                    Message({
-	                  	  message: messages['deleteSuccess'],
+	                  	  message: i18n.messages[local]['deleteSuccess'],
 	                  	  type: 'success'
 	                	})
 			        }
@@ -162,8 +171,9 @@ const user = {
 		        updateEmployee(info).then(response => {
 			        let { status } = response
 			        if (status === 0) {
+			        	let local = this.state.app.language
 	                    Message({
-	                  	  message: messages['updateSuccess'],
+	                  	  message: i18n.messages[local]['updateSuccess'],
 	                  	  type: 'success'
 	                	})
 			        }

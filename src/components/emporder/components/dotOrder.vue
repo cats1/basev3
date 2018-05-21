@@ -61,7 +61,7 @@
 				<el-table-column prop="status" :label="$t('btn.edit1')" width="100">
 					<template slot-scope="scope">
 					  <el-button type="danger" size="small" v-if="numberToBoolean(scope.row.etype)" @click="delettype" icon="el-icon-delete">{{$t('btn.deleteBtn')}}</el-button>
-				      <el-button type="primary" size="small" v-else @click="edittype(scope.$index)" icon="el-icon-edit">{{$t('btn.addBtn')}}</el-button>
+				    <el-button type="primary" size="small" v-else @click="edittype(scope.$index)" icon="el-icon-edit">{{$t('btn.addBtn')}}</el-button>
 				    </template>
 				</el-table-column>
 			</el-table>

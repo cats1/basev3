@@ -5,8 +5,7 @@
       </template>
       <template v-else>
         <g-title>{{$t('key.updateGroup')}}</g-title>
-      </template>
-      
+      </template>      
       <el-row class="margintop20 paddinglr30">
   			<el-col :span="4">
   				<img :src="logoSrc" alt="">
@@ -67,33 +66,42 @@ export default {
       if (parseInt(this.editType) !== 1) {
         this.$refs.eform.validate(valid => {
           if (valid) {
-            this.$store.dispatch('updateEquipmentGroup',this.form)
+            this.$store.dispatch('updateEquipmentGroup',this.form).then(res => {
+              let {status} = res
+              if (status === 0) {
+                this.$router.back(-1)
+                this.$store.commit('remove_group')
+              }
+            })
           }
         })
       } else {
         this.$refs.eform.validate(valid => {
           if (valid) {
-            this.$store.dispatch('addEquipmentGroup',this.form)
+            this.$store.dispatch('addEquipmentGroup',this.form).then(res => {
+              let {status} = res
+              if (status === 0) {
+                this.$router.back(-1)
+              }
+            })
           }
         })
-      }
-  	  
+      }  	  
   	},
   	goBack () {
   	  this.$router.push({name:'group'})
+      this.$store.commit('remove_group')
   	}
   },
   created () {
-  	/*if (this.$route.params.egid) {
+  	if (this.$route.params.egid) {
+      this.$store.commit('get_group',this.$route.params.egid)
       this.form = this.$store.state.key.groupD
       this.form.etype = valueToString(this.form.etype)
       this.form.status = valueToString(this.form.status)      
   	} else {
       this.editType = 1
-    }*/
-  },
-  mounted () {
-
+    }
   }
 }
 </script>

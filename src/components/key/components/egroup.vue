@@ -46,8 +46,6 @@ export default {
   	doClear () {
   	  this.slist = this.list
   	  this.stype = 0
-  	  console.log(this.sarray)
-  	  //this.getSelect()
   	},
   	doSearch (val) {
       let _self = this
@@ -76,7 +74,6 @@ export default {
           }
         })
       })
-      //this.$emit('skit',sData)
       this.toggleSelection(sData)
   	},
   	getInitSelect (result) {

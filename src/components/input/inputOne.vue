@@ -14,9 +14,6 @@ export default {
       value1: this.value
     }
   },
-  mounted () {
-    console.log(this.value)
-  },
   methods: {
     deleteValue () {
       this.$emit('delekit',this.index,this.value1)

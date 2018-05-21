@@ -35,7 +35,6 @@ const user = {
 			return new Promise((resolve, reject) => {
 		        LoginManager(userInfo).then(response => {
 		          let { status, result } = response
-		          console.log(result)
 		          if (status === 0) {
 		          	for (let key in result) {
 		          		if (key === 'pemail') {

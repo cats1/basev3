@@ -2,8 +2,6 @@ import { superAccountLogin } from '@/api/login'
 import { getRelatedAccount, getAllSuperAccountVCount, getSupAccVCount,ModifySupAccPassword } from '@/api/super'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import i18n from '@/lang'
-const local = i18n.locale
-const messages = i18n.messages[local]
 const user = {
 	state: {
 		id: getCache('id'),
@@ -66,8 +64,9 @@ const user = {
 		        ModifySupAccPassword(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-		              message: messages['pwdSuccess'],
+		              message: i18n.messages[local]['pwdSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -80,7 +79,6 @@ const user = {
 		superAccountLogin({ commit }, userInfo) {
 			return new Promise((resolve, reject) => {
 		        superAccountLogin(userInfo).then(response => {
-		          console.log(response)
 		          let { status, result } = response
 		          if (status === 0) {
                     setCache('id', result.id)

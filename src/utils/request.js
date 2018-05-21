@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
-const noticeMessages = i18n.messages[i18n.locale].responseNote
+import {getLanguage} from '@/utils/i18n'
 import store from '@/store'
 import { getCache,clearCookie } from '@/utils/auth'
 const LocationHost = window.location.host
@@ -40,6 +40,7 @@ service.interceptors.response.use(
       if (status == 0) {
         return response.data
       } else if (status == 28) {
+        const noticeMessages = i18n.messages[getLanguage()].responseNote
         Message({
           message: noticeMessages[status],
           type: 'error',
@@ -50,8 +51,9 @@ service.interceptors.response.use(
           }
         })
       } else {
+        const noticeMessages = i18n.messages[getLanguage()].responseNote
         let messages = ''
-        if (i18n.locale === 'zh') {
+        if (getLanguage() === 'zh') {
           if (noticeMessages[status]) {
             messages = noticeMessages[status]
           }

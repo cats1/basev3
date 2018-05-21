@@ -14,7 +14,7 @@
 	</div>
 </template>
 <script>
-import Tinymce from '@/components/tinymce'
+import Tinymce from '@/components/tinymce/tiny'
 import tinymceTest from '@/components/tinymce/test'
 import {BaiduMap} from '@/components/map'
 import { getCache } from '@/utils/auth'

@@ -21,7 +21,6 @@ export default {
   },
   methods: {
     showDown (val) {
-      console.log(val)
       this.$router.push({'path':'approve'})
     }
   }

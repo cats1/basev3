@@ -2,8 +2,6 @@ import { getMeetingByUserid, getMeetingById, getAppointmentByMid,addMeeting,upda
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
-const local = i18n.locale
-const messages = i18n.messages[local]
 const user = {
 	state: {
 		id: getCache('id'),
@@ -29,8 +27,9 @@ const user = {
 		        addMeeting(info).then(response => {
 		          let { status } = response
 	              if (status === 0) {
+	              	let local = this.state.app.language
 	              	Message({
-			          message: messages['addSuccess'],
+			          message: i18n.messages[local]['addSuccess'],
 			          type: 'success'
 			        })
 	              }
@@ -54,8 +53,9 @@ const user = {
 		        updateMeeting(info).then(response => {
 		          let { status } = response
 	              if (status === 0) {
+	              	let local = this.state.app.language
 	              	Message({
-			          message: messages['updateSuccess'],
+			          message: i18n.messages[local]['updateSuccess'],
 			          type: 'success'
 			        })
 	              }

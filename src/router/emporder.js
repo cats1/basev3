@@ -8,7 +8,6 @@ export default new Router({
   //mode: 'history', // require service support
   routes: [{
   	path: '/',
-  	name: 'visitor',
   	component: _import('emporder/layOut'),
   	children: [
   	  {path: '/',name: 'order',component:danOrder,meta: {

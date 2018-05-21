@@ -18,7 +18,7 @@
 import mHeader from './components/mHeader'
 import {BaiduMap} from '@/components/map'
 import { getCache } from '@/utils/auth'
-import Tinymce from '@/components/tinymce'
+import Tinymce from '@/components/tinymce/tiny'
 import { valueToString, replaceQuotation,replaceRemoveQuotation } from '@/utils/common'
 export default {
   props: ['mtype','isshow','mapid'],
@@ -45,14 +45,10 @@ export default {
   },
   computed: {},
   watch: {
-  	traffic (val, oldval) {
-      console.log(val)
-  	}
+  	traffic (val, oldval) {}
   },
   created () {
-  	console.log(9999)
     this.init()
-    console.log(888)
 
   },
   methods: {
@@ -65,7 +61,7 @@ export default {
     setDefaultMoban () {
       let vhtml = '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">这里是{company}，感谢您对我公司的信任和选择。通过对您简历的认真审核，我们认为您已具备进入下一轮筛选的资格。为了进一步了解，现邀请您参加面试，具体安排如下：</p><br/>'
       let vhtml2 = '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">我是{company}的{empid}，很高兴代表我司与您联系。为更好的沟通交流工作事宜，诚挚希望与您进行会面，期待您的来访！</p><br/>'
-      if (this.mtype === '面試') {
+      if (this.mtype === '面试') {
         this.defaultmoban.inviteContent = replaceRemoveQuotation(vhtml)
       } else {
         this.defaultmoban.inviteContent = replaceRemoveQuotation(vhtml2)
@@ -78,12 +74,9 @@ export default {
   			templateType: this.mtype
   		}
   		this.$store.dispatch('getUsertemplate',newForm).then(res => {
-        console.log(res)
   			let { status, result } = res
   			if (status === 0) {
-  				console.log(result)
           if (result) {
-            console.log(999)
             this.defaultmoban = result
             this.pot.latitude = result.latitude
             this.pot.longitude = result.longitude
@@ -107,8 +100,7 @@ export default {
       this.form.address = getCache('saddress')
       this.form.latitude = getCache('latitude')
       this.form.longitude = getCache('longitude')
-      this.form.empid = this.defaultmoban.empid
-      
+      this.form.empid = this.defaultmoban.empid      
       this.$emit('sendkit',this.form)
     },
   }

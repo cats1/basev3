@@ -12,7 +12,7 @@
 			</el-form-item>
 			<el-form-item :label="$t('form.name.text5')">
 				<el-select v-model="form.vtype" >
-				  <el-option label="all" value=""></el-option>
+				  <el-option :label="$t('checkVtype[0]')" value=""></el-option>
 			      <el-option :label="$t('people.emp')" value="0"></el-option>
 			      <el-option :label="$t('people.inviteVisit')" value="1"></el-option>
 			      <el-option :label="$t('people.orderVisit')" value="2"></el-option>

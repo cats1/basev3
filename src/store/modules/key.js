@@ -1,18 +1,26 @@
 import { getEquipmentGroupByUserid, addEquipmentGroup,
-	updateEquipmentGroup, delEquipmentGroup, getEquipmentbyUserid,
+	updateEquipmentGroup, delEquipmentGroup,delEquipment, getEquipmentbyUserid,
 	addEquipment,updateEquipment,getOpendoorInfo,getEGroupByEid } from '@/api/key'
 import { Message } from 'element-ui'
+import Cookies from 'js-cookie'
 import i18n from '@/lang'
-const local = i18n.locale
-const messages = i18n.messages[local]
 const user = {
   state: {
   	groupD: {}
   },
   mutations: {
   	SET_GROUP (state,info) {
+      sessionStorage.curKey = JSON.stringify(info)
       state.groupD = info
-  	}
+  	},
+    get_group (state,type) {
+      if (sessionStorage.curKey) {
+        state.groupD = JSON.parse(sessionStorage.curKey)
+      }
+    },
+    remove_group (state) {
+      state.groupD = {}
+    }
   },
   actions: {
     getEquipmentGroupByUserid({ commit }, info) {
@@ -47,8 +55,9 @@ const user = {
         addEquipmentGroup(info).then(response => {
           let {status} = response
           if (status === 0) {
+            let local = this.state.app.language
             Message({
-              message: messages['addSuccess'],
+              message: i18n.messages[local]['addSuccess'],
               type: 'success'
             })
           }
@@ -63,8 +72,9 @@ const user = {
         addEquipment(info).then(response => {
           let {status} = response
           if (status === 0) {
+            let local = this.state.app.language
             Message({
-              message: messages['addSuccess'],
+              message: i18n.messages[local]['addSuccess'],
               type: 'success'
             })
           }
@@ -79,8 +89,9 @@ const user = {
         updateEquipmentGroup(info).then(response => {
           let {status} = response
           if (status === 0) {
+            let local = this.state.app.language
             Message({
-              message: messages['updateSuccess'],
+              message: i18n.messages[local]['updateSuccess'],
               type: 'success'
             })
           }
@@ -104,8 +115,9 @@ const user = {
         updateEquipment(info).then(response => {
           let {status} = response
           if (status === 0) {
+            let local = this.state.app.language
             Message({
-              message: messages['updateSuccess'],
+              message: i18n.messages[local]['updateSuccess'],
               type: 'success'
             })
           }
@@ -120,8 +132,9 @@ const user = {
         delEquipmentGroup(info).then(response => {
           let {status} = response
           if (status === 0) {
+            let local = this.state.app.language
             Message({
-              message: messages['deleteSuccess'],
+              message: i18n.messages[local]['deleteSuccess'],
               type: 'success'
             })
           }
@@ -136,8 +149,9 @@ const user = {
         delEquipment(info).then(response => {
           let {status} = response
           if (status === 0) {
+            let local = this.state.app.language
             Message({
-              message: messages['deleteSuccess'],
+              message: i18n.messages[local]['deleteSuccess'],
               type: 'success'
             })
           }

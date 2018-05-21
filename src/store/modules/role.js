@@ -2,8 +2,6 @@ import { addRARG,updateRARG,addEmpRole,delRoleEmp,delRARG } from '@/api/role'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
-const local = i18n.locale
-const messages = i18n.messages[local]
 const user = {
 	state: {},
 	mutations: {},
@@ -13,8 +11,9 @@ const user = {
 		        addRARG(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['addSuccess'],
+                  	  message: i18n.messages[local]['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -29,8 +28,9 @@ const user = {
 		        addEmpRole(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['addSuccess'],
+                  	  message: i18n.messages[local]['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -45,8 +45,9 @@ const user = {
 		        updateRARG(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['updateSuccess'],
+                  	  message: i18n.messages[local]['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -61,8 +62,9 @@ const user = {
 		        delRoleEmp(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['deleteSuccess'],
+                  	  message: i18n.messages[local]['deleteSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -77,8 +79,9 @@ const user = {
 		        delRARG(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['deleteSuccess'],
+                  	  message: i18n.messages[local]['deleteSuccess'],
                   	  type: 'success'
                 	})
 		          }

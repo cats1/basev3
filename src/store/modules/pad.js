@@ -14,8 +14,9 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	setCache('themecolor',info.themecolor)
+		          	let local = this.state.app.language
                     Message({
-                  	  message: messages['updateSuccess'],
+                  	  message: i18n.messages[local]['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -40,13 +41,15 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	if (type === 0) {
+		          		let local = this.state.app.language
                       Message({
-	                  	message: messages['setSuccess'],
+	                  	message: i18n.messages[local]['setSuccess'],
 	                  	type: 'success'
 	                  })
 		          	} else {
+		          		let local = this.state.app.language
 		          	  Message({
-	                  	message: messages['setSuccess'],
+	                  	message: i18n.messages[local]['setSuccess'],
 	                  	type: 'success'
 	                  })
 		          	}
@@ -83,8 +86,9 @@ const user = {
 		          	setCache('cardLogo', info.cardLogo)
 		          	setCache('cardText', info.cardText)
 		          	setCache('cardPic', info.cardPic)
+		          	let local = this.state.app.language
 		          	Message({
-	                  message: messages['updateSuccess'],
+	                  message: i18n.messages[local]['updateSuccess'],
 	                  type: 'success'
 	                })
 		          }

@@ -1,4 +1,5 @@
 import { getCache } from './auth'
+import {getLanguage} from '@/utils/i18n'
 import i18n from '@/lang'
 const statusMessages = i18n.messages[i18n.locale].status
 let Base64 = require('js-base64').Base64
@@ -474,17 +475,17 @@ export function downloadDoc(params) {
 export function formatMeetStatus(num) {
   switch (num) {
     case 0:
-      return "已发送"
+      return i18n.messages[getLanguage()].vstatus[0]
     case 1:
-      return "已查看"
+      return i18n.messages[getLanguage()].vstatus[2]
     case 2:
-      return "已接受"
+      return i18n.messages[getLanguage()].vstatus[3]
     case 3:
-      return "已拒绝"
+      return i18n.messages[getLanguage()].vstatus[4]
     case 4:
-      return "已接受"
+      return i18n.messages[getLanguage()].vstatus[3]
     default:
-      return "已发送"
+      return i18n.messages[getLanguage()].vstatus[0]
   }
 }
 export function formatMeetSendStatus(num) {
@@ -505,20 +506,20 @@ export function formatMeetSendStatus(num) {
 }
 export function judgeVtype(str) {
   if (str == 1) {
-    return "邀请访客"
+    return i18n.messages[getLanguage()].vtype[2]
   } else if (str == 0) {
-    return "员工"
+    return i18n.messages[getLanguage()].people.emp
   } else if (str == 2) {
-    return "签到访客"
+    return i18n.messages[getLanguage()].vtype[0]
   } else {
-    return "访客"
+    return i18n.messages[getLanguage()].people.visit
   }
 }
 export function judgeRecordStatus(str) {
   if (str == true || str == "true" || str == 1) {
-    return "成功"
+    return i18n.messages[getLanguage()].successText
   } else if (str == false || str == "false" || str == 0) {
-    return "失败"
+    return i18n.messages[getLanguage()].errorText
   }
 }
 export function swapItems(arr, index1, index2) {
@@ -570,4 +571,16 @@ export function judgeModel(array) {
 }
 export function moveBlank(str) {
     return str.replace(/\s+/g, "");
+}
+export function checkLanguage() {
+  var lan = (navigator.browserLanguage || navigator.language).toLowerCase();
+  if (lan.indexOf('en') > -1) {
+    return 'en'
+  } else if (lan.indexOf('zh-cn') > -1) {
+    return 'zh'
+  } else if (lan.indexOf('zh-hk') > -1) {
+    return 'hk'
+  } else {
+    return 'en'
+  }
 }

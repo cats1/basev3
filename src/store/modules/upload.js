@@ -2,15 +2,12 @@ import {UpdateLogo,UploadBackgroundPic} from '@/api/upload'
 import { Message } from 'element-ui'
 import { getCache,setCache } from '@/utils/auth'
 import i18n from '@/lang'
-const local = i18n.locale
-const messages = i18n.messages[local]
 const user = {
   state: {
   	groupD: {}
   },
   mutations: {
   	SET_GROUP (state,info) {
-  	  console.log(info)
       state.groupD = info
   	}
   },
@@ -21,8 +18,9 @@ const user = {
           let {status} = response
           if (status === 0) {
           	setCache('logo',info.logoUrl)
+            let local = this.state.app.language
             Message({
-              message: messages['setSuccess'],
+              message: i18n.messages[local]['setSuccess'],
               type: 'success'
             })
           }
@@ -38,8 +36,9 @@ const user = {
           let {status} = response
           if (status === 0) {
           	setCache('backgroundPic',info.bgPicUrl)
+            let local = this.state.app.language
             Message({
-              message: messages['setSuccess'],
+              message: i18n.messages[local]['setSuccess'],
               type: 'success'
             })
           }

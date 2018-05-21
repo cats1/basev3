@@ -20,8 +20,9 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 setCache('msgNotify',info.msgNotify)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -37,8 +38,9 @@ const app = {
             let { status , reason } = response
             if (status === 0) {
                 setCache('smsNotify',info.smsNotify)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }  else {
@@ -59,8 +61,9 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 setCache('ivrNotify',info.ivrNotify)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -73,13 +76,15 @@ const app = {
     updateDDNotify({ commit }, info) {
       return new Promise((resolve, reject) => {
           if (getCache('ddnotify') === 0) {
+            let local = this.state.app.language
             Message({
-              message: messages['exporttype'].tip5,
+              message: i18n.messages[local]['exporttype'].tip5,
               type: 'error'
             })
           } else if(getCache('rtxip') && getCache('rtxport')) {
+            let local = this.state.app.language
             Message({
-              message: messages['exporttype'].tip2,
+              message: i18n.messages[local]['exporttype'].tip2,
               type: 'error'
             })
           } else {
@@ -91,8 +96,9 @@ const app = {
                   setCache('ddcorpid',info.ddcorpid)
                   setCache('ddcorpsecret',info.ddcorpsecret)
                   setCache('ddagentid',info.ddagentid)
+                  let local = this.state.app.language
                   Message({
-                    message: messages['updateSuccess'],
+                    message: i18n.messages[local]['updateSuccess'],
                     type: 'success'
                   })
               }
@@ -116,8 +122,9 @@ const app = {
               if (status === 0) {
                 setCache('rtxip',info.rtxIp)
                 setCache('rtxport',info.rtxPort)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
               }
@@ -134,8 +141,9 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 setCache('scaner',info.ivrNotify)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -151,8 +159,9 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 setCache('tempEditSwitch',info.tempEditSwitch)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -168,8 +177,9 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 setCache('permissionSwitch',info.permissionSwitch)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -186,8 +196,9 @@ const app = {
             if (status === 0) {
                 setCache('qrMaxCount',info.qrMaxCount)
                 setCache('qrMaxDuration',info.qrMaxDuration)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -204,8 +215,9 @@ const app = {
             if (status === 0) {
                 setCache('preExtendTime',info.preExtendTime)
                 setCache('latExtendTime',info.latExtendTime)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -221,8 +233,9 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 setCache('comeAgain',info.comeAgain)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -238,8 +251,9 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 setCache('signOutSwitch',info.signOutSwitch)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -255,8 +269,9 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 setCache('faceScaner',info.faceScaner)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -273,8 +288,9 @@ const app = {
             if (status === 0) {
                 setCache('offDuty',info.offDuty)
                 setCache('upDuty',info.upDuty)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -290,8 +306,9 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 setCache('secureProtocol',info.secureProtocol)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -307,8 +324,9 @@ const app = {
             let { status , result } = response
             if (status === 0) {
                 setCache('defaultPhoto',info.defaultPhoto)
+                let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -332,8 +350,9 @@ const app = {
           addGate(info).then(response => {
             let { status , result } = response
             if (status === 0) {
+              let local = this.state.app.language
                 Message({
-                  message: messages['addSuccess'],
+                  message: i18n.messages[local]['addSuccess'],
                   type: 'success'
                 })
             }
@@ -349,8 +368,9 @@ const app = {
             let { status , result } = response
             if (status === 0) {
               setCache('blackListSwitch',info.blackListSwitch)
+              let local = this.state.app.language
                 Message({
-                  message: messages['updateSuccess'],
+                  message: i18n.messages[local]['updateSuccess'],
                   type: 'success'
                 })
             }
@@ -373,8 +393,9 @@ const app = {
               setCache('ssl',info.ssl)
               setCache('exchange',info.exchange)
               setCache('domain',info.domain)
+              let local = this.state.app.language
               Message({
-                message: messages['setSuccess'],
+                message: i18n.messages[local]['setSuccess'],
                 type: 'success'
               })
             }
@@ -389,8 +410,9 @@ const app = {
           UploadPic(params).then(response => {
             let { status , result } = response
             if (status === 0) {
+              let local = this.state.app.language
                 Message({
-                  message: messages['uploadPicSuccess'],
+                  message: i18n.messages[local]['uploadPicSuccess'],
                   type: 'success'
                 })
             }

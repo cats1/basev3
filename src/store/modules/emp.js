@@ -9,8 +9,6 @@ import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
-const local = i18n.locale
-const messages = i18n.messages[local]
 const user = {
 	state: {
 		id: getCache('id'),
@@ -183,8 +181,9 @@ const user = {
 		        updateEmpPwd(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		        	Message({
-                  	  message: messages['updateSuccess'],
+                  	  message: i18n.messages[local]['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -199,8 +198,9 @@ const user = {
 		        addBlacklist(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		        	Message({
-                  	  message: messages['addSuccess'],
+                  	  message: i18n.messages[local]['addSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -215,8 +215,9 @@ const user = {
 		        updateAllResidentFace(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		        	Message({
-                  	  message: messages['sendFaceSuccess'],
+                  	  message: i18n.messages[local]['sendFaceSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -231,8 +232,9 @@ const user = {
 		        SynchronCardNo(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		        	Message({
-                  	  message: messages['sendCardSuccess'],
+                  	  message: i18n.messages[local]['sendCardSuccess'],
                   	  type: 'success'
                 	})
 		          }
@@ -247,8 +249,9 @@ const user = {
 		        delBlacklist(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 					Message({
-                  		message: messages['deleteSuccess'],
+                  		message: i18n.messages[local]['deleteSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -263,8 +266,9 @@ const user = {
 		        delResidentVisitor(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 					Message({
-                  		message: messages['deleteSuccess'],
+                  		message: i18n.messages[local]['deleteSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -279,8 +283,9 @@ const user = {
 		        updateAllFace(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 					Message({
-                  		message: messages['sendFaceSuccess'],
+                  		message: i18n.messages[local]['sendFaceSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -295,8 +300,9 @@ const user = {
 		        batchDelEmployee(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 					Message({
-                  		message: messages['deleteSuccess'],
+                  		message: i18n.messages[local]['deleteSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -403,8 +409,9 @@ const user = {
 		        addEmptemplate(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-                  		message: messages['addSuccess'],
+                  		message: i18n.messages[local]['addSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -419,8 +426,9 @@ const user = {
 		        updateEmpSubAccount(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-                  		message: messages['updateSuccess'],
+                  		message: i18n.messages[local]['updateSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -435,8 +443,9 @@ const user = {
 		        resetEmpPwd(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-                  		message: messages['updateSuccess'],
+                  		message: i18n.messages[local]['updateSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -451,8 +460,9 @@ const user = {
 		        webActivateAccount(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-                  		message: messages['activeSuccess'],
+                  		message: i18n.messages[local]['activeSuccess'],
                   		type: 'success'
                 	})
 		          }
@@ -467,8 +477,9 @@ const user = {
 		        updateFace(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-                  		message: messages['regFaceSuccess'],
+                  		message: i18n.messages[local]['regFaceSuccess'],
                   		type: 'success'
                 	})
 		          }

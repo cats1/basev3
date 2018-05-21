@@ -39,7 +39,6 @@ export default {
   },
   components: { siderBarItem, siderBarMenu },
   created () {
-  	console.log(this.$route.name)
   	this.defaultIndex = this.$route.name
   }
 }

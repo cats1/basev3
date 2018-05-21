@@ -93,7 +93,6 @@ export default {
   computed: {
     switchOn: {
       get () {
-        console.log(getCache('emailType'))
         if (parseInt(getCache('emailType')) !== 0) {
           this.isShow = true
           return true
@@ -126,7 +125,6 @@ export default {
   },
   methods: {
     getValue (val) {
-      console.log(val)
       this.dialogVisible = true
     },
     doCancel () {
@@ -171,9 +169,6 @@ export default {
       this.form.ssl = 0
       this.updateEmail()
     }
-  },
-  mounted () {
-    console.log(parseInt(getCache('emailType')))
   }
 }
 </script>

@@ -6,7 +6,6 @@ export default new Router({
   //mode: 'history', // require service support
   routes: [{
   	path: '/',
-  	name: 'visitor',
   	component: _import('company/layOut'),
   	children: [
   	  { path: '/', name: 'index', component: _import('home/managerLeftRight'),meta: {

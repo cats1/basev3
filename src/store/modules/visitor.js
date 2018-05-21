@@ -4,8 +4,6 @@ import { SearchVisitByCondition,SearchAppointmentByCondition,searchInviteByCondi
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
-const local = i18n.locale
-const messages = i18n.messages[local]
 const user = {
 	state: {},
 	mutations: {},
@@ -57,12 +55,12 @@ const user = {
 		},
 		batchSignOut({ commit }, info) {
 			return new Promise((resolve, reject) => {
-				console.log(info)
 		        batchSignOut(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		            Message({
-		              message: messages['signOutSuccess'],
+		              message: i18n.messages[local]['signOutSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -74,12 +72,12 @@ const user = {
 		},
 		VisitorSignOutByVid({ commit }, info) {
 			return new Promise((resolve, reject) => {
-				console.log(info)
 		        VisitorSignOutByVid(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		            Message({
-		              message: messages['signOutSuccess'],
+		              message: i18n.messages[local]['signOutSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -94,8 +92,9 @@ const user = {
 		        updateDefaultNotify(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		            Message({
-		              message: messages['setSuccess'],
+		              message: i18n.messages[local]['setSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -110,8 +109,9 @@ const user = {
 		        updateEmpVisitType(info).then(response => {
 		          let {status} = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		            Message({
-		              message: messages['setSuccess'],
+		              message: i18n.messages[local]['setSuccess'],
 		              type: 'success'
 		            })
 		          }

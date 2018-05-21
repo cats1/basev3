@@ -7,8 +7,6 @@ import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import {EncodeUtf8} from '@/utils/common'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
-const local = i18n.locale
-const messages = i18n.messages[local]
 const user = {
 	state: {
 		id: getCache('id'),
@@ -74,8 +72,9 @@ const user = {
 		          	setCache('company', info.company)
 			        setCache('username', info.name)
 			        setCache('phone', info.phone)
+			        let local = this.state.app.language
 			        Message({
-		              message: messages['updateSuccess'],
+		              message: i18n.messages[local]['updateSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -104,8 +103,9 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	setCache('unsubscribe', info.unsubscribe)
+		          	let local = this.state.app.language
 		          	Message({
-		              message: messages['emailOrderSuccess'],
+		              message: i18n.messages[local]['emailOrderSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -120,8 +120,9 @@ const user = {
 		        updatePassword(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-		              message: messages['pwdSuccess'],
+		              message: i18n.messages[local]['pwdSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -137,8 +138,9 @@ const user = {
 		          let { status, result } = response
 		          if (status === 0) {
 		          	setCache('subAccount',info.subAccount)
+		          	let local = this.state.app.language
 		          	Message({
-		              message: messages['comSuccess'],
+		              message: i18n.messages[local]['comSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -153,8 +155,9 @@ const user = {
 		        AddManager(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-		              message: messages['addSuccess'],
+		              message: i18n.messages[local]['addSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -169,8 +172,9 @@ const user = {
 		        addSubAccountTemp(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-		              message: messages['addSuccess'],
+		              message: i18n.messages[local]['addSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -203,8 +207,9 @@ const user = {
 		        DeleteManager(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-		              message: messages['deleteSuccess'],
+		              message: i18n.messages[local]['deleteSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -219,8 +224,9 @@ const user = {
 		        UpdateManager(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-		              message: messages['pwdSuccess'],
+		              message: i18n.messages[local]['pwdSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -235,8 +241,9 @@ const user = {
 		        resetSubAccountPwd(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
-		              message: messages['pwdInitSuccess'],
+		              message: i18n.messages[local]['pwdInitSuccess'],
 		              type: 'success'
 		            })
 		          }
@@ -251,9 +258,10 @@ const user = {
 		        delSubAccount(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
 		              type: 'success',
-		              message: messages['deleteSuccess']
+		              message: i18n.messages[local]['deleteSuccess']
 		            })
 		          }
 		          resolve(response)
@@ -267,9 +275,10 @@ const user = {
 		        updateSubAccount(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
 		              type: 'success',
-		              message: messages['updateSuccess']
+		              message: i18n.messages[local]['updateSuccess']
 		            })
 		          }
 		          resolve(response)
@@ -283,9 +292,10 @@ const user = {
 		        updateSubAccountPwd(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
 		              type: 'success',
-		              message: messages['updateSuccess']
+		              message: i18n.messages[local]['updateSuccess']
 		            })
 		          }
 		          resolve(response)
@@ -299,9 +309,10 @@ const user = {
 		        addSubAccount(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	let local = this.state.app.language
 		          	Message({
 		              type: 'success',
-		              message: messages['addSuccess']
+		              message: i18n.messages[local]['addSuccess']
 		            })
 		          }
 		          resolve(response)

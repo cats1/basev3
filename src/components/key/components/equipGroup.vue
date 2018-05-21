@@ -16,12 +16,9 @@
 	    <el-table-column
 	        :label="$t('btn.edit1')" width="180">
 	        <template slot-scope="scope">
-	        	<el-button
-			          size="mini" type="text"
+	        	<el-button size="mini" type="text"
 			          @click="handleEdit(scope.$index, scope.row)">{{$t('btn.editBtn')}}</el-button>
-			      <el-button
-			          size="mini"
-			          type="danger"
+			      <el-button size="mini" type="danger"
 			          @click="handleDelete(scope.$index, scope.row)">{{$t('btn.deleteBtn')}}</el-button>
 	        </template>
 	    </el-table-column>

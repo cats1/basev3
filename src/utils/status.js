@@ -1,10 +1,12 @@
+import i18n from '@/lang'
+import {getLanguage} from '@/utils/i18n'
 export function checkSignType (value) {
   switch (value) {
     case 0:
-      return '停用'
+      return i18n.messages[getLanguage()].status.off
     case 1:
-      return '启用'
+      return i18n.messages[getLanguage()].status.on
     default:
-      return '启用'
+      return i18n.messages[getLanguage()].status.on
   }
 }
