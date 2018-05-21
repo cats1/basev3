@@ -101,17 +101,7 @@ export default {
         toolbar3: "table | hr removeformat | subscript superscript | charmap emoticons | print fullscreen | ltr rtl | visualchars visualblocks nonbreaking template pagebreak restoredraft",
         menubar: false,
         toolbar_items_size: 'small',
-        style_formats: [/*{
-          title: 'Bold text',
-          inline: 'b'
-        }, {
-          title: 'Red text',
-          inline: 'span',
-          styles: {
-            color: '#ff0000',
-            background: 'url(https://www.coolvisit.com/assets/img/v1/bg/bg1.png) center center no-repeat'
-          }
-        }, */{
+        style_formats: [{
           title: 'Self header',
           block: 'h1',
           styles: {

@@ -154,6 +154,7 @@ export default {
       this.$store.dispatch('updateMeeting',val)
     },
     sendMeetInvite (val) {
+      console.log(val)
       let nform = []
       let _self = this
       this.table.forEach(function(ele,index){

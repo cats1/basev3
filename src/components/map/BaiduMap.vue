@@ -62,6 +62,7 @@ export default {
     this.init()
   },
   beforeDestroy () {
+    console.log(9999)
     //console.log('before destory')
     //console.log(this.$el)
   },
