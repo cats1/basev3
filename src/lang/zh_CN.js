@@ -18,6 +18,8 @@ export default {
     history: '历史记录',
     404: '404'
   },
+  saveMoban: '请先编辑模板',
+  insertAddress: '请填写地址',
   successText: '成功',
   errorText: '失败',
   uptoMax: '不能超过上限值',

@@ -197,6 +197,14 @@ export function getEmptemplateByType(data) {
     data
   })
 }
+//addUserTemplate
+export function addUserTemplate(data) {
+  return request({
+    url: '/addUserTemplate',
+    method: 'post',
+    data
+  })
+}
 //getUsertemplate
 export function getUsertemplate(data) {
   return request({

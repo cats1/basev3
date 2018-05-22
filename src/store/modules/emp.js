@@ -4,7 +4,7 @@ import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	getRARG,getEmpRoleList,getDeptList,getEmpDeptList,getEmpListPages,
 	batchDelEmployee,updateAllFace,SearchRecordsByPhone,addAppointment,getEmptempByPost,
 	GetUserInfo,getSubAccountById,getEmptemplateByType,getUsertemplate,getSubAccountTemp,
-	getEmpByName,updateEmpPwd,addEmptemplate,SynchronCardNo,
+	getEmpByName,updateEmpPwd,addEmptemplate,SynchronCardNo,addUserTemplate,
 	updateEmpSubAccount,resetEmpPwd,webActivateAccount,updateFace } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
@@ -480,6 +480,23 @@ const user = {
 		          	let local = this.state.app.language
 		          	Message({
                   		message: i18n.messages[local]['regFaceSuccess'],
+                  		type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		addUserTemplate({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        addUserTemplate(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	let local = this.state.app.language
+		          	Message({
+                  		message: i18n.messages[local]['addSuccess'],
                   		type: 'success'
                 	})
 		          }

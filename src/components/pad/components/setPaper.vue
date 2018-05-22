@@ -17,7 +17,7 @@
 	  				<span class="comlogowrap">
 	  					<img :src="cardPic" alt="" v-show="cardPic !== ''">
 	  				</span>
-	  				<upload-pic-btn class="margintop20 inline" @sendkit="getSrc"></upload-pic-btn>
+	  				<upload-pic-btn :cwidth="168" :cheight="42" class="margintop20 inline" @sendkit="getSrc"></upload-pic-btn>
 	  			</div>
 			</el-radio-group>
 		</div>
@@ -49,7 +49,7 @@ export default {
   	return {
       imgSrc: require('@/assets/img/cards.png'),
       isShow: false,
-      printType: 0,
+      printType: 1,
       cardLogo: 0,
       cardText: chineseFromUtf8Url(getCache('cardText')),
       cardPic: unescape(getCache('cardPic')),
@@ -76,8 +76,7 @@ export default {
         this.printType = printType - 1
   	  }
   	},
-  	initCardLogo () {
-  	  console.log(unescape(getCache('cardPic'))) 	  
+  	initCardLogo () {  
   	  let cardLogo = parseInt(getCache('cardLogo'))
       if (cardLogo != '') {
         this.cardLogo = cardLogo - 1
@@ -120,7 +119,7 @@ export default {
   	saveCardSet () {
       let nform = {
   	  	userid: getCache('userid'),
-        printType: this.printType,
+        printType: this.printType + 1,
         cardType: this.cardType + 1,
         cardSize: this.cardSize + 1,
         cardLogo: this.cardLogo + 1,
@@ -133,7 +132,6 @@ export default {
   	  	this.closeQrCode()
   	  	this.updateCardType(nform)
   	  }
-  	  console.log(nform)
   	},
   	closeQrCode () {
   	  let nform = {
@@ -153,7 +151,9 @@ export default {
     showDown () {
       this.isShow = !this.isShow
     },
-    getSrc (url) {}
+    getSrc (url) {
+      this.cardPic = url
+    }
   }
 }
 </script>

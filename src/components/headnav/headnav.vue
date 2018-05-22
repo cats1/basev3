@@ -24,7 +24,7 @@
 						<el-menu-item :index="citem.dirname"><router-link :to="citem.link">{{citem.name}}</router-link></el-menu-item>
 					</template>
 				  </el-submenu>
-				  <el-menu-item index="meeting"><router-link to="/meeting">{{$t('navlist[4].name')}}</router-link></el-menu-item>
+				  <el-menu-item index="meeting" v-show="meetshow"><router-link to="/meeting">{{$t('navlist[4].name')}}</router-link></el-menu-item>
 			    </el-menu>
 		    </div>
 		    <div class="menuright">
@@ -63,7 +63,8 @@ export default {
         downlist: this.$t('downlist'),
         username: this.getCache('company'),
         hlogo: require('@/assets/img/hlogo.png'),
-        homepageShow: process.env.homepage
+        homepageShow: process.env.homepage,
+        meetshow: process.env.conference || false
       }
     },
     computed: {

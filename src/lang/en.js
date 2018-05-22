@@ -18,6 +18,8 @@ export default {
     history: 'History',
     404: '404'
   },
+  saveMoban: 'Please edit template',
+  insertAddress: 'Please input address',
   successText: 'Success',
   errorText: 'Fail',
   uptoMax: 'Cannot exceed the upper limit',

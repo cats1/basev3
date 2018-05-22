@@ -2,7 +2,7 @@
 	<div>
 		<el-tabs v-model="activeName" type="card">
 		    <el-tab-pane :label="$t('moban.facemoban')" name="face" @tab-click="activeName === 'face'">
-		    	<interview mtype="面试" mapid="facemap" :isshow="isshow"></interview>
+		    	<interview mtype="面试" mapid="facemap" :isshow="isshow" ></interview>
 		    </el-tab-pane>
 		    <el-tab-pane :label="$t('moban.busmoban')" name="bus" @tab-click="activeName === 'bus'">
 		    	<interview mtype="商务" mapid="busmap" :isshow="isshow"></interview>

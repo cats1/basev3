@@ -2,7 +2,7 @@
   <div class="tinymce-container editor-container">
     <textarea class="tinymce-textarea" :id="tinymceId" ></textarea>
     <div class="editor-custom-btn-container">
-      <editorImage v-show="imgShow" color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK"></editorImage>
+      <editorImage v-show="toolbarShow" color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK"></editorImage>
     </div>
   </div>
 </template>
@@ -59,11 +59,20 @@ export default {
       tinymceId: this.id || 'vue-tinymce-' + +new Date()
     }
   },
+  computed: {
+    language () {
+      return this.$store.state.app.language
+    }
+  },
   watch: {
     value(val) {
       if (!this.hasChange && this.hasInit) {
         this.$nextTick(() => window.tinymce.get(this.tinymceId).setContent(val))
       }
+    },
+    language (val) {
+      this.destroyTinymce()
+      this.initTinymce()
     }
   },
   mounted() {
@@ -79,7 +88,7 @@ export default {
     initTinymce() {
       const _this = this
       var lang = ''
-      let locale = this.$i18n.locale
+      let locale = this.language
       if (locale === 'en') {
         lang = 'en_GB'
       } else if (locale === 'zh') {
@@ -99,6 +108,7 @@ export default {
         toolbar1: "newdocument fullpage | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect formatselect fontselect fontsizeselect",
         toolbar2: "cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor image media code | insertdatetime preview | forecolor backcolor",
         toolbar3: "table | hr removeformat | subscript superscript | charmap emoticons | print fullscreen | ltr rtl | visualchars visualblocks nonbreaking template pagebreak restoredraft",
+        toolbar: this.toolbarShow,
         menubar: false,
         toolbar_items_size: 'small',
         style_formats: [{
@@ -134,6 +144,7 @@ export default {
         }],
         branding: false,
         elementpath: false,
+        statusbar: false,
         init_instance_callback: editor => {
           if (_this.value) {
             editor.setContent(_this.value)

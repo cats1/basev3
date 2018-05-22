@@ -154,43 +154,48 @@ export default {
       this.$store.dispatch('updateMeeting',val)
     },
     sendMeetInvite (val) {
-      console.log(val)
-      let nform = []
-      let _self = this
-      this.table.forEach(function(ele,index){
-        if (ele.name&&ele.phone) {
-          let vobj = {
-            userid: getCache('userid'),
-            empid: val.empid,
-            name: ele.name,
-            phone: ele.phone,
-            appointmentDate: val.mdate,
-            visitType: "会议",
-            inviteContent: val.inviteContent,
-            address: val.address,
-            longitude: val.longitude,
-            latitude: val.latitude,
-            companyProfile: "",
-            traffic: "",
-            vcompany: ele.vcompany,
-            remark: ele.remark,
-            mid: val.mid
+      if (val.address && val.latitude && val.longitude) {
+        let nform = []
+        let _self = this
+        this.table.forEach(function(ele,index){
+          if (ele.name&&ele.phone) {
+            let vobj = {
+              address: val.address,
+              appointmentDate: val.mdate,
+              companyProfile: "",
+              empid: val.empid,
+              inviteContent: val.inviteContent,
+              latitude: val.latitude,
+              longitude: val.longitude,
+              mid: val.mid,
+              name: ele.name,
+              phone: ele.phone,
+              remark: ele.remark,
+              traffic: "",
+              userid: getCache('userid'),
+              visitType: "会议"
+            }
+            nform.push(vobj)
           }
-          nform.push(vobj)
-        }
-      })
-      if (nform.length === 0) {
-        this.$message({
-          showClose: true,
-          type: 'error',
-          message: this.$t('moban.tip6')
         })
+        if (nform.length === 0) {
+          this.$message({
+            showClose: true,
+            type: 'error',
+            message: this.$t('moban.tip6')
+          })
+        } else {
+          this.$store.dispatch('addAppointment',nform).then(res => {
+            let {status} = res
+            if (status === 0) {
+              this.mobanFlag = true
+            }
+          })
+        }
       } else {
-        this.$store.dispatch('addAppointment',nform).then(res => {
-          let {status} = res
-          if (status === 0) {
-            this.mobanFlag = true
-          }
+        this.$message({
+          type: 'warning',
+          message: this.$t('saveMoban')
         })
       }
     },

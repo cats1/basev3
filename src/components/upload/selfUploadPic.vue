@@ -24,7 +24,9 @@ export default {
     eType: {
       type: String,
       default: 'default'
-    }
+    },
+    cwidth: null,
+    cheight: null
   },
   data () {
   	return {

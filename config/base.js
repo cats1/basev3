@@ -2,5 +2,6 @@
 module.exports = {
   Door: true,
   homepage: false,
-  signupShow: false
+  signupShow: false,
+  conference: false 
 }

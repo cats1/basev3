@@ -2,11 +2,10 @@
 	<div class="meetingmoban">
     <h3 class="marginbom20">{{$t('moban.tip3')}}</h3>
     <div class="editor-container">
-      <!-- <tinymce-test :height=400 ref="editor" v-model="defaultmoban.inviteContent"></tinymce-test> -->
 		  <tinymce :height=400 ref="editor" v-model="defaultmoban.inviteContent" @input="getcon"></tinymce>
     </div>
     <h3 class="margintop20 marginbom20">{{$t('moban.tip3')}}</h3>
-    <baidu-map :isshow="isshow" class="marginbom20" :address="defaultmoban.address" :sendpot="pot" mapid="mapmeeting" style="width:80%;"></baidu-map>
+    <map-component :isshow="isshow" class="marginbom20" :address="defaultmoban.address" :sendpot="pot" mapid="mapmeeting" style="width:80%;" @getpoint="getAddress"></map-component>
     <div class="margintop20">
       <el-button type="primary" @click="saveMoban">{{$t('btn.saveMobanBtn')}}</el-button>
       <el-button type="success" @click="sendMoban">{{$t('btn.sendInvite')}}</el-button>
@@ -16,12 +15,12 @@
 <script>
 import Tinymce from '@/components/tinymce/tiny'
 import tinymceTest from '@/components/tinymce/test'
-import {BaiduMap} from '@/components/map'
+import {MapComponent} from '@/components/map'
 import { getCache } from '@/utils/auth'
 import { valueToString, replaceQuotation,replaceRemoveQuotation } from '@/utils/common'
 export default {
   props: ['mtype','isshow','mid','mdata'],
-  components: { Tinymce,BaiduMap,tinymceTest },
+  components: { Tinymce,MapComponent,tinymceTest },
   data () {
   	return {
       pot: {
@@ -159,18 +158,16 @@ export default {
       })
     },
     saveMoban () {
-      this.mform.address = getCache('saddress')
-      this.mform.latitude = getCache('latitude')
-      this.mform.longitude = getCache('longitude')
       this.$emit('savekit',this.mform)
     },
     sendMoban () {
-      this.mform.address = getCache('saddress')
-      this.mform.latitude = getCache('latitude')
-      this.mform.longitude = getCache('longitude')
-      this.mform.empid = this.defaultmoban.empid
-      
+      this.mform.empid = this.defaultmoban.empid      
       this.$emit('sendkit',this.mform)
+    },
+    getAddress (point,address) {
+      this.mform.latitude = point.latitude
+      this.mform.longitude = point.longitude
+      this.mform.address = address
     },
     getcon (val) {
       this.mform.inviteContent = replaceQuotation(val)
@@ -181,7 +178,7 @@ export default {
 <style lang="scss" scoped>
   .meetingmoban{
     .editor-container {
-        min-height: 500px;
+        //min-height: 500px;
         margin: 0 0 30px;
     }
   }

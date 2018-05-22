@@ -42,6 +42,9 @@ const Webpackconfig = {
       '@': resolve('src')
     }
   },
+  externals: {
+    'BMap': 'BMap'
+  },
   plugins: [
    new webpack.ProvidePlugin({
       $:'jquery',

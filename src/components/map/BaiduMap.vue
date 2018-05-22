@@ -37,7 +37,8 @@ export default {
       inputid: 'search_address_' + this.mapid,
       panelid: 'searchResultPanel_' + this.mapid,
       pot: this.sendpot,
-      maddress: ''
+      maddress: '',
+      bmap: ''
     }
   },
   watch: {
@@ -69,6 +70,7 @@ export default {
   destroyed () {
     console.log(8888)
     //console.log('destoryed')
+    //$(".tangram-suggestion-main").remove()
     this.$el.remove()
   },
   methods: {

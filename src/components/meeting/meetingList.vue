@@ -57,7 +57,7 @@
 			    </el-date-picker>
 		  	</el-form-item>
 		  	<el-form-item :label="$t('tablehead[3]')" prop="sponsor">
-		  		<el-select v-model="form.sponsor" filterable @change="setEmp">
+		  		<el-select v-model="form.empid" filterable @change="setEmp">
 		  			<template v-for="item in empList">
 		  				<el-option :key="item.empid" :label="item.empName" :value="item.empid"></el-option>
 		  			</template>
@@ -153,6 +153,7 @@ export default {
   		this.empList.forEach(function(ele,index){
           if (ele.empid === val) {
           	_self.form.phone = ele.empPhone
+          	_self.form.sponsor = ele.empName
           }
   		})
   	},

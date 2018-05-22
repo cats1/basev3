@@ -3,26 +3,27 @@
     <m-header :title="$t('moban.interview.title')" :desc="$t('moban.interview.desc')"></m-header>
     <tinymce class="margintop20" :height=400 ref="ceditor" v-model="defaultmoban.inviteContent" @input="getcon"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.address')}}</h3>
-    <baidu-map class="marginbom20" :isshow="isshow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;"></baidu-map>
+    <!-- <baidu-map class="marginbom20" :isshow="isshow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;"></baidu-map> -->
+    <map-component class="marginbom20" :isshow="isshow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getAddress"></map-component>
     <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
-    <tinymce :height=200 ref="teditor" v-model="defaultmoban.traffic" @input="getTraffic"></tinymce>
+    <tinymce :height=100 :toolbarShow="false" :menubarShow="false" ref="teditor" v-model="defaultmoban.traffic" @input="getTraffic"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.compro')}}</h3>
-    <tinymce :height=200 ref="comeditor" v-model="defaultmoban.companyProfile" @input="getCom"></tinymce>
+    <tinymce :height=100 :toolbarShow="false" :menubarShow="false" ref="comeditor" v-model="defaultmoban.companyProfile" @input="getCom"></tinymce>
     <div class="margintop20">
       <el-button type="primary" @click="saveMoban">{{$t('btn.saveMobanBtn')}}</el-button>
-      <el-button type="success" @click="sendMoban">{{$t('btn.sendInvite')}}</el-button>
+      <el-button type="success" @click="sendMoban">{{$t('btn.overview')}}</el-button>
     </div>
   </div>
 </template>
 <script>
 import mHeader from './components/mHeader'
-import {BaiduMap} from '@/components/map'
+import {MapComponent} from '@/components/map'
 import { getCache } from '@/utils/auth'
 import Tinymce from '@/components/tinymce/tiny'
 import { valueToString, replaceQuotation,replaceRemoveQuotation } from '@/utils/common'
 export default {
   props: ['mtype','isshow','mapid'],
-  components: { mHeader, BaiduMap, Tinymce },
+  components: { mHeader, MapComponent, Tinymce },
   data () {
   	return {
   	  traffic: '',
@@ -47,9 +48,8 @@ export default {
   watch: {
   	traffic (val, oldval) {}
   },
-  created () {
+  mounted () {
     this.init()
-
   },
   methods: {
     getcon () {},
@@ -91,18 +91,18 @@ export default {
   		})
   	},
     saveMoban () {
-      this.form.address = getCache('saddress')
-      this.form.latitude = getCache('latitude')
-      this.form.longitude = getCache('longitude')
       this.$emit('savekit',this.form)
+      this.$store.dispatch('addUserTemplate',this.defaultmoban)
     },
     sendMoban () {
-      this.form.address = getCache('saddress')
-      this.form.latitude = getCache('latitude')
-      this.form.longitude = getCache('longitude')
-      this.form.empid = this.defaultmoban.empid      
+      this.defaultmoban.empid = this.defaultmoban.empid      
       this.$emit('sendkit',this.form)
     },
+    getAddress (point,address) {
+      this.defaultmoban.latitude = point.latitude
+      this.defaultmoban.longitude = point.longitude
+      this.defaultmoban.address = address
+    }
   }
 }
 </script>

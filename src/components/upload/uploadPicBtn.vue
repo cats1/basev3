@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <self-upload-pic id="logoform" e-type="success" @geturl="getUrl"></self-upload-pic>
+    <self-upload-pic :cwidth="cwidth" :cheight="cheight" id="logoform" e-type="success" @geturl="getUrl"></self-upload-pic>
 		<!-- <el-upload
 		  class="upload-demo"
 		  action="123"
@@ -16,7 +16,7 @@ import {getCache} from '@/utils/auth'
 import {uploadCommon} from '@/utils/upload'
 export default {
    name: 'uploadPicBtn',
-   props: ['ctype'],
+   props: ['ctype','cwidth','cheight'],
    components: {selfUploadPic},
    data() {
       return {
