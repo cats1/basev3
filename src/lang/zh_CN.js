@@ -18,6 +18,10 @@ export default {
     history: '历史记录',
     404: '404'
   },
+  daysRange: '天数范围',
+  timesRange: '次数范围',
+  daysUpTip: '有效天数不能超过公司设置的上限值',
+  timesUpTip: '有效次数不能超过公司设置的上限值',
   saveMoban: '请先编辑模板',
   insertAddress: '请填写地址',
   successText: '成功',
@@ -56,6 +60,7 @@ export default {
   lessOneGate: '至少选择一组闸机',
   floorNumber: '楼层号',
   roomNumber: '房间号',
+  comSelectHolder: '请选择公司',
   comNameHolder: '请填写公司名称（6字以内）',
   teamName: '团队名称',
   teamNumber: '团队人数',

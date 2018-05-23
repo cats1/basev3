@@ -5,13 +5,13 @@
           <span class="svg-container svg-container_login">
             <i class="fa fa-user"></i>
           </span>
-         <el-input name="phone" type="text" v-model="loginForm.phone" autoComplete="on" placeholder="account" />
+         <el-input name="phone" type="text" v-model="loginForm.phone" autoComplete="on" :placeholder="$t('login.username')" />
       </el-form-item>
       <el-form-item prop="password">
           <span class="svg-container">
             <i class="fa fa-lock fa-lg"></i>
           </span>
-         <el-input name="password" :type="passwordType" v-model="loginForm.empPwd" autoComplete="on" placeholder="password" />
+         <el-input name="password" :type="passwordType" v-model="loginForm.empPwd" autoComplete="on" :placeholder="$t('login.password')" />
          <span class="show-pwd" >
             <i class="fa fa-eye" v-if="passwordType === ''" @click="showPwd"></i>
             <i class="fa fa-eye-slash" v-else @click="showPwd"></i>
@@ -19,7 +19,7 @@
        </el-form-item>
        <el-form-item prop="vcode">
         <el-col :span="12">
-          <el-input name="code" type="text" v-model="loginForm.vcode" autoComplete="on" placeholder="code" />
+          <el-input name="code" type="text" v-model="loginForm.vcode" autoComplete="on" :placeholder="$t('smsCode')" />
         </el-col>
         <el-col :span="12" class="codewrap">
           <img-code :get-show="getCode" @clickit="setCode"></img-code>
@@ -27,7 +27,7 @@
        </el-form-item>
        <transition name="el-fade-in-linear">
         <el-form-item v-show="comShow">       
-            <el-select v-model="loginForm.userid" clearable placeholder="请选择公司">
+            <el-select v-model="loginForm.userid" clearable :placeholder="$t('comSelectHolder')">
               <el-option
                 v-for="item in comlist"
                 :key="item.userid"
@@ -37,7 +37,7 @@
             </el-select>      
         </el-form-item>
       </transition>
-       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doEmpLogin">{{$t('login.logIn')}}</el-button>
+       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="goLogin">{{$t('login.logIn')}}</el-button>
        <el-button type="text" style="width:100%;" @click.native.prevent="goForgot">{{$t('login.forgot.title')}}</el-button>
        <or-line :value="$t('login.or')"></or-line>
        <el-button type="text" style="width:100%;" @click.native.prevent="goActive">{{$t('login.active')}}</el-button>
@@ -116,6 +116,13 @@ export default {
     },
     setCode (result) {
       this.loginForm.digest = result.digest
+    },
+    goLogin () {
+      if (this.comShow) {
+        this.doLogin()
+      } else {
+        this.doEmpLogin()
+      }
     },
     doEmpLogin () {
       this.$refs.loginForm.validate(valid => {

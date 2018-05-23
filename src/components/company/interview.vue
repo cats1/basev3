@@ -3,11 +3,11 @@
     <m-header :title="$t('moban.interview.title')" :desc="$t('moban.interview.desc')"></m-header>
     <tinymce class="margintop20" :id="contentId" :height=400 ref="ceditor" v-model="defaultmoban.inviteContent" @input="getcon"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.address')}}</h3>
-    <baidu-map class="marginbom20" :isshow="isshow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;"></baidu-map>
+    <map-component class="marginbom20" :isshow="isshow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getAddress"></map-component>
     <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
-    <tinymce :height=400 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="trafficId" ref="teditor" v-model="defaultmoban.traffic" @input="getTraffic"></tinymce>
+    <tinymce :height=100 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="trafficId" ref="teditor" v-model="defaultmoban.traffic" @input="getTraffic"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.compro')}}</h3>
-    <tinymce :height=400 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="companyProfileId" ref="comeditor" v-model="defaultmoban.companyProfile" @input="getCom"></tinymce>
+    <tinymce :height=100 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="companyProfileId" ref="comeditor" v-model="defaultmoban.companyProfile" @input="getCom"></tinymce>
     <div class="margintop20">
       <el-button type="primary" @click="saveMoban">{{$t('btn.saveMobanBtn')}}</el-button>
     </div>
@@ -15,9 +15,9 @@
 </template>
 <script>
 import mHeader from '@/components/moban/components/mHeader'
-import {BaiduMap} from '@/components/map'
+import {MapComponent} from '@/components/map'
 import { getCache } from '@/utils/auth'
-import Tinymce from '@/components/tinymce'
+import Tinymce from '@/components/tinymce/tiny'
 import { valueToString, replaceQuotation,replaceRemoveQuotation } from '@/utils/common'
 export default {
   props: {
@@ -38,7 +38,7 @@ export default {
   	  default: false
   	}
   },
-  components: { mHeader, BaiduMap, Tinymce },
+  components: { mHeader, MapComponent, Tinymce },
   data () {
   	return {
   	  contentId: 'vue-tinymce-content-' + this.mapid,
@@ -121,19 +121,22 @@ export default {
   	},
     saveMoban () {
       let nform = {
-        address: getCache('saddress'),
+        address: this.defaultmoban.address,
         companyProfile: this.defaultmoban.companyProfile,
         inviteContent: this.defaultmoban.inviteContent,
-        latitude: getCache('latitude'),
-        longitude: getCache('longitude'),
+        latitude: this.pot.latitude,
+        longitude: this.pot.longitude,
         subaccountId: getCache('subaccountId'),
         templateType: this.mtype === 0 ? '面试' : '商务',
         traffic: this.defaultmoban.traffic,
         userid: getCache('userid')
       }
-      this.$store.dispatch('addSubAccountTemp',nform).then(res => {
-
-      })
+      this.$store.dispatch('addSubAccountTemp',nform)
+    },
+    getAddress (point,address) {
+      this.pot.latitude = point.latitude
+      this.pot.longitude = point.longitude
+      this.defaultmoban.address = address
     }
   }
 }

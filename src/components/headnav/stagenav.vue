@@ -43,7 +43,7 @@ export default {
       return {
         navlist: this.$t('navlist'),
         downlist: this.$t('downlist'),
-        username: this.getCache('username'),
+        username: getCache('username'),
         activeIndex: this.$route.name,
         hlogo: require('@/assets/img/hlogo.png')
       }
@@ -55,7 +55,6 @@ export default {
     },
     components: { LangSelect, vHistory },
     methods: {
-    	getCache: getCache,
     	doFuncOut () {
 	      	this.$confirm(this.$t('outTip.title'),this.$t('outTip.desc'), {
 			        confirmButtonText: this.$t('outTip.conform'),
@@ -73,6 +72,31 @@ export default {
       if (this.$route.name === 'stage') {
       	this.activeIndex = 'stage'
       }
+    },
+    mounted () {
+      this.GetUserInfo()
+    },
+    methods: {
+        GetUserInfo () {
+	      this.$store.dispatch('GetUserInfo').then(res => {
+	      	let {status,result} = res
+	      	if (status === 0) {
+              this.username = result.username
+	      	}
+	      })
+	    },
+	    doFuncOut () {
+	      	this.$confirm(this.$t('outTip.title'),this.$t('outTip.desc'), {
+			        confirmButtonText: this.$t('outTip.conform'),
+			        cancelButtonText: this.$t('outTip.cancel'),
+			        type: 'warning',
+			        center: true
+			    }).then(() => {
+			        this.$store.dispatch('signOut').then(res => {
+			        	window.location.href = 'signin.html'
+			        })			        
+			    }).catch(() => { })
+        }
     }
   }
 </script>

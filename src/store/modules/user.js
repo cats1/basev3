@@ -1,5 +1,5 @@
 import { managerLogin, getCode, isCodeTrue, RetrievePassword, Register, ModifyPassword } from '@/api/login'
-import { getToken, setToken, removeToken, setCache, getCache,clearCookie } from '@/utils/auth'
+import { getToken, setToken, removeToken, setCache, getCache,clearCookie,clearSession,clearLocal } from '@/utils/auth'
 const user = {
 	state: {
 		userid: '',
@@ -90,6 +90,8 @@ const user = {
 	    signOut({ commit }) {
 	      return new Promise(resolve => {
 	      	clearCookie()
+	      	clearSession()
+	      	clearLocal()
 	        commit('SET_TOKEN', '')
 	        removeToken()
 	        resolve()

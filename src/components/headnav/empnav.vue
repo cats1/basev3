@@ -45,7 +45,7 @@ export default {
 	name: 'headnav',
     data() {
       return {
-        username: getCache('company'),
+        username: getCache('empName'),
 	  	hlogo: require('@/assets/img/hlogo.png'),
 	  	winShow: false,
 	  	activeIndex: this.$route.name
@@ -58,6 +58,14 @@ export default {
     },
     components: { LangSelect, vHistory, changePwd },
     methods: {
+    	GetUserInfo () {
+	      this.$store.dispatch('GetUserInfo').then(res => {
+	      	let {status,result} = res
+	      	if (status === 0) {
+              //this.username = result.username
+	      	}
+	      })
+	    },
     	init () {
     	  let pwd = lftDePwdRule(getCache('password'))
     	  if (pwd === '888888') {
@@ -89,6 +97,9 @@ export default {
       } else {
       	this.activeIndex = 'list'
       }
+    },
+    mounted () {
+    	this.GetUserInfo()
     }
   }
 </script>

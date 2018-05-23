@@ -111,7 +111,7 @@ export default {
     },
     GetManagerByUser () {
       let nform = {
-        userid: getCache('userid')
+        userId: getCache('userid')
       }
       this.$store.dispatch('GetManagerByUser',nform).then(res => {
         let {status,result} = res

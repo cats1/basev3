@@ -1,8 +1,9 @@
 <template>
 	<div>
-		<el-row class="margintop20 marginbom20">
-	        <p class="lh36">{{$t('moban.ctitle')}}
-            <el-button class="right" @click="goDan"><i class="fa fa-dot-circle-o"></i>{{$t('moban.single')}}</el-button></p>
+		  <el-row class="margintop20 marginbom20">
+	      <p class="lh36">{{$t('moban.ctitle')}}
+          <el-button class="right" @click="goDan"><i class="fa fa-dot-circle-o"></i>{{$t('moban.single')}}</el-button>
+        </p>
 	    </el-row>
 	    <div class="boxshadow bgwhite paddinglr30 paddingtb20">
 	    	<h3>{{$t('moban.visitMess')}}
@@ -19,12 +20,12 @@
 			    </el-table-column>
 				<el-table-column prop="vname" :label="$t('form.name.text')" width="180">
 					<template slot-scope="scope">
-				      <el-input v-model="scope.row.name" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+				      <el-input v-model="scope.row.name" :placeholder="$t('visitor.vname')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				    </template>
 				</el-table-column>
 				<el-table-column prop="vphone" :label="$t('form.phone.text')" width="180">
 					<template slot-scope="scope">
-				      <el-input v-model="scope.row.phone" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+				      <el-input v-model="scope.row.phone" :placeholder="$t('visitor.vphone')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				    </template>
 				</el-table-column>
 				<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="180">
@@ -50,12 +51,12 @@
 				</el-table-column>
 				<el-table-column prop="company" :label="$t('form.company.text2')">
 					<template slot-scope="scope">
-						<el-input v-model="scope.row.vcompany" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+						<el-input v-model="scope.row.vcompany" :placeholder="$t('visitor.vcom')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				    </template>
 				</el-table-column>
 				<el-table-column prop="remark" :label="$t('form.remark.text')">
 					<template slot-scope="scope">
-						<el-input v-model="scope.row.remark" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+						<el-input v-model="scope.row.remark" :placeholder="$t('form.remark.text')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				    </template>
 				</el-table-column>
 				<el-table-column prop="status" :label="$t('btn.edit1')" width="100">
@@ -72,7 +73,7 @@
           <el-form-item label-position="left" :label="$t('form.time.text7')" prop="qrcodeType">
 		    		<el-row>
 		    			<el-col :span="8">
-			    			<el-select v-model="timetype" placeholder="请选择">
+			    			<el-select v-model="timetype" >
 							    <el-option
 							      v-for="item in $t('timetype')"
 							      :key="item.value"
@@ -82,7 +83,7 @@
 							</el-select>
 			    		</el-col>
 			    		<el-col :span="4">
-			    			<el-input v-model="form.qrcodeType"></el-input>
+			    			<el-input v-model.number="form.qrcodeType" :placeholder="qrcodePlace" @change="setQrcodeType"></el-input>
 			    		</el-col>
 		    		</el-row>
 		    	</el-form-item>
@@ -200,8 +201,37 @@ export default {
       previewFlag: false
   	}
   },
+  computed: {
+    qrcodePlace: {
+      get () {
+        if (this.timetype === 0) {
+          return this.$t('daysRange') + '：1-' + getCache('qrMaxDuration')
+        } else {
+          return this.$t('timesRange') + '：1-' + getCache('qrMaxCount')
+        }
+      },
+      set () {}
+    }
+  },
   methods: {
     numberToBoolean:numberToBoolean,
+    setQrcodeType (val) {
+      if (this.timetype === 0) {
+        if (val > getCache('qrMaxDuration')) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('daysUpTip')
+          })
+        }
+      } else {
+        if (val > getCache('qrMaxCount')) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('timesUpTip')
+          })
+        }
+      }
+    },
     updateType (val) {
       this.data[val].etype = 1
     },
@@ -241,11 +271,9 @@ export default {
       })
     },
     edittype (index) {
-      console.log(this.data[index].etype)
       this.data[index].etype = 1
     },
     delettype (index) {
-      console.log(index)
       if (this.data.length > 1) {
         this.data.splice(index,1)
       } else {

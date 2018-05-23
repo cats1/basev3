@@ -3,11 +3,11 @@
     <m-header class="marginbom20" :title="$t('moban.interview.title')" :desc="$t('moban.interview.desc')"></m-header>
     <tinymce class="margintop20" :id="contentId" :height=400 ref="ceditor" v-model="inviteContent" @input="getcon"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
-    <baidu-map :isshow="mapShow" class="marginbom20" :address="address" :sendpot="pot" :mapid="mapid" style="width:80%;"></baidu-map>
-    <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
-    <tinymce :height=400 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="trafficId" ref="teditor" v-model="traffic" @input="gettraffic"></tinymce>
+    <map-component :isshow="mapShow" class="marginbom20" :address="address" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getAddress"></map-component>
+    <h3 class="margintop20 marginbom20" >{{$t('moban.traffic')}}</h3>
+    <tinymce :height=100 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="trafficId" ref="teditor" v-model="traffic" @input="gettraffic"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.compro')}}</h3>
-    <tinymce :height=400 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="companyProfileId" ref="comeditor" v-model="companyProfile" @input="getcompro"></tinymce>
+    <tinymce :height=100 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="companyProfileId" ref="comeditor" v-model="companyProfile" @input="getcompro"></tinymce>
     <div class="margintop20">
       <el-button type="primary" @click="saveMoban">{{$t('btn.saveMobanBtn')}}</el-button>
     </div>
@@ -15,8 +15,8 @@
 </template>
 <script>
 import mHeader from './components/mHeader'
-import Tinymce from '@/components/tinymce'
-import {BaiduMap} from '@/components/map'
+import Tinymce from '@/components/tinymce/tiny'
+import {MapComponent} from '@/components/map'
 import { getCache } from '@/utils/auth'
 import { valueToString,replaceQuotation,replaceRemoveQuotation } from '@/utils/common'
 export default {
@@ -42,7 +42,7 @@ export default {
       default: true
     }
   },
-  components: { mHeader,Tinymce,BaiduMap },
+  components: { mHeader,Tinymce,MapComponent },
   data () {
     return {
       contentId: 'vue-tinymce-content-' + this.mapid,
@@ -69,7 +69,7 @@ export default {
     isshow (val) {
       this.mapShow = val
       if (val) {
-        this.showDefault(this.getResult,this.vtype)
+        this.showDefault(this.vtype)
       }
     }
   },
@@ -116,11 +116,9 @@ export default {
       }
     },
     GetUserInfo () {
-      this.$store.dispatch('GetUserInfo').then(res => {
-        if(parseInt(getCache('subaccountId')) !== 0) {
-          this.getSubAccountById()
-        }
-      })
+      if(parseInt(getCache('subaccountId')) !== 0) {
+        this.getSubAccountById()
+      }
     },
     getSubAccountById () {
       let nform = {
@@ -160,10 +158,10 @@ export default {
         if (status === 0) {
           this.getResult = result
           if (result != null && result != 'null') {
-            this.showDefault(result,type)
+            this.showDefault(type)
           } else {
             //showAlert('公司' + type + '模板未设置,请先设置模板', -1);
-            this.showDefault(result, type)
+            this.showDefault(type)
           }
         }
       })
@@ -179,7 +177,7 @@ export default {
         if (status === 0) {
           this.getResult = result
           if (result != null && result != 'null') {
-            this.showDefault(result,type)
+            this.showDefault(type)
           } else {
             //showAlert('子公司' + type + '模板未设置,请先设置模板', -1);
             this.getUsertemplate(type)
@@ -197,7 +195,7 @@ export default {
         if (status === 0) {
           this.getResult = result
           if(result) {
-            this.showDefault(result,type)
+            this.showDefault(type)
           } else {
             if (parseInt(getCache('subaccountId')) === 0) { //子公司id为0，联合办公模式关闭
               if (parseInt(getCache('tempEditSwitch')) === 0) {
@@ -211,10 +209,26 @@ export default {
         }
       })
     },
-    showDefault (result,type) {
-      if (this.isInit && !this.isshow) {
+    showDefault (type) {
+        let result = this.getResult
+        if (!result) {
+          result = this.defaultmoban
+        }
+        this.inviteContent = replaceRemoveQuotation(result.inviteContent)
+        if (!result.inviteContent) {
+          this.setDefaultMoban() 
+        }
+        this.traffic = replaceRemoveQuotation(result.traffic)
+        this.companyProfile = replaceRemoveQuotation(result.companyProfile)
+        this.pot.latitude = result.latitude
+        this.pot.longitude = result.longitude
+        this.address = result.address
+      /*if (this.isInit && !this.isshow) {
+        console.log(666)
         //console.log('init')
       } else {
+        console.log(888)
+        console.log(result)
         if (!result) {
           result = this.defaultmoban
         }
@@ -230,25 +244,28 @@ export default {
         if (getCache('tempEditSwitch') === 1) {
 
         }
-      }
+      }*/
       this.$emit('initmoban',result)
     },
     saveMoban () {
       let nform = {
-        address: getCache('saddress'),
+        address: this.address,
         companyProfile: replaceQuotation(this.companyProfile),
         empEmail: '',
         empPhone: getCache('empPhone'),
         inviteContent: replaceQuotation(this.inviteContent),
-        latitude: getCache('latitude'),
-        longitude: getCache('longitude'),
+        latitude: this.pot.latitude,
+        longitude: this.pot.longitude,
         templateType: this.vtype,
         traffic: replaceQuotation(this.traffic),
         userid: getCache('userid')
       }
-      this.$store.dispatch('addEmptemplate',nform).then(res => {
-
-      })
+      this.$store.dispatch('addEmptemplate',nform)
+    },
+    getAddress (point,address) {
+      this.pot.latitude = point.latitude
+      this.pot.longitude = point.longitude
+      this.address = address
     }
   }
 }

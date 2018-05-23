@@ -24,7 +24,12 @@ export function setCache(key, value) {
 export function removeCache(key) {
   return Cookies.remove(key)
 }
-
+export function clearSession() {
+  window.sessionStorage.clear()
+}
+export function clearLocal() {
+  window.localStorage.clear()
+}
 export function clearCookie() {
   var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
   if (keys) {

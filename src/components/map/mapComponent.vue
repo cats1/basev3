@@ -60,12 +60,8 @@ export default {
       this.init()
     },
   },
-  created () {},
   mounted () {
     this.init()
-    /*$("#"+ this.inputid).bind('keydown', function(event) {
-    	console.log(event)
-    })*/
   },
   beforeDestroy () {
     //console.log('before destory')
@@ -94,10 +90,6 @@ export default {
     	let _self = this
     	let point = new BMap.Point(this.sendpot.longitude,this.sendpot.latitude)
     	this.bmap.centerAndZoom(point, 14)
-    	/*_self.addCityList()
-    	_self.addClickGeocoder()
-    	_self.addMarker(point)
-    	_self.addSearch()*/
     	this.addCityList()
     	this.addClickGeocoder()
     	this.addMarker(point)

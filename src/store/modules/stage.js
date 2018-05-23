@@ -46,7 +46,6 @@ const user = {
 		          		  setCache('token', userInfo.account + '-' + result.token)
 		          		}
 		          	}
-
 		          }
 		          setToken(result.token)
 		          resolve(response)

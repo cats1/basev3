@@ -1,26 +1,26 @@
 <template>
 	<div>
-		<el-row class="margintop20 marginbom20 ">
-	        <p class="lh36">{{$t('moban.ctitle')}}
-	        	<el-button class="right" @click="goDot"><i class="fa fa-list"></i>{{$t('moban.dot')}}</el-button></p>
+		  <el-row class="margintop20 marginbom20 ">
+	      <p class="lh36">{{$t('moban.ctitle')}}
+	      <el-button class="right" @click="goDot"><i class="fa fa-list"></i>{{$t('moban.dot')}}</el-button></p>
 	    </el-row>
 	    <div class="boxshadow bgwhite paddinglr30 paddingtb20">
 	    	<el-form label-position="left" :model="form" :rules="rules" ref="danform" style="width:50%;">
 	    	  <h3 class="marginbom20">{{$t('moban.visitMess')}}</h3>
 		    	<el-form-item :label="$t('form.name.text')" prop="name">
-		    	  <el-input v-model="form.name"></el-input>
+		    	  <el-input v-model="form.name" :placeholder="$t('visitor.vname')"></el-input>
 		    	</el-form-item>
 		    	<el-form-item :label="$t('form.phone.text')" prop="phone">
-		    		<el-input v-model="form.phone"></el-input>
+		    		<el-input v-model="form.phone" :placeholder="$t('visitor.vphone')"></el-input>
 		    	</el-form-item>
 		    	<el-form-item :label="$t('form.time.text6')" prop="appointmentDate">
 		    		<el-date-picker
-				      v-model="form.appointmentDate"
-				      type="datetime" class="block">
+				      v-model="form.appointmentDate" style="width:100%"
+				      type="datetime" class="block" :placeholder="$t('visitor.ordertime')">
 				    </el-date-picker>
 		    	</el-form-item>
 		    	<el-form-item :label="$t('form.visitType.text')">
-		    		<el-select v-model="visitType" class="block">
+		    		<el-select v-model="visitType" class="block" style="width:100%">
 					    <el-option
 					      v-for="item in $t('itype')"
 					      :key="item.value"
@@ -30,15 +30,15 @@
 					</el-select>
 		    	</el-form-item>
 		    	<el-form-item :label="$t('form.company.text')">
-		    		<el-input v-model="form.vcompany"></el-input>
+		    		<el-input v-model="form.vcompany" :placeholder="$t('visitor.vcom')"></el-input>
 		    	</el-form-item>
 		    	<el-form-item :label="$t('form.remark.text')">
-		    		<el-input v-model="form.remark"></el-input>
+		    		<el-input v-model="form.remark" :placeholder="$t('form.remark.text')"></el-input>
 		    	</el-form-item>
 		    	<el-form-item :label="$t('form.time.text7')" prop="qrcodeType">
 		    		<el-row class="block">
 		    			<el-col :span="12">
-			    			<el-select v-model="timetype">
+			    			<el-select v-model="timetype" >
 							    <el-option
 							      v-for="item in $t('timetype')"
 							      :key="item.value"
@@ -48,7 +48,7 @@
 							</el-select>
 			    		</el-col>
 			    		<el-col :span="12">
-			    			<el-input v-model="form.qrcodeType"></el-input>
+			    			<el-input v-model.number="form.qrcodeType" :placeholder="qrcodePlace" @change="setQrcodeType"></el-input>
 			    		</el-col>
 		    		</el-row>
 		    	</el-form-item>
@@ -96,7 +96,9 @@ export default {
       	name: [{ required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
       	phone: [{ required: true, message: this.$t('formCheck.validphone.tip2'), trigger: 'blur' }],
       	appointmentDate: [{ required: true, message: this.$t('formCheck.time.tip1'), trigger: 'blur' }],
-      	qrcodeType: [{ required: true, message: this.$t('form.time.text7'), trigger: 'blur' }]
+      	qrcodeType: [
+          { required: true, message: this.$t('form.time.text7')},
+          { type: 'number', message: '只能填写数字'}]
       },
       timetype: 0,
       visitType: 0,
@@ -109,7 +111,36 @@ export default {
       previewFlag: false
   	}
   },
+  computed: {
+    qrcodePlace: {
+      get () {
+        if (this.timetype === 0) {
+          return this.$t('daysRange') + '：1-' + getCache('qrMaxDuration')
+        } else {
+          return this.$t('timesRange') + '：1-' + getCache('qrMaxCount')
+        }
+      },
+      set () {}
+    }
+  },
   methods: {
+    setQrcodeType (val) {
+      if (this.timetype === 0) {
+        if (val > getCache('qrMaxDuration')) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('daysUpTip')
+          })
+        }
+      } else {
+        if (val > getCache('qrMaxCount')) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('timesUpTip')
+          })
+        }
+      }
+    },
   	goDot () {
   	  this.$router.push({path: 'dot'})
   	},

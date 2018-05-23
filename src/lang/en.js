@@ -18,6 +18,10 @@ export default {
     history: 'History',
     404: '404'
   },
+  daysRange: 'Number of days',
+  timesRange: 'Frequency range',
+  daysUpTip: 'The number of effective days cannot exceed the upper limit set by the company',
+  timesUpTip: 'The number of valid times cannot exceed the upper limit set by the company',
   saveMoban: 'Please edit template',
   insertAddress: 'Please input address',
   successText: 'Success',
@@ -56,6 +60,7 @@ export default {
   lessOneGate: 'Less one gate',
   floorNumber: 'Floor',
   roomNumber: 'Room',
+  comSelectHolder: 'Please select one company',
   comNameHolder: 'Please input company name (6 letters)',
   teamName: 'Team Name',
   teamNumber: 'Team Counts',

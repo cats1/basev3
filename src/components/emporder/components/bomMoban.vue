@@ -21,8 +21,16 @@ export default {
   data () {
   	return {
   	  mobanShow: false,
-      isEdit: numberToBoolean(getCache('tempEditSwitch'))
+      //isEdit: numberToBoolean(getCache('tempEditSwitch'))
   	}
+  },
+  computed: {
+    isEdit: {
+      get () {
+        return numberToBoolean(getCache('tempEditSwitch'))
+      },
+      set () {}
+    }
   },
   methods: {
   	editMoban () {

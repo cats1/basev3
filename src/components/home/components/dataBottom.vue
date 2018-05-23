@@ -71,7 +71,7 @@
 		        :label="$t('form.idnum.text2')"
 		        width="180">
 		        <template slot-scope="scope">
-			        {{scope.row.vphoto | setVphoto}}
+			        <img :src="setVphoto(scope.row.cardId)" alt="" @click="setShowUrl(scope.row)">
 			    </template>
 		    </el-table-column>
 		    <el-table-column align="center"
@@ -119,14 +119,16 @@
 		      :total="total">
 		    </el-pagination>
 		</div>
+		<lightbox :img-src="showUrl" :box-show="show" @closekit="show = false"></lightbox>
 	</div>
 </template>
 <script>
+import lightbox from '@/components/lightbox'
 import { getCache } from '@/utils/auth'
 import {formatDate} from '@/utils/index'
 import exportSet from './exportSet'
 export default {
-  components: {exportSet},
+  components: {exportSet,lightbox},
   props: {
   	vdata: {
   	  type: Array,
@@ -143,14 +145,16 @@ export default {
   },
   data () {
   	return {
-  	  data: [],
+  	  data: this.vdata,
   	  list: [],
   	  size: [10, 20, 30, 40],
   	  page: 10,
-  	  total: 0,
+  	  total: this.vdata.length,
   	  current: 1,
   	  extendShow: false,
-  	  extendArray: []
+  	  extendArray: [],
+  	  showUrl: '',
+  	  show: false
   	}
   },
   filters:{
@@ -159,8 +163,7 @@ export default {
   	  	let date = new Date(time)
   	    return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
   	  }
-  	},
-  	setVphoto (url) {}
+  	}
   },
   watch: {
   	vdata (val) {
@@ -175,6 +178,18 @@ export default {
   	this.setPage()
   },
   methods: {
+  	setShowUrl (row) {
+  	  console.log(row)
+  	  this.showUrl = row.vphoto
+  	  this.show = true
+  	},
+  	setVphoto (val) {
+  	  if (val && val !== '') {
+  	  	return require('@/assets/img/card.png')
+  	  } else {
+  	  	return ''
+  	  }
+  	},
   	handleSizeChange(val) {
       this.page = val
       this.setPage()
