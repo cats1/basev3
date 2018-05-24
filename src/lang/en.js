@@ -18,10 +18,11 @@ export default {
     history: 'History',
     404: '404'
   },
+  clickHere: 'click here ',
   daysRange: 'Number of days',
   timesRange: 'Frequency range',
-  daysUpTip: 'The number of effective days cannot exceed the upper limit set by the company',
-  timesUpTip: 'The number of valid times cannot exceed the upper limit set by the company',
+  daysUpTip: 'The number of effective days cannot exceed the upper limit set via the company',
+  timesUpTip: 'The number of valid times cannot exceed the upper limit set via the company',
   saveMoban: 'Please edit template',
   insertAddress: 'Please input address',
   successText: 'Success',
@@ -100,7 +101,7 @@ export default {
   as: 'Categorized as',
   defaultText: 'default',
   chargePerson: 'The person in charge',
-  chargePersonPhone: 'Phone number of the person in charge',
+  chargePersonPhone: 'TEL of the person in charge',
   workArea: 'Working area',
   workcontent: 'Working content',
   gender: 'gender',
@@ -134,14 +135,14 @@ export default {
   h11text: 'The settled enterprises log in. The subsidiary companies in multi-enterprise service model can log in and enter the exclusive page of the subsidiary company to view visitors‘ records.',
   h12text: 'Optimize the page layout of the "Custom Settings".',
   h13text: 'Increase the mode of meeting management.',
-  h14text: 'Increase the function of sign-out by ID card, modify and perfect the sign-in process and mode by ID card.',
+  h14text: 'Increase the function of sign-out via ID Nr, modify and perfect the sign-in process and mode via ID Nr.',
   h15text: 'Modify and improve the search and export functions.',
-  h16text: 'Add the way of code scanning by ID card.',
+  h16text: 'Add the way of code scanning via ID Nr.',
   h17text: 'Add the app client for visitor verification.',
   h18text: 'Add the switch configuration page.',
   h188text: 'Added visitor statistics for the current day',
   h19text: 'Add the statistics of the number of visitors on the same day.',
-  h20text: 'Add a sign-in function by QR Code scanning.',
+  h20text: 'Add a sign-in function via QR Code scanning.',
   h21text: 'New page reversion',
   h22text: 'Add the Account Information - Enterprise Service Model: The multi-enterprise service model is suitable for various types of enterprise service providers, such as maker space, joint office space, property, office building and so on. It can provide the front desk display and visitor management service for the settled enterprises.',
   h23text: 'Add the recharge management function.',
@@ -151,10 +152,10 @@ export default {
   h27text: 'Add a reservation function.',
   h28text: 'Support sending a reservation SMS to visitors, including reservation details, traffic parking and other information.',
   h29text: 'The staff can edit according to the template and send the invitation to the reserved visitor.',
-  h30text: 'When arriving, the visitor can enter the four numbers of his phone number so that he can quickly register.',
+  h30text: 'When arriving, the visitor can enter the four numbers of his TEL so that he can quickly register.',
   h31text: 'Add a batch reservation function. Multiple reservations can be imported through the Excel table.',
   h32text: 'Add a notification mode of “DingTalk” (how to configure DingTalk), and support the import of employee contacts through “DingTalk”.',
-  h33text: 'Add the function of “You have visited before”. Visitors only need to enter the phone number to sign in when they visit again.',
+  h33text: 'Add the function of “You have visited before”. Visitors only need to enter the TEL to sign in when they visit again.',
   h34text: 'The staff can edit according to the template and send the invitation to the reserved visitor.',
   h35text: 'Add the size of the visitor stickers and more custom settings for the contents.',
   h36text: 'Add the function of team visit.',
@@ -167,18 +168,18 @@ export default {
   h43text: 'Add the text function of the visitor sticker.',
   h44text: 'Function of visitor page: Support the calendar to view the visitor information on the same day.',
   h45text: 'Function of employee page: Support the mode of importing employee information through manual operation, RTX or Excel table and batch modification can be done.',
-  h46text: 'Function of notification page: Provide three kinds of notification methods by WeChat, RTX and mail, and set a specific receiving mode by the switch.',
+  h46text: 'Function of notification page: Provide three kinds of notification methods via WeChat, RTX and mail, and set a specific receiving mode via the switch.',
   h47text: 'Custom settings - enterprise image page: Support the custom settings for enterprise logo, carousel picture on the first screen of iPad, the color of iPad appearance and visitor avatar.',
   h48text: 'Custom settings - visitor registration page: Support the custom settings for visitor registration information and the entries and options can be created.',
   resetPwd: 'reset Password',
   inputNewPwd: 'Please enter the new password for the account',
   submitNewPwd: 'Submit new password',
   yourName: 'Your name',
-  yourPhone: 'Your Phone',
-  yourMobile: 'Your Phone',
+  yourPhone: 'Your TEL',
+  yourMobile: 'Your TEL',
   yourCompany: 'Your company',
   yourVisitor: 'People you want to visit',
-  youVisittorPhone: 'People’s phone you want to visit',
+  youVisittorPhone: 'People’s TEL you want to visit',
   qrcodeDown: 'QRcode download',
   appStoreDown: 'App Store download',
   localDown: 'Local download',
@@ -196,7 +197,7 @@ export default {
       page: {
         title: 'Forget Password',
         desc: 'Please enter your email address and we will send you instructions on how to reset your password.',
-        desc1: 'Please enter the phone number, get the verification code',
+        desc1: 'Please enter the TEL, get the verification code',
         desc3: 'Reset your password',
         desc2: 'Reset password successfully!',
         desc4: 'Activate the account successfully!',
@@ -246,11 +247,11 @@ export default {
     link: 'notice',
     children: []
   }, {
-    name: 'Custom Settings',
+    name: 'Settings',
     dirname: 'setting',
     link: 'setting.html',
     children: [{
-      name: 'Reception Settings',
+      name: 'Reception',
       dirname: 'setting',
       link: '/pad',
       children: []
@@ -282,7 +283,7 @@ export default {
     link: 'list',
     children: []
   }],
-  downlist: ['Account Management', 'Update Pasword', 'Exit'],
+  downlist: ['Settings', 'Update Pasword', 'Log out'],
   form: {
     name: {
       text: 'name',
@@ -296,14 +297,14 @@ export default {
       text: 'department'
     },
     phone: {
-      text: 'phone',
+      text: 'TEL',
       text1: 'information of contact',
       text2: 'interviewee’s contact information',
-      text3: 'telephone',
-      text4: 'phone number'
+      text3: 'TEL',
+      text4: 'TEL'
     },
     idnum: {
-      text: 'id card number',
+      text: 'ID Nr.',
       text1: 'Certificate No.',
       text2: 'scanning copy of the certificate'
     },
@@ -384,7 +385,7 @@ export default {
     searchBtn: 'search',
     picBtn: 'Select a picture',
     addBlackBtn: 'Add a blacklist',
-    dotDeleteBtn: 'Batch deleting',
+    dotDeleteBtn: 'Batch delete',
     dotUpdateBtn: 'Batch modification',
     editSpecial: 'Edit special account',
     dotSendCard: 'Batch card',
@@ -407,7 +408,7 @@ export default {
     uploadComBtn: 'Uploading company',
     uploadlgo: 'Upload logo',
     uploadExcel: 'Upload excel',
-    addMeeting: 'Increase the meeting',
+    addMeeting: 'Add a new meeting',
     editMeeting: 'management of meetings',
     saveMobanBtn: 'Save template',
     sendInvite: 'Send a meeting invitation',
@@ -447,9 +448,9 @@ export default {
     dot: 'Batch invitation',
     facemoban: 'Interview template',
     busmoban: 'Business template',
-    ctitle: 'Please fill in the relevant information of visitors, and then the SMS invitation can be generated and sent to the phone number of the other side.',
+    ctitle: 'Please fill in the relevant information of visitors, and then the SMS invitation can be generated and sent to the TEL of the other side.',
     cdesc: 'More related information about the company in the SMS invitation',
-    tip7: 'You can choose one by one editing or batch import through Excel.',
+    tip7: 'You can choose one via one editing or batch import through Excel.',
     mtitle: 'Invite more company related information in SMS',
     emptip: 'Restrict staff edit switch to open, template can not be edited.',
     hello: 'Hello!',
@@ -466,7 +467,7 @@ export default {
       defaultMoban: '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">我是{company}的{empid}，很高兴代表我司与您联系。为更好的沟通交流工作事宜，诚挚希望与您进行会面，期待您的来访！</p><br/>'
     }
   },
-  tablehead: ['#', 'Conference name', 'time', 'Initiator', 'theme', 'QR code', 'phone', 'Cause', 'Launch time', 'company', 'status', 'Sending State'],
+  tablehead: ['#', 'Conference name', 'time', 'Initiator', 'theme', 'QR code', 'TEL', 'Cause', 'Launch time', 'company', 'status', 'Sending State'],
   formCheck: {
     validPassword: {
       tip1: 'Incorrect password format',
@@ -483,9 +484,9 @@ export default {
       tip2: 'Mailbox cannot be empty'
     },
     validphone: {
-      tip1: 'The format of the phone number is not correct',
-      tip2: 'Cell phone number can not be empty',
-      holder: 'Phone number'
+      tip1: 'The format of the TEL is not correct',
+      tip2: 'Cell TEL can not be empty',
+      holder: 'TEL'
     },
     validCompany: {
       tip1: 'The name of the company can not be empty',
@@ -536,7 +537,7 @@ export default {
     label: 'Business affairs',
     value: 1
   }],
-  checkVtype: ['all', 'visitor’s name', 'Interviewee’s name', 'the cause of Visit', 'telephone', 'company', 'Security'],
+  checkVtype: ['all', 'visitor’s name', 'Interviewee’s name', 'purpose of Visit', 'TEL', 'company', 'Security'],
   outTip: {
     title: 'Do you confirm the withdrawal?',
     desc: 'tip',
@@ -553,16 +554,16 @@ export default {
   vtime: ['start time', 'End time'],
   visitor: {
     vname: 'the name of the visitor',
-    vphone: 'Visitor’s cell phone number',
+    vphone: 'Visitor’s TEL',
     vcom: 'Visitor company',
     ename: 'Name of the interviewee',
-    ephone: 'Phone of the interviewee',
+    ephone: 'TEL of the interviewee',
     ecom: 'Company of the interviewee',
     ordertime: 'the reservation time',
     visittime: 'Time of visit',
     leavetime: 'Time of departure',
     followPeople: 'follow-up personnel',
-    list: 'Visitor details',
+    list: 'Details',
     manager: 'Director',
     editEmp: 'Editors'
   },
@@ -596,7 +597,7 @@ export default {
     },
     guide2: {
       title: 'Add employee information',
-      desc: 'After adding the employees, you can experience our most powerful function: to automatically notify the employees of the visitors. Please add at least one piece of employee information. Support RTX and the Excel import of the employee address book. It’s more recommended that you can try to add by hand, and directly enter the employee information into the backstage.',
+      desc: 'After adding the employees, you can experience our most powerful function: to automatically notify the employees of the visitors. Please add at least one piece of employee information. Support RTX and the Excel import of the employee address book. It’s more recommended that you can try to add via hand, and directly enter the employee information into the backstage.',
       inputTitle: 'Please fill in the information about the company',
       inputPlaceholder: 'Company name remarks (up to six words)',
       inputDesc: 'Prompt: The remark of the company name is used for WeChat and visitor stickers',
@@ -634,11 +635,11 @@ export default {
 
 
   phoneIdnum: {
-    text: '*ID card and mobile number choose one',
-    tips: 'Make at least one phone number and ID number'
+    text: '*ID Nr and mobile number choose one',
+    tips: 'Make at least one TEL and ID Nr'
   },
   sex: ['male', 'Female'],
-  idNumTip: ['Verification passed!', 'the number of your ID number is incorrect!', "Identity number birth date is out of range or contains illegal characters!", "ID number verification error!", "ID Area illegal!"],
+  idNumTip: ['Verification passed!', 'the number of your ID Nr is incorrect!', "ID Nr birth date is out of range or contains illegal characters!", "ID Nr verification error!", "ID Nr Area illegal!"],
   people: {
     emp: 'Employee',
     visit: 'Visitor',
@@ -698,11 +699,11 @@ export default {
     },
     weixin: {
       title: 'WeChat',
-      desc: 'When a visitor signs in, notify the employee through the WeChat service account “Cool Visit”. The employee should register with the phone number in the address book on the service account ahead of time.',
+      desc: 'When a visitor signs in, notify the employee through the WeChat service account “Cool Visit”. The employee should have registered with the TEL in the address book on the service account ahead of time.',
     },
     email: {
       title: 'Email',
-      desc: 'Notify employees by email when a visitor signs in',
+      desc: 'Notify employees via email when a visitor signs in',
       ptitle: 'Please select the mail configuration method',
       defaults: 'Default configuration',
       ddesc: 'In the default configuration, notifications will be sent from the exchange account of the system.',
@@ -712,7 +713,7 @@ export default {
     },
     sms: {
       title: 'SMS',
-      desc: 'Notify employees by SMS, and notify visitors by SMS when quick reply.'
+      desc: 'Notify employees via SMS, and use quick replying function notifying visitors.'
     },
     yuyin: {
       title: 'Voice call',
@@ -720,13 +721,13 @@ export default {
     },
     dd: {
       title: 'DingTalk',
-      desc: 'Notify the employee by DingTalk when a visitor signs in.',
-      tip: 'If you want to turn on this notification method, click here to set the way to import contacts'
+      desc: 'Notify the employee via DingTalk when a visitor signs in.',
+      tip: 'If you want to turn on this notification method,',
+      tip1: 'to set the way to import contacts'
     },
     rtx: {
       title: 'RTX',
-      desc: 'Notify employees through RTX when a visitor signs in',
-      tip: 'If you want to turn on this notification method, click here to set the way to import contacts'
+      desc: 'Notify employees through RTX when a visitor signs in'
     },
     order: {
       title: 'Reservation authorization',
@@ -751,7 +752,7 @@ export default {
       qrMaxDuration: 'Maximum time of use for the QR Code'
     },
     codesign: {
-      title: 'Sign in by the QR Code',
+      title: 'Sign in via the QR Code',
       desc: 'After opening, the “QR Code” module will appear in the invitation, which can be used for the scanning verification for the PC barcode scanner at the Reception (on the right side of the list of visitors) and the mobile verification terminal.'
     },
     clogo: {
@@ -796,11 +797,11 @@ export default {
     },
     once: {
       title: 'Once visited',
-      desc: 'Visitors only need to enter the phone number to sign in when they visit again.'
+      desc: 'Visitors only need to enter the TEL to sign in when they visit again.'
     },
     sos: {
       title: 'Logout switch',
-      desc: 'After turning on, the entry to “Logout” appears on the Pad homepage. Enter the phone number to complete the sign-out when the visitors leave.'
+      desc: 'After turning on, the entry to “Logout” appears on the Pad homepage. Enter the TEL to complete the sign-out when the visitors leave.'
     },
     team: {
       title: 'Team visit',
@@ -811,7 +812,7 @@ export default {
     },
     pics: {
       title: 'Carousel pictures on the first screen',
-      desc: 'Select two to five pictures representing corporate image, which will be displayed by carousel on the first screen.'
+      desc: 'Select two to five pictures representing corporate image, which will be displayed via carousel on the first screen.'
     },
     themecolor: {
       title: 'Enterprise color',
@@ -825,8 +826,8 @@ export default {
       }
     },
     facein: {
-      title: 'Sign in by face swiping',
-      desc: 'After turning on, there will be a module of “Face swiping to sign in” in the invitation. After uploading the photos, visitors can sign in “Reserved—Sign-in by face swiping” on the Pad of the Reception.'
+      title: 'Sign in via face swiping',
+      desc: 'After turning on, there will be a module of “Face swiping to sign in” in the invitation. After uploading the photos, visitors can sign in “Reserved—Sign-in via face swiping” on the Pad of the Reception.'
     },
     doorset: {
       title: 'Security settings',
@@ -837,8 +838,8 @@ export default {
       },
       signinDoor: 'Sign in the gate',
       signoutDoor: 'Sign out the gate',
-      signinGuard: 'Sign in by guard',
-      signoutGuard: 'Sign out by guard'
+      signinGuard: 'Sign in via guard',
+      signoutGuard: 'Sign out via guard'
     },
     worktime: {
       title: 'Working time settings',
@@ -865,7 +866,7 @@ export default {
   },
   approve: {
     title: 'Please set up the approval process.',
-    desc: 'Please set up the approver according to the visit area. The reservation must be approved by the approver before the adoption.',
+    desc: 'Please set up the approver according to the visit area. The reservation must be approved via the approver before the adoption.',
     atitle: 'Switch of the approval process',
     adesc: 'After the approval function is turned on, the application for access must be approved at multiple levels according to the conditions of approval.',
     astitle: 'Please set up the approval conditions.',
@@ -884,7 +885,7 @@ export default {
   },
   exporttype: {
     title: 'Import through Excel',
-    desc1: 'The table needs to include: name, email address, phone number.',
+    desc1: 'The table needs to include: name, email address, TEL.',
     desc2: 'Excel file format support for csv, xls, xlsx suffixes',
     desc3: 'View the template',
     desc4: 'Click here to modify',
@@ -963,8 +964,8 @@ export default {
     tip1: 'verification code must be filled'
   },
   validphone: {
-    tip1: 'Phone number format is incorrect',
-    tip2: 'Phone number can not be empty'
+    tip1: 'TEL format is incorrect',
+    tip2: 'TEL can not be empty'
   },
   validStage: {
     tip1: 'Account cannot be empty'
@@ -987,7 +988,7 @@ export default {
         name: 'Security',
         link: 'safe'
       }, {
-        name: 'Verify the account by the Reception',
+        name: 'Verify the account via the Reception',
         link: 'stage'
       }, {
         name: 'Multi-enterprise',
@@ -1008,6 +1009,6 @@ export default {
   footer: {
     ftext1: 'All Rights Reserved',
     ftext2: 'Nanjing Fangkele Network Technology Co., Ltd. reserves its rights.',
-    flink: 'ICP License No. 15058768 by Jiangsu Communications Administration'
+    flink: 'ICP License No. 15058768 via Jiangsu Communications Administration'
   }
 }

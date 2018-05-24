@@ -11,8 +11,6 @@
 	</div>
 </template>
 <script>
-import {createLftMap,searchByStationName} from '@/utils/baiduMap'
-import baiduMap from '@/utils/baiduMap'
 export default {
   name: 'BaiduMap',
   props: {

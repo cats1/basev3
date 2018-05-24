@@ -26,7 +26,7 @@
 	  	</el-col>
 	  	<el-col :span="18" >        
         <div class="" v-if="rightType === 2">
-          <export-address-book ></export-address-book>
+          <export-address-book :utype="exportType"></export-address-book>
         </div>
         <div class="" v-else>
           <div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
@@ -133,7 +133,27 @@ export default {
       timeout:  null
   	}
   },
+  computed: {
+    exportType: {
+      get: function () {
+        if (this.$route.query.export) {
+          this.rightType = 2
+        }
+        if (this.$route.query.export === 'dd') {
+          return 2
+        } else if (this.$route.query.export === 'rtx') {
+          return 1
+        } else if (this.$route.query.export === 'excel') {
+          return 0
+        } else {
+          return 0
+        }
+      },
+      set: function () {} 
+    }
+  },
   mounted () {
+    console.log(this.exportType)
     this.getProjectList()
   },
   methods: {

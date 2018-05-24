@@ -16,18 +16,20 @@
 				</div>
 			</div>
 		</div>
-		<p class="exportbomtip">{{$t('exporttype.desc5')}}{{$t('exporttype.list[0]')}}{{$t('exporttype.desc8')}}<span class="links" @click="changeType">{{$t('exporttype.desc4')}}</span></p>
+		<p class="exportbomtip" v-show="!bomtipShow">{{$t('exporttype.desc5')}}{{$t('exporttype.list[0]')}}{{$t('exporttype.desc8')}}<span class="links" @click="changeType">{{$t('exporttype.desc4')}}</span></p>
 	</div>
 </template>
 <script>
 import empGroupUpload from './empGroupUpload'
+import {getCache} from '@/utils/auth'
 import {downInviteMoban} from '@/components/download'
 export default {
   name: 'useExcel',
   components: {empGroupUpload,downInviteMoban},
   data () {
   	return {
-  	  src: require('@/assets/img/excelv1.png')
+  	  src: require('@/assets/img/excelv1.png'),
+  	  bomtipShow: parseInt(getCache('subAccount')) !== 1 ? false : true
   	}
   },
   methods: {

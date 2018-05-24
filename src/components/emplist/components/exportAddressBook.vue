@@ -31,6 +31,11 @@ export default {
   	  useType: this.utype
   	}
   },
+  watch: {
+    utype (val) {
+      this.useType = val
+    }
+  },
   methods: {
   	getChangetype (type) {
       this.useType = type

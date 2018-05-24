@@ -41,8 +41,16 @@ service.interceptors.response.use(
         return response.data
       } else if (status == 28) {
         const noticeMessages = i18n.messages[getLanguage()].responseNote
+        let messages = ''
+        if (getLanguage() === 'zh') {
+          if (noticeMessages[status]) {
+            messages = noticeMessages[status]
+          }
+        } else {
+          messages = response.data.reason
+        }
         Message({
-          message: noticeMessages[status],
+          message: messages,
           type: 'error',
           duration: 4 * 1000,
           onClose: function () {

@@ -105,12 +105,6 @@ export default {
   },
   created () {    
     let subAccount = parseInt(getCache('subAccount')) || 0
-    /*if (subAccount === 0) {
-      this.$router.push({name: 'group'})
-    } else {
-      this.$router.push({name: 'emplist'})
-    }*/
-
   },
   methods: {
     changeComEmp () {

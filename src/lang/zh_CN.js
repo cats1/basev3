@@ -18,6 +18,7 @@ export default {
     history: '历史记录',
     404: '404'
   },
+  clickHere: '请点击此处',
   daysRange: '天数范围',
   timesRange: '次数范围',
   daysUpTip: '有效天数不能超过公司设置的上限值',
@@ -723,12 +724,12 @@ export default {
     dd: {
       title: '钉钉',
       desc: '当有访客签到时，通过钉钉通知员工',
-      tip: '如果要开启此项通知方式，请点击此处设置导入通讯录方式'
+      tip: '如果要开启此项通知方式，',
+      tip1: '设置导入通讯录方式'
     },
     rtx: {
       title: 'RTX',
-      desc: '当有访客签到时，通过RTX通知员工',
-      tip: '如果要开启此项通知方式，请点击此处设置导入通讯录方式'
+      desc: '当有访客签到时，通过RTX通知员工'
     },
     order: {
       title: '预约授权',

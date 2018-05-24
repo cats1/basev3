@@ -1,7 +1,7 @@
 <template>
 	<div class="marginbom20">
-      <one-notice class="bgwhite" :n-icon="imgSrc" :n-title="$t('notice.rtx.title')" :n-desc="$t('notice.rtx.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
-      <p class="tiplink" v-show="linkShow">{{$t('notice.rtx.tip')}}</p>
+      <one-notice class="bgwhite" :class="{'noedit': noedit}" :n-icon="imgSrc" :n-title="$t('notice.rtx.title')" :n-desc="$t('notice.rtx.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
+      <p class="tiplink" :class="{'noedit': noedit}" v-show="linkShow">{{$t('notice.dd.tip')}}<a class="links" @click="goChangeType">{{$t('clickHere')}}</a>{{$t('notice.dd.tip1')}}</p>
       <el-dialog :title="$t('exporttype.ipSet')"
         :visible.sync="dialogVisible"
         width="30%" @close="resetForm">
@@ -55,6 +55,7 @@ export default {
   	  switchOn: false,
       dialogVisible: false,
       imgSrc: require('@/assets/img/rtxv1.png'),
+      noedit: parseInt(getCache('subAccount')) !== 1 ? false : true,
       form: {
         rtxIp: getCache('rtxip'),
         rtxPort: getCache('rtxport'),
@@ -77,6 +78,9 @@ export default {
     }
   },
   methods: {
+    goChangeType () {
+      this.$router.push({'path': '/emp','query': {'export': 'rtx'}})
+    },
     updateSetting () {
       this.$store.dispatch('updateRtxConf', this.form).then(res => {
         let { status } = res

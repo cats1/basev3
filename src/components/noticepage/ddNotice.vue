@@ -1,7 +1,7 @@
 <template>
-	<div class="marginbom20">
-      <one-notice class="bgwhite" :n-icon="imgSrc" :n-title="$t('notice.dd.title')" :n-desc="$t('notice.dd.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
-      <p class="tiplink" v-show="linkShow">{{$t('notice.dd.tip')}}</p>
+	<div class="marginbom20" >
+      <one-notice class="bgwhite" :class="{'noedit': noedit}" :n-icon="imgSrc" :n-title="$t('notice.dd.title')" :n-desc="$t('notice.dd.desc')" :switch-flag="switchOn" @gswitch="getSwitchValue"></one-notice>
+      <p class="tiplink" :class="{'noedit': noedit}" v-show="linkShow">{{$t('notice.dd.tip')}}<a class="links" @click="goChangeType">{{$t('clickHere')}}</a>{{$t('notice.dd.tip1')}}</p>
       <el-dialog :title="$t('exporttype.ddSet')"
       :visible.sync="dialogVisible"
       width="30%" @close="resetForm">
@@ -57,6 +57,7 @@ export default {
       imgSrc: require('@/assets/img/ddv1.png'),
       linkShow: this.linkIsShow,
       isOpenShow: this.open,
+      noedit: parseInt(getCache('subAccount')) !== 1 ? false : true,
       form: {
         ddnotify: getCache('ddnotify'),
         ddautosync: getCache('ddautosync'),
@@ -87,6 +88,9 @@ export default {
     }
   },
   methods: {
+    goChangeType () {
+      this.$router.push({'path': '/emp','query': {'export': 'dd'}})
+    },
     updateSetting () {
       let newForm = {
         userid: getCache('userid'),

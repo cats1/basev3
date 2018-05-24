@@ -705,6 +705,9 @@ label {
 
 .links {
   color: #428bca;
+  &:hover,&:focus{
+    color: #428bca;
+  }
 }
 
 .paddingl100 {

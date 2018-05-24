@@ -8,8 +8,8 @@
       <email class="bgwhite"></email>
       <sms-notice class="bgwhite"></sms-notice>
       <yuyin class="bgwhite"></yuyin>
-      <dd-notice :link-is-show="false"></dd-notice>
-      <rtx :link-is-show="false"></rtx>
+      <dd-notice :link-is-show="true"></dd-notice>
+      <rtx :link-is-show="true"></rtx>
   </div>
 </template>
 <script>
