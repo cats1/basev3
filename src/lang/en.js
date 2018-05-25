@@ -57,7 +57,7 @@ export default {
   emailOrderSuccess: 'Mail subscriptions have been set up successfully',
   pwdSuccess: 'Password modification success',
   pwdInitSuccess: 'Password initialization success',
-  comSuccess: 'The success of multi enterprise service mode modification',
+  comSuccess: 'The success of multi company service mode modification',
   lessOneGate: 'Less one gate',
   floorNumber: 'Floor',
   roomNumber: 'Room',
@@ -132,7 +132,7 @@ export default {
   h8text: 'Add the functions of sign-in visitors, reserved visitors, inviting visitors to view and the search for the current visitor list to the visitor page.',
   h9text: 'Increase the function of batch sign-out.',
   h10text: 'Employees‘ exclusive links are cancelled. Employees can get the initial password and log in directly to the employee’s exclusive page for invitation.',
-  h11text: 'The settled enterprises log in. The subsidiary companies in multi-enterprise service model can log in and enter the exclusive page of the subsidiary company to view visitors‘ records.',
+  h11text: 'The settled companys log in. The subsidiary companies in multi-company service model can log in and enter the exclusive page of the subsidiary company to view visitors‘ records.',
   h12text: 'Optimize the page layout of the "Custom Settings".',
   h13text: 'Increase the mode of meeting management.',
   h14text: 'Increase the function of sign-out via ID Nr, modify and perfect the sign-in process and mode via ID Nr.',
@@ -144,7 +144,7 @@ export default {
   h19text: 'Add the statistics of the number of visitors on the same day.',
   h20text: 'Add a sign-in function via QR Code scanning.',
   h21text: 'New page reversion',
-  h22text: 'Add the Account Information - Enterprise Service Model: The multi-enterprise service model is suitable for various types of enterprise service providers, such as maker space, joint office space, property, office building and so on. It can provide the front desk display and visitor management service for the settled enterprises.',
+  h22text: 'Add the Account Information - company Service Model: The multi-company service model is suitable for various types of company service providers, such as maker space, joint office space, property, office building and so on. It can provide the front desk display and visitor management service for the settled companys.',
   h23text: 'Add the recharge management function.',
   h24text: 'When SMS exceeds the user quota, different SMS packages can be purchased.',
   h25text: 'Check the distribution of the use of SMS.',
@@ -169,7 +169,7 @@ export default {
   h44text: 'Function of visitor page: Support the calendar to view the visitor information on the same day.',
   h45text: 'Function of employee page: Support the mode of importing employee information through manual operation, RTX or Excel table and batch modification can be done.',
   h46text: 'Function of notification page: Provide three kinds of notification methods via WeChat, RTX and mail, and set a specific receiving mode via the switch.',
-  h47text: 'Custom settings - enterprise image page: Support the custom settings for enterprise logo, carousel picture on the first screen of iPad, the color of iPad appearance and visitor avatar.',
+  h47text: 'Custom settings - company image page: Support the custom settings for company logo, carousel picture on the first screen of iPad, the color of iPad appearance and visitor avatar.',
   h48text: 'Custom settings - visitor registration page: Support the custom settings for visitor registration information and the entries and options can be created.',
   resetPwd: 'reset Password',
   inputNewPwd: 'Please enter the new password for the account',
@@ -186,7 +186,7 @@ export default {
   downtip1: 'Please use Pad to scan the QR Code on the upper side to download, or download the client of “Cool Visit” from App Store and Local Download.',
   downtip2: 'Please turn on “Cool Visit” and log in with your registered email address *',
   downtip3: 'Try to register information with the identity of a visitor and try to run the “Cool Visit”.',
-  loginselect: ['Administrator', 'HQ Administrator', 'Settled Enterprise', 'Employee', 'Reception'],
+  loginselect: ['Administrator', 'HQ Administrator', 'Settled company', 'Employee', 'Reception'],
   login: {
     title: 'Administrator',
     logIn: 'Sign in',
@@ -205,7 +205,7 @@ export default {
       }
     },
     or: 'or',
-    signup: 'Enterprise Registration',
+    signup: 'company Registration',
     active: 'Activate the account'
   },
   validName: {
@@ -735,7 +735,7 @@ export default {
     },
     invite: {
       title: 'Invitation template',
-      desc: 'When the invitation message is sent, the employee clicks on the invitation to see the interview time, place, enterprise culture and so on. After the invitation is edited, the invitation will be available for all the employees.',
+      desc: 'When the invitation message is sent, the employee clicks on the invitation to see the interview time, place, company culture and so on. After the invitation is edited, the invitation will be available for all the employees.',
       empTitle: 'Restrict employee modification',
       empDesc: 'The invitation template restricts the switch for employee to modify. After the switch is turned on, the employee will not be able to modify the template after login.'
     },
@@ -756,21 +756,21 @@ export default {
       desc: 'After opening, the “QR Code” module will appear in the invitation, which can be used for the scanning verification for the PC barcode scanner at the Reception (on the right side of the list of visitors) and the mobile verification terminal.'
     },
     clogo: {
-      title: 'Enterprise LOGO',
-      desc: 'We will show your enterprise LOGO on the first screen of the Pad.',
+      title: 'company LOGO',
+      desc: 'We will show your company LOGO on the homepage of the Pad.',
       tip: 'Prompt: Support the JPEG and PNG. It is recommended to choose a PNG picture with transparent background.'
     },
     vset: {
-      title: 'Visitor registration setting',
-      desc: 'You can set information for visitors',
+      title: "Visitor's registration",
+      desc: 'You can set information of visitors',
       cdesc: 'You can customize the content of guest registration',
       vdesc: 'This information is optional and can be set to visible',
       vselfdesc: 'This is your custom add, required input',
       vselfdesc1: 'This is your custom addition, optional input'
     },
     vpaper: {
-      title: 'Selection of visitor sticker',
-      desc: 'You can view the style, size and content displayed of the visitor stickers.',
+      title: "Settings of visitor's card",
+      desc: 'You can choose the style, size and content displayed on the card.',
       printType: 'Printer model',
       printBlackType: 'Black and white printing of visitor stickers (suitable for Brother QL-720NW printer)',
       printColorType: 'Color printing of visitor stickers',
@@ -797,11 +797,11 @@ export default {
     },
     once: {
       title: 'Once visited',
-      desc: 'Visitors only need to enter the TEL to sign in when they visit again.'
+      desc: 'Visitors only need to enter the phone number to sign in when they visit again.'
     },
     sos: {
-      title: 'Logout switch',
-      desc: 'After turning on, the entry to “Logout” appears on the Pad homepage. Enter the TEL to complete the sign-out when the visitors leave.'
+      title: 'Logout',
+      desc: 'After turning on, the “Logout” button appears on the Pad homepage. Enter phone number to sign out when visitors leave.'
     },
     team: {
       title: 'Team visit',
@@ -811,23 +811,23 @@ export default {
       }
     },
     pics: {
-      title: 'Carousel pictures on the first screen',
+      title: 'Rolling pictures on the homepage',
       desc: 'Select two to five pictures representing corporate image, which will be displayed via carousel on the first screen.'
     },
     themecolor: {
-      title: 'Enterprise color',
-      desc: 'You can customize the appearance color of the Pad client.'
+      title: 'company color',
+      desc: 'You can choose the color to represent your company'
     },
     innerphoto: {
-      title: 'Built-in avatar settings',
-      desc: 'Display the built-in avatars when visitors select "Skip" when taking photos. You can set up an avatar related to the corporate image. If all the built-in avatars are deleted, visitors can not skip the photo-taking process.',
+      title: 'Built-in head portrait settings',
+      desc: 'Display the built-in head portrait when visitors select "Skip" when taking photos. You can set up a head portrait related to the corporate image. If all the built-in head portrait are deleted, visitors can not skip the photo-taking process.',
       dialog: {
-        title: 'Default avatar'
+        title: 'Default head portrait'
       }
     },
     facein: {
-      title: 'Sign in via face swiping',
-      desc: 'After turning on, there will be a module of “Face swiping to sign in” in the invitation. After uploading the photos, visitors can sign in “Reserved—Sign-in via face swiping” on the Pad of the Reception.'
+      title: 'Sign in via face recongnition system',
+      desc: 'After turning on, there will be a link of “recognize face to sign in” in the invitation. After uploading the photos of their faces, visitors can sign in by clickling “Reserved Sign-in via face recognition” on the Pad.'
     },
     doorset: {
       title: 'Security settings',
@@ -843,7 +843,7 @@ export default {
     },
     worktime: {
       title: 'Working time settings',
-      desc: 'Please set up working hours so that visitors can open the door during this time period. Remind that there are visitors who haven’t signed out after work.',
+      desc: 'Please set working hours range so that visitors can open the gate during this period. Remind visitors who haven’t log out after working hours.',
       dialog: {
         title: 'Time settings',
         upDuty: 'Please fill in the starting time.',
@@ -851,8 +851,8 @@ export default {
       }
     },
     coms: {
-      title: 'Multi-enterprise service model',
-      desc: 'It can be applied to maker space, property and other subjects for office services, providing image display and visitor management services at the Pad terminal for settled enterprises.',
+      title: 'Multi-company service model',
+      desc: 'It can be applied to maker space, property and other subjects for office services, providing image display and visitor management services at the Pad terminal for settled companys.',
       dialog: {
         title: 'Corporate Information',
         title1: 'Corporate contact information',
@@ -991,7 +991,7 @@ export default {
         name: 'Verify the account via the Reception',
         link: 'stage'
       }, {
-        name: 'Multi-enterprise',
+        name: 'Multi-company',
         link: 'coms'
       }]
     },
