@@ -99,13 +99,12 @@ export default {
   	  this.init()
   	},
   	vtype (val) {
-  	  console.log(val)
+  	  //console.log(val)
   	},
   	vsort (val) {
   	  this.sort = val
   	},
   	vindex (val) {
-  	  console.log(val)
   	  this.index = val
   	},
   	vshow (val) {

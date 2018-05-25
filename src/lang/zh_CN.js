@@ -18,6 +18,7 @@ export default {
     history: '历史记录',
     404: '404'
   },
+  overviewVCard: "访客贴纸预览",
   clickHere: '请点击此处',
   daysRange: '天数范围',
   timesRange: '次数范围',

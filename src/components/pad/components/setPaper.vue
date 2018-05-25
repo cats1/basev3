@@ -32,11 +32,13 @@
 		</div>
 		<div class="block margintop20 paddingtb20">
 			<el-button type="primary" @click="saveCardSet">{{$t('btn.saveBtn')}}</el-button>
-			<el-button>{{$t('btn.overview')}}</el-button>
+			<el-button @click="doOverview">{{$t('btn.overview')}}</el-button>
 		</div>
+    <overview-dialog :print-type="printType" :overview-show="overviewShow" :card-type="cardType" :cvalue="cardText" @close="closeOverview"></overview-dialog>
 	</div>
 </template>
 <script>
+import overviewDialog from './overviewDialog'
 import { oneNotice, noticeShow } from '@/components/notice'
 import {getCache} from '@/utils/auth'
 import {booleanToNumber,numberToBoolean,chineseFromUtf8Url} from '@/utils/common'
@@ -44,7 +46,7 @@ import blackPaper from './blackWhitePaper'
 import colorPaper from './colorPaper'
 import uploadPicBtn from '@/components/upload/uploadPicBtn'
 export default {
-  components: { noticeShow, oneNotice, blackPaper, colorPaper,uploadPicBtn },
+  components: { noticeShow, oneNotice, blackPaper, colorPaper,uploadPicBtn,overviewDialog },
   data () {
   	return {
       imgSrc: require('@/assets/img/cards.png'),
@@ -57,7 +59,8 @@ export default {
       cardSize: 0,
       ptype: 0,
       ctype: 0,
-      radio2: 0
+      radio2: 0,
+      overviewShow: false
   	}
   },
   mounted () {
@@ -65,6 +68,12 @@ export default {
   	
   },
   methods: {
+    doOverview () {
+      this.overviewShow = true
+    },
+    closeOverview () {
+      this.overviewShow = false
+    },
   	init () {
   	  this.initPrintType()
   	  this.initCardLogo()

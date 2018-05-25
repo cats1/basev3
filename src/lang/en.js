@@ -18,6 +18,7 @@ export default {
     history: 'History',
     404: '404'
   },
+  overviewVCard: "visitor's card preview",
   clickHere: 'click here ',
   daysRange: 'Number of days',
   timesRange: 'Frequency range',
@@ -819,10 +820,10 @@ export default {
       desc: 'You can choose the color to represent your company'
     },
     innerphoto: {
-      title: 'Built-in head portrait settings',
-      desc: 'Display the built-in head portrait when visitors select "Skip" when taking photos. You can set up a head portrait related to the corporate image. If all the built-in head portrait are deleted, visitors can not skip the photo-taking process.',
+      title: 'Built-in profile picture settings',
+      desc: 'Display the built-in profile picture when visitors select "Skip" when taking photos. You can set up a profile picture related to the corporate image. If all the built-in profile picture are deleted, visitors can not skip the photo-taking process.',
       dialog: {
-        title: 'Default head portrait'
+        title: 'Default profile picture'
       }
     },
     facein: {
