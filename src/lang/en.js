@@ -31,7 +31,7 @@ export default {
   uptoMax: 'Cannot exceed the upper limit',
   inviteTip: 'If add more visitors,only overview the first',
   inviteMoban: 'Invite SMS template',
-  searchVnameHolder: 'Search visitor name',
+  searchVnameHolder: "Search visitor's name",
   uploadFileSuccess: 'Upload file successfully',
   uploadFileError: 'Upload file failed',
   fileFormatError: 'File format is incorrect',
@@ -187,16 +187,16 @@ export default {
   downtip1: 'Please use Pad to scan the QR Code on the upper side to download, or download the client of “Cool Visit” from App Store and Local Download.',
   downtip2: 'Please turn on “Cool Visit” and log in with your registered email address *',
   downtip3: 'Try to register information with the identity of a visitor and try to run the “Cool Visit”.',
-  loginselect: ['Administrator', 'HQ Administrator', 'Settled company', 'Employee', 'Reception'],
+  loginselect: ['Administrator', 'HQ Administrator', 'Subcompany', 'Employee', 'Reception'],
   login: {
     title: 'Administrator',
     logIn: 'Sign in',
     username: 'account',
     password: 'password',
     forgot: {
-      title: 'Forget Password?',
+      title: 'Forgot Password?',
       page: {
-        title: 'Forget Password',
+        title: 'Forgot Password',
         desc: 'Please enter your email address and we will send you instructions on how to reset your password.',
         desc1: 'Please enter the TEL, get the verification code',
         desc3: 'Reset your password',
@@ -287,7 +287,7 @@ export default {
   downlist: ['Settings', 'Update Pasword', 'Log out'],
   form: {
     name: {
-      text: 'name',
+      text: 'Name',
       text1: 'visitor',
       text2: 'interviewee',
       text3: 'nickname',
@@ -310,19 +310,19 @@ export default {
       text2: 'scanning copy of the certificate'
     },
     email: {
-      text: 'email',
-      checktext: 'email subscription',
+      text: 'Email',
+      checktext: 'Subscribe to email',
       tiptitle: 'Are you sure you will not receive the mail?',
       tipdesc: 'Check this item to <strong>indicate</strong> that no mail will be accepted after visiting.'
     },
     company: {
-      text: 'company name',
+      text: "Co.'s name",
       text2: 'company',
       text1: 'office',
       text3: 'Affiliated company'
     },
     companypro: {
-      text: 'abbreviation of the company',
+      text: "Co.'s abbr.",
       text2: 'work unit'
     },
     position: {
@@ -330,14 +330,14 @@ export default {
       text1: 'work number'
     },
     password: {
-      oldtext: 'old password',
-      newtext: 'new password',
-      retext: 'confirm the new password',
-      text1: 'password',
+      oldtext: 'Old password',
+      newtext: 'New password',
+      retext: 'Confirm new password',
+      text1: 'Password',
       comtext: 'This is the initialized password, so please modify it in time to prevent information leakage.'
     },
     stageaccount: {
-      text: 'account at the verification terminal'
+      text: 'Verification account'
     },
     count: {
       text: 'Number of visitors',
@@ -371,46 +371,46 @@ export default {
     }
   },
   btn: {
-    editBtn: 'edit',
+    editBtn: 'Edit',
     createNow: 'Immediate creation',
     shouBtn: 'Take up',
     visible: 'visible',
     backListBtn: 'Return list',
-    saveBtn: 'save',
+    saveBtn: 'Save',
     addBtn: 'Add',
     addSelectBtn: 'Add options',
     saveAndBtn: 'Save and continue to add',
     exportBtn: 'Export configuration',
     export: 'Export',
-    overview: 'preview',
-    searchBtn: 'search',
+    overview: 'Preview',
+    searchBtn: 'Search',
     picBtn: 'Select a picture',
     addBlackBtn: 'Add a blacklist',
     dotDeleteBtn: 'Batch delete',
     dotUpdateBtn: 'Batch modification',
     editSpecial: 'Edit special account',
     dotSendCard: 'Batch card',
-    sendFaceBtn: 'send the whole face',
-    addProjectBtn: 'add item',
+    sendFaceBtn: 'Send the whole face',
+    addProjectBtn: 'Add item',
     editProjectBtn: 'Editing project',
     moveProjectBtn: 'Adjust the project',
     addVisitorBtn: 'Add visitors',
     cardBtn: 'Generating a visitor card',
-    updateBtn: 'modify',
-    deleteBtn: 'delete',
+    updateBtn: 'Modify',
+    deleteBtn: 'Delete',
     insetBtn: 'Required',
     initPwdBtn: 'Initialization cipher',
-    cancelBtn: 'cancel',
-    haveCancel: 'cancelled',
-    confirmBtn: 'confirm',
-    edit1: 'operation',
+    cancelBtn: 'Cancel',
+    haveCancel: 'Cancelled',
+    confirmBtn: 'Confirm',
+    edit1: 'Operation',
     addComBtn: 'Add a company',
     downMobanBtn: 'Download template',
     uploadComBtn: 'Uploading company',
     uploadlgo: 'Upload logo',
     uploadExcel: 'Upload excel',
     addMeeting: 'Add a new meeting',
-    editMeeting: 'management of meetings',
+    editMeeting: 'Management of meetings',
     saveMobanBtn: 'Save template',
     sendInvite: 'Send a meeting invitation',
     addDepartBtn: 'Add subdivision',
@@ -419,7 +419,7 @@ export default {
     exportListBtn: 'Importing the address book',
     editDepart: 'Editorial department',
     moveDepart: 'Adjustment department',
-    synBtn: 'synchronization',
+    synBtn: 'Synchronization',
     addRoleGroup: 'New role group',
     addRole: 'New role',
     editGroup: 'Role group editor',
@@ -427,7 +427,7 @@ export default {
     addMember: 'Add members',
     batchOut: 'Batch sign out',
     sendInvite: 'Send invitations',
-    clickUpload: 'click and upload',
+    clickUpload: 'Click and upload',
     uploadWait: 'Please wait……'
   },
   moban: {
@@ -547,7 +547,7 @@ export default {
   },
   meeting: {},
   nodata: 'no data',
-  dataM: 'Data management',
+  dataM: 'Data Analytics',
   vstatus: ['sent', 'signed in', 'viewed', 'Accepted', 'refused', 'signed out', 'Unauthorized', 'Authorized', 'reserved', 'Expired'],
   vtype: ['Sign-in visitors', 'Reserved visitors', 'Invited visitors', 'Resident visitors'],
   vnum: ['Total', 'Left', 'Visiting', 'Total', 'Sign-in', 'Absent', 'Visitor'],
@@ -691,7 +691,7 @@ export default {
   },
   notice: {
     tip: {
-      title: 'Reminder notification',
+      title: 'Notifications',
       desc: 'Please click on the switch on the right to set up the way the employee receives the notification.'
     },
     black: {
@@ -757,8 +757,8 @@ export default {
       desc: 'After opening, the “QR Code” module will appear in the invitation, which can be used for the scanning verification for the PC barcode scanner at the Reception (on the right side of the list of visitors) and the mobile verification terminal.'
     },
     clogo: {
-      title: 'company LOGO',
-      desc: 'We will show your company LOGO on the homepage of the Pad.',
+      title: "Company's Logo",
+      desc: "We will show your company's logo on the homepage of the Pad.",
       tip: 'Prompt: Support the JPEG and PNG. It is recommended to choose a PNG picture with transparent background.'
     },
     vset: {
@@ -981,7 +981,7 @@ export default {
   },
   account: {
     siderBar: {
-      title: 'Account information',
+      title: 'Your profile',
       list: [{
         name: 'Basic',
         link: 'base'
@@ -989,7 +989,7 @@ export default {
         name: 'Security',
         link: 'safe'
       }, {
-        name: 'Verify the account via the Reception',
+        name: 'Verification account',
         link: 'stage'
       }, {
         name: 'Multi-company',
@@ -1003,7 +1003,7 @@ export default {
       title: 'Account Security'
     },
     stage: {
-      title: 'Account at the verification terminal',
+      title: 'Verification account',
       tip: 'Support the verification at the PC terminal and mobile terminal'
     }
   },

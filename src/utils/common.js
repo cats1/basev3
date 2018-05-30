@@ -8,7 +8,7 @@ export function getBaseUrl() {
   const LocationHost = window.location.host
   const LocationProtocol = window.location.protocol
   var baseURL = process.env.BASE_API
-  if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.62') > -1) {
+  if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.55') > -1) {
     baseURL = process.env.BASE_API
   } else {
     baseURL = LocationProtocol + '//' + LocationHost + '/qcvisit'
@@ -19,7 +19,7 @@ export function getBaseLink() {
   const LocationHost = window.location.host
   const LocationProtocol = window.location.protocol
   var baseURL = process.env.BASE_LINK
-  if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.62') > -1) {
+  if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.55') > -1) {
     baseURL = process.env.BASE_LINK
   } else {
     let url = window.location.href

@@ -3,24 +3,24 @@
     <h2 class="set-title borderbom">{{$t('account.base.title')}}</h2>
     <el-row class="paddingtb20 paddinglr30">
       <el-col :span="12">
-        <el-form :model="form" label-width="80px" width="50%" ref="baseform">
-          <el-form-item :label="$t('form.email.text')">
+        <el-form :model="form" width="50%" ref="baseform">
+          <el-form-item class="nomarbom" :label="$t('form.email.text')">
             <span>{{email}}</span>
             <el-checkbox style="float:right" v-model="unsubscribe" @change="updateEmail">{{$t('form.email.checktext')}}</el-checkbox>
           </el-form-item>
-          <el-form-item prop="name" :label="$t('form.name.text')">
+          <el-form-item class="nomarbom" prop="name" :label="$t('form.name.text')">
             <el-input v-model="form.name"></el-input>
           </el-form-item>
-          <el-form-item prop="phone" :label="$t('form.phone.text')">
+          <el-form-item class="nomarbom" prop="phone" :label="$t('form.phone.text')">
             <el-input v-model="form.phone"></el-input>
           </el-form-item>
-          <el-form-item prop="company" :label="$t('form.company.text')">
+          <el-form-item class="nomarbom" prop="company" :label="$t('form.company.text')">
             <el-input v-model="form.company"></el-input>
           </el-form-item>
-          <el-form-item prop="companypro" :label="$t('form.companypro.text')">
-            <el-input v-model="cform.cardText"></el-input>
+          <el-form-item class="nomarbom" prop="companypro" :label="$t('form.companypro.text')">
+            <el-input v-model="cform.cardText" placeholder="$t('form.companypro.text')"></el-input>
           </el-form-item>
-          <el-form-item >
+          <el-form-item class="margintop20">
             <el-button type="primary" @click="saveBase">{{$t('btn.saveBtn')}}</el-button>
           </el-form-item>
         </el-form>
@@ -62,7 +62,7 @@ export default {
         userid: getCache('userid'),
         cardText: chineseFromUtf8Url(getCache('cardText'))
       },
-      unsubscribe: numberToBoolean(getCache('unsubscribe')),
+      //unsubscribe: numberToBoolean(getCache('unsubscribe')),
       dialogVisible: false,
       formrules: {
         name: [{ required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
@@ -77,6 +77,13 @@ export default {
     email: {
       get () {
         return getCache('email')
+      },
+      set () {}
+    },
+    unsubscribe: {
+      get () {
+        return ''
+        //return numberToBoolean(getCache('unsubscribe'))
       },
       set () {}
     }

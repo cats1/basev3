@@ -3,7 +3,7 @@
     <h2 class="set-title borderbom">{{$t('account.safe.title')}}</h2>
     <el-row class="paddingtb20 paddinglr30">
       <el-col :span="12">
-        <el-form :model="form" :rules="rules" label-width="100px" ref="baseform">
+        <el-form :model="form" :rules="rules" ref="baseform">
           <el-form-item :label="$t('form.password.oldtext')" prop="oldpwd">
             <el-input type="password" v-model="form.oldpwd"></el-input>
           </el-form-item>

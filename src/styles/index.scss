@@ -111,7 +111,9 @@ label {
   display: block;
   overflow: hidden;
 }
-
+.nomarbom{
+  margin-bottom: 0;
+}
 .bluebg {
   background: #409EFF;
 }
@@ -203,6 +205,9 @@ label {
   -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
   transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
   width: 100%;
+  &:focus{
+    border-color: #67c23a;
+  }
 }
 
 .empform {
@@ -1724,4 +1729,67 @@ label {
 .downcode {
   width: 126px!important;
   height: 126px!important;
+}
+@media (max-width: 460px) {
+  .headerwrap {
+    width: 100%;
+  }
+  .login-container .login-form{
+    width: 100%;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 767px) {
+   .headerwrap {
+    width: 100%;
+  } 
+  .login-container .login-form{
+    width: 100%;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .headerwrap {
+    width: 100%;
+  }
+  .login-container .login-form{
+    width: 100%;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1059px) {
+    .headerwrap {
+    width: 100%;
+  }
+  .login-container .login-form{
+    width: 100%;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+@media (min-width: 1060px) and (max-width: 1199px) {
+    .headerwrap {
+    width: 100%;
+  }
+  .login-container .login-form{
+    width: 100%;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+@media (min-width: 1200px) {
+  .headerwrap {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+  }
+  .login-container .login-form{
+    width: 420px;
+  }
 }

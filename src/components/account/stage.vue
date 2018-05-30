@@ -3,15 +3,15 @@
     <h2 class="set-title borderbom">{{$t('account.stage.title')}}</h2>
     <el-row class="paddingtb20 paddinglr30">
       <el-col :span="12">
-        <el-form :model="form" label-width="100px" :rules="rules" ref="baseform">
+        <el-form :model="form" :rules="rules" ref="baseform">
           <el-form-item label="">
             <p>{{$t('account.stage.tip')}}</p>
           </el-form-item>
           <el-form-item :label="$t('form.stageaccount.text')" prop="account">
-            <el-input type="text" v-model="form.account"></el-input>
+            <el-input autocomplete="off" type="text" name="stageaccount" v-model="form.account"></el-input>
           </el-form-item>
           <el-form-item :label="$t('form.password.text1')" prop="password">
-            <el-input type="password" v-model="form.password"></el-input>
+            <el-input type="password" autocomplete="off" v-model="form.password"></el-input>
           </el-form-item>
           <el-form-item :label="$t('form.name.text')" prop="sname">
             <el-input type="text" v-model="form.sname"></el-input>

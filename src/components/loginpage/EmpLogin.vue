@@ -1,17 +1,17 @@
 <template>
-  <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
+  <el-form class="login-form" auto-complete="off" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
         <el-row>
       <el-form-item prop="username">
           <span class="svg-container svg-container_login">
             <i class="fa fa-user"></i>
           </span>
-         <el-input name="phone" type="text" v-model="loginForm.phone" autoComplete="on" :placeholder="$t('login.username')" />
+         <el-input type="text" auto-complete="off" v-model="loginForm.phone" :placeholder="$t('login.username')" />
       </el-form-item>
       <el-form-item prop="password">
           <span class="svg-container">
             <i class="fa fa-lock fa-lg"></i>
           </span>
-         <el-input name="password" :type="passwordType" v-model="loginForm.empPwd" autoComplete="on" :placeholder="$t('login.password')" />
+         <el-input :type="passwordType" autocomplete="off" v-model="loginForm.empPwd" :placeholder="$t('login.password')"></el-input>
          <span class="show-pwd" >
             <i class="fa fa-eye" v-if="passwordType === ''" @click="showPwd"></i>
             <i class="fa fa-eye-slash" v-else @click="showPwd"></i>
@@ -19,7 +19,7 @@
        </el-form-item>
        <el-form-item prop="vcode">
         <el-col :span="12">
-          <el-input name="code" type="text" v-model="loginForm.vcode" autoComplete="on" :placeholder="$t('smsCode')" />
+          <el-input name="code" type="text" v-model="loginForm.vcode" auto-complete="on" :placeholder="$t('smsCode')" />
         </el-col>
         <el-col :span="12" class="codewrap">
           <img-code :get-show="getCode" @clickit="setCode"></img-code>

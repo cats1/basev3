@@ -9,6 +9,7 @@
     position: absolute;
     left: 0;
     right: 0;
+    width: 100%;
     width: 420px;
     margin: 20px auto; }
     .login-container .form-container .loginselectwrap {
