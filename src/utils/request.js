@@ -1,5 +1,3 @@
-import promise from 'es6-promise'
-promise.polyfill()
 import axios from 'axios'
 import { Message } from 'element-ui'
 import i18n from '@/lang'

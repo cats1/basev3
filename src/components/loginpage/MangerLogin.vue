@@ -11,7 +11,7 @@
 	        <span class="svg-container">
             <i class="fa fa-lock fa-lg"></i>
 	        </span>
-         <el-input :type="passwordType" autocomplete="off" v-model="loginForm.password" :placeholder="$t('login.password')"></el-input>
+         <el-input :type="passwordType" auto-complete="off" v-model="loginForm.password" :placeholder="$t('login.password')"></el-input>
 	       <span class="show-pwd" >
 	          <i class="fa fa-eye" v-if="passwordType === ''" @click="showPwd"></i>
             <i class="fa fa-eye-slash" v-else @click="showPwd"></i>

@@ -354,7 +354,6 @@ export function chineseFromUtf8Url(strUtf8) {
   if (strUtf8 == "") {
     return "";
   }
-
   strUtf8 = strUtf8.toLowerCase();
   nOffset = strUtf8.indexOf("%e");
 
