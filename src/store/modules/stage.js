@@ -39,8 +39,7 @@ const user = {
 		          	for (let key in result) {
 		          		if (key === 'pemail') {
 		          	      setCache('email', result[key])
-		          		}
-		          		if (key !== 'token') {
+		          		} else if (key !== 'token') {
 		          	      setCache(key, result[key])
 		          		} else {
 		          		  setCache('token', userInfo.account + '-' + result.token)

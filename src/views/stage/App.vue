@@ -10,6 +10,7 @@
   </div>
 </template>
 <script>
+import 'babel-polyfill'
 import stagenav from '@/components/headnav/stagenav'
 import footbom from '@/components/footer/footbom'
 export default {
