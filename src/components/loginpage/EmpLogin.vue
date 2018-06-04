@@ -95,7 +95,7 @@ export default {
       loading: false,
       passwordType: 'password',
       vcode: '',
-      comShow: false,
+      comShow: true,
       comlist: [],
       getCode: false
     }

@@ -11,7 +11,11 @@ export function getBaseUrl() {
   if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.55') > -1) {
     baseURL = process.env.BASE_API
   } else {
-    baseURL = LocationProtocol + '//' + LocationHost + '/qcvisit'
+    if (process.env.BASE_ISTRUE) {
+      baseURL = LocationProtocol + '//' + LocationHost + '/qcvisitBase'
+    } else {
+      baseURL = LocationProtocol + '//' + LocationHost + '/qcvisit'
+    }
   }
   return baseURL
 }

@@ -28,7 +28,7 @@
                 <li>{{$t('visitor.ordertime')}}:{{vdata.appointmentDate|formatDate}}</li>
                 <li>{{$t('visitor.visittime')}}:{{vdata.visitdate|formatDate}}</li>
                 <li>{{$t('visitor.leavetime')}}:{{vdata.signOutDate|formatDate}}</li>
-                <li>{{$t('visitor.followPeople')}}:{{vlist}}</li>
+                <li>{{$t('visitor.followPeople')}}:{{vdata.memberName}}</li>
                 <li>{{$t('form.remark.text')}}:{{vdata.remark}}</li>
               </ul>
               <el-button class="" type="text" slot="reference">{{vdata.vname}}</el-button>

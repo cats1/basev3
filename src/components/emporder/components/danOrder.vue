@@ -16,7 +16,8 @@
 		    	<el-form-item :label="$t('form.time.text6')" prop="appointmentDate">
 		    		<el-date-picker
 				      v-model="form.appointmentDate" style="width:100%"
-				      type="datetime" class="block" :placeholder="$t('visitor.ordertime')">
+				      type="datetime" class="block" :placeholder="$t('visitor.ordertime')" 
+              :picker-options="options" :default-time="['14:00:00', '18:00:00']">
 				    </el-date-picker>
 		    	</el-form-item>
 		    	<el-form-item :label="$t('form.visitType.text')">
@@ -108,7 +109,12 @@ export default {
       demoban: {},
       mobanShow: true,
       mobanFlag: false,
-      previewFlag: false
+      previewFlag: false,
+      options: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7
+        }
+      }
   	}
   },
   computed: {

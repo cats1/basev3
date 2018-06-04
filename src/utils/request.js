@@ -4,14 +4,8 @@ import i18n from '@/lang'
 import {getLanguage} from '@/utils/i18n'
 import store from '@/store'
 import { getCache,clearCookie } from '@/utils/auth'
-const LocationHost = window.location.host
-const LocationProtocol = window.location.protocol
-var baseURL = process.env.BASE_API
-if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.55') > -1) {
-  baseURL = process.env.BASE_API
-} else {
-  baseURL = LocationProtocol + '//' + LocationHost + '/qcvisit'
-}
+import {getBaseUrl} from '@/utils/common'
+var baseURL = getBaseUrl()
 // create an axios instance
 const service = axios.create({
   baseURL: baseURL, // api的base_url

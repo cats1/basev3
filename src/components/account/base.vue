@@ -68,8 +68,7 @@ export default {
         name: [{ required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
         phone: [{ required: true, message: this.$t('formCheck.validphone.tip2'), trigger: 'blur' }],
         company: [{ required: true, message: this.$t('formCheck.validCompany.tip1'), trigger: 'blur' }],
-        companypro: [{ required: true, message: this.$t('formCheck.validCompanyPro.tip1'), trigger: 'blur' },
-        { min: 3, max: 6, message: this.$t('formCheck.validCompanyPro.tip2'), trigger: 'blur' }]
+        companypro: [{ required: true, message: this.$t('formCheck.validCompanyPro.tip1'), trigger: 'blur' }]
       }
     }
   },

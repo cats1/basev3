@@ -8,6 +8,9 @@ import App from './App'
 import router from '@/router'
 import store from '@/store'
 import i18n from '@/lang'
+//import 'babel-polyfill'
+//import promise from 'es6-promise'
+//promise.polyfill()
 //import NProgress from 'nprogress'
 //import 'nprogress/nprogress.css'
 Vue.use(ElementUI, {
