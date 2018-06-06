@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import 'babel-polyfill'
 import { layOut } from '@/components/loginpage'
 export default {
   components: { layOut },

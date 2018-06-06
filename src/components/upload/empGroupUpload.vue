@@ -40,17 +40,17 @@ export default {
         let files = this.$refs[this.inputId].files[0]
       	let _self = this
         if (parseInt(getCache('subAccount')) === 1) {
-          UploadAB(file,function(result){
+          UploadAB(files,function(result){
             _self.$message({
-              message: this.$t('uploadFileSuccess'),
+              message: _self.$t('uploadFileSuccess'),
               type: 'success'
             })
             _self.$emit('sendkit',result)
           })
         } else {
-          NewUploadAB(file,function(result){
+          NewUploadAB(files,function(result){
             _self.$message({
-              message: this.$t('uploadFileSuccess'),
+              message: _self.$t('uploadFileSuccess'),
               type: 'success'
             })
             _self.$emit('sendkit',result)

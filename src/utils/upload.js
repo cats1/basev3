@@ -77,6 +77,7 @@ function testImgFileFormat(filename) {
 
 function testFileFormat(filename) {
   var reg = /(\.xls)|(\.xlsx)|(\.csv)$/
+  console.log(filename)
   var low = filename.toLowerCase()
   if (reg.test(low) == true) {
     return true

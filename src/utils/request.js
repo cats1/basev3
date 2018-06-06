@@ -5,6 +5,7 @@ import {getLanguage} from '@/utils/i18n'
 import store from '@/store'
 import { getCache,clearCookie } from '@/utils/auth'
 import {getBaseUrl} from '@/utils/common'
+require('es6-promise').polyfill()
 var baseURL = getBaseUrl()
 // create an axios instance
 const service = axios.create({

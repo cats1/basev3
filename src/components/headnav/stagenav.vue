@@ -9,7 +9,8 @@
 			</div>
 			<div class="menuleft">			
 				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#2a2c2f" text-color="#fff" active-text-color="#2274e6">
-				  <el-menu-item index="stage"><router-link to="/">{{$t('navlist[0].name')}}</router-link></el-menu-item>
+				  <!-- <el-menu-item index="stage"><router-link to="/">{{$t('navlist[0].name')}}</router-link></el-menu-item> -->
+				  <el-menu-item index="stage"><a href="stage.html">{{$t('navlist[0].name')}}</a></el-menu-item>
 				</el-menu>
 		    </div>
 		    <div class="menuright">
@@ -37,6 +38,7 @@
 import LangSelect from '@/components/LangSelect'
 import vHistory from '@/components/history/vHistory'
 import { getCache } from '@/utils/auth'
+import { getHtmlDocName } from '@/utils/common'
 export default {
 	name: 'headnav',
     data() {
@@ -44,13 +46,16 @@ export default {
         navlist: this.$t('navlist'),
         downlist: this.$t('downlist'),
         username: getCache('username'),
-        activeIndex: this.$route.name,
+        //activeIndex: 'stage',//this.$route.name,
         hlogo: require('@/assets/img/hlogo.png')
       }
     },
     computed: {
       logo () {
       	return getCache('logo')
+      },
+      activeIndex () {
+      	return getHtmlDocName(window.location.href)
       }
     },
     components: { LangSelect, vHistory },
@@ -69,9 +74,9 @@ export default {
         }
     },
     created () {
-      if (this.$route.name === 'stage') {
+      /*if (this.$route.name === 'stage') {
       	this.activeIndex = 'stage'
-      }
+      }*/
     },
     mounted () {
       this.GetUserInfo()

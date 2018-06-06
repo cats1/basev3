@@ -139,7 +139,8 @@ export default {
       this.$emit('onkit')
     },
     goControl () {
-      this.$router.push({path: 'data'})
+      //this.$router.push({path: 'data'})
+      this.$emit('datakit')
     },
     signDotOut () {
       this.doOutShow = true

@@ -8,5 +8,5 @@ module.exports = merge(prodEnv, {
   BASE_LINK: '"http://www.coolvisit.top/global"',
   HOST: '"www.coolvisit.top"',
   BASE_VERSION: 'v2.1.0',
-  BASE_ISTRUE: true
+  BASE_ISTRUE: false
 })

@@ -5,7 +5,7 @@
         <show-date class="boxshadow paddinglr30 paddingtb20 bgwhite" :value="value" @select="getSelect"></show-date>
       </el-col>
       <el-col :span="16">
-        <type-header class="bgwhite" @changekit="getList" :total-num="totalNum" :leavel-num="leavelNum" :on-num="onNum" :check-array="checkArray" @totalkit="changeTotal" @leavelkit="changeLeavel" @onkit="changeOn" @outkit="doAllOut" @outconfirmkit="doAllConfirm" @searchkit="searchVisitor" @outcancelkit="doAllCancel"></type-header>
+        <type-header class="bgwhite" @changekit="getList" :total-num="totalNum" :leavel-num="leavelNum" :on-num="onNum" :check-array="checkArray" @totalkit="changeTotal" @leavelkit="changeLeavel" @onkit="changeOn" @outkit="doAllOut" @outconfirmkit="doAllConfirm" @searchkit="searchVisitor" @outcancelkit="doAllCancel" @datakit="goData"></type-header>
         <div class="vlist-wrap boxshadow margintop20 paddingtb20 bgwhite">
           <template v-if="vlist.length > 0">
             <template v-for="(vitem,index) in vlist">
@@ -61,6 +61,9 @@ export default {
     this.getSignVisitor()
   },
   methods: {
+    goData () {
+      this.$emit('datakit')
+    },
     getSelect (value) {
       this.form.date = value
       this.form.endDate = value
