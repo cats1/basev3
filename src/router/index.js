@@ -226,9 +226,9 @@ export default new Router({
     path: '/tinymce',
     name: 'tinymce',
     component: _import('tinymce/test')
-  }*//*, {
+  }*/, {
     path: '/gmap',
     name: 'gmap',
     component: _import('map/googleMap')
-  }*/]
+  }]
 })

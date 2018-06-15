@@ -19,10 +19,15 @@ export default {
       type: String,
       default: 'googlemap'
     },
-    /*sendpot: {
+    sendpot: {
       type: Object,
-      default: {}
-    },*/
+      default: function () {
+        return {
+          latitude: 39.915168,
+          longitude: 116.403875
+        }
+      }
+    },
     isshow: {
       type: Boolean,
       default: false
@@ -44,35 +49,68 @@ export default {
   	  marker: null
   	}
   },
+  computed: {
+    language () {
+      return this.$store.state.app.language
+    }
+  },
+  watch: {
+    sendpot (val) {
+      this.lat = val.latitude
+      this.lng = val.longitude
+    },
+    language (val) {}
+  },
   mounted () {
   	this.init()
   },
   methods: {
   	init () {
   		let mapType = google.maps.MapTypeId.ROADMAP	
-		let mapOptions = {
+		  let mapOptions = {
 		    center: new google.maps.LatLng(this.lat, this.lng),  //地图的中心点
-		    zoom: this.zoom,               　　　　　　　　　　//地图缩放比例
-		    mapTypeId: mapType,       　　　　　　　　　　//指定地图展示类型：卫星图像、普通道路
-		    scrollwheel: true          　　　　　　　　　 //是否允许滚轮滑动进行缩放
-		}
-		this.gmap = new google.maps.Map(document.getElementById(this.mapid), mapOptions) //创建谷歌地图
-		this.addSelfMarker()
-		this.addInfoWindow()
+		    zoom: this.zoom,   //地图缩放比例
+		    mapTypeId: mapType, //指定地图展示类型：卫星图像、普通道路
+		    scrollwheel: true  //是否允许滚轮滑动进行缩放
+		  }
+  		this.gmap = new google.maps.Map(document.getElementById(this.mapid), mapOptions) //创建谷歌地图
+  		this.addSelfMarker()
+  		this.addInfoWindow()
   	},
+    searchMap () {
+      let geocoder = new google.maps.Geocoder()
+      let _self = this
+      geocoder.geocode({ address: this.maddress },function geoResults(results, status) {
+        if (status == 'OK') {
+          //alert('地理解析结果：' + results[0].formatted_address)
+          //alert('地理解析结果：' + results[0].geometry.location)
+          let point = results[0].geometry.location
+          _self.lat = point.lat()
+          _self.lng = point.lng()
+          _self.init()
+          let sendPoint = {
+            latitude: point.lat(),
+            longitude: point.lng()
+          }
+          _self.$emit('getpoint',sendPoint,this.maddress)
+        } else {
+          alert('：error ' + status)
+        }
+      })
+    },
   	addMarker () {
-		this.marker = new google.maps.Marker({
-		    map: this.gmap,
-		    position: new google.maps.LatLng(this.lat, this.lng)
-		})
+  		this.marker = new google.maps.Marker({
+  		    map: this.gmap,
+  		    position: new google.maps.LatLng(this.lat, this.lng)
+  		})
   	},
   	addSelfMarker () {
-  		let locationMarker = {
-		    path: 'M22 10.5c0 .895-.13 1.76-.35 2.588C20.025 20.723 13.137 28.032 11 28 9.05 28 3.2 21.28.926 14.71.334 13.42 0 11.997 0 10.5c0-.104.013-.206.017-.31C.014 10.117 0 10.04 0 9.967c-.005-.67.065-1.112.194-1.398C1.144 3.692 5.617 0 11 0c5.416 0 9.906 3.74 10.82 8.657.112.29.18.696.18 1.31 0 .083-.013.167-.015.25.003.095.015.188.015.283zM11 5.833c-2.705 0-4.898 2.09-4.898 4.667S8.295 15.167 11 15.167s4.898-2.09 4.898-4.667c0-2.578-2.193-4.667-4.898-4.667z',
-		    fillColor: '#E84643',
-		    fillOpacity: 1,
-		    strokeColor: '#E84643',
-		}
+  		  let locationMarker = {
+		      path: 'M22 10.5c0 .895-.13 1.76-.35 2.588C20.025 20.723 13.137 28.032 11 28 9.05 28 3.2 21.28.926 14.71.334 13.42 0 11.997 0 10.5c0-.104.013-.206.017-.31C.014 10.117 0 10.04 0 9.967c-.005-.67.065-1.112.194-1.398C1.144 3.692 5.617 0 11 0c5.416 0 9.906 3.74 10.82 8.657.112.29.18.696.18 1.31 0 .083-.013.167-.015.25.003.095.015.188.015.283zM11 5.833c-2.705 0-4.898 2.09-4.898 4.667S8.295 15.167 11 15.167s4.898-2.09 4.898-4.667c0-2.578-2.193-4.667-4.898-4.667z',
+		      fillColor: '#E84643',
+		      fillOpacity: 1,
+		      strokeColor: '#E84643',
+		    }
         this.marker = new google.maps.Marker({
         	map: this.gmap,
         	icon: locationMarker,
@@ -82,16 +120,16 @@ export default {
   	},
   	addInfoWindow () {
   		//创建一个InfoWindow
-  	    let infowindow = new google.maps.InfoWindow({content: "北京市天安门" })
+  	  let infowindow = new google.maps.InfoWindow({content: this.maddress })
   	    //把这个infoWindow绑定在选定的marker上面
-		//使用谷歌地图定义的事件，给这个marker添加点击事件
-		infowindow.open(this.gmap, this.marker)
-		google.maps.event.addListener(this.marker, "click", function(){
-		    infowindow.open(this.gmap,this.marker)
-		})
+		  //使用谷歌地图定义的事件，给这个marker添加点击事件
+  		infowindow.open(this.gmap, this.marker)
+  		google.maps.event.addListener(this.marker, "click", function(){
+  		    infowindow.open(this.gmap,this.marker)
+  		})
   	},
   	getAddress () {
-      console.log(888)
+      this.searchMap()
     }
   }
 }
