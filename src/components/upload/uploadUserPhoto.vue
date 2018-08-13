@@ -72,8 +72,9 @@ export default {
                 'Access-Control-Allow-Origin': '*'
               },
               success: function (data, textStatus, jqXHR) {
-                if (data.errorcode == 0 && data.errormsg == 'OK') {
-                  if (data.face.length > 0) {
+                let dataJson = JSON.parse(data)
+                if (dataJson.errorcode == 0 && dataJson.errormsg == 'OK') {
+                  if (dataJson.face.length > 0) {
                     _self.imageUrl = result.url
                     _self.$emit('sendkit',result.url)
                     _self.$store.dispatch('Compressface',nform)
