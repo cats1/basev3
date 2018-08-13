@@ -238,6 +238,7 @@ export default {
         if (valid) {
             let nform = [{
               empid: this.curEmp.empid,
+              empNo: this.curEmp.empNo,
               wlist: 1
             }]
             this.setEmpWlist(nform,1)
