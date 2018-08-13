@@ -6,6 +6,7 @@ export default {
     role: 'Role',
     visitlist: 'Visitlist',
     backlist: 'Blacklist',
+    whitelist: 'Whitelist',
     notice: 'Notice',
     pad: 'Reception',
     reserve: 'Reservation',
@@ -16,8 +17,60 @@ export default {
     order: 'Invite',
     orderList: 'Invitelist',
     history: 'History',
-    404: '404'
+    404: '404',
+    calendar: 'Calendar'
   },
+  goInTime: 'Entry time',
+  goLeaveTime: 'Departure time',
+  dataError: 'Data error',
+  dataSuccess: 'Data success',
+  onWorkReason: 'The reason of work overtime',
+  cardidIsNotNull: 'ID cannot be empty',
+  visitSetTime: "Visit's time setting",
+  visitSetTimeDesc: 'Visitors can only visit during this time period.',
+  visitStartTime: 'Starting time',
+  visitEndTime: 'End Time',
+  date: 'Date',
+  onWorkday: 'Overtime',
+  agree: 'Agreed',
+  refuse: 'Refused',
+  unresolve: 'Unapproved',
+  CheckAll: 'Check all',
+  workbayIsNotNull: 'Office floor cannot be empty',
+  workdayset: 'Working day setting',
+  workdaydesc: 'You can set working day and holiday',
+  dateSet: 'Date setting',
+  setStyle: 'Style',
+  workday: 'Workday',
+  playday: 'Playday',
+  addWhiteBtn: 'Add a whitelist',
+  basicset: 'Basic settings',
+  editVisitor: 'Edit visitors',
+  Proxysettings: 'Proxy settings',
+  Proxylist: 'Proxy list',
+  downloadprotocol: 'Download',
+  Signprotocol: 'Signature protocol',
+  vCardType: "The Type of Visitor's card type",
+  commonText: 'Common',
+  customized: 'Customized',
+  logoTypeText: "Logo's type",
+  logoPositionTop: 'Top',
+  logoPositionBom: 'Bottom',
+  logoPositionMid: 'Middle',
+  isShowAvatar: 'Whether or not portrait is displayed',
+  logoText: 'Words',
+  logoImage: 'Image',
+  logoTypePosition: "Logo's position",
+  portraitType: "Portrait's type",
+  userPhoto: "User's picture",
+  fixedPhoto: "Fixed picture",
+  codePhoto: 'QR code',
+  codeText: "QR code's text",
+  customText: 'Custom text',
+  badgeCustom: 'Custom name',
+  empAuthor: 'Employee authorization',
+  sendType: 'The type of sending invitation',
+  sendTypeIsNull: 'The type of sending invitation is not blank',
   overviewVCard: "visitor's card preview",
   clickHere: 'click here ',
   daysRange: 'Number of days',
@@ -241,6 +294,16 @@ export default {
       dirname: 'emp',
       link: '/blacklist',
       children: []
+    }, {
+      name: 'Whitelist',
+      dirname: 'emp',
+      link: '/whitelist',
+      children: []
+    }, {
+      name: 'Work overtime query',
+      dirname: 'emp',
+      link: '/whitelist',
+      children: []
     }]
   }, {
     name: 'Notification',
@@ -257,7 +320,7 @@ export default {
       link: '/pad',
       children: []
     }, {
-      name: 'Reservation & Invitation',
+      name: 'Basic settings',
       dirname: 'setting',
       link: '/reserve',
       children: []
@@ -380,7 +443,7 @@ export default {
     addBtn: 'Add',
     addSelectBtn: 'Add options',
     saveAndBtn: 'Save and continue to add',
-    exportBtn: 'Export configuration',
+    exportBtn: 'Export datas',
     export: 'Export',
     overview: 'Preview',
     searchBtn: 'Search',
@@ -502,7 +565,9 @@ export default {
       tip2: 'Contain illegal characters',
       tip3: 'The name cannot be empty',
       tip4: 'Please choose the sponsor of the conference',
-      tip5: 'Employee name can not be empty'
+      tip5: 'Employee name can not be empty',
+      tip6: 'Depart name can not be empty',
+      tip7: 'Project name can not be empty'
     },
     validEmpName: {
       holder: 'Employee name'
@@ -746,6 +811,11 @@ export default {
       preExtendTime: 'before the reservation time:',
       latExtendTime: 'after the reservation time:'
     },
+    stageouttime: {
+      title: 'The checking time of the Reception',
+      desc: 'It set up the time of checking out ',
+      text: 'Time:'
+    },
     codetime: {
       title: 'Validity period of QR Code',
       desc: 'Please set up the valid time of the QR Code in the invitation.',
@@ -843,7 +913,7 @@ export default {
       signoutGuard: 'Sign out via guard'
     },
     worktime: {
-      title: 'Working time settings',
+      title: 'Working time of employees settings',
       desc: 'Please set working hours range so that visitors can open the gate during this period. Remind visitors who haven’t log out after working hours.',
       dialog: {
         title: 'Time settings',

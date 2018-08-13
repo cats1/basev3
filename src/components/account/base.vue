@@ -18,7 +18,7 @@
             <el-input v-model="form.company"></el-input>
           </el-form-item>
           <el-form-item class="nomarbom" prop="companypro" :label="$t('form.companypro.text')">
-            <el-input v-model="cform.cardText" placeholder="$t('form.companypro.text')"></el-input>
+            <el-input v-model="cform.cardText" :placeholder="$t('form.companypro.text')"></el-input>
           </el-form-item>
           <el-form-item class="margintop20">
             <el-button type="primary" @click="saveBase">{{$t('btn.saveBtn')}}</el-button>

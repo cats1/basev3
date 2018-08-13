@@ -42,6 +42,7 @@ export default {
     doShow () {
       if(!this.parent.type || this.parent.type === 0) {
         this.$message({
+          showClose: true,
           message: this.$t('role.tip2'),
           type: 'error'
         })

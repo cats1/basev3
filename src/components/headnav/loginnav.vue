@@ -3,8 +3,8 @@
 		<div class="headerwrap">
 		    <div class="menuright">
 		    	<lang-select class="international right-menu-item"></lang-select>
-		    	<a href="signin.html" class="topnav" :class="{'active': active === 'login'}">{{$t('login.logIn')}}</a>
-		    	<a href="signup.html" class="topnav" :class="{'active': active === 'reg'}">{{$t('signup.title')}}</a>
+		    	<a href="signin.html" class="topnav" :class="{'active': active === 'login'}" v-show="loginShow">{{$t('login.logIn')}}</a>
+		    	<a href="signup.html" class="topnav" :class="{'active': active === 'reg'}" v-show="signupShow">{{$t('signup.title')}}</a>
 		    </div>
 	    </div>
 	</div>
@@ -16,7 +16,9 @@ export default {
 	name: 'headnav',
     data() {
       return {
-      	active: 'login'
+      	active: 'login',
+        loginShow: process.env.loginShow,
+        signupShow: process.env.signupShow
       }
     },
     components: {LangSelect},

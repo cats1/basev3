@@ -6,6 +6,25 @@
     </div>
     <h3 class="margintop20 marginbom20">{{$t('moban.tip3')}}</h3>
     <map-component :isshow="isshow" class="marginbom20" :address="defaultmoban.address" :sendpot="pot" mapid="mapmeeting" style="width:80%;" @getpoint="getAddress"></map-component>
+    <el-form class="margintop20" :model="mform" :rules="rules" ref="meetform" style="width:70%;">    
+          <el-form-item label-position="left" :label="$t('form.time.text7')" prop="qrcodeType">
+            <el-row>
+              <el-col :span="8">
+                <el-select v-model="timetype" >
+                  <el-option
+                    v-for="item in $t('timetype')"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+              </el-select>
+              </el-col>
+              <el-col :span="4">
+                <el-input v-model.number="mform.qrcodeType" :placeholder="qrcodePlace" @change="setQrcodeType"></el-input>
+              </el-col>
+            </el-row>
+          </el-form-item>
+        </el-form>
     <div class="margintop20">
       <el-button type="primary" @click="saveMoban">{{$t('btn.saveMobanBtn')}}</el-button>
       <el-button type="success" @click="sendMoban">{{$t('btn.sendInvite')}}</el-button>
@@ -17,7 +36,7 @@ import Tinymce from '@/components/tinymce/tiny'
 import tinymceTest from '@/components/tinymce/test'
 import {MapComponent} from '@/components/map'
 import { getCache } from '@/utils/auth'
-import { valueToString, replaceQuotation,replaceRemoveQuotation } from '@/utils/common'
+import { valueToString, replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation } from '@/utils/common'
 export default {
   props: ['mtype','isshow','mid','mdata'],
   components: { Tinymce,MapComponent,tinymceTest },
@@ -46,11 +65,31 @@ export default {
         remark: '',
         sponsor: '',
         subject: '',
-        traffic: ''
-      }
+        traffic: '',
+        qrcodeConf: '',
+        qrcodeType: ''
+      },
+      isChangeXSS: process.env.isChangeXSS || false,
+      rules: {
+        qrcodeType: [
+          { required: true, message: this.$t('form.time.text7')},
+          { type: 'number', message: 'Number'}]
+      },
+      timetype: 0
   	}
   },
-  computed: {},
+  computed: {
+    qrcodePlace: {
+      get () {
+        if (this.timetype === 0) {
+          return this.$t('daysRange') + '：1-' + getCache('qrMaxDuration')
+        } else {
+          return this.$t('timesRange') + '：1-' + getCache('qrMaxCount')
+        }
+      },
+      set () {}
+    }
+  },
   watch: {
     mobj (val) {},
     mdata (val) {
@@ -64,6 +103,23 @@ export default {
   	init () {
   		this.getMeetingById()
   	},
+    setQrcodeType (val) {
+      if (this.timetype === 0) {
+        if (val > getCache('qrMaxDuration')) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('daysUpTip')
+          })
+        }
+      } else {
+        if (val > getCache('qrMaxCount')) {
+          this.$message({
+            type: 'warning',
+            message: this.$t('timesUpTip')
+          })
+        }
+      }
+    },
     setDefaultMoban () {
       let vhtml = '<p>尊敬的客户，您好！</p>\
               <p>南京移动将于2016年5月13日（周五）下午13:45在紫东创意园会议中心1号会议室举办南京（栖霞）企业信息化推介会，与栖霞区重点园区、企业分享企业信息化建设成功案例，现场最低可享60%业务优惠，更有礼品、万元业务抵金券赠送，诚邀您的光临！\
@@ -135,6 +191,12 @@ export default {
               </p>'
       this.defaultmoban.inviteContent = replaceRemoveQuotation(vhtml)
     },
+    htmlUnescape (val) {
+      this.$store.dispatch('htmlUnescape',
+        {'inviteContent': val}).then(res => {
+          this.defaultmoban.inviteContent = replaceRemoveReserveQuotation(res)
+      })
+    },
     getMeetingById () {
       let newForm = {
         mid: this.mid
@@ -148,9 +210,15 @@ export default {
           this.mform.remark = result.remark
           this.mform.sponsor = result.sponsor
           this.mform.subject = result.subject
-          this.defaultmoban.inviteContent = replaceRemoveQuotation(result.inviteContent)
-          if (result.inviteContent === '') {
+          
+          if (result.inviteContent == '') {
             this.setDefaultMoban()
+          } else {
+            if (this.isChangeXSS) {
+              this.defaultmoban.inviteContent = this.htmlUnescape(replaceRemoveQuotation(result.inviteContent))
+            } else {
+              this.defaultmoban.inviteContent = replaceRemoveQuotation(result.inviteContent)
+            }
           }
           this.pot.latitude = result.latitude
           this.pot.longitude = result.longitude
@@ -161,8 +229,22 @@ export default {
       this.$emit('savekit',this.mform)
     },
     sendMoban () {
-      this.mform.empid = this.defaultmoban.empid      
-      this.$emit('sendkit',this.mform)
+      this.$refs.meetform.validate(valid => {
+        if (valid) {
+          this.mform.empid = this.defaultmoban.empid
+          this.mform.qrcodeConf = this.timetype === 0 ? '0' : '1'
+          this.mform.qrcodeType = this.mform.qrcodeType
+          let MaxCount = this.timetype === 0 ? parseInt(getCache('qrMaxDuration')) : parseInt(getCache('qrMaxCount'))
+          if (parseInt(this.mform.qrcodeType) <= MaxCount && parseInt(this.mform.qrcodeType)) {
+            this.$emit('sendkit',this.mform)
+          } else if (parseInt(this.mform.qrcodeType) > MaxCount && parseInt(this.mform.qrcodeType)) {
+            this.$message({
+              type: 'warning',
+              message: this.$t('uptoMax')
+            })
+          }
+        }
+      })
     },
     getAddress (point,address) {
       this.mform.latitude = point.latitude

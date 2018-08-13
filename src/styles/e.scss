@@ -1,0 +1,157 @@
+html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    height: inherit;
+    min-height: 100%;
+    position: relative;
+    min-width: 360px;
+}
+
+* {
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+}
+
+ul,
+li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.light {
+    color: #888;
+}
+
+.black {
+    color: #222;
+}
+
+.btn {
+    color: #fff; //padding: 8px 16px;
+    outline: none;
+    border: 0;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    img {
+        margin: 0 10px -2px 0;
+    }
+    &.green {
+        background: #36b22b;
+        background: -webkit-linear-gradient(#8fdcd7, #36bda0);
+        /* Safari 5.1 - 6.0 */
+        background: -o-linear-gradient(#8fdcd7, #36bda0);
+        /* Opera 11.1 - 12.0 */
+        background: -moz-linear-gradient(#8fdcd7, #36bda0);
+        /* Firefox 3.6 - 15 */
+        background: linear-gradient(#8fdcd7, #36bda0);
+        /* 标准的语法 */
+        width: 81px;
+        height: 36px;
+    }
+    &.red {
+        background: #f57876;
+        background: -webkit-linear-gradient(#fc85a7, #eb5f87);
+        /* Safari 5.1 - 6.0 */
+        background: -o-linear-gradient(#fc85a7, #eb5f87);
+        /* Opera 11.1 - 12.0 */
+        background: -moz-linear-gradient(#fc85a7, #eb5f87);
+        /* Firefox 3.6 - 15 */
+        background: linear-gradient(#fc85a7, #eb5f87);
+        /* 标准的语法 */
+        width: 81px;
+        height: 36px;
+    }
+}
+
+.cardwrap {
+    width: 100%;
+    max-width: 519px;
+    margin: 0 auto;
+    padding: 124px 0;
+    background: url('../assets/img/e/top.png') left top no-repeat, url('../assets/img/e/bom.png') left bottom no-repeat; //background-size: 100% 100%;
+    background-size: 100% auto, 100% auto;
+    padding-bottom: 115px;
+    .cardtop {
+        text-align: center;
+        position: relative;
+        .cardavatar {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            left: 50%;
+            margin-left: -70px;
+            overflow: hidden;
+            img {
+                width: 100%;
+                height: auto;
+                min-height: 100%;
+            }
+            .cardstatus {
+                position: absolute;
+                top: 0;
+                left: 0;
+                color: #fff;
+                font-size: 14px;
+                width: 170px;
+                height: 30px;
+                line-height: 30px;
+                transform: rotate(-45deg) translateX(-49px) translateY(-20px);
+                &.signin {
+                    background: #36b22b;
+                }
+            }
+        }
+        .empname {
+            margin-top: 30px;
+        }
+        .cardbutton {
+            padding: 30px 0 0;
+            .btn {
+                margin: 0 10px;
+            }
+        }
+    }
+    .cardbody {
+        font-size: 18px;
+        padding: 0 30px;
+        p {
+            line-height: 18px;
+            margin-top: 30px;
+        }
+    }
+}
+
+@media (max-width: 519px) {
+    .cardwrap {
+        width: 100%;
+        max-width: 519px;
+        margin: 0 auto; //padding-top: 30px;
+        padding: 90px 0;
+    }
+}
+
+@media (min-width: 520px) {
+    .cardwrap {
+        width: 100%;
+        max-width: 519px;
+        margin: 0 auto; //padding-top: 30px;
+        //box-shadow: 0.5px 0.87px 4px 0 #b7bcc1;
+        padding: 124px 0;
+        padding-bottom: 115px;
+        .cardbody {
+            font-size: 18px;
+            padding: 0 60px;
+        }
+    }
+}

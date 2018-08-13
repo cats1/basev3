@@ -33,7 +33,11 @@ export default{
   methods: {
   	init () {},
     goPrev () {
-      this.$router.push({name:'meeting'})
+      if (this.$route.name == 'empmdetail') {
+        this.$router.push({name:'empmeeting'})
+      } else {
+        this.$router.push({name:'meeting'})
+      }
     }
   }
 }

@@ -79,3 +79,11 @@ export function updateResidentFace(data) {
     data
   })
 }
+//updatePassableTime
+export function updatePassableTime(data) {
+  return request({
+    url: '/updatePassableTime',
+    method: 'post',
+    data
+  })
+}

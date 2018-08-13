@@ -16,20 +16,20 @@
             <el-popover
               placement="bottom-start"
               :title="$t('visitor.list')"
-              width="200"
-              trigger="hover">
+              width="380"
+              trigger="hover" >
               <ul class="vdlist">
-                <li>{{$t('visitor.vname')}}:{{vdata.vname}}</li>
-                <li>{{$t('visitor.vphone')}}:{{vdata.vphone}}</li>
-                <li>{{$t('visitor.vcom')}}:{{vdata.vcompany}}</li>
-                <li>{{$t('visitor.ename')}}:{{vdata.empName}}</li>
-                <li>{{$t('visitor.ephone')}}:{{vdata.empPhone}}</li>
-                <li>{{$t('visitor.ecom')}}:{{vdata.company}}</li>
-                <li>{{$t('visitor.ordertime')}}:{{vdata.appointmentDate|formatDate}}</li>
-                <li>{{$t('visitor.visittime')}}:{{vdata.visitdate|formatDate}}</li>
-                <li>{{$t('visitor.leavetime')}}:{{vdata.signOutDate|formatDate}}</li>
-                <li>{{$t('visitor.followPeople')}}:{{vdata.memberName}}</li>
-                <li>{{$t('form.remark.text')}}:{{vdata.remark}}</li>
+                <li><strong>{{$t('visitor.vname')}}:</strong>{{vdata.vname}}</li>
+                <li><strong>{{$t('visitor.vphone')}}:</strong>{{vdata.vphone}}</li>
+                <li><strong>{{$t('visitor.vcom')}}:</strong>{{vdata.vcompany}}</li>
+                <li><strong>{{$t('visitor.ename')}}:</strong>{{vdata.empName}}</li>
+                <li><strong style="white-space: nowrap;">{{$t('visitor.ephone')}}:</strong>{{vdata.empPhone}}</li>
+                <li><strong>{{$t('visitor.ecom')}}:</strong>{{vdata.company}}</li>
+                <li><strong>{{$t('visitor.ordertime')}}:</strong>{{vdata.appointmentDate|formatDate}}</li>
+                <li><strong>{{$t('visitor.visittime')}}:</strong>{{vdata.visitdate|formatDate}}</li>
+                <li><strong>{{$t('visitor.leavetime')}}:</strong>{{vdata.signOutDate|formatDate}}</li>
+                <li><strong>{{$t('visitor.followPeople')}}:</strong>{{vdata.memberName}}</li>
+                <li><strong>{{$t('form.remark.text')}}:</strong>{{vdata.remark}}</li>
               </ul>
               <el-button class="" type="text" slot="reference">{{vdata.vname}}</el-button>
             </el-popover>

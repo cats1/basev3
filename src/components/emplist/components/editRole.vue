@@ -64,11 +64,13 @@ export default {
     addRole () {
       if (!this.parent.type) {
         this.$message({
+          showClose: true,
           message: this.$t('role.tip2'),
           type: 'error'
         })
       } else if(this.parent.type === 0) {
         this.$message({
+          showClose: true,
           message: this.$t('role.tip2'),
           type: 'error'
         })

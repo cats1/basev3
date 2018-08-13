@@ -26,7 +26,7 @@ export default {
   	  },
   	  rules: {
   	  	pName: [
-  	  	  { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }]
+  	  	  { required: true, message: this.$t('formCheck.validName.tip7'), trigger: 'blur' }]
   	  }
   	}
   },

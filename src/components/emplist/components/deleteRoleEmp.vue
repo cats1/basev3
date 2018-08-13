@@ -46,6 +46,7 @@ export default {
   	deleteEmp () {
       if (this.vemp.length === 0) {
         this.$message({
+          showClose: true,
           type: 'warning',
           message: this.$t('selectEmpTip')
         })

@@ -71,6 +71,7 @@ export default {
           })
         }).catch(() => {
           this.$message({
+            showClose: true,
             type: 'info',
             message: this.$t('btn.haveCancel')
           })        

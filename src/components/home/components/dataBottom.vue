@@ -66,26 +66,28 @@
 		        :label="$t('form.idnum.text1')"
 		        width="180">
 		    </el-table-column>
-		    <el-table-column align="center"
+		    <template v-if="!dataError">
+		    	<el-table-column align="center"
 		        prop="vphoto"
 		        :label="$t('form.idnum.text2')"
 		        width="180">
-		        <template slot-scope="scope">
-			        <img :src="setVphoto(scope.row.cardId)" alt="" @click="setShowUrl(scope.row)">
-			    </template>
-		    </el-table-column>
-		    <el-table-column align="center"
-		        prop="peopleCount"
-		        :label="$t('form.count.text')" >
-		        <template slot-scope="scope">
-			        {{scope.row.peopleCount === 0? 1: scope.row.peopleCount}}
-			    </template>
-		    </el-table-column>
-		    <el-table-column align="center"
-		        prop="memberName"
-		        :label="$t('form.count.text1')"
-		        width="180">
-		    </el-table-column>
+			        <template slot-scope="scope">
+				        <img :src="setVphoto(scope.row.cardId)" alt="" @click="setShowUrl(scope.row)">
+				    </template>
+			    </el-table-column>
+			    <el-table-column align="center"
+			        prop="peopleCount"
+			        :label="$t('form.count.text')" >
+			        <template slot-scope="scope">
+				        {{scope.row.peopleCount === 0? 1: scope.row.peopleCount}}
+				    </template>
+			    </el-table-column>
+			    <el-table-column align="center"
+			        prop="memberName"
+			        :label="$t('form.count.text1')"
+			        width="180">
+			    </el-table-column>
+		    </template>
 		    <el-table-column align="center"
 		        prop="remark"
 		        :label="$t('form.remark.text')"
@@ -107,6 +109,42 @@
 			        {{scope.row.signOutDate | formatDate}}
 			    </template>
 		    </el-table-column>
+		    <template v-if="signPdfShow">
+		    	<el-table-column align="center"
+		        :label="$t('Signprotocol')"
+		        width="180" >
+			        <template slot-scope="scope">
+				        <el-button type="primary" v-show="scope.row.signPdf === 1" @click="downloadPDF(scope.row)">{{$t('downloadprotocol')}}</el-button>
+				    </template>
+		        </el-table-column>
+		    </template>
+		    <template v-if="dataError">
+		    	<el-table-column align="center"
+		        prop="visitdate"
+		        :label="$t('goInTime')"
+		        width="180">
+			        <template slot-scope="scope">
+				        {{scope.row.visitdate | formatDate}}
+				    </template>
+			    </el-table-column>
+			    <el-table-column align="center"
+			        prop="signOutDate"
+			        :label="$t('goLeaveTime')"
+			        width="180">
+			        <template slot-scope="scope">
+				        {{scope.row.leaveTime | formatDate}}
+				    </template>
+			    </el-table-column>
+		    	<el-table-column align="center"
+		        prop="excpStatus"
+		        :label="$t('dataError')"
+		        width="180">
+			        <template slot-scope="scope">
+			        	<template v-if="scope.row.excpStatus === 0">{{$t('dataSuccess')}}</template>
+			        	<template v-else-if="scope.row.excpStatus === 1">{{$t('dataError')}}</template>
+				    </template>
+		        </el-table-column>
+		    </template>
 		</el-table>
 		<div class="marginbom20 margintop20">
 			<el-pagination
@@ -126,6 +164,7 @@
 import lightbox from '@/components/lightbox'
 import { getCache } from '@/utils/auth'
 import {formatDate} from '@/utils/index'
+import { downloadPDF } from '@/utils/common'
 import exportSet from './exportSet'
 export default {
   components: {exportSet,lightbox},
@@ -154,7 +193,9 @@ export default {
   	  extendShow: false,
   	  extendArray: [],
   	  showUrl: '',
-  	  show: false
+  	  show: false,
+  	  signPdfShow: process.env.signPdf,
+  	  dataError: process.env.dataError
   	}
   },
   filters:{
@@ -178,8 +219,8 @@ export default {
   	this.setPage()
   },
   methods: {
+  	downloadPDF: downloadPDF,
   	setShowUrl (row) {
-  	  console.log(row)
   	  this.showUrl = row.vphoto
   	  this.show = true
   	},

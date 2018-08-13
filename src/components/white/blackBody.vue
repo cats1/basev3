@@ -1,0 +1,261 @@
+<template>
+	<div>
+	  <div class="boxshadow bgwhite paddinglr30 paddingtb20 marginbom20">
+		<el-button type="default" @click="addWhite"><i class="fa fa-user-circle"></i>{{$t('addWhiteBtn')}}</el-button>
+		<el-button type="redline" @click="setEmpWlist('',0)"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
+	  </div>
+	  <div class="boxshadow bgwhite paddinglr30 paddingtb20">
+	  	<el-table :data="list" border  @selection-change="handleSelectionChange" @row-click="showEmp">
+	  		<el-table-column
+		      type="selection"
+		      width="55">
+		    </el-table-column>
+	  		<el-table-column prop="empName" :label="$t('form.name.text')"></el-table-column>
+	  		<el-table-column prop="empNo" :label="$t('form.position.text1')"></el-table-column>
+	  	</el-table>
+	  	<div class="page-footer">
+	  		<el-pagination
+		      @size-change="handleSizeChange"
+		      @current-change="handleCurrentChange"
+		      :current-page="form.startIndex"
+		      :page-sizes="[10, 20, 30, 40]"
+		      :page-size="form.requestedCount"
+		      layout="total, sizes, prev, pager, next, jumper"
+		      :total="total">
+		    </el-pagination>
+	  	</div>
+	  </div>
+	  <el-dialog
+      :title="$t('addWhiteBtn')"
+      :visible.sync="dialogVisible"
+      width="30%" >
+      <el-form :model="curEmp" ref="blackform" :rules="rules" :inline="true" label-position="right" label-width="100px">
+        <el-form-item prop="empName" :label="$t('form.name.text')">
+          <el-select v-model="curEmp.empid" filterable placeholder="请选择" @change="setEmp">
+            <el-option
+              v-for="item in emplist"
+              :key="item.empid"
+              :label="item.empName"
+              :value="item.empid">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item  :label="$t('form.position.text1')">
+          <el-input v-model="curEmp.empNo" readonly="true"></el-input>
+        </el-form-item>        
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
+        <el-button type="primary" @click="addBlack">{{$t('btn.saveBtn')}}</el-button>
+      </span>
+    </el-dialog>
+    <add-emp :btn-show="false" :parent="parent" :btn-type="btnType" :edit-type="editType" :cur-emp="selectCurEmp" :dlist="dlist" :dialog-show="dialogShow" @updateempkit="getUpdatekit"></add-emp>
+	</div>
+</template>
+<script>
+import {getCgBarAllList} from '@/utils/common'
+import {addEmp} from '@/components/emplist/components'
+import {getCache} from '@/utils/auth'
+import rightWindow from '@/components/window/rightWindow'
+import { isvalidatPhone, checkIdCard } from '@/utils/validate'
+export default {
+  components: {rightWindow,addEmp},
+  data () {
+    const isvalidPhone = (rule, value, callback) => {
+      if (value === '') {
+        callback()
+      } else if (!isvalidatPhone(value)) {
+        callback(new Error(this.$t('validphone.tip1')))
+      } else {
+        callback()
+      }
+    }
+    const isvalidIdNum = (rule, value, callback) => {
+      if (value === '') {
+        callback()
+      } else if (checkIdCard(value) !== '验证通过!') {
+        callback(new Error(checkIdCard(value)))
+      } else {
+        callback()
+      }
+    }
+  	return {
+  	  list: [],
+      emplist: [],
+      sarray: [],
+      curEmp: {
+        empName: '',
+        empid: ''
+      },
+      dialogShow: false,
+  	  form: {
+  	  	'userid': getCache('userid'),
+        'empid': '',
+        'startIndex': 1,
+        'requestedCount': 10
+  	  },
+      rules: {
+        empName: [
+          { required: true, message: this.$t('formCheck.validName.tip3'), trigger: 'blur' }
+        ],
+        phone: [{ required: false,trigger: 'blur', validator: isvalidPhone }],
+        credentialNo: [{ required: false,trigger: 'blur', validator: isvalidIdNum }]
+      },
+  	  total: 0,
+  	  dform: {
+  	  	userid: getCache('userid'),
+  	  	bids: []
+  	  },
+      editType: 0,
+      dialogVisible: false,
+      selectCurEmp: {},
+      btnType: 1,
+      editType: 1,
+      dlist: [],
+      parent: {}
+  	}
+  },
+  computed: {
+    dTitle () {
+      if (this.editType === 0) {
+        return this.$t('black.wins.title')
+      } else if (this.editType === 1) {
+        return this.$t('black.wins.title')
+      }
+    }
+  },
+  methods: {
+    showEmp (val) {
+      this.parent = {}
+      this.getDeptByEmpid(val.empid)
+      this.dialogShow = true
+      this.editType = 1
+      this.selectCurEmp = val
+    },
+    getDeptByEmpid (type) {
+      let nform = {
+        empid: type,
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getDeptByEmpid',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          if (result.length > 0) {
+            let nobj = {
+              label: result[0].deptName + '(' + result[0].empCount + ')',
+              name: result[0].deptName,
+              pid: result[0].parentId,
+              pcount: result[0].empCount,
+              dp: result[0].deptName,
+              children: [],
+              id: result[0].deptid
+            }
+            this.parent = nobj
+          }
+        }
+      })
+    },
+  	getList () {
+      let nform = {
+        'startIndex': this.form.startIndex,
+        'requestedCount': this.form.requestedCount,
+        'empName': '',
+        'empNo': '',
+        'userid': getCache('userid')
+      }
+  	  this.$store.dispatch('getEmpWlist',nform).then(res => {
+  	  	let {status,result} = res
+  	  	if (status === 0) {
+  	  	  this.list = result.list
+  	  	  this.total = result.count
+  	  	}
+  	  })
+  	},
+    getAllEmpList () { //GetEmpList
+      let nform = {
+        'userid': getCache('userid')
+      }
+      this.$store.dispatch('GetEmpList',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.emplist = result
+        }
+      })
+    },
+    setEmp (val) {
+      let _self = this
+      this.emplist.forEach(function(item){
+        if (item.empid === val) {
+          _self.curEmp = item
+        }
+      })
+    },
+    addWhite () {
+      this.dialogVisible = true
+      this.getAllEmpList()
+    },
+  	handleSizeChange (val) {
+  	  this.form.requestedCount = val
+      this.getList()
+  	},
+  	handleCurrentChange (val) {
+  	  this.form.startIndex = (val - 1) * this.form.requestedCount + 1
+      this.getList()
+  	},
+  	handleSelectionChange (val) {
+  	  let _self = this
+      _self.sarray = []
+  	  val.forEach(function(ele,index){
+        let nform = {
+          empid: ele.empid,
+          wlist: 0
+        }
+        _self.sarray.push(nform)
+  	  })
+  	},
+    setEmpWlist (val,type) {
+      let nform = {}
+      if (val == '') {
+        nform = this.sarray
+      } else {
+        nform = val
+      }
+      this.$store.dispatch('setEmpWlist', nform).then(res => {
+        let {status} = res
+        if (status === 0) {
+          this.dialogVisible = false
+          if (val !== '') {
+            this.$refs.blackform.resetFields()
+            this.$refs.blackform.clearValidate()
+            this.curEmp = {}
+          }
+          this.getList()
+        }
+      })
+    },
+    addBlack () {
+      this.$refs.blackform.validate((valid) => {
+        if (valid) {
+            let nform = [{
+              empid: this.curEmp.empid,
+              wlist: 1
+            }]
+            this.setEmpWlist(nform,1)
+        }
+      })
+    },
+    getUpdatekit (data) {
+      this.editType = 0
+      this.dialogShow = false
+      this.selectCurEmp = {}
+      this.getList()
+    }
+  },
+  created () {
+    this.getList()
+  },
+  mounted () {
+      	
+  }
+}
+</script>

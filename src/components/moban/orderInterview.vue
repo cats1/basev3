@@ -18,7 +18,7 @@ import mHeader from './components/mHeader'
 import Tinymce from '@/components/tinymce/tiny'
 import {MapComponent} from '@/components/map'
 import { getCache } from '@/utils/auth'
-import { valueToString,replaceQuotation,replaceRemoveQuotation } from '@/utils/common'
+import { valueToString,replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation } from '@/utils/common'
 export default {
   props: {
     mtype: {
@@ -60,7 +60,9 @@ export default {
       defaultmoban: {},
       vtype: '',
       mapShow: false,
-      getResult: {}
+      getResult: {},
+      isChangeXSS: process.env.isChangeXSS || false,
+      empWorkNoCheck: process.env.empWorkNoCheck
   	}
   },
   computed: {},
@@ -82,6 +84,7 @@ export default {
   methods: {
   	init () {
   		this.getTempByType(this.vtype)
+      this.getDefaultMoBan(this.vtype)
       this.GetUserInfo()
   	},
     setDefaultMoban () {
@@ -107,6 +110,13 @@ export default {
       } else {
         this.$emit('getbtraffic',val)
       }
+    },
+    htmlUnescape (val,type) {
+      this.$store.dispatch('htmlUnescape',
+        {'inviteContent': val}).then(res => {
+          this[type] = replaceRemoveReserveQuotation(res)
+          //this.inviteContent = replaceRemoveReserveQuotation(res)
+      })
     },
     getcompro (val) {
       if (this.mtype === 0) {
@@ -214,38 +224,22 @@ export default {
         if (!result) {
           result = this.defaultmoban
         }
-        this.inviteContent = replaceRemoveQuotation(result.inviteContent)
         if (!result.inviteContent) {
           this.setDefaultMoban() 
         }
-        this.traffic = replaceRemoveQuotation(result.traffic)
-        this.companyProfile = replaceRemoveQuotation(result.companyProfile)
+        if (this.isChangeXSS) {
+          this.htmlUnescape(replaceRemoveQuotation(result.inviteContent),'inviteContent')
+          this.htmlUnescape(replaceRemoveQuotation(result.traffic),'traffic')
+          this.htmlUnescape(replaceRemoveQuotation(result.companyProfile),'companyProfile')
+        } else {
+          this.inviteContent = replaceRemoveQuotation(result.inviteContent)
+          this.traffic = replaceRemoveQuotation(result.traffic)
+          this.companyProfile = replaceRemoveQuotation(result.companyProfile)
+        }
         this.pot.latitude = result.latitude
         this.pot.longitude = result.longitude
         this.address = result.address
-      /*if (this.isInit && !this.isshow) {
-        console.log(666)
-        //console.log('init')
-      } else {
-        console.log(888)
-        console.log(result)
-        if (!result) {
-          result = this.defaultmoban
-        }
-        this.inviteContent = replaceRemoveQuotation(result.inviteContent)
-        if (!result.inviteContent) {
-          this.setDefaultMoban() 
-        }
-        this.traffic = replaceRemoveQuotation(result.traffic)
-        this.companyProfile = replaceRemoveQuotation(result.companyProfile)
-        this.pot.latitude = result.latitude
-        this.pot.longitude = result.longitude
-        this.address = result.address
-        if (getCache('tempEditSwitch') === 1) {
-
-        }
-      }*/
-      this.$emit('initmoban',result)
+        this.$emit('initmoban',result)
     },
     saveMoban () {
       let nform = {
@@ -259,6 +253,20 @@ export default {
         templateType: this.vtype,
         traffic: replaceQuotation(this.traffic),
         userid: getCache('userid')
+      }
+      if (this.empWorkNoCheck) {
+        nform = {
+          address: this.address,
+          companyProfile: replaceQuotation(this.companyProfile),
+          empEmail: '',
+          empNo: getCache('empNo'),
+          inviteContent: replaceQuotation(this.inviteContent),
+          latitude: this.pot.latitude,
+          longitude: this.pot.longitude,
+          templateType: this.vtype,
+          traffic: replaceQuotation(this.traffic),
+          userid: getCache('userid')
+        }
       }
       this.$store.dispatch('addEmptemplate',nform)
     },

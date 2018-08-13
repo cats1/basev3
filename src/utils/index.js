@@ -1,25 +1,49 @@
 export function formatDate(date, fmt) {
-    if (/(y+)/.test(fmt)) {
-        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+  }
+  let o = {
+    'M+': date.getMonth() + 1,
+    'd+': date.getDate(),
+    'h+': date.getHours(),
+    'm+': date.getMinutes(),
+    's+': date.getSeconds()
+  };
+  for (let k in o) {
+    if (new RegExp(`(${k})`).test(fmt)) {
+      let str = o[k] + '';
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
     }
-    let o = {
-        'M+': date.getMonth() + 1,
-        'd+': date.getDate(),
-        'h+': date.getHours(),
-        'm+': date.getMinutes(),
-        's+': date.getSeconds()
-    };
-    for (let k in o) {
-        if (new RegExp(`(${k})`).test(fmt)) {
-            let str = o[k] + '';
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
-        }
-    }
-    return fmt;
+  }
+  return fmt;
 };
+export function getDateFormat(d, str, type) {
+  var time = new Date(d);
+  var year = time.getFullYear();
+  var month = getTwoDigit(time.getMonth() + 1);
+  var date = getTwoDigit(time.getDate());
+  var hour = getTwoDigit(time.getHours());
+  var minutes = getTwoDigit(time.getMinutes())
+  var seconds = getTwoDigit(time.getSeconds())
+  if (type == 0) {
+    return year + str + month + str + date
+  } else if (type == 1) {
+    return year + str + month + str + date + '' + hour + ':' + minutes
+  } else if (type == 2) {
+    return year + str + month + str + date + ' ' + hour + ':' + minutes + ':' + seconds
+  }
+}
+
+function getTwoDigit(digit) {
+  var val = parseInt(digit);
+  if (val < 10) {
+    return "0" + val
+  } else
+    return val;
+}
 
 function padLeftZero(str) {
-    return ('00' + str).substr(str.length);
+  return ('00' + str).substr(str.length);
 }
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
@@ -122,7 +146,7 @@ export function param(json) {
   return cleanArray(Object.keys(json).map(key => {
     if (json[key] === undefined) return ''
     return encodeURIComponent(key) + '=' +
-            encodeURIComponent(json[key])
+      encodeURIComponent(json[key])
   })).join('&')
 }
 
@@ -187,40 +211,39 @@ export function toggleClass(element, className) {
   element.className = classString
 }
 
-export const pickerOptions = [
-  {
-    text: '今天',
-    onClick(picker) {
-      const end = new Date()
-      const start = new Date(new Date().toDateString())
-      end.setTime(start.getTime())
-      picker.$emit('pick', [start, end])
-    }
-  }, {
-    text: '最近一周',
-    onClick(picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(end.getTime() - 3600 * 1000 * 24 * 7)
-      picker.$emit('pick', [start, end])
-    }
-  }, {
-    text: '最近一个月',
-    onClick(picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-      picker.$emit('pick', [start, end])
-    }
-  }, {
-    text: '最近三个月',
-    onClick(picker) {
-      const end = new Date(new Date().toDateString())
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-      picker.$emit('pick', [start, end])
-    }
-  }]
+export const pickerOptions = [{
+  text: '今天',
+  onClick(picker) {
+    const end = new Date()
+    const start = new Date(new Date().toDateString())
+    end.setTime(start.getTime())
+    picker.$emit('pick', [start, end])
+  }
+}, {
+  text: '最近一周',
+  onClick(picker) {
+    const end = new Date(new Date().toDateString())
+    const start = new Date()
+    start.setTime(end.getTime() - 3600 * 1000 * 24 * 7)
+    picker.$emit('pick', [start, end])
+  }
+}, {
+  text: '最近一个月',
+  onClick(picker) {
+    const end = new Date(new Date().toDateString())
+    const start = new Date()
+    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+    picker.$emit('pick', [start, end])
+  }
+}, {
+  text: '最近三个月',
+  onClick(picker) {
+    const end = new Date(new Date().toDateString())
+    const start = new Date()
+    start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+    picker.$emit('pick', [start, end])
+  }
+}]
 
 export function getTime(type) {
   if (type === 'start') {
@@ -229,7 +252,8 @@ export function getTime(type) {
     return new Date(new Date().toDateString())
   }
 }
-function stringToArray (string) {
+
+function stringToArray(string) {
   let reg = /,|=/
   if (checkStringFlag(string)) {
     return string.split(reg)
@@ -237,26 +261,39 @@ function stringToArray (string) {
     return []
   }
 }
-function checkStringFlag (s) {
+
+function checkStringFlag(s) {
   if (s === null || s === undefined) {
     return false
   }
   return true
 }
-export function getYear(s, on, t){
+export function getYear(s, on, t) {
   if (checkStringFlag(s)) {
     return setDateFormat(s, on, t)
   } else {
     return ''
   }
 }
-function changeDouble (s) {
-  if (s < 10) {
+export function getYearFormat(s) {
+  let sdate = new Date(parseInt(s))
+  return sdate.getFullYear()
+}
+export function getMonthFormat(s) {
+  let sdate = new Date(parseInt(s))
+  return parseInt(sdate.getMonth() + 1)
+}
+export function getDayFormat(s) {
+  let sdate = new Date(parseInt(s))
+  return sdate.getDate()
+}
+export function changeDouble(s) {
+  if (parseInt(s) < 10) {
     return '0' + s
   }
   return s
 }
-export function setDateFormat (str, join, t) {
+export function setDateFormat(str, join, t) {
   let time = str === '' ? new Date() : new Date(str)
   let y = time.getFullYear()
   let mon = changeDouble(time.getMonth() + 1)
@@ -328,19 +365,19 @@ export function deepClone(source) {
   })
   return targetObj
 }
-export function setYearAgo (time,num) {
+export function setYearAgo(time, num) {
   time.setFullYear(time.getFullYear() - num)
   return time
 }
-export function timeDiff(date1,date2,type) {
+export function timeDiff(date1, date2, type) {
   let date3 = date2.getTime() - date1.getTime()
-  let day = Math.floor(date3/(24*3600*1000))
-  let leave1 = date3%(24*3600*1000)    //计算天数后剩余的毫秒数
-  let hours = Math.floor(leave1/(3600*1000))
-  let leave2 = leave1%(3600*1000)        //计算小时数后剩余的毫秒数
-  let minutes = Math.floor(leave2/(60*1000))
-  let leave3 = leave2%(60*1000)      //计算分钟数后剩余的毫秒数
-  let seconds = Math.round(leave3/1000)
+  let day = Math.floor(date3 / (24 * 3600 * 1000))
+  let leave1 = date3 % (24 * 3600 * 1000) //计算天数后剩余的毫秒数
+  let hours = Math.floor(leave1 / (3600 * 1000))
+  let leave2 = leave1 % (3600 * 1000) //计算小时数后剩余的毫秒数
+  let minutes = Math.floor(leave2 / (60 * 1000))
+  let leave3 = leave2 % (60 * 1000) //计算分钟数后剩余的毫秒数
+  let seconds = Math.round(leave3 / 1000)
   if (type === 0) {
     return day
   } else {

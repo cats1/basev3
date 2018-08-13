@@ -162,6 +162,7 @@ export default {
         this.innerVisible1 = true
       } else {
         this.$message({
+          showClose: true,
           type: 'warning',
           message: this.$t('depart.noemp')
         })
@@ -183,6 +184,7 @@ export default {
     doEdit () {
       if (this.parent.dp === 'root') {
         this.$message({
+          showClose: true,
           message: this.$t('depart.tip'),
           type: 'error'
         })
@@ -228,6 +230,7 @@ export default {
             let {status} = res
             if (status === 0) {
               this.$message({
+                showClose: true,
                 type: 'success',
                 message: this.$t('deleteTip.success')
               })
@@ -238,6 +241,7 @@ export default {
         })
       }).catch(() => {
           this.$message({
+            showClose: true,
             type: 'info',
             message: this.$t('deleteTip.cancelD')
           })       

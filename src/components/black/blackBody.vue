@@ -141,11 +141,18 @@ export default {
         if (valid) {
           if (this.form.credentialNo === '' && this.form.phone ==='') {
             this.$message({
+              showClose: true,
               message: this.$t('phoneIdnum.tips'),
               type: 'error'
             })
           } else {
-            this.$store.dispatch('addBlacklist',this.form).then(res => {
+            let nform = {
+              userid: getCache('userid'),
+              credentialNo: this.form.credentialNo,
+              name: this.form.name,
+              phone: this.form.phone
+            }
+            this.$store.dispatch('addBlacklist',nform).then(res => {
               let {status} = res
               if (status === 0) {
                 this.dialogVisible = !this.dialogVisible

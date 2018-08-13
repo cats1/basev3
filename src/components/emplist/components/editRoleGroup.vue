@@ -36,6 +36,7 @@ export default {
         addGroup() {
             if (!this.parent.name || this.parent.type === 1) {
                 this.$message({
+                    showClose: true,
                     message: this.$t('role.tip'),
                     type: 'error'
                 })

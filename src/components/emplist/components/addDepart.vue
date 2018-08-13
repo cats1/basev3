@@ -52,7 +52,7 @@ export default {
   	  },
   	  rules: {
   	  	deptName: [
-  	  	  { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }]
+  	  	  { required: true, message: this.$t('formCheck.validName.tip6'), trigger: 'blur' }]
   	  },
       parentObj: this.parent,
       departArray: [],
@@ -84,6 +84,7 @@ export default {
         this.parentObj = val[0]
       } else {
         this.$message({
+          showClose: true,
           type: 'warning',
           message: this.$t('depart.selectPrevDepart')
         })

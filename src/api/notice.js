@@ -159,3 +159,11 @@ export function ConfigureEmail(data) {
     data
   })
 }
+//updateLeaveExpiryTime
+export function updateLeaveExpiryTime(data) {
+  return request({
+    url: '/updateLeaveExpiryTime',
+    method: 'post',
+    data
+  })
+}

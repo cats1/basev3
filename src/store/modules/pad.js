@@ -1,4 +1,4 @@
-import { UpdateThemeColor,GetExtendVisitor,addExtendVisitor,updateQRcode,updateCardType } from '@/api/pad'
+import { UpdateThemeColor,GetExtendVisitor,addExtendVisitor,updateQRcode,updateCardType,updateCardStyle } from '@/api/pad'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
@@ -98,6 +98,36 @@ const user = {
 		        })
 		    })
 		},
+		updateCardStyle({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        updateCardStyle(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	setCache('printType', info.printType)
+		          	setCache('cardType', info.cardType)
+		          	setCache('cardSize', info.cardSize)
+		          	setCache('cardLogo', info.cardLogo)
+		          	setCache('cardText', info.cardText)
+		          	setCache('cardPic', info.cardPic)
+		          	setCache('badgeMode', info.badgeMode)
+	                setCache('badgeCustom', info.badgeCustom)
+	                setCache('brandType', info.brandType)
+	                setCache('brandPosition', info.brandPosition)
+	                setCache('showAvatar', info.showAvatar)
+	                setCache('avatarType', info.avatarType)
+	                setCache('customText', info.customText)
+		          	let local = this.state.app.language
+		          	Message({
+	                  message: i18n.messages[local]['updateSuccess'],
+	                  type: 'success'
+	                })
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		}
 	}
 }
 export default user

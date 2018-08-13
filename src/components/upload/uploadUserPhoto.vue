@@ -14,6 +14,7 @@
 <script>
 import {getCache} from '@/utils/auth'
 import {uploadCommon} from '@/utils/upload'
+import $ from 'jquery'
 export default {
     props: {
       photourl: '',
@@ -35,7 +36,8 @@ export default {
         imageUrl: this.photourl || '',
         defaulPhoto: require('@/assets/img/photo.png'),
         formId: 'uploadform_' + this.id,
-        inputId: 'uploadinput_' + this.id
+        inputId: 'uploadinput_' + this.id,
+        empWorkNoCheck: process.env.empWorkNoCheck,
       }
     },
     watch: {
@@ -51,12 +53,58 @@ export default {
         let files = this.$refs[this.inputId].files[0]
         let _self = this
         uploadCommon(files,function(result){
-          _self.imageUrl = result.url
+          console.log(result)
+          let nform = {
+            photo:result.url
+          }
+          /*$.post("http://www.coolvisit.top/wechat/shjh/Youtu/detectfaceByUrl.php",{photo:result.url},function(data){
+            console.log(data)
+          });*/
+          if (empWorkNoCheck) {
+            $.ajax({
+              url: 'http://www.coolvisit.top/wechat/shjh/Youtu/detectfaceByUrl.php',
+              contentType: 'application/json',
+              data: JSON.stringify(nform),
+              type: 'post',
+              timeout: 10000,
+              headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+              },
+              success: function (data, textStatus, jqXHR) {
+                if (data.errorcode == 0 && data.errormsg == 'OK') {
+                  if (data.face.length > 0) {
+                    _self.imageUrl = result.url
+                    _self.$emit('sendkit',result.url)
+                    _self.$store.dispatch('Compressface',nform)
+                  } else {
+                    _self.$message({
+                      showClose: true,
+                      message: '请上传头像',
+                      type: 'error'
+                    })
+                  }
+                } else {
+                  _self.$message({
+                    showClose: true,
+                    message: '人脸识别失败',
+                    type: 'error'
+                  })
+                }
+              }
+            })
+          } else {
+            _self.imageUrl = result.url
+            _self.$emit('sendkit',result.url)
+            _self.$store.dispatch('Compressface',nform)
+          }
+          
+          /*_self.imageUrl = result.url
           _self.$emit('sendkit',result.url)
           let nform = {
             photoUrl: result.url
           }
-          _self.$store.dispatch('Compressface',nform)
+          _self.$store.dispatch('Compressface',nform)*/
         })
       }
     }

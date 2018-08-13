@@ -5,14 +5,16 @@
 				<h3>
 				  <strong>{{item.aName}}</strong>
 				  <i>{{item.address}}</i>
-				  <span class="right">
-				  	<span class="editarea" @click="dialogVisible = true">
-						<i class="el-icon-edit"></i>
-					</span>
-					<span class="closearea" @click="deleteArea">
-						<i class="el-icon-close"></i>
-					</span>
-				  </span>
+          <template v-if="addAreaIsShow">
+            <span class="right">
+              <span class="editarea" @click="dialogVisible = true">
+                <i class="el-icon-edit"></i>
+              </span>
+              <span class="closearea" @click="deleteArea">
+                <i class="el-icon-close"></i>
+              </span>
+            </span>
+          </template>
 				</h3>
 			</div>
 			<span class="region-logo">
@@ -30,7 +32,7 @@
 			</span>
 		</div>
 		<el-dialog
-		  :title="$t('approve.addArea')"
+		  :title="$t('approve.contact')"
 		  :visible.sync="dialogVisible"
 		  width="30%" >
 		  <el-form :model="item">
@@ -46,7 +48,7 @@
 		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
 		  </span>
 		</el-dialog>
-		<role-menu :aitem="aitem" :sitem="item.prlist" :vshow="contactShow" @savekit="updateArea"></role-menu>
+		<role-menu :depid="depidDefault" :aitem="aitem" :sitem="item.prlist" :vshow="contactShow" @savekit="updateArea"></role-menu>
 	</div>
 </template>
 <script>
@@ -57,7 +59,11 @@ export default {
   	aitem: {
   	  type: Object,
   	  default: {}
-  	}
+  	},
+    depid: {
+      type: Number,
+      default: 0
+    }
   },
   components: {roleMenu},
   data () {
@@ -71,13 +77,18 @@ export default {
   	  	aName: '',
   	  	address: '',
   	  	userid: getCache('userid')
-  	  }
+  	  },
+      depidDefault: this.depid,
+      addAreaIsShow: process.env.addAreaIsShow
   	}
   },
   watch: {
   	aitem (val) {
   	  this.item = val
-  	}
+  	},
+    depid (val) {
+      this.depidDefault = val
+    }
   },
   mounted () {},
   methods: {

@@ -28,6 +28,11 @@
 				      <el-input v-model="scope.row.phone" :placeholder="$t('visitor.vphone')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				    </template>
 				</el-table-column>
+        <el-table-column prop="vemail" :label="$t('form.email.text')" width="180">
+          <template slot-scope="scope">
+              <el-input v-model="scope.row.vemail" :placeholder="$t('form.email.text')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+            </template>
+        </el-table-column>
 				<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="180">
 					<template slot-scope="scope">
 				      <el-select v-model="scope.row.visitType" class="block" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)">
@@ -121,6 +126,7 @@ export default {
       	longitude: '',
       	name: '',
       	phone: '',
+        vemail: '',
       	qrcodeConf: '',
       	qrcodeType: '',
       	remark: '',
@@ -139,6 +145,7 @@ export default {
       	longitude: '',
       	name: '',
       	phone: '',
+        vemail: '',
       	qrcodeConf: '',
       	qrcodeType: '',
       	remark: '',
@@ -157,6 +164,7 @@ export default {
       	longitude: '',
       	name: '',
       	phone: '',
+        vemail: '',
       	qrcodeConf: '',
       	qrcodeType: '',
       	remark: '',
@@ -176,6 +184,7 @@ export default {
       	longitude: '',
       	name: '',
       	phone: '',
+        vemail: '',
       	qrcodeConf: '',
       	qrcodeType: '',
       	remark: '',
@@ -287,6 +296,7 @@ export default {
             longitude: '',
             name: '',
             phone: '',
+            vemail: '',
             qrcodeConf: '',
             qrcodeType: '',
             remark: '',
@@ -313,6 +323,7 @@ export default {
       	longitude: '',
       	name: '',
       	phone: '',
+        vemail: '',
       	qrcodeConf: '',
       	qrcodeType: '',
       	remark: '',
@@ -347,6 +358,7 @@ export default {
                   longitude: _self.demoban.longitude,
                   name: element.name,
                   phone: element.phone,
+                  vemail: element.vemail,
                   qrcodeConf: _self.timetype === 0 ? '0' : '1',
                   qrcodeType: _self.form.qrcodeType,
                   remark: element.remark,

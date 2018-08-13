@@ -11,7 +11,7 @@
       <template v-else-if="loginType === 2">
         <h3 class="title">{{this.$t('loginselect[2]')}}</h3>
       </template>
-      <template v-else-if="loginType === 3">
+      <template v-else-if="loginType === 3 && empLoginShow">
         <h3 class="title">{{this.$t('loginselect[3]')}}</h3>
       </template>
       <template v-else-if="loginType === 4">
@@ -30,7 +30,7 @@
         <template v-else-if="loginType === 2">
           <company-login></company-login>
         </template>
-        <template v-else-if="loginType === 3">
+        <template v-else-if="loginType === 3 && empLoginShow">
           <emp-login></emp-login>
         </template>
         <template v-else>
@@ -43,12 +43,14 @@
 <script>
 import { ImgCode, MangerLogin, SuperLogin, CompanyLogin, EmpLogin, StageLogin, LoginSelect } from '@/components/loginpage'
 import loginNav from '@/components/headnav/loginnav'
+import {getBaseStageLink} from '@/utils/common'
 export default {
   components: { ImgCode, MangerLogin, SuperLogin, CompanyLogin, EmpLogin, StageLogin, LoginSelect,loginNav },
   name: 'App',
   data () {
     return {
-      loginType: 0
+      loginType: 0,
+      empLoginShow: process.env.empLogin
     }
   },
   watch: {
@@ -56,7 +58,16 @@ export default {
   },
   methods: {
     changeLogin (type) {
-      this.loginType = type
+      if (type === 4) {
+        if (process.env.stageLink) {
+          //window.location.href = getBaseStageLink()
+          window.open(getBaseStageLink())
+        } else {
+          this.loginType = type
+        }
+      } else {
+        this.loginType = type
+      }
     }
   }
 }

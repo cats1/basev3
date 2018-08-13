@@ -7,6 +7,7 @@
 		    </el-table-column>
 			<el-table-column prop="vname" :label="$t('form.name.text')"></el-table-column>
 			<el-table-column prop="vphone" :label="$t('form.phone.text')"></el-table-column>
+      <el-table-column prop="vemail" :label="$t('form.email.text')"></el-table-column>
 			<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="100"></el-table-column>
 			<el-table-column prop="appointmentDate" :label="$t('tablehead[2]')" width="160">
 				<template slot-scope="scope">
@@ -58,7 +59,9 @@ export default {
   	  },
   	  sizes: [10, 20, 30, 40],
   	  data: [],
-  	  total: 0
+  	  total: 0,
+      empWorkNoCheck: process.env.empWorkNoCheck,
+      empPhoneCheck: process.env.empPhoneCheck
   	}
   },
   filters:{
@@ -86,14 +89,30 @@ export default {
   		return this.$t('vstatus')[type]
   	},
   	getList () {
+      if (this.empWorkNoCheck) {
+        this.getEmpNoList()
+      } else {
+        this.getPhoneList()
+      }
+  	},
+    getPhoneList () {//SearchRecordsByPhone 替换成 SearchRecordsByEmpNo
       this.$store.dispatch('SearchRecordsByPhone',this.form).then(res => {
-      	let {status,result} = res
-      	if (status === 0) {
+        let {status,result} = res
+        if (status === 0) {
           this.total = result.count
           this.data = result.list
-      	}
+        }
       })
-  	},
+    },
+    getEmpNoList () {
+      this.$store.dispatch('SearchRecordsByEmpNo',this.form).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.total = result.count
+          this.data = result.list
+        }
+      })
+    },
   	handleSizeChange(val) {
        this.form.requestedCount = val
        this.getList()

@@ -53,6 +53,7 @@ export default {
       this.$emit('clickit',this.btnType)
   	  if (this.semp.length === 0) {
   	  	this.$message({
+          showClose: true,
           message: this.$t('selectEmpTip'),
           type: 'error'
         })

@@ -62,7 +62,8 @@ export default {
   },
   methods: {
     goData () {
-      this.$emit('datakit')
+      //this.$emit('datakit')
+      this.$router.push({path: 'data'})
     },
     getSelect (value) {
       this.form.date = value

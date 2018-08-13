@@ -37,6 +37,14 @@ export function getEmpByName(data) {
     data
   })
 }
+//getMeetingByPhone
+export function getMeetingByPhone(data) {
+  return request({
+    url: '/getMeetingByPhone',
+    method: 'post',
+    data
+  })
+}
 //getBlacklist
 export function getBlacklist(data) {
   return request({
@@ -173,6 +181,14 @@ export function SearchRecordsByPhone(data) {
     data
   })
 }
+//SearchRecordsByEmpNo
+export function SearchRecordsByEmpNo(data) {
+  return request({
+    url: '/SearchRecordsByEmpNo',
+    method: 'post',
+    data
+  })
+}
 //addAppointment
 export function addAppointment(data) {
   return request({
@@ -281,6 +297,30 @@ export function webActivateAccount(data) {
 export function updateFace(data) {
   return request({
     url: '/updateFace',
+    method: 'post',
+    data
+  })
+}
+//getVisitProxyForEmp
+export function getVisitProxyForEmp(data) {
+  return request({
+    url: '/getVisitProxyForEmp',
+    method: 'post',
+    data
+  })
+}
+//getVisitProxyForProxy
+export function getVisitProxyForProxy(data) {
+  return request({
+    url: '/getVisitProxyForProxy',
+    method: 'post',
+    data
+  })
+}
+//setVisitProxy
+export function setVisitProxy(data) {
+  return request({
+    url: '/setVisitProxy',
     method: 'post',
     data
   })

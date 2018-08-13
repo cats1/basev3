@@ -57,14 +57,14 @@
 			    </el-date-picker>
 		  	</el-form-item>
 		  	<el-form-item :label="$t('tablehead[3]')" prop="sponsor">
-		  		<el-select v-model="form.empid" filterable @change="setEmp">
+		  		<el-select v-model="form.empid" filterable @change="setEmp" :disabled="disabledFlag">
 		  			<template v-for="item in empList">
-		  				<el-option :key="item.empid" :label="item.empName" :value="item.empid"></el-option>
+		  				<el-option :key="item.empid" :label="item.empName" :value="item.empid" ></el-option>
 		  			</template>
 			    </el-select>
 		  	</el-form-item>
 		  	<el-form-item :label="$t('tablehead[6]')" prop="phone">
-		  		<el-input type="text" v-model="form.phone"></el-input>
+		  		<el-input type="text" v-model="form.phone" :disabled="disabledFlag"></el-input>
 		  	</el-form-item>
 		  	<el-form-item :label="$t('tablehead[4]')" prop="subject">
 		  		<el-input type="textarea" v-model="form.subject"></el-input>
@@ -127,7 +127,8 @@ export default {
         remark: [
             { required: true, message: this.$t('formCheck.remark.tip1'), trigger: 'blur' }
         ]
-  	  }
+  	  },
+  	  disabledFlag: false
   	}
   },
   filters:{
@@ -137,16 +138,35 @@ export default {
   	}
   },
   mounted () {
-  	this.getEmpList()
+  	if (this.$route.name == 'empmeeting') {
+      this.empList = [{
+      	empid: getCache('empid'),
+      	empName: getCache('empName')
+      }]
+      this.form.empid = getCache('empid')
+      this.form.phone = getCache('empPhone')
+      this.form.sponsor = getCache('empName')
+      this.disabledFlag = true
+  	} else {
+  		this.getEmpList()
+  	}
     this.initList()
   },
   methods: {
   	getCache: getCache,
   	meetEdit (index,row) {
-      this.$router.push({name:'mdetail',
-      	params: { 
-      		'mid': row.mid
+  	  if (this.$route.name == 'empmeeting') {
+        this.$router.push({name:'empmdetail',
+      	  params: { 
+      	  'mid': row.mid
       	}})
+  	  } else {
+        this.$router.push({name:'mdetail',
+      	  params: { 
+      	  'mid': row.mid
+      	}})
+  	  }
+      
   	},
   	setEmp (val) {
   		let _self = this
@@ -158,8 +178,27 @@ export default {
   		})
   	},
   	initList () {
+  	  if (this.$route.name == 'empmeeting') {
+        this.getMeetingByPhone()
+  	  } else {
+        this.getMeetingByUserid()
+  	  }  	  
+  	},
+  	getMeetingByPhone () {
   	  let nfrom = {
-  	  	userid: this.getCache('userid')
+  	  	phone: getCache('empPhone') || getCache('phone'),
+  	  	userid: getCache('userid')
+  	  }
+      this.$store.dispatch('getMeetingByPhone',nfrom).then(res => {
+      	let { status, result } = res
+      	if (status === 0) {
+          this.meetList = result
+      	}
+      })
+  	},
+  	getMeetingByUserid () {
+  	  let nfrom = {
+  	  	userid: getCache('userid')
   	  }
       this.$store.dispatch('getMeetingByUserid',nfrom).then(res => {
       	let { status, result } = res
@@ -170,7 +209,7 @@ export default {
   	},
   	getEmpList () {
   		let newForm = {
-  			userid: getCache('userid')
+  		  userid: getCache('userid')
   		}
   		this.$store.dispatch('GetEmpList',newForm).then(res => {
   			let { status, result } = res
@@ -191,8 +230,7 @@ export default {
               }
             })
   	  	}
-  	  })
-      
+  	  })      
   	}
   }
 }

@@ -2,10 +2,10 @@
 	<el-dialog
 		:title="$t('approve.addArea')"
 		:visible.sync="dialogVisible"
-		width="80%" >
+		width="80%" @close="cancelRoles">
 		<div class="rolemenuwrap">
 			<div class="roleleft">
-			  <h2>已选审批人</h2>
+			  <h2>{{$t('approve.contact')}}</h2>
 			  <template v-for="(item,index) in slist">
 			  	<div class="approveitem">
 			  		<span class="closeicon" @click="removeRole(item,index)"><i class="fa fa-close fa-lg " ></i></span>
@@ -18,7 +18,7 @@
 			  </template>
 			</div>
 			<div class="roleright">
-			  <h2>角色</h2>
+			  <h2>{{$t('emplist.com')}}</h2>
 				<template v-for="(item,index) in rlist">
 				  <p class="roletitle">{{item.rgName}}</p>
 				  <template v-for="(citem,cindex) in item.childRoleList">
@@ -29,7 +29,7 @@
 		</div>
 		<span slot="footer" class="dialog-footer">
 		  <el-button type="primary" @click="saveRoles">{{$t('btn.saveBtn')}}</el-button>
-		  <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
+		  <el-button @click="cancelRoles">{{$t('btn.cancelBtn')}}</el-button>
 		</span>
 	</el-dialog>
 </template>
@@ -48,7 +48,11 @@ export default {
   	sitem:{
   	  type: Array,
   	  default: []
-  	}
+  	},
+    depid: {
+      type: Number,
+      default: 0
+    }
   },
   data () {
   	return {
@@ -69,7 +73,9 @@ export default {
   	  rlist: [],
   	  slist: [],
   	  checkArray: [],
-  	  rolelist: []
+  	  rolelist: [],
+      depidDefault: this.depid,
+      addAreaIsShow: process.env.addAreaIsShow
   	}
   },
   watch: {
@@ -79,13 +85,16 @@ export default {
   	vshow (val) {
   	  this.dialogVisible = val
   	  if (val) {
-	    this.getRole()
-	  }
+	      this.getRole()
+	    }
   	},
   	sitem (val) {
   	  this.slist = val
   	  this.initSelect()
-  	}
+  	},
+    depid (val) {
+      this.depidDefault = val
+    }
   },
   mounted () {
   	if (this.dialogVisible) {
@@ -121,7 +130,36 @@ export default {
   	},
   	removeRole (item,index) {
   	  this.slist.splice(index,1)
+      this.checkRlist(item)
   	},
+    checkRlist (item) {
+      let _self = this
+      let newRlist = []
+      this.rlist.forEach(function(el,index){
+        let childRoleList = el.childRoleList
+        let nobj = {
+          rgName: el.rgName,
+          childRoleList: []
+        }
+        childRoleList.forEach(function(cel,cindex){
+          let cobj = {
+            checked: cel.checked,
+            childRoleList: cel.childRoleList,
+            empid: cel.empid,
+            parentId: cel.parentId,
+            rgName: cel.rgName,
+            rid: cel.rid,
+            userid: getCache('userid')
+          }
+          if (cel.rid == item.rid) {
+            cobj.checked = false
+          }
+          nobj.childRoleList.push(cobj)
+        })
+        newRlist.push(nobj)
+      })
+      this.rlist = newRlist
+    },
   	selectItem (citem,index,cindex) {
   	  let child = this.rlist[index].childRoleList
   	  if (!child[cindex].checked) {
@@ -163,6 +201,15 @@ export default {
   	  	  role: ele.rid,
   	  	  roleName: ele.rgName
   	  	}
+        if (!_self.addAreaIsShow) {
+          obj = {
+            aid: _self.areaObj.aid,
+            level: index + 1,
+            role: ele.rid,
+            roleName: ele.rgName,
+            deptid: _self.depidDefault
+          }
+        }
   	  	cobj.push(obj)
   	  })
   	  this.saveSet(cobj)
@@ -175,7 +222,11 @@ export default {
           this.$emit('savekit')
         }
   	  })
-  	}
+  	},
+    cancelRoles () {
+      this.dialogVisible = false
+      this.$emit('savekit')
+    }
   }
 }
 </script>

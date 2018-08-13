@@ -31,6 +31,14 @@ export function delProcessArea(data) {
     data
   })
 }
+//getProcessRule
+export function getProcessRule(data) {
+  return request({
+    url: '/getProcessRule',
+    method: 'post',
+    data
+  })
+}
 //addProcessRule
 export function addProcessRule(data) {
   return request({

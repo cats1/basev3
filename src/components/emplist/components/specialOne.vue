@@ -46,6 +46,7 @@ export default {
       	this.$emit('nextkit',1,this.visitType)
       } else {
       	this.$message({
+          showClose: true,
       	  type: 'warning',
       	  message: this.$t('contactvtype')
       	})

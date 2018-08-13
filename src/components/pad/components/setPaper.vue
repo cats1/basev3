@@ -21,18 +21,28 @@
 	  			</div>
 			</el-radio-group>
 		</div>
-		<div class="block margintop20 paddingtb20">
-		  <h3>{{$t('notice.vpaper.vType')}}</h3>
-		  <template v-if="printType === 0">
-		  	<black-paper :card-type="cardType" :card-size="cardSize" @stylekit="getCardStyle" @sizekit="getCardSize"></black-paper>
-		  </template>
-		  <template v-else>
-		  	<color-paper></color-paper>
-		  </template>
+		<div class="block margintop20 paddingtb20">		  
+      <template v-if="papernew">
+        <template v-if="printType === 0">
+          <new-black-paper :card-type="cardType" :card-size="cardSize" @getmode="setMode"></new-black-paper>
+        </template>
+        <template v-else>
+          <color-paper></color-paper>
+        </template>
+      </template>
+      <template v-else>
+        <h3>{{$t('notice.vpaper.vType')}}</h3>
+        <template v-if="printType === 0">
+          <black-paper :card-type="cardType" :card-size="cardSize" @stylekit="getCardStyle" @sizekit="getCardSize"></black-paper>
+        </template>
+        <template v-else>
+          <color-paper></color-paper>
+        </template>
+      </template>
 		</div>
 		<div class="block margintop20 paddingtb20">
-			<el-button type="primary" @click="saveCardSet">{{$t('btn.saveBtn')}}</el-button>
-			<el-button @click="doOverview">{{$t('btn.overview')}}</el-button>
+			<el-button type="primary" @click="saveModeCardSet">{{$t('btn.saveBtn')}}</el-button>
+			<!-- <el-button @click="doOverview">{{$t('btn.overview')}}</el-button> -->
 		</div>
     <overview-dialog :print-type="printType" :overview-show="overviewShow" :card-type="cardType" :cvalue="cardText" @close="closeOverview"></overview-dialog>
 	</div>
@@ -41,14 +51,16 @@
 import overviewDialog from './overviewDialog'
 import { oneNotice, noticeShow } from '@/components/notice'
 import {getCache} from '@/utils/auth'
-import {booleanToNumber,numberToBoolean,chineseFromUtf8Url} from '@/utils/common'
+import {booleanToNumber,numberToBoolean,chineseFromUtf8Url,checkIsNull} from '@/utils/common'
+import newBlackPaper from './newBlackPaper'
 import blackPaper from './blackWhitePaper'
 import colorPaper from './colorPaper'
 import uploadPicBtn from '@/components/upload/uploadPicBtn'
 export default {
-  components: { noticeShow, oneNotice, blackPaper, colorPaper,uploadPicBtn,overviewDialog },
+  components: { noticeShow, oneNotice, newBlackPaper, blackPaper, colorPaper,uploadPicBtn,overviewDialog },
   data () {
   	return {
+      papernew: true,
       imgSrc: require('@/assets/img/cards.png'),
       isShow: false,
       printType: 1,
@@ -60,7 +72,20 @@ export default {
       ptype: 0,
       ctype: 0,
       radio2: 0,
-      overviewShow: false
+      overviewShow: false,
+      modeform: {
+        badgemode: 0,
+        brandType: parseInt(getCache('brandType')) || 0,
+        brandPosition: getCache('brandPosition') || 0,
+        brandText: getCache('cardText'),
+        showAvatar: numberToBoolean(parseInt(getCache('showAvatar'))),
+        avatarType: parseInt(getCache('avatarType')),
+        fixAvatarUrl: checkIsNull(getCache('qrcode').split('#')[1]),
+        qrcodeText: checkIsNull(getCache('qrcode').split('#')[0]),
+        customText: getCache('customText'),
+        badgeCustom: checkIsNull(getCache('badgeCustom')),
+        brandImageUrl: ''
+      }
   	}
   },
   mounted () {
@@ -68,6 +93,9 @@ export default {
   	
   },
   methods: {
+    setMode (data) {
+      this.modeform = data
+    },
     doOverview () {
       this.overviewShow = true
     },
@@ -125,6 +153,58 @@ export default {
   	updateCardLogo (val) {
   	  this.cardLogo = val
   	},
+    saveModeCardSet () {
+      let nform     
+      if (this.cardType === 0) {
+        nform = {
+          userid: getCache('userid'),
+          printType: this.printType + 1,
+          cardType: this.cardType + 1,
+          cardSize: this.cardSize + 1,
+          cardLogo: this.cardLogo + 1,
+          cardText: this.cardText,
+          cardPic: this.cardPic,
+          badgeMode: this.modeform.badgeMode,
+          badgeCustom: this.modeform.badgeCustom,
+          brandType: this.modeform.brandType,
+          brandPosition: this.modeform.brandPosition,
+          showAvatar: booleanToNumber(this.modeform.showAvatar),
+          avatarType: this.modeform.avatarType,
+          customText: this.modeform.customText
+        }
+        let links = this.modeform.qrcodeText + '#' + this.modeform.fixAvatarUrl
+        this.updateCardStyle(nform)
+        if (this.modeform.avatarType !== 0) {
+          let nform = {
+            userid: getCache('userid'),
+            qrcode: links,
+            qrcodeSwitch: 1,
+            qrcodeType: 2
+          }
+          this.updateQRcode(nform)
+        } else {
+          let nform = {
+            userid: getCache('userid'),
+            qrcode: links,
+            qrcodeSwitch: 0,
+            qrcodeType: 2
+          }
+          this.updateQRcode(nform)
+        }
+      } else {
+        nform = {
+          userid: getCache('userid'),
+          printType: this.printType + 1,
+          cardType: this.cardType + 1,
+          cardSize: this.cardSize + 1,
+          cardLogo: this.cardLogo + 1,
+          cardText: this.cardText,
+          cardPic: this.cardPic
+        }
+        this.closeQrCode()
+        this.updateCardType(nform)
+      }
+    },
   	saveCardSet () {
       let nform = {
   	  	userid: getCache('userid'),
@@ -149,14 +229,17 @@ export default {
         qrcodeSwitch: 0,
         qrcodeType: 1
   	  }
-  	  this.updateQRcode(nform,0)
+  	  this.updateQRcode(nform)
   	},
-  	updateQRcode (nform,type) {
+  	updateQRcode (nform) {
   	  this.$store.dispatch('updateQRcode',nform)
   	},
   	updateCardType (nform) {
   	  this.$store.dispatch('updateCardType',nform)
   	},
+    updateCardStyle (nform) {
+      this.$store.dispatch('updateCardStyle',nform)
+    },
     showDown () {
       this.isShow = !this.isShow
     },

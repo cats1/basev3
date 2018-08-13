@@ -36,6 +36,7 @@ export default {
         })
       } else {
         this.$message({
+          showClose: true,
           type: 'warning',
           message: this.$t('selectEmpTip')
         })

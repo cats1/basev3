@@ -139,11 +139,13 @@ export default {
         if (valid) {
           if (this.form.egids === '') {
             this.$message({
+              showClose: true,
               message: this.$t('lessOneGate'),
               type: 'warning'
             })
           } else if (this.form.logo === '') {
             this.$message({
+              showClose: true,
               message: this.$t('form.photo.tip'),
               type: 'warning'
             })

@@ -11,6 +11,7 @@
 				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#2a2c2f" text-color="#fff" active-text-color="#2274e6">
 		            <el-menu-item index="order"><router-link to="/">{{$t('empnav[0].name')}}</router-link></el-menu-item>
 		            <el-menu-item index="list"><router-link to="/list">{{$t('empnav[1].name')}}</router-link></el-menu-item>
+		            <el-menu-item index="empmeeting" v-show="meetshow"><router-link to="/empmeeting">{{$t('navlist[4].name')}}</router-link></el-menu-item>
 				</el-menu>
 		    </div>
 		    <div class="menuright">
@@ -48,7 +49,8 @@ export default {
         username: getCache('empName'),
 	  	hlogo: require('@/assets/img/hlogo.png'),
 	  	winShow: false,
-	  	activeIndex: this.$route.name
+	  	activeIndex: this.$route.name,
+	  	meetshow: process.env.conference || false
       }
     },
     computed: {
@@ -92,10 +94,13 @@ export default {
         }
     },
     created () {
-      if (this.$route.name !== 'list') {
+    	
+      if (this.$route.name == 'order' || this.$route.name == 'dot') {
       	this.activeIndex = 'order'
-      } else {
+      } else if (this.$route.name == 'list') {
       	this.activeIndex = 'list'
+      } else {
+      	this.activeIndex = 'empmeeting'
       }
     },
     mounted () {

@@ -1,6 +1,6 @@
 import { addProject,Compressface,addResidentVisitor,updateProject,
 	updateAllResidentFace,getRvQrcode,updateResidentVisitor,
-	getResidentVisitorByName,updateResidentFace,delProject } from '@/api/visit'
+	getResidentVisitorByName,updateResidentFace,delProject,updatePassableTime } from '@/api/visit'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
@@ -152,6 +152,25 @@ const user = {
 		          	let local = this.state.app.language
                     Message({
                   	  message: i18n.messages[local]['sendFaceSuccess'],
+                  	  type: 'success'
+                	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		updatePassableTime({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        updatePassableTime(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	let local = this.state.app.language
+		          	setCache('passableSTime', info.passableSTime)
+		          	setCache('passableETime', info.passableETime)
+                    Message({
+                  	  message: i18n.messages[local]['updateSuccess'],
                   	  type: 'success'
                 	})
 		          }

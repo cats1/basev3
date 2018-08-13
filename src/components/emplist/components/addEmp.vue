@@ -1,70 +1,149 @@
 <template>
 	<div class="btnsection">
-    <el-button :type="bType" @click="editBtn()"><i class="fa fa-user-plus"></i>{{$t('btn.addEmpBtn')}}</el-button>
+    <el-button :type="bType" @click="editBtn()" v-show="btnShow"><i class="fa fa-user-plus"></i>{{$t('btn.addEmpBtn')}}</el-button>
 	  <el-dialog
-		  :title="$t('btn.addEmpBtn')"
+		  :title="winTitle"
 		  :visible.sync="dialogVisible"
 		  width="50%" @close="handClose">
-		  <el-form :model="form" :rules="rules" ref="empform" label-width="100px" class="demo-ruleForm">
-        <template v-if="editType === 1">
-          <el-form-item prop="avatar" class="center">
-            <upload-user-photo id="userphoto" :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
-            <reg-face :rform="form"></reg-face>
+      <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
+        <el-tab-pane :label="$t('btn.editEmpBtn')" name="first">
+          <el-form :model="form" :rules="rules" ref="empform" label-width="100px" class="demo-ruleForm">
+          <template v-if="!onwork">
+            <template v-if="editType === 1">
+              <el-form-item class="center">
+                <upload-user-photo id="userphoto" :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
+                <template v-if="!empWorkNoCheck">
+                  <reg-face :rform="form" v-show="faceTextShow"></reg-face>
+                </template>
+              </el-form-item>
+            </template>
+            <template v-else>
+              <el-form-item >
+                <upload-user-photo :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
+              </el-form-item>
+            </template>
+          </template>
+          <el-form-item>
+            <el-checkbox v-model="checked" @change="setEmptype">{{$t('emplist.pad')}}</el-checkbox>
+          </el-form-item>          
+          <el-form-item :label="$t('form.name.text')" prop="empName">
+            <el-input v-model="form.empName"></el-input>
           </el-form-item>
-        </template>
-        <template v-else>
-          <el-form-item >
-            <upload-user-photo :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
+          <template v-if="!onwork">
+            <el-form-item :label="$t('form.name.text3')" >
+              <el-input v-model="form.empNickname"></el-input>
+            </el-form-item>
+            <el-form-item class="is-required" :label="$t('form.depart.text')" >
+              <div class="last_inner" @click="setEmpShow">
+                <template v-for="item in departArray" >
+                  <span >{{item.name}}</span>
+                </template>
+              </div>
+            </el-form-item>
+            <el-form-item :label="$t('form.position.text')" >
+              <el-input v-model="form.empPosition"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('entranceGuard')" >
+              <el-input v-model="form.cardNo"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.phone.text')" prop="empPhone" v-if="empPhoneCheck">
+              <el-input v-model="form.empPhone"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.phone.text')" v-else>
+              <el-input v-model="form.empPhone"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.email.text')" >
+              <el-input v-model="form.empEmail"></el-input>
+            </el-form-item>
+          </template>
+          <el-form-item :label="$t('form.position.text1')" prop="empNo" v-if="empWorkNoCheck">
+            <el-input v-model="form.empNo" :readonly="empnoread"></el-input>
           </el-form-item>
+          <el-form-item :label="$t('form.position.text1')" v-else>
+            <el-input v-model="form.empNo"></el-input>
+          </el-form-item>
+          <template v-if="!onwork">
+            <el-form-item :label="$t('form.phone.text3')" >
+              <el-input v-model="form.telephone"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.company.text1')" v-if="!workbayCheck">
+              <el-input v-model="form.workbay"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.company.text1')" prop="workbay" v-else>
+              <el-input v-model="form.workbay"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.gate.text')">
+              <gate-group :t-show="false" :check-array="egids" @getclist="getGate"></gate-group>
+            </el-form-item>
+            <el-form-item :label="$t('form.time.text4')" prop="startDate">
+              <el-date-picker
+                v-model="dateRange"
+                type="daterange"
+                range-separator="-" format="yyyyMMdd" value-format="yyyyMMdd"
+                :start-placeholder="$t('vtime[0]')"
+                :end-placeholder="$t('vtime[1]')" @change="setrange">
+              </el-date-picker>
+            </el-form-item>
+          </template>
+          <template v-if="onwork">
+            <el-form-item :label="$t('onWorkReason')" prop="remark">
+              <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="form.remark"></el-input>
+            </el-form-item>
+          </template>
+          <template v-else>
+            <el-form-item :label="$t('form.remark.text')" prop="remark">
+              <el-input v-model="form.remark"></el-input>
+            </el-form-item>
+          </template>
+        </el-form>
+        </el-tab-pane>
+        <template v-if="agentShow">
+          <el-tab-pane :label="$t('Proxysettings')" name="second" >
+          <el-form :model="proxy" ref="porxyform" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="代理" >
+              <el-select v-model="proxy.proxyId" placeholder="请选择">
+                <el-option
+                  v-for="item in emplist"
+                  :key="item.empid"
+                  :label="item.empName"
+                  :value="item.empid">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="代理状态" >
+              <el-radio-group v-model="proxy.proxyStatus">
+                <el-radio :label="0">禁用</el-radio>
+                <el-radio :label="1">启用</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="服务期限" >
+              <el-date-picker
+                v-model="dateRange"
+                type="daterange"
+                range-separator="-" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
+                :start-placeholder="$t('vtime[0]')"
+                :end-placeholder="$t('vtime[1]')" @change="setrange">
+              </el-date-picker>
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane :label="$t('Proxylist')" name="third" >
+          <el-form :model="proxy" ref="porxyform" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="代理" >
+              <el-select v-model="proxy.proxyId" placeholder="请选择">
+                <el-option
+                  v-for="item in emplist"
+                  :key="item.empid"
+                  :label="item.empName"
+                  :value="item.empid">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
         </template>
         
-        <el-form-item :label="$t('form.name.text')" prop="empName">
-          <el-input v-model="form.empName"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('form.name.text3')" >
-          <el-input v-model="form.empNickname"></el-input>
-        </el-form-item>
-        <el-form-item class="is-required" :label="$t('form.depart.text')" >
-          <div class="last_inner" @click="setEmpShow">
-            <template v-for="item in departArray">
-              <span>{{item.name}}</span>
-            </template>
-          </div>
-        </el-form-item>
-        <el-form-item :label="$t('form.position.text')" >
-          <el-input v-model="form.empPosition"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('form.phone.text')" prop="empPhone">
-          <el-input v-model="form.empPhone"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('form.email.text')" >
-          <el-input v-model="form.empEmail"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('form.position.text1')">
-          <el-input v-model="form.empNo"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('form.phone.text3')" >
-          <el-input v-model="form.telephone"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('form.company.text1')" >
-          <el-input v-model="form.workbay"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('form.gate.text')" prop="egids">
-          <gate-group :t-show="false" :check-array="egids" @getclist="getGate"></gate-group>
-        </el-form-item>
-        <el-form-item :label="$t('form.time.text4')" prop="startDate">
-          <el-date-picker
-            v-model="dateRange"
-            type="daterange"
-            range-separator="-" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-            :start-placeholder="$t('vtime[0]')"
-            :end-placeholder="$t('vtime[1]')" @change="setrange">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item :label="$t('form.remark.text')" prop="remark">
-          <el-input v-model="form.remark"></el-input>
-        </el-form-item>
-      </el-form>
+      </el-tabs>		  
       <el-dialog
       width="50%"
       :title="$t('depart.selectDepart')"
@@ -76,7 +155,7 @@
           <el-button type="primary" @click="saveSelect">{{$t('btn.confirmBtn')}}</el-button>
         </span>
       </el-dialog>
-		  <span slot="footer" class="dialog-footer">
+		  <span slot="footer" class="dialog-footer" v-show="btnIsShow">
 		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
 		    <el-button type="primary" @click="saveProject">{{$t('btn.confirmBtn')}}</el-button>
 		  </span>
@@ -95,7 +174,9 @@ export default {
   props: {
     parent: {
       type: Object,
-      default: {}
+      default: function () {
+        return {}
+      }
     },
     dlist: {
       type: Array,
@@ -112,25 +193,45 @@ export default {
     btnType: {
       type: Number,
       default: 1
+    },
+    btnShow: {
+      type: Boolean,
+      default: true
+    },
+    dialogShow: {
+      type: Boolean,
+      default: false
+    },
+    onwork: {
+      type: Boolean,
+      default: false
     }
   },
   components: {uploadUserPhoto,departMenu,gateGroup,regFace},
   data () {
   	return {
+      btnIsShow: this.btnShow,
+      empPhoneCheck: process.env.empPhoneCheck,
+      empWorkNoCheck: process.env.empWorkNoCheck,
+      activeName2: 'first',
   	  dialogVisible: false,
       innerVisible: false,
       bType: 'default',
+      checked: false,
+      empnoread: false,
       form: {
         userid: getCache('userid'),
+        avatar: '',
         empName: '',
         empNo: '',
+        cardNo: '',
         empEmail: '',
         empPhone: '',
         emptype: 2,
         empPosition: '',
         telephone: '',
         workbay: '',
-        visitType: '面试',
+        visitType: '',
         subaccountId: '',
         empNickname: '',
         remark: '',
@@ -151,6 +252,10 @@ export default {
           { required: true, message: this.$t('form.gate.tip'), trigger: 'blur' }],
         empPhone: [
           { required: true, message: this.$t('formCheck.validphone.tip2'), trigger: 'blur' }],
+        workbay: [
+          { required: true, message: this.$t('workbayIsNotNull'), trigger: 'blur' }],
+        empNo: [
+          { required: true, message: this.$t('exporttype.isNull'), trigger: 'blur' }],
         startDate: [
           { required: true, message: this.$t('formCheck.time.tip2'), trigger: 'blur' }]
   	  },
@@ -160,7 +265,16 @@ export default {
       cobj: [],
       departArray: [],
       menuList: [],
-      egids: []
+      egids: [],
+      emplist: [],
+      proxy: {
+        proxyId: '',
+        proxyName: '',
+        proxyStatus: 0
+      },
+      agentShow: process.env.agentShow || false,
+      faceTextShow: false,
+      workbayCheck: process.env.workbayCheck || false
   	}
   },
   watch: {
@@ -168,10 +282,20 @@ export default {
       this.parentObj = val
       this.cobj.push(val)
       let darray = []
-      darray.push(val)
+      if (val.name) {
+        darray.push(val)
+      }
       this.departArray = darray
       if (val.dp === 'root') {
         //this.departform.parentId = ''
+      }
+    },
+    btnShow (val) {
+      this.btnIsShow = val
+    },
+    dialogShow (val) {
+      if (!val) {
+        this.dialogVisible = false
       }
     },
     editType (val) {
@@ -180,15 +304,31 @@ export default {
       }
     },
     curEmp (val) {
+      if (!this.btnShow) {
+        this.dialogVisible = true
+      }
+      if (!this.dialogShow && !this.btnShow) {
+        this.dialogVisible = false
+      }
       this.form = val
       if (val.egids) {
         this.egids = stringToArray(val.egids)
       }
+      if (val.empNo) {
+        this.empnoread = true
+      }
+      if (val.avatar && val.face !== 0) {
+        this.faceTextShow = true
+      } else {
+        this.faceTextShow = false
+      }
       if (val.startDate) {
         this.dateRange[0] = val.startDate
+        this.$set(this.dateRange,0,val.startDate)
       }
       if (val.endDate) {
         this.dateRange[1] = val.endDate
+        this.$set(this.dateRange,1,val.endDate)
       }
     },
     btnType (val) {
@@ -199,19 +339,45 @@ export default {
       }
     }
   },
-  mounted () {
+  computed: {
+    winTitle: {
+      get () {
+        if (this.editType === 0) {
+          return this.$t('btn.addEmpBtn')
+        } else {
+          return this.$t('btn.editEmpBtn')
+        }
+      },
+      set () {}
+    }
+  },
+  mounted () {    
     if (this.btnType === 1) {
       this.bType = 'primary'
     } else {
       this.bType = 'default'
     }
-    if (this.editType !== 0) {
+    /*if (this.editType !== 0) {
       this.form = this.curEmp
       this.dateRange = [this.curEmp.startDate,this.curEmp.endDate]
-    }
+    }*/
   },
   methods: {
     stringToArray: stringToArray,
+    setEmptype (val) {
+      if (val) {
+        this.form.emptype = 3
+      } else {
+        this.form.emptype = 1
+      }
+    },
+    handleClick () {
+      if (this.activeName2 == 'second') {
+        this.GetEmpList()
+      } else if (this.activeName2 == 'third') {
+
+      }
+    },
     editBtn () {
       this.$emit('clickit',this.btnType)
       this.dialogVisible = true
@@ -230,6 +396,42 @@ export default {
       this.egids = val
       this.form.egids = arrayToString(val)
     },
+    GetEmpList () {
+      let nform = {
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('GetEmpList',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.emplist = result
+          this.getVisitProxyForEmp()
+        }
+      })
+    },
+    getVisitProxyForEmp () {
+      let nform = {
+        userid: getCache('userid'),
+        empid: this.form.empid
+      }
+      this.$store.dispatch('getVisitProxyForEmp',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          console.log(result)
+        }
+      })
+    },
+    getVisitProxyForProxy () {
+      let nform = {
+        userid: getCache('userid'),
+        proxyId: this.form.empid
+      }
+      this.$store.dispatch('getVisitProxyForProxy',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          console.log(result)
+        }
+      })
+    },
     saveProject () {
         this.$refs['empform'].validate((valid) => {
           if (valid) {
@@ -242,30 +444,52 @@ export default {
             this.form.deptIds = darray
             if (this.editType === 0) {
               this.addEmployee()
-            } else {
-              this.updateEmployee()
+            } else {              
+              if (this.activeName2 == 'first') {
+                this.updateEmployee()
+              } else {
+                this.setVisitProxy()
+              }
             }
           } else {
             return false;
           }
         })
     },
+    setVisitProxy () {
+      let nform = {
+        userid: getCache('userid'),
+        empid: this.form.empid,
+        empName: this.form.empName,
+        proxyId: this.proxy.proxyId,
+        proxyName: this.proxy.proxyName,
+        proxyStatus: this.proxy.status,
+        startDate: '',//,new Date(startDate),
+        endDate: ''//new Date(endDate)
+      }
+      this.$store.dispatch('setVisitProxy',nform).then(res => {
+        let {status} = res
+        if (status === 0) {
+        }
+      })
+    },
     addEmployee () {
       let nform = {
-        avatar: this.form.avatar,
+        avatar: this.form.avatar || '',
         deptIds: this.form.deptIds,
         egids: this.form.egids,
         email: this.form.empEmail  || '',
         empNickname: this.form.empNickname || '',
         empNo: this.form.empNo  || '',
+        cardNo: this.form.cardNo  || '',
         empPosition: this.form.empPosition  || '',
         employee_name: this.form.empName,
         employeeid: this.form.empid,
-        emptype: 2,
-        endDate: this.dateRange[1].replace(/-/g,''),
-        phone: this.form.empPhone,
+        emptype: this.form.emptype,
+        endDate: this.dateRange[1],
+        phone: this.form.empPhone || '',
         remark: this.form.remark  || '',
-        startDate: this.dateRange[0].replace(/-/g,''),
+        startDate: this.dateRange[0],
         subaccountId: 0,
         telephone: this.form.telephone  || '',
         userid: getCache('userid'),
@@ -286,20 +510,21 @@ export default {
     },
     updateEmployee () {
       let nform = {
-          avatar: this.form.avatar,
+          avatar: this.form.avatar || '',
           deptIds: this.form.deptIds,
           egids: this.form.egids,
           email: this.form.empEmail,
           empNickname: this.form.empNickname  || '',
           empNo: this.form.empNo  || '',
+          cardNo: this.form.cardNo  || '',
           empPosition: this.form.empPosition  || '',
           employee_name: this.form.empName,
           employeeid: this.form.empid,
-          emptype: 0,
-          endDate: this.dateRange[1].replace(/-/g,''),
-          phone: this.form.empPhone,
+          emptype: this.form.emptype,
+          endDate: this.dateRange[1],
+          phone: this.form.empPhone || '',
           remark: this.form.remark  || '',
-          startDate: this.dateRange[0].replace(/-/g,''),
+          startDate: this.dateRange[0],
           subaccountId: 0,
           telephone: this.form.telephone,
           userid: getCache('userid'),
@@ -314,7 +539,7 @@ export default {
           this.egids = []
           this.$refs['empform'].resetFields()
           this.$refs['empform'].clearValidate()
-          this.$emit('updateempkit')
+          this.$emit('updateempkit',this.form)
         }
       })
     },
@@ -333,7 +558,7 @@ export default {
       this.menuList = val
     },
     handClose () {
-      this.$emit('updateempkit')
+      this.$emit('updateempkit',this.form)
       this.dateRange = []
       this.egids = []
       this.$refs['empform'].resetFields()

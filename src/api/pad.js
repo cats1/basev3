@@ -63,3 +63,11 @@ export function updateCardType(data) {
     data
   })
 }
+//updateCardStyle
+export function updateCardStyle(data) {
+  return request({
+    url: '/updateCardStyle',
+    method: 'post',
+    data
+  })
+}

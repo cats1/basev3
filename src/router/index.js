@@ -58,6 +58,22 @@ export default new Router({
         meta: {
           title: 'backlist'
         }
+      },
+      {
+        path: '/whitelist',
+        name: 'whitelist',
+        component: _import('white/layOut'),
+        meta: {
+          title: 'whitelist'
+        }
+      },
+      {
+        path: '/overtime',
+        name: 'overtime',
+        component: _import('workovertime/layOut'),
+        meta: {
+          title: 'overtime'
+        }
       }
     ]
   }, {
@@ -96,6 +112,13 @@ export default new Router({
         component: _import('reserve/components/approvePage'),
         meta: {
           title: 'approve'
+        }
+      }, {
+        path: '/calendar',
+        name: 'calendar',
+        component: _import('reserve/setCalendar'),
+        meta: {
+          title: 'calendar'
         }
       },
       {
@@ -222,13 +245,13 @@ export default new Router({
     meta: {
       title: '404'
     }
-  }/*, {
-    path: '/tinymce',
-    name: 'tinymce',
-    component: _import('tinymce/test')
-  }*/, {
-    path: '/gmap',
-    name: 'gmap',
-    component: _import('map/googleMap')
+  }, {
+    path: '/takephoto',
+    name: 'takephoto',
+    component: _import('photo/takePhoto')
+  },, {
+    path: '/cropper',
+    name: 'cropper',
+    component: _import('cropper/vueCropper')
   }]
 })

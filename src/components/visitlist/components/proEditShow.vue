@@ -43,7 +43,7 @@ export default {
             bType: 'default',
             rules: {
                 pName: [
-                    { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }
+                    { required: true, message: this.$t('formCheck.validName.tip7'), trigger: 'blur' }
                 ]
             }
         }
@@ -107,6 +107,8 @@ export default {
                 if (status === 0) {
                     this.dialogVisible = false
                     this.$emit('editkit')
+                    this.proform.pName = ''
+                    this.proform.remark = ''
                 }
             })
         },
@@ -116,6 +118,8 @@ export default {
                     if (status === 0) {
                         this.dialogVisible = false
                         this.$emit('editkit')
+                        this.proform.pName = ''
+                        this.proform.remark = ''
                     }
             })
         },

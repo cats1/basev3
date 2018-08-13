@@ -6,6 +6,7 @@
       <export-address-list @exportkit="changeExport"></export-address-list>
       <edit-depart :parent-node="parentNode" :parent="parent" :dlist="list" @addkit="getAddkit" :emp-list="dataList" @clickit="changeRightType"></edit-depart>
       <move-depart :parent="parent" :dlist="list" :semp="sempArray" @movekit="getmove" @clickit="changeRightType"></move-depart>
+      <template v-if="whiteListShow"></template>
       <delete-emp :semp="sempArray" @delekit="getDelete" @clickit="changeRightType"></delete-emp>
   		<send-all-face></send-all-face>
 	  </div>
@@ -130,7 +131,8 @@ export default {
       vtype: 'emplist',
       sname: '',
       restaurants: [],
-      timeout:  null
+      timeout:  null,
+      whiteListShow: process.env.whiteListShow || false
   	}
   },
   computed: {
@@ -181,9 +183,11 @@ export default {
       this.getProjectList()
       this.getEmpList()
     },
-    getUpdatekit () {
+    getUpdatekit (data) {
       this.editType = 0
       this.curEmp = {}
+      this.getProjectList()
+      this.getEmpList()
     },
   	changeVtype (val) {
   	  this.$router.push({name:val})

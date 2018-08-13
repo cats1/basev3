@@ -1,4 +1,5 @@
-import { getMeetingByUserid, getMeetingById, getAppointmentByMid,addMeeting,updateMeeting } from '@/api/meeting'
+import { getMeetingByUserid, getMeetingById, getAppointmentByMid,
+	addMeeting,updateMeeting,htmlUnescape } from '@/api/meeting'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
@@ -68,6 +69,15 @@ const user = {
 		getAppointmentByMid({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        getAppointmentByMid(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		htmlUnescape({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        htmlUnescape(info).then(response => {
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)

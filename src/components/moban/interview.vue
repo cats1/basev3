@@ -20,7 +20,7 @@ import mHeader from './components/mHeader'
 import {MapComponent} from '@/components/map'
 import { getCache } from '@/utils/auth'
 import Tinymce from '@/components/tinymce/tiny'
-import { valueToString, replaceQuotation,replaceRemoveQuotation } from '@/utils/common'
+import { valueToString, replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation } from '@/utils/common'
 export default {
   props: ['mtype','isshow','mapid'],
   components: { mHeader, MapComponent, Tinymce },
@@ -35,13 +35,16 @@ export default {
         inviteContent: '',
         latitude: '',
         longitude: '',
-        traffic: ''
+        traffic: '',
+        userid: getCache('userid'),
+        templateType: this.mtype
       },
       pot: {
         latitude: '',
         longitude: ''
       },
-      form: {}
+      form: {},
+      isChangeXSS: process.env.isChangeXSS || false
   	}
   },
   computed: {},
@@ -65,8 +68,14 @@ export default {
         this.defaultmoban.inviteContent = replaceRemoveQuotation(vhtml)
       } else {
         this.defaultmoban.inviteContent = replaceRemoveQuotation(vhtml2)
-      }
-      
+      } 
+    },
+    htmlUnescape (val,type) {
+      this.$store.dispatch('htmlUnescape',
+        {'inviteContent': val}).then(res => {
+          this.defaultmoban[type] = replaceRemoveReserveQuotation(res)
+          //this.inviteContent = replaceRemoveReserveQuotation(res)
+      })
     },
   	getInterViewMoBan () {
   		let newForm = {
@@ -77,12 +86,22 @@ export default {
   			let { status, result } = res
   			if (status === 0) {
           if (result) {
-            this.defaultmoban = result
+            //this.defaultmoban = result
             this.pot.latitude = result.latitude
             this.pot.longitude = result.longitude
             if (!result.inviteContent) {
               this.setDefaultMoban() 
             }
+            if (this.isChangeXSS) {
+              this.htmlUnescape(replaceRemoveQuotation(result.inviteContent),'inviteContent')
+              this.htmlUnescape(replaceRemoveQuotation(result.traffic),'traffic')
+              this.htmlUnescape(replaceRemoveQuotation(result.companyProfile),'companyProfile')
+            } else {
+              this.defaultmoban.inviteContent = replaceRemoveQuotation(result.inviteContent)
+              this.defaultmoban.traffic = replaceRemoveQuotation(result.traffic)
+              this.defaultmoban.companyProfile = replaceRemoveQuotation(result.companyProfile)
+            }
+            this.defaultmoban.address = result.address
           } else {
             this.setDefaultMoban() 
           }

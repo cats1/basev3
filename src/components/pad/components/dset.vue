@@ -47,7 +47,7 @@ export default {
     },
     getSetting () {
       let nform = {
-        userid: getCache('userid')
+        //userid: getCache('userid')
       }
       this.$store.dispatch('getGate',nform).then(res => {
         let {status,result} = res

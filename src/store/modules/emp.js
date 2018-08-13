@@ -5,7 +5,8 @@ import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	batchDelEmployee,updateAllFace,SearchRecordsByPhone,addAppointment,getEmptempByPost,
 	GetUserInfo,getSubAccountById,getEmptemplateByType,getUsertemplate,getSubAccountTemp,
 	getEmpByName,updateEmpPwd,addEmptemplate,SynchronCardNo,addUserTemplate,
-	updateEmpSubAccount,resetEmpPwd,webActivateAccount,updateFace } from '@/api/emp'
+	updateEmpSubAccount,resetEmpPwd,webActivateAccount,updateFace,getMeetingByPhone,
+	getVisitProxyForEmp,getVisitProxyForProxy,setVisitProxy,SearchRecordsByEmpNo } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
@@ -170,6 +171,33 @@ const user = {
 		getEmpListPages({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        getEmpListPages(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getVisitProxyForEmp({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getVisitProxyForEmp(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getVisitProxyForProxy({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getVisitProxyForProxy(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		setVisitProxy({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        setVisitProxy(info).then(response => {
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)
@@ -404,6 +432,15 @@ const user = {
 		        })
 		    })
 		},
+		getMeetingByPhone({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        getMeetingByPhone(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
 		addEmptemplate({ commit },info) {
 			return new Promise((resolve, reject) => {
 		        addEmptemplate(info).then(response => {
@@ -500,6 +537,15 @@ const user = {
                   		type: 'success'
                 	})
 		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		SearchRecordsByEmpNo({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        SearchRecordsByEmpNo(info).then(response => {
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)

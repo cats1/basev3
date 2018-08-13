@@ -1,15 +1,15 @@
 <template>
-	<el-dialog :title="$t('btn.addVisitorBtn')" :visible.sync="dialogVisible" width="50%" @close="handClose">
+	<el-dialog :title="winTitle" :visible.sync="dialogVisible" width="50%" @close="handClose">
 		<el-form :model="proform" :rules="rules" ref="proform" label-width="100px" class="demo-ruleForm" >
 			<el-form-item >
 			    <upload-user-photo :photourl="proform.avatar" @sendkit="getUserPhoto"></upload-user-photo>
-                <reg-photo :rform="proform" v-show="editType !== 0"></reg-photo>
+                <reg-photo :rform="proform" v-show="faceTextShow"></reg-photo>
 			</el-form-item>
 	        <el-form-item :label="$t('form.name.text')" prop="name">
 	          <el-input v-model="proform.name"></el-input>
 	        </el-form-item>
-			<el-form-item :label="$t('gender')" prop="sex">
-		        <el-select v-model="proform.sex" placeholder="请选择">
+			<el-form-item :label="$t('gender')" >
+		        <el-select v-model="proform.sex" :placeholder="$t('mustSelect')">
 		            <el-option
 		              v-for="(item,index) in $t('sex')"
 		              :key="index"
@@ -25,12 +25,12 @@
 	          <el-input v-model="proform.company"></el-input>
 	        </el-form-item>
 	        <el-form-item :label="$t('Projectselect')" prop="pName">
-	          <el-select v-model="proform.pName" placeholder="请选择" @change="getProname">
+	          <el-select v-model="curDefaultRid" :placeholder="$t('mustSelect')" @change="getProname">
 	            <el-option
 	              v-for="item in list"
 	              :key="item.pid"
 	              :label="item.pName"
-	              :value="item.pName">
+	              :value="item.pid">
 	            </el-option>
 	          </el-select>
 	        </el-form-item>
@@ -40,6 +40,9 @@
 	        <el-form-item :label="$t('chargePersonPhone')" prop="phone">
 	          <el-input v-model="proform.phone"></el-input>
 	        </el-form-item>
+          <el-form-item :label="$t('form.idnum.text')" prop="cardid">
+            <el-input v-model="proform.cardid"></el-input>
+          </el-form-item>
 	        <el-form-item :label="$t('workArea')" prop="area">
 	          <el-input v-model="proform.area"></el-input>
 	        </el-form-item>
@@ -92,12 +95,14 @@ export default {
       type: Object,
       default: {}
     },
+    curRid: null,
     pid: null
   },
   data () {
   	return {
   	  dialogVisible: this.isShow,
       bType: 'default',
+      curDefaultRid: this.curRid,
   	  proform: {
   	  	pName: '',
   	  	remark: '',
@@ -112,8 +117,9 @@ export default {
         startDate: '',
         endDate: '',
         job: '',
+        cardid: '',
         department: '',
-        rid: '',
+        pid: '',
   	  	userid: getCache('userid')
   	  },
       dateRange: [],
@@ -127,10 +133,25 @@ export default {
         phone: [
           { required: true, message: this.$t('chargePhoneIsBlank'), trigger: 'blur' }],
         startDate: [
-          { required: true, message: this.$t('dateIsBlank'), trigger: 'blur' }]
+          { required: true, message: this.$t('dateIsBlank'), trigger: 'blur' }],
+        cardid: [
+          { required: true, message: this.$t('cardidIsNotNull'), trigger: 'blur' }]
   	  },
-      list: this.proList
+      list: this.proList,
+      faceTextShow: false
   	}
+  },
+  computed: {
+    winTitle: {
+      get () {
+        if (this.editType === 0) {
+          return this.$t('btn.addVisitorBtn')
+        } else {
+          return this.$t('editVisitor')
+        }
+      },
+      set () {}
+    }
   },
   watch: {
     btnType (val) {
@@ -153,7 +174,18 @@ export default {
       if (this.editType === 1) {
       	this.proform = val
         this.dateRange = [val.startDate,val.endDate]
+        if (val.avatar && val.face !== 0) {
+          this.faceTextShow = true
+        } else {
+          this.faceTextShow = false
+        }
+      } else {
+         this.faceTextShow = false
       }
+    },
+    curRid (val) {
+      this.curDefaultRid = val
+      this.getProname(val)
     }
   },
   mounted () {
@@ -167,12 +199,15 @@ export default {
   	getProname (val) {
   	  let _self = this
   	  let pid
-  	  this.proList.forEach(function(element, index) {
-  	  	if (element.pName === val) {
+      let pName
+  	  this.proList.forEach(function(element, index) {        
+  	  	if (element.pid === val) {
           pid = element.pid
+          pName = element.pName
   	  	}
   	  })
   	  this.proform.pid = pid
+      this.proform.pName = pName
   	},
     doAddVisit () {
       this.$emit('addemp',1)
@@ -191,14 +226,14 @@ export default {
             if (this.editType === 0) {
               this.addResidentVisitor()
             } else {
-              if (this.proform.avatar === '') {
+              /*if (this.proform.avatar === '') {
                 this.$message({
                   type: 'warning',
                   message: this.$t('form.photo.tip')
                 })
-              } else {
+              } else {*/
               	this.updateResidentVisitor()
-              }
+              //}
             }
           } else {
             return false;
@@ -206,11 +241,30 @@ export default {
         })
     },
     addResidentVisitor () {
-      this.$store.dispatch('addResidentVisitor',this.proform).then(res => {
+      let nform = {
+        pName: this.proform.pName,
+        remark: this.proform.remark,
+        avatar: this.proform.avatar,
+        company: this.proform.company,
+        name: this.proform.name,
+        age: this.proform.age,
+        sex: this.proform.sex,
+        leader: this.proform.leader,
+        phone: this.proform.phone,
+        area: this.proform.area,
+        startDate: this.proform.startDate,
+        endDate: this.proform.endDate,
+        job: this.proform.job,
+        cardid: this.proform.cardid,
+        department: this.proform.department,
+        pid: this.proform.pid,
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('addResidentVisitor', nform).then(res => {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
-          this.$emit('sendav',this.pid)
+          this.$emit('sendav',this.editType,this.proform)
           this.dateRange = []
           this.$refs.proform.resetFields()
           this.$refs.proform.clearValidate()
@@ -222,7 +276,7 @@ export default {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
-          this.$emit('sendav',this.pid)
+          this.$emit('sendav',this.editType,this.proform)
           this.dateRange = []
           this.$refs.proform.resetFields()
           this.$refs.proform.clearValidate()
@@ -230,7 +284,7 @@ export default {
       })
     },
     handClose () {
-      this.$emit('sendav',this.pid)
+      this.$emit('sendav',this.editType,this.proform)
       this.dateRange = []
       this.$refs.proform.resetFields()
       this.$refs.proform.clearValidate()

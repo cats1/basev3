@@ -1,14 +1,16 @@
 import { getCache } from './auth'
-import {getLanguage} from '@/utils/i18n'
+import { getLanguage } from '@/utils/i18n'
 import i18n from '@/lang'
 const statusMessages = i18n.messages[i18n.locale].status
 let Base64 = require('js-base64').Base64
-
+const LocationHost = window.location.host
+const LocationProtocol = window.location.protocol
+const IpReg = LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.63') > -1
+let baseURL = process.env.BASE_API
+let baseLink = process.env.BASE_LINK
+let stageUrl = ''
 export function getBaseUrl() {
-  const LocationHost = window.location.host
-  const LocationProtocol = window.location.protocol
-  var baseURL = process.env.BASE_API
-  if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.55') > -1) {
+  if (IpReg) {
     baseURL = process.env.BASE_API
   } else {
     if (process.env.BASE_ISTRUE) {
@@ -20,18 +22,23 @@ export function getBaseUrl() {
   return baseURL
 }
 export function getBaseLink() {
-  const LocationHost = window.location.host
-  const LocationProtocol = window.location.protocol
-  var baseURL = process.env.BASE_LINK
-  if (LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.55') > -1) {
-    baseURL = process.env.BASE_LINK
+  if (IpReg) {
+    baseLink = process.env.BASE_LINK
   } else {
     let url = window.location.href
     let hurl = url.split('.html')[0]
-    let durl = hurl.substring(0,hurl.lastIndexOf("/"))
-    baseURL = durl
+    let durl = hurl.substring(0, hurl.lastIndexOf("/"))
+    baseLink = durl
   }
-  return baseURL
+  return baseLink
+}
+export function getBaseStageLink() {
+  if (IpReg) {
+    stageUrl = 'http://' + process.env.HOST + '/stage/index.html?idcard=0&photo=0'
+  } else {
+    stageUrl = LocationProtocol + '//' + LocationHost + '/stage/index.html?idcard=0&photo=0'
+  }
+  return stageUrl
 }
 /* 密码加密*/
 export function lftPwdRule(str, num1, num2) {
@@ -62,6 +69,10 @@ export function randomString(len) {
   }　　
   return pwd;
 }
+export function downloadPDF(item) {
+  var links = getBaseLink() + '/pdf/' + judgeDate(item.visitdate, 1) + '_' + item.vid + '.pdf'
+  window.open(links)
+}
 //加密
 export function codeEnBase(str) {
   const enstr = Base64.encode(str)
@@ -71,6 +82,26 @@ export function codeEnBase(str) {
 export function codeDeBase(str) { //解密
   const destr = Base64.decode(str)
   return destr
+}
+
+function judgeDate(times, type) {
+  if (times) {
+    var now = new Date(times);
+    var year = now.getFullYear();
+    var month = (now.getMonth() + 1) < 10 ? '0' + (now.getMonth() + 1) : (now.getMonth() + 1);
+    var date = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
+    var hour = now.getHours() < 10 ? '0' + now.getHours() : now.getHours();
+    var minutes = now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes();
+    var seconds = now.getSeconds() < 10 ? '0' + now.getSeconds() : now.getSeconds();
+    if (type == 0) {
+      return year + "/" + month + "/" + date + " " + hour + ":" + minutes + ":" + seconds
+    } else if (type == 1) {
+      return year + "-" + month + "-" + date
+    }
+
+  } else {
+    return ''
+  }
 }
 //
 export function booleanToNumber(boo) {
@@ -88,7 +119,11 @@ export function valueToString(value) {
   }
 }
 export function replaceQuotation(value) {
-  return value.replace(/\"/g, '\\\"');
+  if (value) {
+    return value.replace(/\"/g, '\\\"')
+  } else {
+    return ''
+  }
 }
 export function checkIsNull(str) {
   if (str == null || str == 'null' || str == undefined || str == "") {
@@ -98,7 +133,224 @@ export function checkIsNull(str) {
   }
 }
 export function replaceRemoveQuotation(value) {
-  return value.replace(/\\\"/g, '"');
+  if (value) {
+    return value.replace(/\\\"/g, '"')
+  } else {
+    return ''
+  }
+}
+export function replaceRemoveReserveQuotation(value) {
+  return value.replace(/\\/g, '');
+}
+
+function splitArray1(string) {
+  var vkeywords = /\,|\=/;
+  if (string) {
+    return string.split(vkeywords)
+  } else {
+    return []
+  }
+}
+
+function judgeModel(array) {
+  var modalText = 0; //0未添加自定义拜访模式1添加自定义拜访模式2团队拜访
+  var index = 0;
+  var modalArray = [];
+  if (array.length > 0 && array.length <= 8) {
+    for (var i = 0; i < array.length; i++) {
+      var pcount = array[i].replace(/^\s+/g, '');
+      if (pcount == 'peopleCount') {
+        modalText = 2;
+        modalArray[0] = modalText;
+        index = i + 1;
+        modalArray[1] = index;
+      } else {
+        modalArray[0] = modalText;
+      }
+    }
+  } else if (array.length > 8) {
+    modalText = 1;
+    modalArray[0] = modalText;
+  }
+  return modalArray
+}
+export function getVStatus(item) {
+  //扩展字段
+  var extendCol = '';
+  if (item.extendCol != null) {
+    extendCol = splitArray1(item.extendCol);
+  } else {
+    extendCol = splitArray1("");
+  }
+  //signinType ：1邀请访客2预约访客3常驻访客
+  //0未添加自定义拜访模式1添加自定义拜访模式2团队拜访
+  var modaltype = judgeModel(extendCol);
+  var itemRemark;
+  if (item.remark != undefined || item.remark != null) {
+    var remark = item.remark;
+    remark = remark.split('\n');
+    itemRemark = remark[remark.length - 1];
+    if (itemRemark == undefined || itemRemark == null) {
+      itemRemark = "";
+    }
+  } else {
+    itemRemark = "";
+  }
+  var permission = item.permission;
+  const signStatus = i18n.messages[i18n.locale].signStatus
+  var signText = signStatus[2],
+    signClass = 'ordered',
+    signColor = '#ef4f1f';
+  if (parseInt(item.signinType) == 1) { //signinType = 1邀请访客
+    var time_rec = new Date(item.visitdate); //签到时间
+    var time_out = new Date(item.signOutDate); //签出时间
+    var tiem_appoint = new Date(item.appointmentDate); //预约时间
+    var sendStatusValue = item.status;
+    if (sendStatusValue == 0) {
+      signText = signStatus[4],
+        signClass = 'send',
+        signColor = '#35b22b';
+    } else if (sendStatusValue == 1) {
+      signText = signStatus[0],
+        signClass = 'signin',
+        signColor = '#35b22b';
+    } else if (sendStatusValue == 2) {
+      signText = signStatus[5],
+        signClass = 'checked',
+        signColor = '#996b33';
+    } else if (sendStatusValue == 3) {
+      signText = signStatus[6],
+        signClass = 'accept',
+        signColor = '#2c9ffd';
+    } else if (sendStatusValue == 4) {
+      signText = signStatus[7],
+        signClass = 'refused',
+        signColor = '#da231c';
+    }
+    if (item.visitdate && !item.signOutDate && item.appointmentDate) {
+      signText = signStatus[0],
+        signClass = 'signin',
+        signColor = '#35b22b';
+    } else if ((item.signOutDate && item.visitdate && item.appointmentDate) || (item.signOutDate)) {
+      signText = signStatus[1],
+        signClass = 'signout',
+        signColor = '#2c9ffd';
+    }
+
+  } else if (parseInt(item.signinType) == 2) { //signinType = 2预约访客
+    var time_rec = new Date(item.visitdate); //签到时间
+    var time_out = new Date(item.signOutDate); //签出时间
+    var tiem_appoint = new Date(item.appointmentDate); //预约时间
+    if (item.signOutDate) {
+      signText = signStatus[1],
+        signClass = 'signout',
+        signColor = '#2c9ffd';
+    } else {
+      if (item.appointmentDate && item.visitdate) {
+        signText = signStatus[1],
+          signClass = 'signin',
+          signColor = '#35b22b';
+      } else if (item.appointmentDate && item.visitdate && item.signOutDate) {
+        signText = statusMessages.signStatus[1],
+          signClass = 'signout',
+          signColor = '#2c9ffd';
+      } else {
+        if (item.appointmentDate && !item.visitdate) {
+          if (permission == 0) { //
+            signText = signStatus[9],
+              signClass = 'unauthored',
+              signColor = '#e36200';
+          } else if (permission == 1) { //
+            signText = signStatus[8],
+              signClass = 'authored',
+              signColor = '#e7b000';
+          } else if (permission == 2) {
+            signText = signStatus[7],
+              signClass = 'refused',
+              signColor = '#da231c';
+          } else {
+            signText = signStatus[2],
+              signClass = 'ordered',
+              signColor = '#ef4f1f';
+          }
+
+        } else {
+          signText = signStatus[0],
+            signClass = 'signin',
+            signColor = '#35b22b';
+        }
+      }
+    }
+  } else if (parseInt(item.signinType) == 3) { //signinType = 3常驻访客
+    var time_rec = new Date(item.visitdate); //签到时间
+    var time_out = new Date(item.signOutDate); //签出时间
+    var tiem_appoint = new Date(item.appointmentDate); //预约时间
+    if ((item.signOutDate && item.visitdate && item.appointmentDate) || (item.signOutDate)) {
+      signText = signStatus[1],
+        signClass = 'signout',
+        signColor = '#2c9ffd';
+    } else if (!item.signOutDate && item.visitdate) {
+      signText = signStatus[0],
+        signClass = 'signin',
+        signColor = '#35b22b';
+    }
+
+  } else if (parseInt(item.signinType) == 0) { //signinType = 0 普通签到访客
+    var time_rec = new Date(item.visitdate); //签到时间
+    var time_out = new Date(item.signOutDate); //签出时间
+    var tiem_appoint = new Date(item.appointmentDate); //预约时间
+    if ((item.signOutDate && item.visitdate && item.appointmentDate) || (item.signOutDate)) {
+      signText = signStatus[1],
+        signClass = 'signout',
+        signColor = '#2c9ffd';
+    } else if (item.visitdate && !item.signOutDate) {
+      signText = signStatus[0],
+        signClass = 'signin',
+        signColor = '#35b22b';
+    } else if (!item.visitdate && !item.signOutDate) {
+      signText = signStatus[2],
+        signClass = 'ordered',
+        signColor = '#ef4f1f';
+    }
+  }
+  if (item.appointmentDate && !item.visitdate && !item.signOutDate) {
+    var timeFlag = compareTime(new Date(item.appointmentDate), new Date());
+    if (timeFlag) {
+      signText = signStatus[3],
+        signClass = 'outdate',
+        signColor = '#996b33';
+    }
+  }
+  var obj = {
+    'text': signText,
+    'color': signColor,
+    'class': signClass
+  }
+  return obj
+}
+
+function compareTime(time1, time2) {
+  var time1 = new Date(time1);
+  var date1 = time1.getFullYear() + '-' + (time1.getMonth() + 1) + '-' + time1.getDate();
+  var time2 = new Date(time2);
+  var date2 = time2.getFullYear() + '-' + (time2.getMonth() + 1) + '-' + time2.getDate();
+  var compDate1 = new Date(Date.parse(date1.replace(/-/g, "/")));
+  var compDate2 = new Date(Date.parse(date2.replace(/-/g, "/")));
+  var t = (compDate1.getTime() - compDate2.getTime()) / 1000;
+  if (parseInt(t / (24 * 60 * 60)) < 0) {
+    return true
+  } else if (parseInt(t / (24 * 60 * 60)) > 0) {
+    return false
+  } else {
+    return false
+  }
+}
+/* 获取链接中某一字符串赋值 */
+export function getParameter(name) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) return unescape(r[2]);
+  return null;
 }
 export function groupStatusText(value) {
   switch (value) {
@@ -120,12 +372,12 @@ export function stringToArray(value) {
   }
 }
 export function splitArray(string) {
-    var vkeywords = /\,|\=/;
-    if (string) {
-        return string.split(vkeywords)
-    } else {
-        return []
-    }
+  var vkeywords = /\,|\=/;
+  if (string) {
+    return string.split(vkeywords)
+  } else {
+    return []
+  }
 }
 export function arrayToString(value) {
   if (value.length > 0) {
@@ -215,6 +467,66 @@ export function getCRoleBarList(array, name, id, child) {
     list.push(obj)
   })
   return list
+}
+export function getCgBarAllList(array, name, did, count, dp, child) {
+  let list = [{
+    label: getCache('company'),
+    name: getCache('company'),
+    pid: '',
+    pcount: 0,
+    dp: 'root',
+    children: [],
+    id: 0
+  }]
+  let cList = []
+  array.forEach(function(element, index) {
+    let obj = {
+      label: element[name] + '(' + element[count] + ')',
+      name: element[name],
+      pid: element[did],
+      pcount: element[count],
+      dp: element[dp],
+      children: [],
+      id: element[did]
+    }
+    if (parseInt(element[count]) === 0) {
+      obj.label = element[name]
+    }
+    cList.push(obj)
+    if (element[child] && element[child].length > 0) {
+      let citem = getCgBarAllChildList(element[child], name, did, count, dp, child)
+      let newClist = cList.concat(citem)
+      cList = newClist
+    }
+    
+  })
+  let newlist = list.concat(cList)
+      list = newlist
+  return list
+}
+export function getCgBarAllChildList(array, name, did, count, dp, child) {
+  let cList = []
+  array.forEach(function(element, index) {
+    let obj = {
+      label: element[name] + '(' + element[count] + ')',
+      name: element[name],
+      pid: element[did],
+      pcount: element[count],
+      dp: element[dp],
+      children: [],
+      id: element[did]
+    }
+    if (parseInt(element[count]) === 0) {
+      obj.label = element[name]
+    }
+    cList.push(obj)
+    if (element[child] && element[child].length > 0) {
+      let citem = getCgBarAllChildList(element[child], name, did, count, dp, child)
+      let newClist = cList.concat(citem)
+      cList = newClist
+    }
+  })
+  return cList
 }
 export function getCgBarList(array, name, did, count, dp, child) {
   let list = [{
@@ -541,39 +853,39 @@ export function getQueryStringByName(name) {
   return result[1];
 }
 export function getHtmlDocName() {
-    var str = window.location.href;
-    str = str.substring(str.lastIndexOf("/") + 1);
-    if (str.indexOf('?') > -1) {
-      str = str.substring(0, str.lastIndexOf("?"));
-    }
-    str = str.substring(0, str.lastIndexOf("."));
-    return str;
+  var str = window.location.href;
+  str = str.substring(str.lastIndexOf("/") + 1);
+  if (str.indexOf('?') > -1) {
+    str = str.substring(0, str.lastIndexOf("?"));
+  }
+  str = str.substring(0, str.lastIndexOf("."));
+  return str;
 }
 /* 判断拜访 */
 export function judgeModel(array) {
-    var modalText = 0; //0未添加自定义拜访模式1添加自定义拜访模式2团队拜访
-    var index = 0;
-    var modalArray = [];
-    if (array.length > 0 && array.length <= 8) {
-        for (var i = 0; i < array.length; i++) {
-            var pcount = array[i].replace(/^\s+/g, '');
-            if (pcount == 'peopleCount') {
-                modalText = 2;
-                modalArray[0] = modalText;
-                index = i + 1;
-                modalArray[1] = index;
-            } else {
-                modalArray[0] = modalText;
-            }
-        }
-    } else if (array.length > 8) {
-        modalText = 1;
+  var modalText = 0; //0未添加自定义拜访模式1添加自定义拜访模式2团队拜访
+  var index = 0;
+  var modalArray = [];
+  if (array.length > 0 && array.length <= 8) {
+    for (var i = 0; i < array.length; i++) {
+      var pcount = array[i].replace(/^\s+/g, '');
+      if (pcount == 'peopleCount') {
+        modalText = 2;
         modalArray[0] = modalText;
+        index = i + 1;
+        modalArray[1] = index;
+      } else {
+        modalArray[0] = modalText;
+      }
     }
-    return modalArray
+  } else if (array.length > 8) {
+    modalText = 1;
+    modalArray[0] = modalText;
+  }
+  return modalArray
 }
 export function moveBlank(str) {
-    return str.replace(/\s+/g, "");
+  return str.replace(/\s+/g, "");
 }
 export function checkLanguage() {
   var lan = (navigator.browserLanguage || navigator.language).toLowerCase();

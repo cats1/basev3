@@ -76,11 +76,13 @@ export default {
         if (valid) {
           if (this.form.egids === '') {
             this.$message({
+              showClose: true,
               message: '至少选择一组闸机',
               type: 'warning'
             })
           } else if (this.form.logo === '') {
             this.$message({
+              showClose: true,
               message: '请上传头像',
               type: 'warning'
             })

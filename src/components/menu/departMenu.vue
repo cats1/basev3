@@ -20,7 +20,7 @@
             </p>
           </template>
           <template v-else>
-            <p class="lrmenu-item" :class="{'nopointer': checkArray[index]}" @click.once="selectItem(item,index)">
+            <p class="lrmenu-item" :class="{'nopointer': checkArray[index]}" @click="selectItem(item,index)">
               <img :src="logo" alt="">{{item.name}}
             </p>
           </template>
@@ -117,7 +117,6 @@ export default {
     },
   	selectItem (item,index) {
       if (this.checkValue) {
-        console.log(this.checkArray[index])
         if (this.checkArray[index]) {
           if (this.checkNum > 0) {
             let obj = this.rightItem
@@ -136,10 +135,8 @@ export default {
             this.rightItem = obj
           }
         } else {
-          console.log(8888)
           this.removeSelectItem(item)
           //this.rightItem.splice(index,1)
-          console.log(this.rightItem)
           this.$emit('menukit',this.rightItem)
           this.selectItemFalse(item,index)
         }
@@ -216,7 +213,6 @@ export default {
     },
   	removeItem (item,index) {
       this.rightItem.splice(index,1)
-      console.log(this.rightItem)
       this.$emit('menukit',this.rightItem)
       this.selectItemFalse(item,index)
   	}

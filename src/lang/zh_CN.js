@@ -6,6 +6,7 @@ export default {
     role: '角色',
     visitlist: '常驻访客',
     backlist: '黑名单',
+    whitelist: '白名单',
     notice: '通知',
     pad: '前台设置',
     reserve: '预约拜访',
@@ -16,8 +17,61 @@ export default {
     order: '邀请',
     orderList: '邀请列表',
     history: '历史记录',
-    404: '404'
+    404: '404',
+    calendar: '日历'
   },
+  goInTime: '进入时间',
+  goLeaveTime: '离开时间',
+  dataError: '数据异常',
+  dataSuccess: '数据正常',
+  onWorkReason: '加班原因',
+  cardidIsNotNull: '身份证号不能为空',
+  visitSetTime: '访客时间设置',
+  visitSetTimeDesc: '设置访客时间，访客只有在此时间段内可以来访。',
+  visitStartTime: '开始时间',
+  visitEndTime: '结束时间',
+  date: '日期',
+  onWorkday: '加班',
+  agree: '同意',
+  refuse: '拒绝',
+  unresolve: '未审批',
+  CheckAll: '全选',
+  workbayIsNotNull: '办公楼层不能为空',
+  workdayset: '工作日设置',
+  workdaydesc: '工作日、节假日设置',
+  dateSet: '日期设置',
+  setStyle: '类型',
+  workday: '工作日',
+  playday: '休息日',
+  addWhiteBtn: '增加白名单',
+  basicset: '基本设置',
+  editVisitor: '编辑访客',
+  entranceGuard: '门禁卡号',
+  Proxysettings: '代理设置',
+  Proxylist: '代理列表',
+  downloadprotocol: '下载',
+  Signprotocol: '签名协议',
+  vCardType: '访客卡类型',
+  commonText: '普通',
+  customized: '定制',
+  logoTypeText: 'logo类型',
+  logoText: '文字',
+  logoImage: '图像',
+  logoTypePosition: 'logo位置',
+  logoPositionTop: '顶部',
+  logoPositionBom: '底部',
+  logoPositionMid: '中间',
+  isShowAvatar: '是否显示头像',
+  portraitType: '头像类型',
+  userPhoto: '用户图片',
+  fixedPhoto: '固定图片',
+  codePhoto: '二维码',
+  codeText: '二维码文字',
+  customText: '自定义文字',
+  badgeCustom: '定制名称',
+  empAuthor: '员工授权',
+  sendType: '发送类型',
+  sendTypeIsNull: '发送类型不能为空',
   overviewVCard: "访客贴纸预览",
   clickHere: '请点击此处',
   daysRange: '天数范围',
@@ -242,6 +296,16 @@ export default {
       dirname: 'emp',
       link: '/blacklist',
       children: []
+    }, {
+      name: '白名单',
+      dirname: 'emp',
+      link: '/whitelist',
+      children: []
+    }, {
+      name: '加班查询',
+      dirname: 'emp',
+      link: '/overtime',
+      children: []
     }]
   }, {
     name: '通知',
@@ -258,7 +322,7 @@ export default {
       link: '/pad',
       children: []
     }, {
-      name: '预约邀请',
+      name: '基本设置',
       dirname: 'setting',
       link: '/reserve',
       children: []
@@ -381,7 +445,7 @@ export default {
     addBtn: '添加',
     addSelectBtn: '添加选项',
     saveAndBtn: '保存并继续添加',
-    exportBtn: '导出配置',
+    exportBtn: '导出数据',
     export: '导出',
     overview: '预览',
     searchBtn: '搜索',
@@ -503,7 +567,9 @@ export default {
       tip2: '包含非法字符',
       tip3: '姓名不能为空',
       tip4: '请选择会议发起人',
-      tip5: '员工姓名不能为空'
+      tip5: '员工姓名不能为空',
+      tip6: '部门名称不能为空',
+      tip7: '项目名称不能为空'
     },
     validEmpName: {
       holder: '员工姓名'
@@ -748,6 +814,11 @@ export default {
       preExtendTime: '预约时间前:',
       latExtendTime: '预约时间后:'
     },
+    stageouttime: {
+      title: '前台签离时间',
+      desc: '设置前台签出时间',
+      text: '时间:'
+    },
     codetime: {
       title: '二维码有效期',
       desc: '设置邀请函中二维码开门有效时间',
@@ -845,7 +916,7 @@ export default {
       signoutGuard: '签出警卫'
     },
     worktime: {
-      title: '工作时间设置',
+      title: '员工工作时间设置',
       desc: '设置工作时间，以便访客在此时间段内才能开门，并在下班后提醒仍有访客未签出。',
       dialog: {
         title: '时间段设置',
@@ -999,7 +1070,7 @@ export default {
     25: '电话不唯一',
     26: '无效的通道',
     27: '无效的token',
-    28: '尚未登录，请先登录',
+    28: '无效的token',
     29: 'token已过期',
     30: '标签名已存在',
     31: '标签超出限制',
@@ -1045,11 +1116,15 @@ export default {
     70: '设备名称已存在(DeviceName already  Exist)',
     71: '设备标识已存在',
     72: '扩展标识已存在',
+    73: '设备组名已存在',
     74: '添加失败',
     92: '会议进行中，不能取消',
     110: '无效操作',
     119: '验证码无效',
     123: '该部门已存在',
+    201: '验证码错误',
+    223: '该日期不能重复操作',
+    241: '工号不唯一',
     601: '暂无该套餐',
     602: '没有这样的记录',
     603: '无效的记录',
@@ -1060,7 +1135,9 @@ export default {
     608: '暂无该库存',
     617: '无效的发票',
     619: '所选订单中包含正在开票或者已开票的订单',
-    123: '该部门已存在'
+    731: '读头编号已存在',
+    1117: '无效的员工',
+    1119: '该员工不存在'
   },
   homepage: {
     name: '官网首页',

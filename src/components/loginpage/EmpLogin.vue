@@ -95,9 +95,10 @@ export default {
       loading: false,
       passwordType: 'password',
       vcode: '',
-      comShow: true,
+      comShow: process.env.empComShow,
       comlist: [],
-      getCode: false
+      getCode: false,
+      empWorkNoCheck: process.env.empWorkNoCheck
     }
   },
   methods: {
@@ -178,6 +179,14 @@ export default {
               'digest': this.loginForm.digest,
               'vcode': this.loginForm.vcode
             }
+            if (this.empWorkNoCheck) {
+              codeData = {
+                'email': '',
+                'phone': this.loginForm.phone,
+                'digest': this.loginForm.digest,
+                'vcode': this.loginForm.vcode
+              }
+            }
             this.$store.dispatch('isCodeTrue',codeData).then((res) => {
               if (res.status == 0) {
                 this.loading = true
@@ -186,6 +195,15 @@ export default {
                   phone: this.loginForm.phone,
                   empPwd: lftPwdRule(this.loginForm.empPwd,3,5),
                   digest: this.loginForm.digest
+                }
+                if (this.empWorkNoCheck) {
+                  newForm = {
+                    userid: this.loginForm.userid,
+                    phone: this.loginForm.phone,
+                    empNo: this.loginForm.phone,
+                    empPwd: lftPwdRule(this.loginForm.empPwd,3,5),
+                    digest: this.loginForm.digest
+                  }
                 }
                 this.$store.dispatch('empLogin', newForm).then((resp) => {
                     this.loading = false

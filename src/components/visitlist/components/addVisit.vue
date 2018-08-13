@@ -1,7 +1,7 @@
 <template>
 	<div class="btnsection">
 	  <el-button :type="bType" @click="doAddVisit"><i class="fa fa-user-plus"></i>{{$t('btn.addVisitorBtn')}}</el-button>
-    <visit-edit :edit-type="etype" :cur-emp="curEmp" :is-show="dialogVisible" :pro-list="proList" @sendav="getEdit"></visit-edit>
+    <visit-edit :edit-type="etype" :cur-emp="curEmp" :cur-rid="curRid" :is-show="dialogVisible" :pro-list="proList" @sendav="getEdit"></visit-edit>
 	</div>
 </template>
 <script>
@@ -64,7 +64,9 @@ export default {
           { required: true, message: this.$t('dateIsBlank'), trigger: 'blur' }]
   	  },
       list: this.proList,
-      etype: this.editType
+      etype: this.editType,
+      cform: {},
+      curRid: 0
   	}
   },
   watch: {
@@ -88,8 +90,11 @@ export default {
       }
     },
     curEmp (val) {
+      console.log(val)
       this.proform = val
       this.dateRange = [val.startDate,val.endDate]
+      this.$set(this.dateRange,0,val.startDate)
+      this.$set(this.dateRange,1,val.endDate)
     }
   },
   mounted () {
@@ -100,11 +105,13 @@ export default {
     }
   },
   methods: {
-    getEdit () {
-      this.$emit('sendav',1)
+    getEdit (val,data) {
+      this.$emit('sendav',val,data)
       this.dialogVisible = false
     },
     doAddVisit () {
+      console.log(this.proform)
+      this.curRid = this.proform.rid
       this.$emit('addemp',1)
       this.dialogVisible = true
     },
@@ -114,39 +121,6 @@ export default {
     setrange (val) {
       this.proform.startDate = formatDate(new Date(val[0]),'yyyy-MM-dd')
       this.proform.endDate = formatDate(new Date(val[1]),'yyyy-MM-dd')
-    },
-    saveVisit () {
-        this.$refs['proform'].validate((valid) => {
-          if (valid) {
-            if (this.editType === 0) {
-              this.addResidentVisitor()
-            } else {
-              this.updateResidentVisitor()
-            }
-          } else {
-            return false;
-          }
-        })
-    },
-    addResidentVisitor () {
-      this.$store.dispatch('addResidentVisitor',this.proform).then(res => {
-        let {status} = res
-        if (status === 0) {
-          this.dialogVisible = false
-          this.$emit('sendav',1)
-          this.$refs.proform.resetFields()
-        }
-      })
-    },
-    updateResidentVisitor () {//updateResidentVisitor
-      this.$store.dispatch('updateResidentVisitor',this.proform).then(res => {
-        let {status} = res
-        if (status === 0) {
-          this.dialogVisible = false
-          this.$emit('sendav',1)
-          this.$refs.proform.resetFields()
-        }
-      })
     }
   }
 }

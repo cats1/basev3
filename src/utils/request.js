@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
-import {getLanguage} from '@/utils/i18n'
+import { getLanguage } from '@/utils/i18n'
 import store from '@/store'
-import { getCache,clearCookie } from '@/utils/auth'
-import {getBaseUrl} from '@/utils/common'
+import { getCache, clearCookie } from '@/utils/auth'
+import { getBaseUrl } from '@/utils/common'
 require('es6-promise').polyfill()
 var baseURL = getBaseUrl()
 // create an axios instance
@@ -31,10 +31,10 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   response => {
     if (response.status == 200) {
-      let {status,reason} = response.data
+      let { status, reason } = response.data
       if (status == 0) {
         return response.data
-      } else if (status == 28) {
+      } else if (status == 28 || status == 27) {
         const noticeMessages = i18n.messages[getLanguage()].responseNote
         let messages = ''
         if (getLanguage() === 'zh') {
@@ -48,34 +48,37 @@ service.interceptors.response.use(
           message: messages,
           type: 'error',
           duration: 4 * 1000,
-          onClose: function () {
+          onClose: function() {
             clearCookie()
             window.location.href = 'signin.html'
           }
         })
       } else {
-        const noticeMessages = i18n.messages[getLanguage()].responseNote
-        let messages = ''
-        if (getLanguage() === 'zh') {
-          if (noticeMessages[status]) {
-            messages = noticeMessages[status]
+        if (status) {
+          const noticeMessages = i18n.messages[getLanguage()].responseNote
+          let messages = ''
+          if (getLanguage() === 'zh') {
+            if (noticeMessages[status]) {
+              messages = noticeMessages[status]
+            }
+          } else {
+            messages = response.data.reason
           }
-        } else {
-          messages = response.data.reason
+          Message({
+            message: messages,
+            type: 'error',
+            duration: 5 * 1000
+          })
         }
-        Message({
-          message: messages,
-          type: 'error',
-          duration: 5 * 1000
-        })
         //window.location.href = 'signin.html'
         return response.data
-      }      
+      }
     } else {
       console.log(response.status)
     }
   },
   error => {
+    console.log(8888)
     Message({
       message: error.message,
       type: 'error',

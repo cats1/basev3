@@ -18,7 +18,7 @@ import mHeader from './components/mHeader'
 import Tinymce from '@/components/tinymce/tiny'
 import {MapComponent} from '@/components/map'
 import { getCache } from '@/utils/auth'
-import { valueToString,replaceQuotation,replaceRemoveQuotation } from '@/utils/common'
+import { valueToString,replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation } from '@/utils/common'
 export default {
   props: {
     mtype: {
@@ -60,7 +60,8 @@ export default {
       defaultmoban: {},
       vtype: '',
       mapShow: false,
-      getResult: {}
+      getResult: {},
+      isChangeXSS: process.env.isChangeXSS || false,
     }
   },
   computed: {},
@@ -82,6 +83,7 @@ export default {
   methods: {
     init () {
       this.getTempByType(this.vtype)
+      this.getDefaultMoBan(this.vtype)
       this.GetUserInfo()
     },
     setDefaultMoban () {
@@ -209,19 +211,32 @@ export default {
         }
       })
     },
+    htmlUnescape (val,type) {
+      this.$store.dispatch('htmlUnescape',
+        {'inviteContent': val}).then(res => {
+          this[type] = replaceRemoveReserveQuotation(res)
+          //this.inviteContent = replaceRemoveReserveQuotation(res)
+      })
+    },
     showDefault (type) {
         let result = this.getResult
         if (!result) {
           result = this.defaultmoban
         }
-        this.inviteContent = replaceRemoveQuotation(result.inviteContent)
         if (!result.inviteContent) {
           this.setDefaultMoban() 
         }
-        this.traffic = replaceRemoveQuotation(result.traffic)
-        this.companyProfile = replaceRemoveQuotation(result.companyProfile)
+        if (this.isChangeXSS) {
+          this.htmlUnescape(replaceRemoveQuotation(result.inviteContent),'inviteContent')
+          this.htmlUnescape(replaceRemoveQuotation(result.traffic),'traffic')
+          this.htmlUnescape(replaceRemoveQuotation(result.companyProfile),'companyProfile')
+        } else {
+          this.inviteContent = replaceRemoveQuotation(result.inviteContent)
+          this.traffic = replaceRemoveQuotation(result.traffic)
+          this.companyProfile = replaceRemoveQuotation(result.companyProfile)
+        }
         this.pot.latitude = result.latitude
-        this.pot.longitude = result.longitude
+        this.pot.longitude = result.longitude 
         this.address = result.address
       /*if (this.isInit && !this.isshow) {
         console.log(666)

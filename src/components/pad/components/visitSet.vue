@@ -56,7 +56,8 @@ export default {
             addition_arr: ['email', 'vcompany', 'gatein', 'gateout', 'guardin', 'guardout'],
             sort: false,
             insert: require('@/assets/img/input.png'),
-            option: require('@/assets/img/option.png')
+            option: require('@/assets/img/option.png'),
+            g_team_config_arr: []
         }
     },
     created() {
@@ -152,6 +153,7 @@ export default {
                 let { status, result } = res
                 if (status === 0) {
                     this.g_config_arr = []
+                    this.g_team_config_arr = []
                     let g_config_arr = []
                     let local_fieldname_arr = ['name', 'visitType', 'empid', 'phone']
                     let local_add_arr = ['email', 'vcompany', 'gatein', 'gateout', 'guardin', 'guardout']
@@ -193,6 +195,9 @@ export default {
                         } else {
                           form[result[i]['fieldName']] = result[i]
                           g_config_arr.push(conf_item)
+                        }
+                        if (result[i].placeholder !== null && result[i].placeholder !== '') {
+                          this.g_team_config_arr.push(result[i])
                         }
 
                     }
@@ -261,7 +266,8 @@ export default {
             this.saveTeam(req_arr)
         },
         saveTeam(obj) {
-            this.$store.dispatch('addExtendVisitor', obj).then(res => {
+            let allObj = obj.concat(this.g_team_config_arr)
+            this.$store.dispatch('addExtendVisitor', allObj).then(res => {
                 let { status } = res
                 if (status === 0) {
                     this.getExtendVisitor()

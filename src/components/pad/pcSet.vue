@@ -1,8 +1,10 @@
 <template>
   <div >
     <h-title>{{$t('pcSetting')}}</h-title>
-    <door-set class="bgwhite"></door-set>
-    <work-time class="bgwhite"></work-time>
+    <template v-if="doorGate">
+      <door-set class="bgwhite"></door-set>
+    </template>
+    <!-- <work-time class="bgwhite"></work-time> -->
   </div>
 </template>
 <script>
@@ -12,7 +14,9 @@ import {doorSet,workTime} from './components'
 export default {
   name: 'App',
   data () {
-    return {}
+    return {
+      doorGate: process.env.doorGate || false
+    }
   },
   components: { hTitle,doorSet,workTime }
 }

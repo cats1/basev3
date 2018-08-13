@@ -39,3 +39,11 @@ export function getAppointmentByMid(data) {
     data
   })
 }
+//htmlUnescape
+export function htmlUnescape(data) {
+  return request({
+    url: '/htmlUnescape',
+    method: 'post',
+    data
+  })
+}

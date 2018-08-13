@@ -10,9 +10,22 @@
 		    	<el-form-item :label="$t('form.name.text')" prop="name">
 		    	  <el-input v-model="form.name" :placeholder="$t('visitor.vname')"></el-input>
 		    	</el-form-item>
-		    	<el-form-item :label="$t('form.phone.text')" prop="phone">
+		    	<!-- <el-form-item :label="$t('form.phone.text')" prop="phone">
 		    		<el-input v-model="form.phone" :placeholder="$t('visitor.vphone')"></el-input>
-		    	</el-form-item>
+		    	</el-form-item> -->
+          <el-form-item :label="$t('sendType')" prop="sendValue">
+            <el-row class="block">
+              <el-col :span="12">
+                <el-select v-model="stype" >
+                  <el-option key="0" :label="$t('form.phone.text')" :value="0"></el-option>
+                  <el-option key="1" :label="$t('form.email.text')" :value="1"></el-option>
+              </el-select>
+              </el-col>
+              <el-col :span="12">
+                <el-input v-model="form.sendValue" @change="setSendValue"></el-input>
+              </el-col>
+            </el-row>
+          </el-form-item>
 		    	<el-form-item :label="$t('form.time.text6')" prop="appointmentDate">
 		    		<el-date-picker
 				      v-model="form.appointmentDate" style="width:100%"
@@ -62,7 +75,8 @@
 	    	<el-button type="default" @click="previewOrder">{{$t('btn.overview')}}</el-button>
 	    </div>
         <moban-dialog :mobanFlag="mobanFlag" :ptip="$t('moban.tip1')" @closekit="getClose"></moban-dialog>
-        <preview-dialog :obj="form" @closekit="getClose" :mobanFlag="previewFlag"></preview-dialog>
+        <preview-dialog :obj="form" :mobanFlag="previewFlag"></preview-dialog>
+        <!-- <preview-dialog :obj="form" @closekit="getClose" :mobanFlag="previewFlag"></preview-dialog> -->
 	</div>
 </template>
 <script>
@@ -85,21 +99,23 @@ export default {
       	longitude: '',
       	name: '',
       	phone: '',
+        vemail: '',
       	qrcodeConf: '',
       	qrcodeType: '',
       	remark: '',
       	traffic: '',
       	userid: '',
       	vcompany: '',
-      	visitType: ''
+      	visitType: '',
+        sendValue: ''
       },
       rules: {
       	name: [{ required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
-      	phone: [{ required: true, message: this.$t('formCheck.validphone.tip2'), trigger: 'blur' }],
+      	sendValue: [{ required: true, message: this.$t('sendTypeIsNull'), trigger: 'blur' }],
       	appointmentDate: [{ required: true, message: this.$t('formCheck.time.tip1'), trigger: 'blur' }],
       	qrcodeType: [
           { required: true, message: this.$t('form.time.text7')},
-          { type: 'number', message: '只能填写数字'}]
+          { type: 'number', message: 'Number'}]
       },
       timetype: 0,
       visitType: 0,
@@ -107,6 +123,8 @@ export default {
       facemoban: {},
       busmoban: {},
       demoban: {},
+      stype: 0,
+      sendValue: '',
       mobanShow: true,
       mobanFlag: false,
       previewFlag: false,
@@ -130,10 +148,14 @@ export default {
     }
   },
   methods: {
+    setSendValue (val) {
+      console.log(val)
+    },
     setQrcodeType (val) {
       if (this.timetype === 0) {
         if (val > getCache('qrMaxDuration')) {
           this.$message({
+            showClose: true,
             type: 'warning',
             message: this.$t('daysUpTip')
           })
@@ -141,6 +163,7 @@ export default {
       } else {
         if (val > getCache('qrMaxCount')) {
           this.$message({
+            showClose: true,
             type: 'warning',
             message: this.$t('timesUpTip')
           })
@@ -183,39 +206,56 @@ export default {
 		  	  } else {
 		  	  	this.demoban = this.busmoban
 		  	  }
-		  	let date = formatDate(this.form.appointmentDate,'yyyy-MM-dd hh:mm:ss')
-		  	let nform = [{
-		  	  	address: this.demoban.address,
-		      	appointmentDate: new Date(Date.parse(date.replace(/-/g, '/'))),
-		      	companyProfile: replaceQuotation(this.demoban.companyProfile),
-		      	empid: getCache('empid'),
-		      	inviteContent: replaceQuotation(this.demoban.inviteContent),
-		      	latitude: this.demoban.latitude,
-		      	longitude: this.demoban.longitude,
-		      	name: this.form.name,
-		      	phone: this.form.phone,
-		      	qrcodeConf: this.timetype === 0 ? '0' : '1',
-		      	qrcodeType: this.form.qrcodeType,
-		      	remark: this.form.remark,
-		      	traffic: replaceQuotation(this.demoban.traffic),
-		      	userid: getCache('userid'),
-		      	vcompany: this.form.vcompany,
-		      	visitType: this.visitType === 0 ? '面试' : '商务'
-		  	  }]
-          let MaxCount = this.timetype === 0 ? parseInt(getCache('qrMaxDuration')) : parseInt(getCache('qrMaxCount'))
-            if (parseInt(this.form.qrcodeType) > MaxCount) {
+          if (!this.demoban.latitude && !this.demoban.longitude) {
             this.$message({
+              showClose: true,
               type: 'warning',
-              message: this.$t('uptoMax')
+              message: '邀请函暂无模板，请联系管理员设置邀请函模板'
             })
-            return false
           } else {
-            this.$store.dispatch('addAppointment',nform).then(res => {
-              let {status} = res
-              if (status === 0) {
-                this.mobanFlag = true
-              }
-            })
+            if (this.stype === 0) {
+              this.form.phone = this.form.sendValue
+              this.form.vemail = ''
+            } else {
+              this.form.phone = ''
+              this.form.vemail = this.form.sendValue
+            }
+            let date = formatDate(this.form.appointmentDate,'yyyy-MM-dd hh:mm:ss')
+            let nform = [{
+              address: this.demoban.address,
+              appointmentDate: new Date(Date.parse(date.replace(/-/g, '/'))),
+              companyProfile: replaceQuotation(this.demoban.companyProfile),
+              empid: getCache('empid'),
+              inviteContent: replaceQuotation(this.demoban.inviteContent),
+              latitude: this.demoban.latitude,
+              longitude: this.demoban.longitude,
+              name: this.form.name,
+              phone: this.form.phone,
+              vemail: this.form.vemail,
+              qrcodeConf: this.timetype === 0 ? '0' : '1',
+              qrcodeType: this.form.qrcodeType,
+              remark: this.form.remark,
+              traffic: replaceQuotation(this.demoban.traffic),
+              userid: getCache('userid'),
+              vcompany: this.form.vcompany,
+              visitType: this.visitType === 0 ? '面试' : '商务'
+            }]
+            let MaxCount = this.timetype === 0 ? parseInt(getCache('qrMaxDuration')) : parseInt(getCache('qrMaxCount'))
+            if (parseInt(this.form.qrcodeType) > MaxCount) {
+              this.$message({
+                showClose: true,
+                type: 'warning',
+                message: this.$t('uptoMax')
+              })
+              return false
+            } else {
+              this.$store.dispatch('addAppointment',nform).then(res => {
+                let {status} = res
+                if (status === 0) {
+                  this.mobanFlag = true
+                }
+              })
+            }
           }
       	}
       })

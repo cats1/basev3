@@ -17,7 +17,11 @@ import depart from './modules/depart'
 import pad from './modules/pad'
 import role from './modules/role'
 import approve from './modules/approve'
+import calendar from './modules/calendar'
+import white from './modules/white'
+import e from './modules/e'
 import getters from './getters'
+
 Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {
@@ -37,7 +41,10 @@ const store = new Vuex.Store({
     role,
     pad,
     approve,
-    upload
+    e,
+    upload,
+    calendar,
+    white
   },
   getters
 })

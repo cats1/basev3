@@ -164,7 +164,7 @@ export default {
               appointmentDate: val.mdate,
               companyProfile: "",
               empid: val.empid,
-              inviteContent: val.inviteContent,
+              inviteContent: replaceQuotation(val.inviteContent),
               latitude: val.latitude,
               longitude: val.longitude,
               mid: val.mid,
@@ -173,7 +173,9 @@ export default {
               remark: ele.remark,
               traffic: "",
               userid: getCache('userid'),
-              visitType: "会议"
+              visitType: "会议",
+              qrcodeConf: val.qrcodeConf,
+              qrcodeType: val.qrcodeType,
             }
             nform.push(vobj)
           }

@@ -3,7 +3,7 @@ import { UpdateWxConf, updateSMSConf,ivrNotifyConf,updateDDNotify,
   updateQrcodeConf, updateExtendTime,
   updateComeAgain,updateSignOutSwitch,updateFaceScaner,
   updateOffDutyTime,getGate,addGate,updateblackListSwitch,
-  ConfigureEmail,updateTempEditSwitch } from '@/api/notice'
+  ConfigureEmail,updateTempEditSwitch,updateLeaveExpiryTime } from '@/api/notice'
 import {updateSecureProtocol,UpdateDefaultPhoto,UploadPic} from '@/api/pad'
 import { Message } from 'element-ui'
 import { getCache,setCache } from '@/utils/auth'
@@ -215,6 +215,24 @@ const app = {
             if (status === 0) {
                 setCache('preExtendTime',info.preExtendTime)
                 setCache('latExtendTime',info.latExtendTime)
+                let local = this.state.app.language
+                Message({
+                  message: i18n.messages[local]['updateSuccess'],
+                  type: 'success'
+                })
+            }
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+      })
+    },
+    updateLeaveExpiryTime({ commit }, info) {
+      return new Promise((resolve, reject) => {
+          updateLeaveExpiryTime(info).then(response => {
+            let { status , result } = response
+            if (status === 0) {
+                setCache('leaveExpiryTime',info.leaveExpiryTime)
                 let local = this.state.app.language
                 Message({
                   message: i18n.messages[local]['updateSuccess'],

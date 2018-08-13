@@ -20,7 +20,7 @@
 			      <el-radio-button label="com">{{$t('project.com')}}</el-radio-button>
 			    </el-radio-group>
 			    <div class="emptreewrap">
-			    	<el-tree :data="list" :highlight-current="true" node-key="id" :props="defaultProps" :default-expanded-keys="[0]" :default-checked-keys="[1]" @node-click="handleNodeClick"></el-tree>
+			    	<el-tree :data="list" :highlight-current="true" node-key="id" :props="defaultProps" :default-expanded-keys="defaultExpandedKeys"  @node-click="handleNodeClick"></el-tree>
 			    </div>
 	  		</div>
 	  	</el-col>
@@ -85,6 +85,8 @@ export default {
   components: {addPro,addVisit,editPro,movePro,makeVisitCard,deleteVisit,sendAllFace,visitEdit},
   data () {
   	return {
+      defaultExpandedKeys: [0],
+      defaultCheckedKeys: [0],
       dialogVisible: false,
       list: [],
       btnType: 0,
@@ -149,14 +151,15 @@ export default {
     getBtnType (val) {
       this.btnType = val
     },
-    getaddv (val) {
-      this.btnType = 1
+    getaddv (val,data) {
       this.editType = 0
       this.btnType = 1
       this.curEmp = {}
-      /*if (val === this.nform.pid) {
+      console.log(data)
+      if (val !== 0) {
+        this.nform.pid = data.pid
         this.getResidentVisitor()
-      }*/
+      }
     },
     geteditv () {
       this.dform.rids = []
@@ -175,11 +178,13 @@ export default {
   	  	if (status === 0) {
   	  	  this.list = getBarList(result,'pName','pid','pcount','remark')
           this.projectList = result
-  	  	  if (result.length>0) {
+  	  	  /*if (result.length>0) {
             this.nform.pid = result[0].pid
             this.probj = result[0]
-            this.getResidentVisitor()
-  	  	  }
+  	  	  } else {
+            this.nform.pid = ''
+          }*/
+          this.getResidentVisitor()
   	  	}
   	  })
   	},
@@ -193,6 +198,9 @@ export default {
   	  })	
   	},
   	handleNodeClick(data) {
+      console.log(data)
+      this.defaultExpandedKeys = [data.pid]
+      this.defaultCheckedKeys = [data.pid]
       let probj = {
         pName: data.name,
         remark: data.remark,

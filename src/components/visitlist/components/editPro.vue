@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     editPro () {
-      if (this.proform.pid === '') {
+      if (this.proform.pid === '' || !this.proform.pid) {
         this.$message({
           type: 'warning',
           message: this.$t('selectProject')

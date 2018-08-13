@@ -16,7 +16,7 @@
         {{this.$t('loginselect[2]')}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
         </span>
       </template>
-      <template v-else-if="type === 3">
+      <template v-else-if="type === 3 && empLoginShow">
         <span class="el-dropdown-link">
         {{this.$t('loginselect[3]')}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
         </span>
@@ -26,10 +26,16 @@
         {{this.$t('loginselect[4]')}}<i class="el-icon-caret-bottom el-icon--right fa-lg"></i>
         </span>
       </template>
-		  
 		  <el-dropdown-menu slot="dropdown">
 		  	<template v-for="(item,index) in $t('loginselect')">
-		  		<el-dropdown-item :command="index">{{item}}</el-dropdown-item>
+          <template v-if="index === 3">
+            <template v-if="empLoginShow">
+              <el-dropdown-item :command="index" >{{item}}</el-dropdown-item>
+            </template>
+          </template>
+          <template v-else>
+            <el-dropdown-item :command="index" >{{item}}</el-dropdown-item>
+          </template>
 		  	</template>
 		  </el-dropdown-menu>
 		</el-dropdown>
@@ -46,7 +52,8 @@ export default{
   },
   data () {
   	return {
-  	  type: this.ltype
+  	  type: this.ltype,
+      empLoginShow: process.env.empLogin
   	}
   },
   watch: {
