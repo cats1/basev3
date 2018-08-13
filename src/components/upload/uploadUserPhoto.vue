@@ -60,7 +60,7 @@ export default {
           /*$.post("http://www.coolvisit.top/wechat/shjh/Youtu/detectfaceByUrl.php",{photo:result.url},function(data){
             console.log(data)
           });*/
-          if (empWorkNoCheck) {
+          if (_self.empWorkNoCheck) {
             $.ajax({
               url: 'http://www.coolvisit.top/wechat/shjh/Youtu/detectfaceByUrl.php',
               contentType: 'application/json',
