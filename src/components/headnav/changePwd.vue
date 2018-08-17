@@ -107,7 +107,8 @@ export default {
             })
           } else if (this.ptype === 2) {
             let nform = {
-              phone: getCache('phone') || getCache('empPhone'),
+              //phone: getCache('phone') || getCache('empPhone'),
+              empNo: getCache('empNo'),
               empPwd: this.form.password,
               oldEmpPwd: this.form.oldPwd
             }

@@ -1,75 +1,114 @@
 <template>
-	<el-dialog :title="winTitle" :visible.sync="dialogVisible" width="50%" @close="handClose">
+	<el-dialog :title="winTitle" :visible.sync="dialogVisible" width="600px" @close="handClose">
 		<el-form :model="proform" :rules="rules" ref="proform" label-width="100px" class="demo-ruleForm" >
-			<el-form-item >
+			<el-form-item :label="$t('portrait')" class="center" prop="avatar">
 			    <upload-user-photo :photourl="proform.avatar" @sendkit="getUserPhoto"></upload-user-photo>
-                <reg-photo :rform="proform" v-show="faceTextShow"></reg-photo>
+          <template v-if="!empWorkNoCheck">
+            <reg-photo :rform="proform" v-show="faceTextShow"></reg-photo>
+          </template>
 			</el-form-item>
-	        <el-form-item :label="$t('form.name.text')" prop="name">
-	          <el-input v-model="proform.name"></el-input>
-	        </el-form-item>
-			<el-form-item :label="$t('gender')" >
-		        <el-select v-model="proform.sex" :placeholder="$t('mustSelect')">
-		            <el-option
-		              v-for="(item,index) in $t('sex')"
-		              :key="index"
-		              :label="item"
-		              :value="index">
-		            </el-option>
-		        </el-select>
-			</el-form-item>
-	        <el-form-item :label="$t('age')" prop="age">
-	          <el-input v-model="proform.age"></el-input>
-	        </el-form-item>
-	        <el-form-item :label="$t('form.company.text')" prop="company">
-	          <el-input v-model="proform.company"></el-input>
-	        </el-form-item>
-	        <el-form-item :label="$t('Projectselect')" prop="pName">
-	          <el-select v-model="curDefaultRid" :placeholder="$t('mustSelect')" @change="getProname">
-	            <el-option
-	              v-for="item in list"
-	              :key="item.pid"
-	              :label="item.pName"
-	              :value="item.pid">
-	            </el-option>
-	          </el-select>
-	        </el-form-item>
-	        <el-form-item :label="$t('chargePerson')" prop="leader">
-	          <el-input v-model="proform.leader"></el-input>
-	        </el-form-item>
-	        <el-form-item :label="$t('chargePersonPhone')" prop="phone">
-	          <el-input v-model="proform.phone"></el-input>
-	        </el-form-item>
-          <el-form-item :label="$t('form.idnum.text')" prop="cardid">
-            <el-input v-model="proform.cardid"></el-input>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item :label="$t('form.name.text')" prop="name">
+            <el-input v-model="proform.name"></el-input>
           </el-form-item>
-	        <el-form-item :label="$t('workArea')" prop="area">
-	          <el-input v-model="proform.area"></el-input>
-	        </el-form-item>
-	        <el-form-item :label="$t('workcontent')" prop="job">
-	          <el-input v-model="proform.job"></el-input>
-	        </el-form-item>
-	        <el-form-item :label="$t('busdepartment')" prop="department">
-	          <el-input v-model="proform.department"></el-input>
-	        </el-form-item>
-	        <el-form-item :label="$t('form.time.text4')" prop="startDate">
-	          <el-date-picker
-	            v-model="dateRange"
-	            type="daterange"
-	            range-separator="-"
-	            :start-placeholder="$t('startTime')"
-	            :end-placeholder="$t('endTime')" @change="setrange">
-	          </el-date-picker>
-	        </el-form-item>
-	        <el-form-item :label="$t('form.remark.text')" prop="remark">
-	          <el-input v-model="proform.remark"></el-input>
-	        </el-form-item>
-        </el-form>
-		  <span slot="footer" class="dialog-footer">
-		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
-		    <el-button type="primary" @click="saveVisit">{{$t('btn.confirmBtn')}}</el-button>
-		  </span>
-	  </el-dialog>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('form.idnum.text')" prop="cardid">
+            <el-input v-model="proform.cardid" :readonly="empnoread"></el-input>
+          </el-form-item>
+        </el-col>        
+      </el-row>
+			<el-row>  
+        <el-col :span="12">
+          <el-form-item :label="$t('Projectselect')" prop="curDefaultRid">
+            <el-select v-model="curDefaultRid" :placeholder="$t('mustSelect')" @change="getProname">
+              <el-option
+                v-for="item in list"
+                :key="item.pid"
+                :label="item.pName"
+                :value="item.pid">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('chargePerson')" prop="leader">
+            <el-input v-model="proform.leader"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+	    <el-row>
+        <el-col :span="12">
+          <el-form-item :label="$t('chargePersonPhone')" prop="phone">
+            <el-input v-model="proform.phone"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('form.company.text')" prop="company">
+            <el-input v-model="proform.company"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item :label="$t('gender')" >
+            <el-select v-model="proform.sex" :placeholder="$t('mustSelect')">
+                <el-option
+                  v-for="(item,index) in $t('sex')"
+                  :key="index"
+                  :label="item"
+                  :value="index">
+                </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('age')" prop="age">
+            <el-input v-model="proform.age"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>   
+	    <el-row>
+        <el-col :span="12">
+          <el-form-item :label="$t('workArea')" prop="area">
+            <el-input v-model="proform.area"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('workcontent')" prop="job">
+            <el-input v-model="proform.job"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>    
+	    <el-row>
+        <el-col :span="12">
+          <el-form-item :label="$t('busdepartment')" prop="department">
+            <el-input v-model="proform.department"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          
+        </el-col>
+      </el-row>    
+        <el-form-item :label="$t('form.time.text4')" prop="startDate">
+            <el-date-picker
+              v-model="dateRange"
+              type="daterange"
+              range-separator="-"
+              :start-placeholder="$t('startTime')"
+              :end-placeholder="$t('endTime')" @change="setrange">
+            </el-date-picker>
+        </el-form-item>    
+	      <el-form-item :label="$t('form.remark.text')" prop="remark">
+	       <el-input v-model="proform.remark"></el-input>
+	      </el-form-item>
+    </el-form>
+		<span slot="footer" class="dialog-footer">
+		  <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
+		  <el-button type="primary" @click="saveVisit">{{$t('btn.confirmBtn')}}</el-button>
+		</span>
+	</el-dialog>
 </template>
 <script>
 import {uploadUserPhoto} from '@/components/upload'
@@ -103,6 +142,7 @@ export default {
   	  dialogVisible: this.isShow,
       bType: 'default',
       curDefaultRid: this.curRid,
+      empnoread: false,
   	  proform: {
   	  	pName: '',
   	  	remark: '',
@@ -124,6 +164,8 @@ export default {
   	  },
       dateRange: [],
   	  rules: {
+        avatar: [
+          { required: true, message: this.$t('form.photo.tip'), trigger: 'blur' }],
   	  	name: [
   	  	  { required: true, message: this.$t('pronameIsBlank'), trigger: 'blur' }],
         company: [
@@ -135,10 +177,14 @@ export default {
         startDate: [
           { required: true, message: this.$t('dateIsBlank'), trigger: 'blur' }],
         cardid: [
-          { required: true, message: this.$t('cardidIsNotNull'), trigger: 'blur' }]
+          { required: true, message: this.$t('cardidIsNotNull'), trigger: 'blur' }],
+        curDefaultRid: [
+          { required: true, message: this.$t('selectProject'), trigger: 'blur' }]
   	  },
       list: this.proList,
-      faceTextShow: false
+      faceTextShow: false,
+      empPhoneCheck: process.env.empPhoneCheck,
+      empWorkNoCheck: process.env.empWorkNoCheck,
   	}
   },
   computed: {
@@ -179,8 +225,10 @@ export default {
         } else {
           this.faceTextShow = false
         }
+        this.empnoread = true
       } else {
-         this.faceTextShow = false
+        this.faceTextShow = false
+        this.empnoread = false
       }
     },
     curRid (val) {
@@ -215,6 +263,19 @@ export default {
     },
     getUserPhoto (url) {
       this.proform.avatar = url
+      this.regPhoto()
+    },
+    regPhoto () {
+      let nform = {
+        userid: getCache('userid'),
+        rids: [this.proform.rid]
+      }
+      this.$store.dispatch('updateResidentFace',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.proform.face = 0
+        } else {}
+      })
     },
     setrange (val) {
       this.proform.startDate = formatDate(new Date(val[0]),'yyyy-MM-dd')

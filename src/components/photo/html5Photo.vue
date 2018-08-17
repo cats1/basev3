@@ -1,31 +1,35 @@
 <template>
   <div class="html5photo" id="contentHolder" >
-        <video id="video" width="320" height="320" autoplay></video>
-        <button id="picture" class="btn blue-button1" style="display:block;margin: 10px auto;">拍照</button>
-        <canvas style="display:block;margin: 10px auto;" id="canvas" width="320" height="320"></canvas>
-        <button id="sc" class="btn blue-button1" style="display:block;margin: 10px auto;">确定</button>
+      <video id="video" width="320" height="320" autoplay></video>
+      <el-button type="primary" id="picture" class="btn blue-button1" style="display:block;margin: 10px auto;">拍照</el-button>
+      <canvas style="display:block;margin: 10px auto;" id="canvas" width="320" height="320"></canvas>
+      <el-button type="success" id="sc" class="btn blue-button1" style="display:block;margin: 10px auto;">确定</el-button>
     </div>
 </template>
 <script>
+import { UploadBase64Common } from '@/utils/upload'
 export default {
   data () {
-    return {}
+    return {
+     mediaStreamTrack: null 
+    }
   },
   mounted () {
     this.init()
   },
   methods: {
     init () {
-      var mediaStreamTrack;
+      let _self = this
+      var mediaStreamTrack
+      this.mediaStreamTrack = mediaStreamTrack
       navigator.getUserMedia = navigator.getUserMedia ||
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia;
       if (navigator.getUserMedia) {
         navigator.getUserMedia({ audio: true, video: { width: 320, height: 320 } },
             function(stream) {
-                mediaStreamTrack = typeof stream.stop === 'function' ? stream : stream.getTracks()[1];
+                _self.mediaStreamTrack = typeof stream.stop === 'function' ? stream : stream.getTracks()[1];
                 video.src = (window.URL || window.webkitURL).createObjectURL(stream);
-                console.log(video)
                 video.play();
                 /*  var video = document.getElementById("video");
                  video.src = window.URL.createObjectURL(stream);
@@ -52,9 +56,19 @@ export default {
         var imgData = document.getElementById("canvas").toDataURL("image/png");
         //var mmmd = getBase64Image(document.getElementById("mmm"));
         var data = imgData.substr(22);
-        //console.log(mmmd)
+        //console.log(mmmd)        
+        UploadBase64Common(data, function(data) {
+            _self.$emit('uploaddata',data)
+            _self.mediaStreamTrack && _self.mediaStreamTrack.stop();
+        })
     });
     }
+  },
+  beforeDestroy () {
+    this.mediaStreamTrack && this.mediaStreamTrack.stop();
+  },
+  destroyed () {
+
   }
 }
 </script>

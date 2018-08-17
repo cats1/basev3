@@ -1,36 +1,47 @@
 <template>
 	<div class="boxshadow bgwhite paddinglr30 paddingtb20 marginbom20">
-		<el-form :model="form" ref="sform" label-width="50px" style="width:30%">
-			<el-form-item :label="$t('form.name.text')">
-				<el-input v-model="form.empName"></el-input>
-			</el-form-item>
-			<el-form-item :label="$t('form.position.text1')">
-				<el-input v-model="form.empNo"></el-input>
-			</el-form-item>
+		<el-form :model="form" ref="sform" label-width="50px" style="width:100%">
+      <el-row>
+        <el-col :span="4">
+          <el-form-item :label="$t('form.name.text')">
+            <el-input v-model="form.empName"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item :label="$t('form.position.text1')">
+            <el-input v-model="form.empNo"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item :label="$t('date')">
+            <el-date-picker
+                    v-model="dateRange"
+                    type="daterange"
+                    range-separator="-" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
+                    :start-placeholder="$t('vtime[0]')"
+                    :end-placeholder="$t('vtime[1]')" @change="getDate">
+                    </el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+			
+			
 			<el-form-item :label="$t('status.text')">
-			    <el-checkbox-group v-model="form.slist" @change="getStatus">
+			    <el-checkbox-group v-model="form.slist" @change="getStatus" :min="1">
 			      <el-checkbox :label="0" :key="0">{{$t('unresolve')}}</el-checkbox>
 			      <el-checkbox :label="1" :key="1">{{$t('agree')}}</el-checkbox>
 			      <el-checkbox :label="2" :key="2">{{$t('refuse')}}</el-checkbox>
 			    </el-checkbox-group>
 			</el-form-item>
-			<el-form-item :label="$t('date')">
-				<el-date-picker
-                v-model="dateRange"
-                type="daterange"
-                range-separator="-" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-                :start-placeholder="$t('vtime[0]')"
-                :end-placeholder="$t('vtime[1]')" @change="getDate">
-                </el-date-picker>
-			</el-form-item>
+			
 			<el-form-item>
 				<el-button type="primary" @click="doSearch">{{$t('btn.searchBtn')}}</el-button>
 			</el-form-item>
 		</el-form>
 		<el-table :data="list" border @row-click="showEmp">
-	  		<el-table-column prop="empName" :label="$t('form.name.text')"></el-table-column>
-	  		<el-table-column prop="empNo" :label="$t('form.position.text1')"></el-table-column>
-	  		<el-table-column prop="status" :label="$t('status.text')">
+	  		<el-table-column prop="empName" width="100" :label="$t('form.name.text')"></el-table-column>
+	  		<el-table-column prop="empNo" width="100" :label="$t('form.position.text1')"></el-table-column>
+	  		<el-table-column prop="status" width="100" :label="$t('status.text')">
 	  			<template slot-scope="scope">
 	  				<span v-if="scope.row.status == 0">{{$t('unresolve')}}</span>
 	  				<span v-else-if="scope.row.status == 1">{{$t('agree')}}</span>
@@ -54,14 +65,14 @@
 		      :total="total">
 		    </el-pagination>
 	  	</div>
-	  	<add-emp :btn-show="false" :parent="parent" :btn-type="btnType" :edit-type="editType" :cur-emp="selectCurEmp" :dlist="dlist" :onwork="true" :dialog-show="dialogShow" @updateempkit="getUpdatekit"></add-emp>
+	  	<emp-new-detail :btn-show="false" :parent="parent" :btn-type="btnType" :edit-type="editType" :cur-emp="selectCurEmp" :dlist="dlist" :onwork="true" :dialog-show="dialogShow" @updateempkit="getUpdatekit"></emp-new-detail>
 	</div>
 </template>
 <script>
-import {addEmp} from '@/components/emplist/components'
+import {empNewDetail} from '@/components/emplist/components'
 import {getCache} from '@/utils/auth'
 export default {
-	components: {addEmp},
+	components: {empNewDetail},
   data () {
   	return {
   	  checkAll: false,

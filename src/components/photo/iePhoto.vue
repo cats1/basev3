@@ -1,52 +1,61 @@
 <template>
-	<div id="cameraPanel" style="display:block">
-        
+	<div class="iephotowrap" style="">
+        <el-row>
+            <iframe :src="photoUrl" :interface="interface" :token="itoken" scrolling="no" frameborder="0" id="ieframe" ></iframe>
+        </el-row>
     </div>
 </template>
 <script>
+import $ from 'jquery'
+import {getCache} from '@/utils/auth'
+import { getBaseLink,getBaseUrl } from '@/utils/common'
 export default {
     name: 'App',
     data () {
         return {
-            photoswf: 'http://www.coolvisit.top/jh/MyCamera.swf'
+          photoUrl: getBaseLink() + '/photo/photo2.html',
+          itoken: getCache('token'),
+          interface: getBaseUrl()
         }
+    },
+    computed: {
+        takephotourl: {
+            get () {
+              return $("#ieframe").attr('src')
+            },
+            set () {}
+        }
+    },
+    watch: {
+      takephotourl (val) {
+        this.$emit('uploaddata',val)
+      }
     },
     mounted () {
     	this.init()
     },
     methods: {
         init () {
-          let flash = document.createElement("embed");
-			flash.setAttribute("src", 'http://www.coolvisit.top/jh/MyCamera.swf');
-			flash.setAttribute("style", "z-index:100");
-			flash.setAttribute("pluginspage", "http://www.macromedia.com/go/getflashplayer");
-			flash.setAttribute("quality", "high");
-			flash.setAttribute("allowscriptaccess", "sameDomain");
-			flash.setAttribute("wmode", "transparent");
-			flash.setAttribute("type", "application/x-shockwave-flash");
-			flash.setAttribute("id", "camera");
-			flash.setAttribute("align", "middle");
-			flash.setAttribute("name", "My_Cam");
-
-		    document.getElementById("cameraPanel").appendChild(flash);
+            let _self = this
+            document.getElementById('ieframe').onload = function(){
+               _self.test()
+            }
+        },
+        test () {
+            console.log(888)
         }
     }
 }
 </script>
 <style lang="scss" scoped>
 /* CSS */
-.borderstyle {
+.iephotowrap {
     border: 1px solid #b6b6b6;
-    width: 320px;
-    height: 240px;
-}
-#camera {
-    float: left;
-    margin:10px;
-}
-#canvas {
-    width: 320px;
-    height: 240px;
-    margin:10px;
+    width: 100%;
+    height: 600px;
+    iframe {
+      width: 100%;
+      height: 600px;
+    }
 }
 </style>

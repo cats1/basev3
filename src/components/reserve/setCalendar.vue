@@ -29,6 +29,7 @@
           		<el-input
       					type="textarea"
       					:rows="2"
+                :maxlength="18"
       					:placeholder="$t('formCheck.remark.tip1')"
       					v-model="form.remark">
       				</el-input>

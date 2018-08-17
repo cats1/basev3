@@ -238,3 +238,49 @@ export function UploadAB(file, callback) {
     xhr.send(form)
   }
 }
+function convertBase64UrlToBlob(urlData) {
+    //去掉url的头，并转换为byte
+    var bytes = window.atob(urlData.split(',')[1]);
+    //处理异常,将ascii码小于0的转换为大于0
+    var ab = new ArrayBuffer(bytes.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i);
+    }
+    return new Blob([ab], {
+        type: 'image/jpeg'
+    });
+}
+export function UploadBase64Common (base64Codes, callback) {
+  var form = new FormData();
+  var photo = "data:image/png;base64," + base64Codes;
+  var file = convertBase64UrlToBlob(photo);
+  var responseJSON;
+  var resultLength;
+  form.enctype = "multipart/form-data";
+  form.append('action', 'upload');
+  form.append('filename', file, "upload.jpg");
+  var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        if (xhr.status == 200) {
+            responseJSON = $.parseJSON(xhr.responseText);
+            if (responseJSON.status == 0) {
+                let result = responseJSON.result
+                Message({
+                  message: i18n.messages[getLanguage()].uploadFileSuccess,
+                  type: 'success'
+                })
+                callback && callback(result);
+            } else {
+                Message({
+                  message: i18n.messages[getLanguage()].uploadFileError,
+                  type: 'error'
+                })
+                return;
+            }
+        }
+    };
+    xhr.open('post', getBaseUrl() + "/Upload", true);
+    xhr.setRequestHeader("X-COOLVISIT-TOKEN", getCache("token"));
+    xhr.send(form);
+}

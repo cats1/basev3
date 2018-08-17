@@ -20,7 +20,7 @@ export default {
   data () {
   	return {
   	  switchOn: numberToBoolean(getCache('permissionSwitch')),
-      imgSrc: require('@/assets/img/stime.png'),
+      imgSrc: require('@/assets/img/clock.png'),
       isShow: false
   	}
   },

@@ -388,6 +388,8 @@ export default {
                 let {status} = res
                 if (status === 0) {
                   this.mobanFlag = true
+                  this.$refs.danform.resetFields()
+                  this.$refs.danform.clearValidate()
                 }
               })
             }

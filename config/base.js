@@ -10,6 +10,8 @@ module.exports = {
   stageLink: true,
   signPdf: false,
   empLogin: true,
+  empPwdShow: true,
+  empActiveShow: true,
   empPhoneCheck: false,
   empWorkNoCheck: true,
   workbayCheck: true,

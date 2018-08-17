@@ -10,7 +10,7 @@
 		<el-col :span="18">
 			<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
 				<template v-for="item in processList">
-					<approve-item :depid="depidDefault" :aitem="item" class="margintop20" @deletekit="deleteArea" @updatekit="updateArea" @savekit="saveArea"></approve-item>
+					<approve-item :depid="depidDefault" :aitem="item" class="margintop20" @deletekit="deleteArea" @updatekit="updateArea" @closekit="closeArea" @savekit="saveArea"></approve-item>
 				</template>
 			</div>
 		</el-col>
@@ -74,6 +74,7 @@ export default {
   	getAdd () {
   	  this.getApproveList()
   	},
+    closeArea () {},
   	deleteArea () {
   	  this.getApproveList()
   	},

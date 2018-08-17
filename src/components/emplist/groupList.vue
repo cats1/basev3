@@ -2,12 +2,13 @@
 	<div>
 	  <div class="boxshadow paddinglr30 paddingtb20 block bgwhite">
       <add-depart :btn-type="btnType" :parent="parent" :dlist="list" @addkit="getAddkit" @clickit="changeRightType"></add-depart>
-      <add-emp :btn-type="btnType" :parent="parent" :edit-type="editType" :cur-emp="curEmp" :dlist="list" @addempkit="getAddkit" @updateempkit="getUpdatekit" @clickit="changeRightType"></add-emp>
+      <add-emp :btn-type="btnType" :parent="parent" :edit-type="editType" :cur-emp="curEmp" :dlist="list" @addempkit="getAddEmpkit" @updateempkit="getUpdatekit" @closeempkit="getClosekit" @clickit="changeRightType"></add-emp>
       <export-address-list @exportkit="changeExport"></export-address-list>
       <edit-depart :parent-node="parentNode" :parent="parent" :dlist="list" @addkit="getAddkit" :emp-list="dataList" @clickit="changeRightType"></edit-depart>
       <move-depart :parent="parent" :dlist="list" :semp="sempArray" @movekit="getmove" @clickit="changeRightType"></move-depart>
-      <template v-if="whiteListShow"></template>
-      <delete-emp :semp="sempArray" @delekit="getDelete" @clickit="changeRightType"></delete-emp>
+      <template v-if="!empWorkNoCheck">
+        <delete-emp :semp="sempArray" @delekit="getDelete" @clickit="changeRightType"></delete-emp>
+      </template>      
   		<send-all-face></send-all-face>
 	  </div>
 	  <el-row :gutter="20">
@@ -21,7 +22,7 @@
 			      <el-radio-button label="role">{{$t('emplist.com')}}</el-radio-button>
 			    </el-radio-group>
 			    <div class="emptreewrap">
-			    	<el-tree :data="list" :highlight-current="true" node-key="id" :default-expanded-keys="[0]" :props="defaultProps" @getNode="getNode" @node-click="handleNodeClick"></el-tree><!-- :default-checked-keys="defaultGet"  -->
+            <l-tree :list="list" :expandedid="expandedid" :dexpanded="defaultGet" :dprops="defaultProps" @nodeclick="handleNodeClick"></l-tree>
 			    </div>
 	  		</div>
 	  	</el-col>
@@ -79,17 +80,20 @@
 	</div>
 </template>
 <script>
+import $ from 'jquery'
 import {getCache} from '@/utils/auth'
 import {getCgBarList} from '@/utils/common'
 import {addDepart,addEmp,editDepart,moveDepart,deleteEmp,sendAllFace,empDetail,exportAddressBook} from './components'
 import {exportAddressList,useExcel,useRtx,useDing,changeUploadType} from '@/components/upload'
+import lTree from '@/components/tree/lTree'
 import {stringToArray,arrayToString} from '@/utils/common'
 export default {
-  components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace,empDetail,exportAddressBook},
+  components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace,empDetail,exportAddressBook,lTree},
   data () {
   	return {
       defaultOpen: [0],
       defaultGet: [0],
+      expandedid: 0,
       list: [],
       total:0,
       dataList:[],
@@ -132,7 +136,8 @@ export default {
       sname: '',
       restaurants: [],
       timeout:  null,
-      whiteListShow: process.env.whiteListShow || false
+      whiteListShow: process.env.whiteListShow || false,
+      empWorkNoCheck: process.env.empWorkNoCheck || false
   	}
   },
   computed: {
@@ -155,7 +160,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.exportType)
     this.getProjectList()
   },
   methods: {
@@ -177,16 +181,44 @@ export default {
       this.curEmp = row
       this.editType = 1
     },
+    getAddEmpkit (data) {
+      this.defaultGet = [data.id]
+      this.expandedid = parseInt(data.id)
+      this.editType = 0
+      this.curEmp = {}
+      this.getProjectList()
+      this.getEmpList()
+    },
     getAddkit () {
       this.editType = 0
       this.curEmp = {}
       this.getProjectList()
       this.getEmpList()
     },
-    getUpdatekit (data) {
+    getClosekit (data) {
+      let nullArray = []
+      let deptid = parseInt(data.deptid)
+      nullArray.push(deptid)
+      this.defaultOpen = nullArray
+      this.defaultGet = nullArray
+      this.expandedid = deptid
+      //deptid
       this.editType = 0
       this.curEmp = {}
-      this.getProjectList()
+      //this.getProjectList()
+      this.getEmpList()
+    },
+    getUpdatekit (data) {
+      let nullArray = []
+      let deptid = parseInt(data.deptid)
+      nullArray.push(deptid)
+      this.defaultOpen = nullArray
+      this.defaultGet = nullArray
+      this.expandedid = deptid
+      //deptid
+      this.editType = 0
+      this.curEmp = {}
+      //this.getProjectList()
       this.getEmpList()
     },
   	changeVtype (val) {
@@ -238,7 +270,9 @@ export default {
   	  	if (status === 0) {
   	  	  this.list = getCgBarList(result,'deptName','deptid','empCount','deptManagerEmpid','childDeptList')
           this.getEmpList()
-          this.parent = this.list[0]
+          if (JSON.stringify(this.parent) == "{}") {
+            this.parent = this.list[0]
+          }
   	  	}
   	  })
   	},
@@ -262,6 +296,7 @@ export default {
     },
     getNode (data) {},
   	handleNodeClick(data,node,d) {
+      this.defaultGet = [data.id]
       this.rightType = 1
       this.parentNode = node.parent.data
       this.parent = data

@@ -29,7 +29,7 @@
 		    	<el-form-item :label="$t('form.time.text6')" prop="appointmentDate">
 		    		<el-date-picker
 				      v-model="form.appointmentDate" style="width:100%"
-				      type="datetime" class="block" :placeholder="$t('visitor.ordertime')" 
+				      type="datetime" class="block" :placeholder="$t('form.time.text3')" 
               :picker-options="options" :default-time="['14:00:00', '18:00:00']">
 				    </el-date-picker>
 		    	</el-form-item>
@@ -53,12 +53,28 @@
 		    		<el-row class="block">
 		    			<el-col :span="12">
 			    			<el-select v-model="timetype" >
-							    <el-option
-							      v-for="item in $t('timetype')"
-							      :key="item.value"
-							      :label="item.label"
-							      :value="item.value">
-							    </el-option>
+                  <template v-if="timetypeShow == 0">
+                    <el-option
+                      :key="$t('timetype')[0].value"
+                      :label="$t('timetype')[0].label"
+                      :value="$t('timetype')[0].value">
+                    </el-option>
+                  </template>
+                  <template v-else-if="timetypeShow == 1">
+                    <el-option
+                      :key="$t('timetype')[1].value"
+                      :label="$t('timetype')[1].label"
+                      :value="$t('timetype')[1].value">
+                    </el-option>
+                  </template>
+                  <template v-else>
+                    <el-option
+                      v-for="item in $t('timetype')"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </template>
 							</el-select>
 			    		</el-col>
 			    		<el-col :span="12">
@@ -89,6 +105,7 @@ export default {
   components: { bomMoban,mobanDialog,previewDialog },
   data () {
   	return {
+      timetypeShow: 0,
       form: {
       	address: '',
       	appointmentDate: '',
@@ -232,8 +249,8 @@ export default {
               name: this.form.name,
               phone: this.form.phone,
               vemail: this.form.vemail,
-              qrcodeConf: this.timetype === 0 ? '0' : '1',
-              qrcodeType: this.form.qrcodeType,
+              qrcodeConf: this.form.qrcodeType,
+              qrcodeType: this.timetype === 0 ? '0' : '1',
               remark: this.form.remark,
               traffic: replaceQuotation(this.demoban.traffic),
               userid: getCache('userid'),
@@ -253,6 +270,8 @@ export default {
                 let {status} = res
                 if (status === 0) {
                   this.mobanFlag = true
+                  this.$refs.danform.resetFields()
+                  this.$refs.danform.clearValidate()
                 }
               })
             }

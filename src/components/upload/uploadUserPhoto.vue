@@ -3,19 +3,26 @@
     <form class="uploadformwrap" :id="formId">
       <input class="uploadinput" type="file" name="uploadpic" :ref="inputId" :id="inputId" @change="getFile"></input>
       <div class="avatar-uploader">
-        <div tabindex="0" class="el-upload el-upload--text">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
-          <img v-else :src="defaulPhoto" class="el-icon-plus avatar-uploader-icon" alt="">
+        <div tabindex="0" class="el-upload el-upload--text">          
+          <template v-if="imageUrl">
+            <thumb :src="imageUrl" :width="110" :height="110"></thumb>
+          </template>
+          <template v-else>
+            <img :src="defaulPhoto" class="el-icon-plus avatar-uploader-icon" alt="">
+          </template>
         </div>
       </div>
     </form>
 	</div>
 </template>
 <script>
+import thumb from '@/components/thumb/thumb'
 import {getCache} from '@/utils/auth'
+import {getBaseLink,getBasePhpLink} from '@/utils/common'
 import {uploadCommon} from '@/utils/upload'
 import $ from 'jquery'
 export default {
+    components: {thumb},
     props: {
       photourl: '',
       id: {
@@ -62,7 +69,7 @@ export default {
           });*/
           if (_self.empWorkNoCheck) {
             $.ajax({
-              url: 'http://www.coolvisit.top/wechat/shjh/Youtu/detectfaceByUrl.php',
+              url: getBasePhpLink(),
               contentType: 'application/json',
               data: JSON.stringify(nform),
               type: 'post',
@@ -77,7 +84,6 @@ export default {
                   if (dataJson.face.length > 0) {
                     _self.imageUrl = result.url
                     _self.$emit('sendkit',result.url)
-                    _self.$store.dispatch('Compressface',nform)
                   } else {
                     _self.$message({
                       showClose: true,
@@ -97,7 +103,7 @@ export default {
           } else {
             _self.imageUrl = result.url
             _self.$emit('sendkit',result.url)
-            _self.$store.dispatch('Compressface',nform)
+            //_self.$store.dispatch('Compressface',nform)
           }
           
           /*_self.imageUrl = result.url

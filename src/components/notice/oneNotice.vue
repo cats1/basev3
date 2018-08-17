@@ -44,8 +44,16 @@ export default {
   data () {
     return {
       switchValue: this.switchFlag,
-      btnText: this.$t('btn.editBtn'),
+      //btnText: this.$t('btn.editBtn'),
       clickFlag: false
+    }
+  },
+  computed: {
+    btnText: {
+      get () {
+        return this.$t('btn.editBtn')
+      },
+      set () {}
     }
   },
   watch: {

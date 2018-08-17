@@ -18,8 +18,13 @@ export default {
     orderList: 'Invitelist',
     history: 'History',
     404: '404',
-    calendar: 'Calendar'
+    calendar: 'Calendar',
+    overtime: 'Work overtime'
   },
+  floorArray: ['Low','Mid','High'],
+  confirmStopEmp: 'Are you sure that the employee is out of service',
+  portrait: 'Portrait',
+  empTitle: 'Employee details',
   goInTime: 'Entry time',
   goLeaveTime: 'Departure time',
   dataError: 'Data error',

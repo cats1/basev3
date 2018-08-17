@@ -1,5 +1,6 @@
 export {default as addDepart} from './addDepart'
 export {default as addEmp} from './addEmp'
+export {default as empNewDetail} from './empNewDetail'
 export {default as addComEmpShow} from './addComEmpShow'
 export {default as addComEmp} from './addComEmp'
 export {default as editDepart} from './editDepart'

@@ -2,7 +2,7 @@
 	<div>
 	  <div class="boxshadow bgwhite paddinglr30 paddingtb20 marginbom20">
 		<el-button type="default" @click="addWhite"><i class="fa fa-user-circle"></i>{{$t('addWhiteBtn')}}</el-button>
-		<el-button type="redline" @click="setEmpWlist('',0)"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
+		<el-button type="redline" @click="deleEmpWlist()"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
 	  </div>
 	  <div class="boxshadow bgwhite paddinglr30 paddingtb20">
 	  	<el-table :data="list" border  @selection-change="handleSelectionChange" @row-click="showEmp">
@@ -28,15 +28,16 @@
 	  <el-dialog
       :title="$t('addWhiteBtn')"
       :visible.sync="dialogVisible"
-      width="30%" >
+      width="30%" @close="closeWins">
       <el-form :model="curEmp" ref="blackform" :rules="rules" :inline="true" label-position="right" label-width="100px">
         <el-form-item prop="empName" :label="$t('form.name.text')">
-          <el-select v-model="curEmp.empid" filterable placeholder="请选择" @change="setEmp">
+          <el-select v-model="curEmpid" filterable placeholder="请选择" @change="setEmp">
             <el-option
               v-for="item in emplist"
               :key="item.empid"
               :label="item.empName"
-              :value="item.empid">
+              :value="item.empid"
+              :disabled="item.disabled">
             </el-option>
           </el-select>
         </el-form-item>
@@ -49,17 +50,17 @@
         <el-button type="primary" @click="addBlack">{{$t('btn.saveBtn')}}</el-button>
       </span>
     </el-dialog>
-    <add-emp :btn-show="false" :parent="parent" :btn-type="btnType" :edit-type="editType" :cur-emp="selectCurEmp" :dlist="dlist" :dialog-show="dialogShow" @updateempkit="getUpdatekit"></add-emp>
+    <emp-new-detail :btn-show="false" :parent="parent" :btn-type="btnType" :edit-type="editType" :cur-emp="selectCurEmp" :dlist="dlist" :dialog-show="dialogShow" @updateempkit="getUpdatekit"></emp-new-detail>
 	</div>
 </template>
 <script>
 import {getCgBarAllList} from '@/utils/common'
-import {addEmp} from '@/components/emplist/components'
+import {empNewDetail} from '@/components/emplist/components'
 import {getCache} from '@/utils/auth'
 import rightWindow from '@/components/window/rightWindow'
 import { isvalidatPhone, checkIdCard } from '@/utils/validate'
 export default {
-  components: {rightWindow,addEmp},
+  components: {rightWindow,empNewDetail},
   data () {
     const isvalidPhone = (rule, value, callback) => {
       if (value === '') {
@@ -83,6 +84,7 @@ export default {
   	  list: [],
       emplist: [],
       sarray: [],
+      curEmpid: '',
       curEmp: {
         empName: '',
         empid: ''
@@ -178,14 +180,30 @@ export default {
       this.$store.dispatch('GetEmpList',nform).then(res => {
         let {status,result} = res
         if (status === 0) {
-          this.emplist = result
+          if (result.length > 0) {
+            let _self = this
+            let newEmplist = []
+            result.forEach(function(element, index) {
+              let obj = element
+              obj.disabled = false
+              _self.list.forEach(function(lelement, lindex) {
+                if (element.empid == lelement.empid) {
+                  obj.disabled = true
+                }
+              })
+              newEmplist.push(obj)
+            })
+            this.emplist = newEmplist
+          } else {
+            this.emplist = []
+          }
         }
       })
     },
     setEmp (val) {
       let _self = this
       this.emplist.forEach(function(item){
-        if (item.empid === val) {
+        if (parseInt(item.empid) === parseInt(val)) {
           _self.curEmp = item
         }
       })
@@ -208,26 +226,35 @@ export default {
   	  val.forEach(function(ele,index){
         let nform = {
           empid: ele.empid,
-          wlist: 0
+          wlist: 0,
+          empNo: ele.empNo
         }
         _self.sarray.push(nform)
   	  })
   	},
-    setEmpWlist (val,type) {
+    deleEmpWlist () {
       let nform = {}
-      if (val == '') {
+      if (this.sarray.length > 0) {
         nform = this.sarray
+        this.setEmpWlist(nform,1)
       } else {
-        nform = val
+        this.$message({
+          showClose: true,
+          message: this.$t('selectEmpTip'),
+          type: 'error'
+        })
       }
+    },
+    setEmpWlist (nform,type) {
       this.$store.dispatch('setEmpWlist', nform).then(res => {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
-          if (val !== '') {
+          if (type !== 0) {
             this.$refs.blackform.resetFields()
             this.$refs.blackform.clearValidate()
             this.curEmp = {}
+            this.curEmpid = ''
           }
           this.getList()
         }
@@ -241,7 +268,7 @@ export default {
               empNo: this.curEmp.empNo,
               wlist: 1
             }]
-            this.setEmpWlist(nform,1)
+            this.setEmpWlist(nform,0)
         }
       })
     },
@@ -250,6 +277,12 @@ export default {
       this.dialogShow = false
       this.selectCurEmp = {}
       this.getList()
+    },
+    closeWins () {
+      this.$refs.blackform.resetFields()
+      this.$refs.blackform.clearValidate()
+      this.curEmp = {}
+      this.curEmpid = ''
     }
   },
   created () {

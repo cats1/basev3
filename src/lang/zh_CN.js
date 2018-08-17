@@ -18,8 +18,13 @@ export default {
     orderList: '邀请列表',
     history: '历史记录',
     404: '404',
-    calendar: '日历'
+    calendar: '日历',
+    overtime: '加班'
   },
+  floorArray: ['低','中','高'],
+  confirmStopEmp: '确定停用吗',
+  portrait: '头像',
+  empTitle: '员工详情',
   goInTime: '进入时间',
   goLeaveTime: '离开时间',
   dataError: '数据异常',

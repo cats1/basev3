@@ -25,22 +25,38 @@
           <img-code :get-show="getCode" @clickit="setCode"></img-code>
         </el-col>
        </el-form-item>
-       <transition name="el-fade-in-linear">
-        <el-form-item v-show="comShow">       
+       <template v-if="stepTwo">
+          <transition name="el-fade-in-linear">
+          <el-form-item v-show="comShow">       
             <el-select v-model="loginForm.userid" clearable :placeholder="$t('comSelectHolder')">
-              <el-option
-                v-for="item in comlist"
-                :key="item.userid"
-                :label="item.company"
-                :value="item.userid">
-              </el-option>
+              <template v-if="comlist.length == 1">
+                <el-option
+                  v-for="item in comlist"
+                  :key="item.userid"
+                  :label="item.empName"
+                  :value="item.userid">
+                </el-option>
+              </template>
+              <template v-else>
+                <el-option
+                  v-for="item in comlist"
+                  :key="item.userid"
+                  :label="item.company"
+                  :value="item.userid">
+                </el-option>
+              </template>              
             </el-select>      
-        </el-form-item>
-      </transition>
+          </el-form-item>
+          </transition>
+        </template>
        <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="goLogin">{{$t('login.logIn')}}</el-button>
-       <el-button type="text" style="width:100%;" @click.native.prevent="goForgot">{{$t('login.forgot.title')}}</el-button>
-       <or-line :value="$t('login.or')"></or-line>
-       <el-button type="text" style="width:100%;" @click.native.prevent="goActive">{{$t('login.active')}}</el-button>
+       <template v-if="empPwdShow">
+          <el-button type="text" style="width:100%;" @click.native.prevent="goForgot">{{$t('login.forgot.title')}}</el-button>
+          <or-line :value="$t('login.or')"></or-line>
+       </template>
+         <template v-if="empActiveShow">
+          <el-button type="text" style="width:100%;" @click.native.prevent="goActive">{{$t('login.active')}}</el-button>
+         </template>
        </el-row>
       </el-form>
 </template>
@@ -97,8 +113,11 @@ export default {
       vcode: '',
       comShow: process.env.empComShow,
       comlist: [],
+      stepTwo: false,
       getCode: false,
-      empWorkNoCheck: process.env.empWorkNoCheck
+      empWorkNoCheck: process.env.empWorkNoCheck,
+      empActiveShow: process.env.empActiveShow,
+      empPwdShow: process.env.empPwdShow,
     }
   },
   methods: {
@@ -169,8 +188,29 @@ export default {
             }
             this.$store.dispatch('checkEmpInfo',checkEmp).then((res) => {
               let { status, result } = res
-              this.comlist = result
-              this.comShow = true
+              if (result) {
+                if (result.length == 1) {
+                  this.loginForm.userid = result[0].userid
+                  let codeData = {
+                    'email': '',
+                    'phone': this.loginForm.phone,
+                    'digest': this.loginForm.digest,
+                    'vcode': this.loginForm.vcode
+                  }
+                  if (this.empWorkNoCheck) {
+                    codeData = {
+                      'email': '',
+                      'phone': this.loginForm.phone,
+                      'digest': this.loginForm.digest,
+                      'vcode': this.loginForm.vcode
+                    }
+                  }
+                  this.isCodeTrue(codeData)
+                } else {
+                  this.comlist = result
+                  this.stepTwo = true
+                }
+              }
             }) 
           } else {
             let codeData = {
@@ -187,40 +227,46 @@ export default {
                 'vcode': this.loginForm.vcode
               }
             }
-            this.$store.dispatch('isCodeTrue',codeData).then((res) => {
-              if (res.status == 0) {
-                this.loading = true
-                let newForm = {
-                  userid: this.loginForm.userid,
-                  phone: this.loginForm.phone,
-                  empPwd: lftPwdRule(this.loginForm.empPwd,3,5),
-                  digest: this.loginForm.digest
-                }
-                if (this.empWorkNoCheck) {
-                  newForm = {
-                    userid: this.loginForm.userid,
-                    phone: this.loginForm.phone,
-                    empNo: this.loginForm.phone,
-                    empPwd: lftPwdRule(this.loginForm.empPwd,3,5),
-                    digest: this.loginForm.digest
-                  }
-                }
-                this.$store.dispatch('empLogin', newForm).then((resp) => {
-                    this.loading = false
-                    window.location.href = 'emporder.html'
-                }).catch(() => {
-                  this.loading = false
-                })
-              } else if (res.status === 119) {
-                this.getCode = true
-                this.loginForm.vcode = ''
-              }
-            })
+            this.isCodeTrue(codeData)
           } 
         } else {
           console.log('error submit!!')
           return false
         }
+      })
+    },
+    isCodeTrue (nform) {
+      this.$store.dispatch('isCodeTrue',nform).then((res) => {
+        if (res.status == 0) {
+          this.loading = true
+          let newForm = {
+            userid: this.loginForm.userid,
+            phone: this.loginForm.phone,
+            empPwd: lftPwdRule(this.loginForm.empPwd,3,5),
+            digest: this.loginForm.digest
+          }
+          if (this.empWorkNoCheck) {
+            newForm = {
+              userid: this.loginForm.userid,
+              phone: this.loginForm.phone,
+              empNo: this.loginForm.phone,
+              empPwd: lftPwdRule(this.loginForm.empPwd,3,5),
+              digest: this.loginForm.digest
+            }
+          }
+          this.empLogin(newForm)
+        } else if (res.status === 119) {
+          this.getCode = true
+          this.loginForm.vcode = ''
+        }
+      })
+    },
+    empLogin (nform) {
+      this.$store.dispatch('empLogin', nform).then((resp) => {
+        this.loading = false
+        window.location.href = 'emporder.html'
+      }).catch(() => {
+        this.loading = false
       })
     }
   }

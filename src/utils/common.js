@@ -40,6 +40,14 @@ export function getBaseStageLink() {
   }
   return stageUrl
 }
+export function getBasePhpLink() {
+  if (IpReg) {
+    stageUrl = 'http://' + process.env.HOST + '/wechat/shjh/Youtu/detectfaceByUrl.php'
+  } else {
+    stageUrl = LocationProtocol + '//' + LocationHost + '/wechat/Youtu/detectfaceByUrl.php'
+  }
+  return stageUrl
+}
 /* 密码加密*/
 export function lftPwdRule(str, num1, num2) {
   const strArray = str.split('')
@@ -759,7 +767,7 @@ function utf8CodeToChineseChar(strUtf8) {
     (iCode2 & 0x3F));
 }
 
-function isIE() { //ie?
+export function isIE() { //ie?
   if (!!window.ActiveXObject || "ActiveXObject" in window)
     return true;
   else

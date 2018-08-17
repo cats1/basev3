@@ -1,5 +1,6 @@
 <template>
 	<div class="">
+		<el-button type="primary" @click="goPhoto">test</el-button>
 		<hsection vtitle="V2.1.0" vdate="2017-09-20" :is-new="true">
 			<div>
 				<p>1.{{$t('h1text')}}</p>
@@ -121,6 +122,11 @@ export default {
   	return {
   	  version: 'V2.1.0'
   	}
+  },
+  methods: {
+    goPhoto () {
+      this.$router.push({'path': 'takephoto'})
+    }
   }
 }
 </script>

@@ -9,20 +9,22 @@
         <el-form-item :label="$t('visitStartTime')">
           <el-time-select
             v-model="form.passableSTime"
+            :clearable="false"
             :picker-options="{
-              start: '07:00',
+              start: '00:00',
               step: '00:15',
-              end: '20:00'
+              end: '24:00'
             }">
           </el-time-select>
         </el-form-item>
         <el-form-item :label="$t('visitEndTime')">
           <el-time-select
             v-model="form.passableETime"
+            :clearable="false"
             :picker-options="{
-              start: '07:00',
+              start: '00:00',
               step: '00:15',
-              end: '20:00',
+              end: '24:00',
               minTime: form.passableSTime
             }">
           </el-time-select>
@@ -37,13 +39,13 @@
 <script>
 import { oneNotice, noticeShow } from '@/components/notice'
 import { getCache } from '@/utils/auth'
-import {booleanToNumber,numberToBoolean} from '@/utils/common'
+import {booleanToNumber,numberToBoolean,checkIsNull} from '@/utils/common'
 import setCodeTime from '@/components/codeTime/setCodeTime'
 export default {
   components: { noticeShow, oneNotice, setCodeTime },
   data () {
     return {
-      imgSrc: require('@/assets/img/alerts.png'),
+      imgSrc: require('@/assets/img/alert.png'),
       isShow: false,
       form: {
         passableSTime: getCache('passableSTime'),
@@ -57,12 +59,20 @@ export default {
       this.isShow = !this.isShow
     },
     saveSetting () {
-      this.$store.dispatch('updatePassableTime',this.form).then(res => {
-        let {status} = res
-        if (status === 0) {
-          this.isShow = false
-        }
-      })
+      if (checkIsNull(this.form.passableSTime) !== '' && checkIsNull(this.form.passableETime) !== '') {
+        this.$store.dispatch('updatePassableTime',this.form).then(res => {
+          let {status} = res
+          if (status === 0) {
+            this.isShow = false
+          }
+        })
+      } else {
+        this.$message({
+          message: this.$t('exporttype.isNull'),
+          showClose: true,
+          type: 'error'
+        })
+      }
     }
   }
 }

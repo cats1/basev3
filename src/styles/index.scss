@@ -9,6 +9,7 @@
 @import './card.scss';
 @import './calendar.scss';
 @import './cropper.scss';
+@import './thumb.scss';
 @import './font.scss';
 @import './element-ui.scss';
 #app {
@@ -1779,7 +1780,7 @@ label {
 }
 @media (max-width: 460px) {
   .headerwrap {
-    width: 100%;
+    width: 1200px;
   }
   .login-container .login-form{
     width: 100%;
@@ -1790,7 +1791,7 @@ label {
 
 @media (max-width: 767px) {
    .headerwrap {
-    width: 100%;
+    width: 1200px;
   } 
   .login-container .login-form{
     width: 100%;
@@ -1800,8 +1801,8 @@ label {
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-    .headerwrap {
-    width: 100%;
+  .headerwrap {
+    width: 1200px;
   }
   .login-container .login-form{
     width: 100%;
@@ -1811,8 +1812,8 @@ label {
 }
 
 @media (min-width: 992px) and (max-width: 1059px) {
-    .headerwrap {
-    width: 100%;
+  .headerwrap {
+    width: 1200px;
   }
   .login-container .login-form{
     width: 100%;
@@ -1821,8 +1822,8 @@ label {
   }
 }
 @media (min-width: 1060px) and (max-width: 1199px) {
-    .headerwrap {
-    width: 100%;
+  .headerwrap {
+    width: 1200px;
   }
   .login-container .login-form{
     width: 100%;

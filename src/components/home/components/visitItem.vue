@@ -216,6 +216,13 @@ export default {
             this.statusText = this.$t('vstatus[0]')
             this.color = '#36b22b'
         }
+        if (this.vdata.permission == 1) {
+          this.statusText = this.$t('vstatus[3]')
+          this.color = '#2c9ffd'
+        } else if (this.vdata.permission == 2) {
+          this.statusText = this.$t('vstatus[4]')
+          this.color = '#db231c'
+        }
         if (this.vdata.visitdate && !this.vdata.signOutDate && this.vdata.appointmentDate) {
           this.statusText = this.$t('vstatus[1]')
           this.color = '#36b22b'
@@ -224,11 +231,11 @@ export default {
           this.color = '#2c9ffd'
         }
       } else if (parseInt(this.vdata.signinType) === 2) {//2预约访客
-        if (this.permissionSwitch === 1) {
+        if (parseInt(this.permissionSwitch) === 1) {
           if (this.vdata.signOutDate) {
-            if (item.visitdate && item.appointmentDate) {
+            if (this.vdata.visitdate && this.vdata.appointmentDate) {
               //this.statusText = '已签出'
-            } else if (!item.visitdate && item.appointmentDate) {
+            } else if (!this.vdata.visitdate && this.vdata.appointmentDate) {
               
             }
             this.statusText = this.$t('vstatus[5]')
@@ -236,16 +243,16 @@ export default {
           } else {
             this.statusText = this.$t('vstatus[1]')
             this.color = '#36b22b'
-            if (item.appointmentDate && item.visitdate) {
+            if (this.vdata.appointmentDate && this.vdata.visitdate) {
               //this.statusText = '已签到'
             } else {
-              if (permission == 0) { //
+              if (this.vdata.permission == 0) { //
                 this.statusText = this.$t('vstatus[6]')
                 this.color = '#e36101'
-              } else if (permission == 1) { //
+              } else if (this.vdata.permission == 1) { //
                 this.statusText = this.$t('vstatus[7]')
                 this.color = '#e8b000'
-              } else if (permission == 2) {
+              } else if (this.vdata.permission == 2) {
                 this.statusText = this.$t('vstatus[4]')
                 this.color = '#db231c'
               }

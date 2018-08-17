@@ -89,6 +89,7 @@ export default {
 	    }
   	},
   	sitem (val) {
+      console.log(val)
   	  this.slist = val
   	  this.initSelect()
   	},
@@ -225,7 +226,7 @@ export default {
   	},
     cancelRoles () {
       this.dialogVisible = false
-      this.$emit('savekit')
+      this.$emit('closekit')
     }
   }
 }

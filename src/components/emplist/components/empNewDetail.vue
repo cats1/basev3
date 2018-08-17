@@ -4,13 +4,11 @@
 	  <el-dialog
 		  :title="winTitle"
 		  :visible.sync="dialogVisible"
-		  width="600px" @close="handClose">
-      <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
-        <el-tab-pane :label="$t('btn.editEmpBtn')" name="first">
+		  width="50%" @close="handClose">
           <el-form :model="form" :rules="rules" ref="empform" label-width="100px" class="demo-ruleForm">
           <template v-if="!onwork">
             <template v-if="editType === 1">
-              <el-form-item class="center">
+              <el-form-item class="center" :class="{'noedit':empnoread}">
                 <upload-user-photo id="userphoto" :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
                 <template v-if="!empWorkNoCheck">
                   <reg-face :rform="form" v-show="faceTextShow"></reg-face>
@@ -18,182 +16,86 @@
               </el-form-item>
             </template>
             <template v-else>
-              <el-form-item class="center">
+              <el-form-item >
                 <upload-user-photo :photourl="form.avatar" @sendkit="getUserPhoto"></upload-user-photo>
               </el-form-item>
             </template>
           </template>
-          <el-form-item class="center">
-            <user-photo @updateurl="getTakePhoto"></user-photo>
-          </el-form-item>
           <template v-if="!onwork">
             <el-form-item>
-              <el-checkbox v-model="checked" @change="setEmptype">{{$t('emplist.pad')}}</el-checkbox>
+              <el-checkbox v-model="checked" @change="setEmptype" :disabled="empnoread">{{$t('emplist.pad')}}</el-checkbox>
+            </el-form-item>
+          </template>      
+          <el-form-item :label="$t('form.name.text')" prop="empName">
+            <el-input v-model="form.empName" :readonly="empnoread"></el-input>
+          </el-form-item>
+          <template v-if="!onwork">
+            <el-form-item :label="$t('form.name.text3')" >
+              <el-input v-model="form.empNickname" :readonly="empnoread"></el-input>
+            </el-form-item>
+            <el-form-item class="is-required" :label="$t('form.depart.text')" >
+              <div class="last_inner" @click="setEmpShow" :class="{'noedit':empnoread}">
+                <template v-for="item in departArray" >
+                  <span >{{item.name}}</span>
+                </template>
+              </div>
+            </el-form-item>
+            <el-form-item :label="$t('form.position.text')" >
+              <el-input v-model="form.empPosition" :readonly="empnoread"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('entranceGuard')" >
+              <el-input v-model="form.cardNo" :readonly="empnoread"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.phone.text')" prop="empPhone" v-if="empPhoneCheck">
+              <el-input v-model="form.empPhone" :readonly="empnoread"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.phone.text')" v-else>
+              <el-input v-model="form.empPhone" :readonly="empnoread"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.email.text')" >
+              <el-input v-model="form.empEmail" :readonly="empnoread"></el-input>
             </el-form-item>
           </template>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('form.name.text')" prop="empName">
-                <el-input v-model="form.empName"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('form.name.text3')" >
-                <el-input v-model="form.empNickname"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item class="is-required" :label="$t('form.depart.text')" >
-                <div class="last_inner" @click="setEmpShow">
-                  <template v-for="item in departArray" >
-                    <span >{{item.name}}</span>
-                  </template>
-                </div>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('form.position.text')" >
-                <el-input v-model="form.empPosition"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('entranceGuard')" >
-                <el-input v-model="form.cardNo"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('form.phone.text')" prop="empPhone" v-if="empPhoneCheck">
-                <el-input v-model="form.empPhone"></el-input>
-              </el-form-item>
-              <el-form-item :label="$t('form.phone.text')" v-else>
-                <el-input v-model="form.empPhone"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('form.email.text')" >
-                <el-input v-model="form.empEmail"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('form.position.text1')" prop="empNo" v-if="empWorkNoCheck">
-                <template v-if="empnoread">
-                  <el-input v-model="form.empNo" :disabled="empnoread"></el-input>
-                </template>
-                <template v-else>
-                  <el-input v-model="form.empNo" ></el-input>
-                </template>               
-              </el-form-item>
-              <el-form-item :label="$t('form.position.text1')" v-else>
-                <el-input v-model="form.empNo"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('form.phone.text3')" >
-                <el-input v-model="form.telephone"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('form.company.text1')" v-if="!workbayCheck">
-                <el-input v-model="form.workbay"></el-input>
-              </el-form-item>
-              <el-form-item :label="$t('form.company.text1')" prop="workbay" v-else>
-                <!-- <el-input v-model="form.workbay"></el-input> -->
-                <el-select v-model="form.workbay" placeholder="请选择">
-                  <el-option
-                    v-for="(item,key) in $t('floorArray')"
-                    :key="key"
-                    :label="item"
-                    :value="key">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('form.gate.text')">
-                <gate-group :t-show="false" :check-array="egids" @getclist="getGate"></gate-group>
-              </el-form-item>
-            </el-col>
-          </el-row>            
+          <el-form-item :label="$t('form.position.text1')" prop="empNo" v-if="empWorkNoCheck">
+            <el-input v-model="form.empNo" :readonly="empnoread"></el-input>
+          </el-form-item>
+          <el-form-item :label="$t('form.position.text1')" v-else>
+            <el-input v-model="form.empNo" :readonly="empnoread"></el-input>
+          </el-form-item>
           <template v-if="!onwork">
+            <el-form-item :label="$t('form.phone.text3')" >
+              <el-input v-model="form.telephone" :readonly="empnoread"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.company.text1')" v-if="!workbayCheck">
+              <el-input v-model="form.workbay" :readonly="empnoread"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.company.text1')" prop="workbay" v-else>
+              <el-input v-model="form.workbay" :readonly="empnoread"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('form.gate.text')">
+              <gate-group :t-show="false" :check-array="egids" @getclist="getGate" :class="{'noedit':empnoread}"></gate-group>
+            </el-form-item>
             <el-form-item :label="$t('form.time.text4')" prop="startDate">
               <el-date-picker
                 v-model="dateRange"
                 type="daterange"
                 range-separator="-" format="yyyyMMdd" value-format="yyyyMMdd"
                 :start-placeholder="$t('vtime[0]')"
-                :end-placeholder="$t('vtime[1]')" @change="setrange">
+                :end-placeholder="$t('vtime[1]')" @change="setrange" :class="{'noedit':empnoread}">
               </el-date-picker>
             </el-form-item>
           </template>
           <template v-if="onwork">
             <el-form-item :label="$t('onWorkReason')" prop="remark">
-              <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="form.remark"></el-input>
+              <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="form.remark" :readonly="empnoread"></el-input>
             </el-form-item>
           </template>
           <template v-else>
             <el-form-item :label="$t('form.remark.text')" prop="remark">
-              <el-input v-model="form.remark"></el-input>
+              <el-input v-model="form.remark" :readonly="empnoread"></el-input>
             </el-form-item>
           </template>
-        </el-form>
-        </el-tab-pane>
-        <template v-if="agentShow">
-          <el-tab-pane :label="$t('Proxysettings')" name="second" >
-          <el-form :model="proxy" ref="porxyform" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="代理" >
-              <el-select v-model="proxy.proxyId" placeholder="请选择">
-                <el-option
-                  v-for="item in emplist"
-                  :key="item.empid"
-                  :label="item.empName"
-                  :value="item.empid">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="代理状态" >
-              <el-radio-group v-model="proxy.proxyStatus">
-                <el-radio :label="0">禁用</el-radio>
-                <el-radio :label="1">启用</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="服务期限" >
-              <el-date-picker
-                v-model="dateRange"
-                type="daterange"
-                range-separator="-" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-                :start-placeholder="$t('vtime[0]')"
-                :end-placeholder="$t('vtime[1]')" @change="setrange">
-              </el-date-picker>
-            </el-form-item>
-          </el-form>
-        </el-tab-pane>
-        <el-tab-pane :label="$t('Proxylist')" name="third" >
-          <el-form :model="proxy" ref="porxyform" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="代理" >
-              <el-select v-model="proxy.proxyId" placeholder="请选择">
-                <el-option
-                  v-for="item in emplist"
-                  :key="item.empid"
-                  :label="item.empName"
-                  :value="item.empid">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-form>
-        </el-tab-pane>
-        </template>
-        
-      </el-tabs>		  
+        </el-form>	  
       <el-dialog
       width="50%"
       :title="$t('depart.selectDepart')"
@@ -207,12 +109,6 @@
       </el-dialog>
 		  <span slot="footer" class="dialog-footer" v-show="btnIsShow">
 		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
-        <template v-if="form.empType == 4">
-          <el-button type="success" @click="useOnEmp" >{{$t('status.on')}}</el-button>
-        </template>
-        <template v-else-if="editType == 1 && form.empType !== 4">
-          <el-button type="danger" @click="stopEmp" >{{$t('status.off')}}</el-button>
-        </template>        
 		    <el-button type="primary" @click="saveProject">{{$t('btn.confirmBtn')}}</el-button>
 		  </span>
 	  </el-dialog>
@@ -225,7 +121,6 @@ import {formatDate} from '@/utils/index'
 import departMenu from '@/components/menu/departMenu'
 import {gateGroup} from '@/components/account/components'
 import {stringToArray,arrayToString} from '@/utils/common'
-import userPhoto from '@/components/photo/userPhoto'
 import regFace from './regFace'
 export default {
   props: {
@@ -264,7 +159,7 @@ export default {
       default: false
     }
   },
-  components: {uploadUserPhoto,departMenu,gateGroup,regFace,userPhoto},
+  components: {uploadUserPhoto,departMenu,gateGroup,regFace},
   data () {
   	return {
       btnIsShow: this.btnShow,
@@ -361,6 +256,7 @@ export default {
       }
     },
     curEmp (val) {
+      console.log(val)
       if (!this.btnShow) {
         this.dialogVisible = true
       }
@@ -371,10 +267,8 @@ export default {
       if (val.egids) {
         this.egids = stringToArray(val.egids)
       }
-      if (this.editType == 1) {
+      if (val.empNo) {
         this.empnoread = true
-      } else {
-        this.empnoread = false
       }
       if (val.empType === 3) {
         this.checked = true
@@ -406,11 +300,7 @@ export default {
   computed: {
     winTitle: {
       get () {
-        if (this.editType === 0) {
-          return this.$t('btn.addEmpBtn')
-        } else {
-          return this.$t('btn.editEmpBtn')
-        }
+        return this.$t('empTitle')
       },
       set () {}
     }
@@ -421,6 +311,10 @@ export default {
     } else {
       this.bType = 'default'
     }
+    /*if (this.editType !== 0) {
+      this.form = this.curEmp
+      this.dateRange = [this.curEmp.startDate,this.curEmp.endDate]
+    }*/
   },
   methods: {
     stringToArray: stringToArray,
@@ -441,19 +335,9 @@ export default {
     editBtn () {
       this.$emit('clickit',this.btnType)
       this.dialogVisible = true
-      if (this.editType == 1) {
-        this.empnoread = true
-      } else {
-        this.empnoread = false
-      }
-    },
-    getTakePhoto (url) {
-      this.form.avatar = url
-      this.regPhoto()
     },
     getUserPhoto (url) {
       this.form.avatar = url
-      this.regPhoto()
     },
     setrange (val) {
       this.form.startDate = new Date(val[0])
@@ -516,29 +400,7 @@ export default {
               this.addEmployee()
             } else {              
               if (this.activeName2 == 'first') {
-                let nform = {
-                    avatar: this.form.avatar || '',
-                    deptIds: this.form.deptIds,
-                    egids: this.form.egids,
-                    email: this.form.empEmail,
-                    empNickname: this.form.empNickname  || '',
-                    empNo: this.form.empNo  || '',
-                    cardNo: this.form.cardNo  || '',
-                    empPosition: this.form.empPosition  || '',
-                    employee_name: this.form.empName,
-                    employeeid: this.form.empid,
-                    emptype: this.form.emptype,
-                    endDate: this.dateRange[1],
-                    phone: this.form.empPhone || '',
-                    remark: this.form.remark  || '',
-                    startDate: this.dateRange[0],
-                    subaccountId: 0,
-                    telephone: this.form.telephone,
-                    userid: getCache('userid'),
-                    visitType: '',
-                    workbay: this.form.workbay
-                }
-                this.updateEmployee(nform)
+                this.updateEmployee()
               } else {
                 this.setVisitProxy()
               }
@@ -592,23 +454,15 @@ export default {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
-          this.empnoread = false
           this.egids = []
           this.$refs['empform'].resetFields()
           this.$refs['empform'].clearValidate()
           this.dateRange = []
-          this.$emit('addempkit',this.parent)
+          this.$emit('addempkit')
         }
       })
     },
-    useOnEmp () {
-      let darray = []
-      this.departArray.forEach(function(element,index){
-        if (element.pid !=='') {
-          darray.push(element.pid)
-        }
-      })
-      this.form.deptIds = darray
+    updateEmployee () {
       let nform = {
           avatar: this.form.avatar || '',
           deptIds: this.form.deptIds,
@@ -620,7 +474,7 @@ export default {
           empPosition: this.form.empPosition  || '',
           employee_name: this.form.empName,
           employeeid: this.form.empid,
-          emptype: 2,
+          emptype: this.form.emptype,
           endDate: this.dateRange[1],
           phone: this.form.empPhone || '',
           remark: this.form.remark  || '',
@@ -631,73 +485,15 @@ export default {
           visitType: '',
           workbay: this.form.workbay
       }
-      this.updateEmployee(nform)
-    },
-    stopEmp () {
-      this.$confirm(this.$t('confirmStopEmp'),this.$t('outTip.desc'), {
-              confirmButtonText: this.$t('outTip.conform'),
-              cancelButtonText: this.$t('outTip.cancel'),
-              type: 'warning',
-              center: true
-          }).then(() => {
-            this.doStopEmp()         
-          }).catch(() => { })
-    },
-    doStopEmp () {
-      let darray = []
-      this.departArray.forEach(function(element,index){
-        if (element.pid !=='') {
-          darray.push(element.pid)
-        }
-      })
-      this.form.deptIds = darray
-      let nform = {
-          avatar: this.form.avatar || '',
-          deptIds: this.form.deptIds,
-          egids: this.form.egids,
-          email: this.form.empEmail,
-          empNickname: this.form.empNickname  || '',
-          empNo: this.form.empNo  || '',
-          cardNo: this.form.cardNo  || '',
-          empPosition: this.form.empPosition  || '',
-          employee_name: this.form.empName,
-          employeeid: this.form.empid,
-          emptype: 4,
-          endDate: this.dateRange[1],
-          phone: this.form.empPhone || '',
-          remark: this.form.remark  || '',
-          startDate: this.dateRange[0],
-          subaccountId: 0,
-          telephone: this.form.telephone,
-          userid: getCache('userid'),
-          visitType: '',
-          workbay: this.form.workbay
-      }
-      this.updateEmployee(nform)
-    },
-    updateEmployee (nform) {
       this.$store.dispatch('updateEmployee',nform).then(res => {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
-          this.empnoread = false
           this.dateRange = []
           this.egids = []
           this.$refs['empform'].resetFields()
           this.$refs['empform'].clearValidate()
           this.$emit('updateempkit',this.form)
-        }
-      })
-    },
-    regPhoto () {
-      let nform = {
-        userid: getCache('userid'),
-        empids: [this.form.empid]
-      }
-      this.$store.dispatch('updateFace',nform).then(res => {
-        let {status,result} = res
-        if (status === 0) {
-          this.form.face = 0
         }
       })
     },
@@ -716,9 +512,7 @@ export default {
       this.menuList = val
     },
     handClose () {
-      this.dialogVisible = false
-      this.empnoread = false
-      this.$emit('closeempkit',this.form)
+      this.$emit('updateempkit',this.form)
       this.dateRange = []
       this.egids = []
       this.$refs['empform'].resetFields()

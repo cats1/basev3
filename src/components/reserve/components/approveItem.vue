@@ -48,7 +48,7 @@
 		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
 		  </span>
 		</el-dialog>
-		<role-menu :depid="depidDefault" :aitem="aitem" :sitem="item.prlist" :vshow="contactShow" @savekit="updateArea"></role-menu>
+		<role-menu :depid="depidDefault" :aitem="aitem" :sitem="item.prlist" :vshow="contactShow" @savekit="updateArea" @closekit="closeArea"></role-menu>
 	</div>
 </template>
 <script>
@@ -95,6 +95,10 @@ export default {
   	doContact () {
   	  this.contactShow = true
   	},
+    closeArea () {
+      this.contactShow = false
+      this.$emit('closekit')
+    },
   	updateArea () {
   	  this.contactShow = false
   	  this.$emit('savekit')
