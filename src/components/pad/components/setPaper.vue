@@ -74,7 +74,7 @@ export default {
       radio2: 0,
       overviewShow: false,
       modeform: {
-        badgemode: 0,
+        badgeMode: parseInt(getCache('badgeMode')) || 0,
         brandType: parseInt(getCache('brandType')) || 0,
         brandPosition: getCache('brandPosition') || 0,
         brandText: getCache('cardText'),
@@ -154,8 +154,8 @@ export default {
   	  this.cardLogo = val
   	},
     saveModeCardSet () {
-      let nform     
-      if (this.cardType === 0) {
+      let nform    
+      if (this.printType === 0) {
         nform = {
           userid: getCache('userid'),
           printType: this.printType + 1,
@@ -164,7 +164,7 @@ export default {
           cardLogo: this.cardLogo + 1,
           cardText: this.cardText,
           cardPic: this.cardPic,
-          badgeMode: this.modeform.badgeMode,
+          badgeMode: this.modeform.badgemode,
           badgeCustom: this.modeform.badgeCustom,
           brandType: this.modeform.brandType,
           brandPosition: this.modeform.brandPosition,

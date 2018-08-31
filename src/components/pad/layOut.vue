@@ -2,7 +2,7 @@
   <div>
   	<common-set></common-set>
     <pad-set></pad-set>
-    <pc-set></pc-set>
+    <!-- <pc-set></pc-set> -->
   </div>
 </template>
 <script>

@@ -19,8 +19,33 @@ export default {
     history: '历史记录',
     404: '404',
     calendar: '日历',
-    overtime: '加班'
+    overtime: '加班',
+    vset: '访客类型'
   },
+  agentName: '代理',
+  agentStatus: '代理状态',
+  selectAgent: '请选择代理',
+  visitTypeText: '访客类型',
+  pleaseInputVtype: '请填写访客类型',
+  pleaseSelectVtype: '请选择访客类型',
+  addVtype: '新增访客类型',
+  editVtype: '访客类型编辑',
+  vtypeSetTitle: '访客类型设置',
+  vtypeSetDesc: '您可以新增访客类型',
+  peopleNo: '人员编号',
+  endedStatus: '已结束',
+  direction: '方向',
+  pleaseDepart: '请选择部门',
+  endVisitTime: '结束拜访时间',
+  sendError: '发送失败',
+  waitApprove: '待审批',
+  signOutText: '签出',
+  exportEmpList: '导出员工数据',
+  twoCharter: '请输入2位数',
+  selectOneMore: '至少选择一项',
+  departNo: '部门编号',
+  faceError: '人脸识别失败',
+  takePhoto: '拍照',
   floorArray: ['低','中','高'],
   confirmStopEmp: '确定停用吗',
   portrait: '头像',
@@ -31,6 +56,7 @@ export default {
   dataSuccess: '数据正常',
   onWorkReason: '加班原因',
   cardidIsNotNull: '身份证号不能为空',
+  cardidIsError: '身份证号必须为18位数',
   visitSetTime: '访客时间设置',
   visitSetTimeDesc: '设置访客时间，访客只有在此时间段内可以来访。',
   visitStartTime: '开始时间',
@@ -116,6 +142,7 @@ export default {
   picFormatError: '图片格式不正确',
   emailOrderSuccess: '邮件订阅设置成功',
   pwdSuccess: '密码修改成功',
+  pwdResetSuccess: '密码重置成功',
   pwdInitSuccess: '密码初始化成功',
   comSuccess: '多企业服务模式修改成功',
   lessOneGate: '至少选择一组闸机',
@@ -574,7 +601,8 @@ export default {
       tip4: '请选择会议发起人',
       tip5: '员工姓名不能为空',
       tip6: '部门名称不能为空',
-      tip7: '项目名称不能为空'
+      tip7: '项目名称不能为空',
+      tip8: '部门编号不能为空'
     },
     validEmpName: {
       holder: '员工姓名'
@@ -610,7 +638,7 @@ export default {
     label: '商务',
     value: 1
   }],
-  checkVtype: ['全部', '拜访者姓名', '受访者姓名', '拜访事由', '电话', '公司', '门岗'],
+  checkVtype: ['全部', '拜访者姓名', '受访者姓名', '拜访事由', '电话', '公司', '门岗','访客类型'],
   outTip: {
     title: '确认退出吗?',
     desc: '提示',
@@ -713,7 +741,6 @@ export default {
   },
   sex: ['男', '女'],
   idNumTip: ['验证通过!', '身份证号码位数不对!', "身份证号码出生日期超出范围或含有非法字符!", "身份证号码校验错误!", "身份证地区非法!"],
-
   people: {
     emp: '员工',
     visit: '访客',
@@ -723,6 +750,7 @@ export default {
   },
   status: {
     on: '启用',
+    forbid: '禁用',
     off: '停用',
     text: '状态',
     startText: '开启状态'
@@ -780,7 +808,7 @@ export default {
       desc: '当有访客签到时，通过邮件通知员工',
       ptitle: '请选择邮件配置方式',
       defaults: '默认配置',
-      ddesc: '默认配置将由系统exchange账号发送通知',
+      ddesc: '默认配置将由系统163账号发送通知',
       tips: '修改成功',
       server1: 'Exchange服务器',
       server2: 'SMTP服务器'
@@ -995,7 +1023,8 @@ export default {
   emplist: {
     pro: '组织架构',
     com: '角色',
-    pad: '是否在Pad端不可搜索',
+    pad1: '是否在Pad端不可搜索',
+    pad: '禁止预约',
     cardTip: '此功能仅用于批量发卡，过程中将删除原有数据，发卡将持续数分钟！'
   },
   project: {
@@ -1127,6 +1156,8 @@ export default {
     110: '无效操作',
     119: '验证码无效',
     123: '该部门已存在',
+    124: '部门编号重复',
+    135: '请激活账号',
     201: '验证码错误',
     223: '该日期不能重复操作',
     241: '工号不唯一',

@@ -89,7 +89,6 @@ export default {
 	    }
   	},
   	sitem (val) {
-      console.log(val)
   	  this.slist = val
   	  this.initSelect()
   	},
@@ -103,6 +102,49 @@ export default {
   	}
   },
   methods: {
+    init () {
+      this.initLeftMenu()
+      this.initRightMenu()
+    },
+    initLeftMenu () {
+      let _self = this
+      let varray = []
+      this.sitem.forEach(function(ele,index){
+        _self.rolelist.forEach(function(rele,index){
+          let child = rele.childRoleList
+          child.forEach(function(citem,cindex){
+            citem.checked = true          
+            if (ele.role === citem.rid) {
+              varray.push(citem)
+            }
+          })
+        })
+      })
+      this.slist = varray
+    },
+    initRightMenu () {
+      let _self = this
+      let rarray = []
+      this.rolelist.forEach(function(ele,index){
+        let child = ele.childRoleList
+        let obj = {
+          'rgName': ele.rgName,
+          'childRoleList': []
+        }
+        child.forEach(function(citem,cindex){
+          citem.checked = false
+          let carray = citem
+          _self.sitem.forEach(function(sele,sindex){
+          if (sele.role === citem.rid) {
+            carray.checked = true
+          }
+          })
+          obj.childRoleList.push(carray)
+        })  
+        rarray.push(obj)      
+      })
+      this.rlist = rarray
+    },
   	initSelect () {
   	  let _self = this
   	  let varray = []
@@ -188,7 +230,8 @@ export default {
         let {status,result} = res
         if (status === 0) {
           this.rolelist = result
-          this.initSelect()
+          //this.initSelect()
+          this.init()
         }
   	  })
   	},

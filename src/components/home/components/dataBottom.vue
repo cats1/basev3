@@ -16,6 +16,12 @@
 		        	</div> 
 			    </template>
 		    </el-table-column>
+		    <template v-if="vTypeShow">
+		    	<el-table-column align="center"
+			        prop="vType"
+			        :label="$t('visitTypeText')" width="120">
+			    </el-table-column>
+		    </template>
 		    <el-table-column align="center"
 		        prop="vphone"
 		        :label="$t('form.phone.text1')" width="120">
@@ -93,22 +99,42 @@
 		        :label="$t('form.remark.text')"
 		        width="180">
 		    </el-table-column>
-		    <el-table-column align="center"
-		        prop="visitdate"
-		        :label="$t('form.time.text')"
-		        width="180">
-		        <template slot-scope="scope">
-			        {{scope.row.visitdate | formatDate}}
-			    </template>
-		    </el-table-column>
-		    <el-table-column align="center"
-		        prop="signOutDate"
-		        :label="$t('form.time.text1')"
-		        width="180">
-		        <template slot-scope="scope">
-			        {{scope.row.signOutDate | formatDate}}
-			    </template>
-		    </el-table-column>
+		    <template v-if="!dataError">
+			    <el-table-column align="center"
+			        prop="visitdate"
+			        :label="$t('form.time.text')"
+			        width="180">
+			        <template slot-scope="scope">
+				        {{scope.row.visitdate | formatDate}}
+				    </template>
+			    </el-table-column>
+			    <el-table-column align="center"
+			        prop="signOutDate"
+			        :label="$t('form.time.text1')"
+			        width="180">
+			        <template slot-scope="scope">
+				        {{scope.row.signOutDate | formatDate}}
+				    </template>
+			    </el-table-column>
+		    </template>
+		    <template v-else>
+			    <el-table-column align="center"
+			        prop="visitdate"
+			        :label="$t('form.time.text')"
+			        width="180">
+			        <template slot-scope="scope">
+				        {{scope.row.visitdate | formatDate}}
+				    </template>
+			    </el-table-column>
+			    <el-table-column align="center"
+			        prop="leaveTime"
+			        :label="$t('endVisitTime')"
+			        width="180">
+			        <template slot-scope="scope">
+				        {{scope.row.leaveTime | formatDate}}
+				    </template>
+			    </el-table-column>
+		    </template>
 		    <template v-if="signPdfShow">
 		    	<el-table-column align="center"
 		        :label="$t('Signprotocol')"
@@ -120,11 +146,11 @@
 		    </template>
 		    <template v-if="dataError">
 		    	<el-table-column align="center"
-		        prop="visitdate"
+		        prop="signInDate"
 		        :label="$t('goInTime')"
 		        width="180">
 			        <template slot-scope="scope">
-				        {{scope.row.visitdate | formatDate}}
+				        {{scope.row.signInDate | formatDate}}
 				    </template>
 			    </el-table-column>
 			    <el-table-column align="center"
@@ -132,7 +158,7 @@
 			        :label="$t('goLeaveTime')"
 			        width="180">
 			        <template slot-scope="scope">
-				        {{scope.row.leaveTime | formatDate}}
+				        {{scope.row.signOutDate | formatDate}}
 				    </template>
 			    </el-table-column>
 		    	<el-table-column align="center"
@@ -194,6 +220,7 @@ export default {
   	  extendArray: [],
   	  showUrl: '',
   	  show: false,
+  	  vTypeShow: process.env.vTypeShow || false,
   	  signPdfShow: process.env.signPdf,
   	  dataError: process.env.dataError
   	}

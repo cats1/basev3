@@ -284,3 +284,36 @@ export function UploadBase64Common (base64Codes, callback) {
     xhr.setRequestHeader("X-COOLVISIT-TOKEN", getCache("token"));
     xhr.send(form);
 }
+export function UploadBase64CommonChange (base64Codes, callback) {
+  var form = new FormData();
+  var photo = base64Codes;
+  var file = convertBase64UrlToBlob(photo);
+  var responseJSON;
+  var resultLength;
+  form.enctype = "multipart/form-data";
+  form.append('action', 'upload');
+  form.append('filename', file, "upload.jpg");
+  var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+        if (xhr.status == 200) {
+            responseJSON = $.parseJSON(xhr.responseText);
+            if (responseJSON.status == 0) {
+                let result = responseJSON.result
+                /*Message({
+                  message: i18n.messages[getLanguage()].uploadFileSuccess,
+                  type: 'success'
+                })*/
+                callback && callback(result);
+            } else {
+                Message({
+                  message: i18n.messages[getLanguage()].uploadFileError,
+                  type: 'error'
+                })
+                return;
+            }
+        }
+    };
+    xhr.open('post', getBaseUrl() + "/Upload", true);
+    xhr.setRequestHeader("X-COOLVISIT-TOKEN", getCache("token"));
+    xhr.send(form);
+}

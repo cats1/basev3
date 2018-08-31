@@ -4,16 +4,28 @@
 	  <el-dialog
 		  :title="$t('btn.addDepartBtn')"
 		  :visible.sync="dialogVisible"
-		  width="30%" >
+		  width="30%" @close="handleClose">
 		  <el-form :model="departform" :rules="rules" ref="departform" label-width="100px" class="demo-ruleForm">
 			  <el-form-item :label="$t('depart.departName')" prop="deptName">
 			    <el-input v-model="departform.deptName"></el-input>
 			  </el-form-item>
 			  <el-form-item :label="$t('depart.prevDepartName')" >
-          <div class="last_inner" @click="setDepShow">
-            <span>{{parentObj.name}}</span>
-          </div>
+          <template v-if="deptNoShow">
+            <div class="last_inner noedit" @click="setDepShow" >
+              <span>{{parentObj.name}}</span>
+            </div>
+          </template>
+          <template v-else>
+            <div class="last_inner" @click="setDepShow" >
+              <span>{{parentObj.name}}</span>
+            </div>
+          </template>
 			  </el-form-item>
+        <template v-if="deptNoShow">
+          <el-form-item :label="$t('departNo')" prop="deptNo" >
+            <el-input maxlength="2" v-model="departform.deptNo"></el-input>
+          </el-form-item>
+        </template>
       </el-form>
       <el-dialog
       width="50%"
@@ -46,19 +58,25 @@ export default {
       innerVisible: false,
   	  departform: {
   	  	deptName: '',
+        deptNo: '',
   	  	parentId: '',
         deptManagerEmpid: '',
   	  	userid: getCache('userid')
   	  },
   	  rules: {
   	  	deptName: [
-  	  	  { required: true, message: this.$t('formCheck.validName.tip6'), trigger: 'blur' }]
+  	  	  { required: true, message: this.$t('formCheck.validName.tip6'), trigger: 'blur' }
+        ],
+        deptNo: [
+          { required: true, message: this.$t('formCheck.validName.tip8')}
+        ]
   	  },
       parentObj: this.parent,
       departArray: [],
       menuList: [],
       cobj: [],
-      btnType: 0
+      btnType: 0,
+      deptNoShow: process.env.deptNoShow || false
   	}
   },
   watch: {
@@ -97,7 +115,22 @@ export default {
     saveProject () {
         this.$refs['departform'].validate((valid) => {
           if (valid) {
-            this.$store.dispatch('addDepartment',this.departform).then(res => {
+            let nform = {
+              deptName: this.departform.deptName,
+              parentId: this.departform.parentId,
+              deptManagerEmpid: this.departform.deptManagerEmpid,
+              userid: getCache('userid')
+            }
+            if (this.deptNoShow) {
+              nform = {
+                deptName: this.departform.deptName,
+                deptNo: this.departform.deptNo,
+                parentId: this.departform.parentId,
+                deptManagerEmpid: this.departform.deptManagerEmpid,
+                userid: getCache('userid')
+              }
+            }
+            this.$store.dispatch('addDepartment',nform).then(res => {
     		   	  	let {status} = res
     		   	  	if (status === 0) {
     		          this.dialogVisible = false
@@ -113,7 +146,22 @@ export default {
     saveAndProject () {
         this.$refs['departform'].validate((valid) => {
           if (valid) {
-            this.$store.dispatch('addDepartment',this.departform).then(res => {
+            let nform = {
+              deptName: this.departform.deptName,
+              parentId: this.departform.parentId,
+              deptManagerEmpid: this.departform.deptManagerEmpid,
+              userid: getCache('userid')
+            }
+            if (this.deptNoShow) {
+              nform = {
+                deptName: this.departform.deptName,
+                deptNo: this.departform.deptNo,
+                parentId: this.departform.parentId,
+                deptManagerEmpid: this.departform.deptManagerEmpid,
+                userid: getCache('userid')
+              }
+            }
+            this.$store.dispatch('addDepartment',nform).then(res => {
                 let {status} = res
                 if (status === 0) {
                   this.$refs['departform'].resetFields()
@@ -132,6 +180,9 @@ export default {
         arr.push(element.pid)
       })
       this.innerVisible = false
+    },
+    handleClose () {
+      this.$refs['departform'].resetFields()
     }
   }
 }

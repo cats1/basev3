@@ -96,7 +96,7 @@ export default new Router({
         component: _import('pad/layOut'),
         meta: {
           title: 'pad'
-        }
+        } 
       },
       {
         path: '/reserve',
@@ -119,6 +119,14 @@ export default new Router({
         component: _import('reserve/setCalendar'),
         meta: {
           title: 'calendar'
+        }
+      },
+      {
+        path: '/vset',
+        name: 'vset',
+        component: _import('vtype/layOut'),
+        meta: {
+          title: 'vset'
         }
       },
       {
@@ -245,13 +253,13 @@ export default new Router({
     meta: {
       title: '404'
     }
-  }, {
+  }/*, {
     path: '/takephoto',
     name: 'takephoto',
     component: _import('photo/takePhoto')
-  },, {
+  },{
     path: '/cropper',
     name: 'cropper',
     component: _import('cropper/vueCropper')
-  }]
+  }*/]
 })

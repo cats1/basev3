@@ -7,17 +7,17 @@
             <h3>{{$t('notice.email.ptitle')}}</h3>
             <el-radio-group v-model="emailType" class="emailradiowrap" 
             @change="getValue">
-              <el-radio class="block" :label="0">{{$t('notice.email.defaults')}} ({{$t('notice.email.ddesc')}})</el-radio>
-              <el-radio class="block" :label="1">smtp</el-radio>
-              <el-radio class="block" :label="2">Exchange</el-radio>
+              <el-radio class="block" :label="3">{{$t('notice.email.defaults')}} ({{$t('notice.email.ddesc')}})</el-radio>
+              <el-radio class="block" :label="1">smtp<el-button class="marginlr20" type="primary" size="mini" plain v-show="emailType == 1" @click="showUpdateWin">{{$t('btn.updateBtn')}}</el-button></el-radio>
+              <el-radio class="block" :label="2">Exchange<el-button class="marginlr20" type="primary" size="mini" plain v-show="emailType == 2" @click="showUpdateWin">{{$t('btn.updateBtn')}}</el-button></el-radio>
             </el-radio-group>
           </div>
         </div>        
     </notice-show>
     <el-dialog :title="dtitle"
       :visible.sync="dialogVisible"
-      width="40%" >
-      <template v-if="emailType === 0 || emailType === 2">
+      width="40%" @close="handClose">
+      <template v-if="emailType === 0">
         <el-form :model="form" ref="form" :rules="rules">
           <el-form-item :label="$t('form.email.text')" prop="account">
             <el-input v-model="form.account"></el-input>
@@ -34,7 +34,7 @@
           <el-button @click="doCancel">{{$t('btn.cancelBtn')}}</el-button>
         </span>
       </template>
-      <template v-else>
+      <template v-else-if="emailType === 1">
         <el-form :model="form" ref="form" :rules="rules">
           <el-form-item :label="$t('form.email.text')" prop="account">
             <el-input v-model="form.account"></el-input>
@@ -54,7 +54,24 @@
           <el-button type="primary" @click="saveSmtp" >{{$t('btn.saveBtn')}}</el-button>
           <el-button @click="doCancel">{{$t('btn.cancelBtn')}}</el-button>
         </span>
-      </template>      
+      </template>
+      <template v-else-if="emailType === 2">
+        <el-form :model="form" ref="form" :rules="rules">
+          <el-form-item :label="$t('form.email.text')" prop="account">
+            <el-input v-model="form.account"></el-input>
+          </el-form-item>
+          <el-form-item :label="$t('form.password.text1')">
+            <el-input v-model="form.pwd"></el-input>
+          </el-form-item>
+          <el-form-item :label="$t('notice.email.server1')">
+            <el-input v-model="form.exchange"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="saveExchange" >{{$t('btn.saveBtn')}}</el-button>
+          <el-button @click="doCancel">{{$t('btn.cancelBtn')}}</el-button>
+        </span>
+      </template>    
     </el-dialog>
 	</div>
 </template>
@@ -69,19 +86,19 @@ export default {
   	return {
       imgSrc: require('@/assets/img/mailv1.png'),
       dialogVisible: false,
-      emailType: parseInt(getCache('emailType')) === 3 ? 0 : parseInt(getCache('emailType')),
-      oldemailType: 0,
+      emailType: parseInt(getCache('emailType')),
+      oldemailType: parseInt(getCache('emailType')),
       isShow: false,
       form: {
         userid: getCache('userid'),
         type: 0,
-        account: '',
-        pwd: '',
-        smtp: '',
-        smtp_port: 0,
-        exchange: '',
-        domain: '',
-        ssl: 0
+        account: getCache('emailAccount'),
+        pwd: getCache('emailPwd'),
+        smtp: getCache('smtp'),
+        smtp_port: getCache('smtpPort'),
+        exchange: getCache('exchange'),
+        domain: getCache('domain'),
+        ssl: numberToBoolean(getCache('ssl')) || false
       },
       rules: {
         account: [
@@ -109,7 +126,7 @@ export default {
         } else if (this.emailType === 1) {
           return 'SMTP'
         } else {
-          return 'Exchange'
+          return '默认配置'
         }
       },
       set () {}
@@ -123,31 +140,47 @@ export default {
       this.isShow = val
     }
   },
+  mounted () {
+
+  },
   methods: {
-    getValue (val) {
+    showUpdateWin () {
       this.dialogVisible = true
+    },
+    getValue (val) {
+      if (val !== 3) {
+        this.dialogVisible = true
+      } else {
+        this.updateEmail()
+      }
     },
     doCancel () {
       this.dialogVisible = false
-      this.emailType = this.oldemailType
     },
     saveExchange () {
-      this.form.smtp = ''
-      this.form.smtp_port = ''
-      this.form.domain = ''
       this.form.type = 2
       this.updateEmail()
     },
     saveSmtp () {
-      this.form.exchange = ''
-      this.form.domain = ''
       this.form.type = 1
       this.updateEmail()
     },
     updateEmail () {
-      this.$store.dispatch('ConfigureEmail', this.form).then(res => {
+      let nform = {
+        userid: getCache('userid'),
+        type: this.form.type,
+        account: this.form.account,
+        pwd: this.form.pwd,
+        smtp: this.form.smtp,
+        smtp_port: this.form.smtp_port,
+        exchange: this.form.exchange,
+        domain: this.form.domain,
+        ssl: booleanToNumber(this.form.ssl)
+      }
+      this.$store.dispatch('ConfigureEmail', nform).then(res => {
         let { status, reason } = res
         if (status === 0) {
+          this.dialogVisible = false
           this.$message({
             message: this.$t('notice.email.tips'),
             type: 'success'
@@ -162,12 +195,10 @@ export default {
         this.form.type = 0
       }
       this.isShow = value
-      this.form.account = ''
-      this.form.pwd = ''
-      this.form.smtp = ''
-      this.form.smtp_port = 0
-      this.form.ssl = 0
       this.updateEmail()
+    },
+    handClose () {
+      this.emailType = parseInt(getCache('emailType'))
     }
   }
 }

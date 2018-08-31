@@ -23,7 +23,7 @@
 			<el-table-column prop="remark" :label="$t('form.remark.text')"></el-table-column>
 			<el-table-column prop="status" :label="$t('tablehead[10]')" width="70">
 				<template slot-scope="scope">
-			      {{checkStatus(scope.row.status)}}
+			      {{checkStatus(scope.row)}}
 			    </template>
 			</el-table-column>
 		</el-table>
@@ -85,8 +85,35 @@ export default {
         return getBaseUrl() + '/show?id=' + encryption
       }
     },
-  	checkStatus (type) {
-  		return this.$t('vstatus')[type]
+  	checkStatus (row) {
+      console.log(row)
+      if (row.permission == 0) {
+          return this.$t('待审批')
+        } else if (row.permission == 1) {
+          let status = parseInt(row.status)
+          switch (status) {
+            case 0:
+              return this.$t('vstatus[0]')
+            case 1:
+              return this.$t('vstatus[1]')
+            case 2:
+              return this.$t('vstatus[0]')
+            case 3:
+              return this.$t('vstatus[3]')
+            case 4:
+              return this.$t('vstatus[4]')
+            default:
+              return this.$t('vstatus[0]')
+          }
+        } else if (row.permission == 2) {
+          return this.$t('vstatus[4]')
+        } 
+        if (row.visitdate && !row.signOutDate && row.appointmentDate) {
+          return this.$t('vstatus[1]')
+        } else if ((row.signOutDate && row.visitdate && row.appointmentDate) || (row.signOutDate)) {
+          return this.$t('vstatus[5]')
+        }
+  		//return this.$t('vstatus')[type]
   	},
   	getList () {
       if (this.empWorkNoCheck) {

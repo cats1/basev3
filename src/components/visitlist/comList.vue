@@ -56,11 +56,14 @@
 	  		  </el-table>
 		  		<div class="page-footer">
 		  		<el-pagination
+          background
 			      @size-change="handleSizeChange"
 			      @current-change="handleCurrentChange"
-			      :current-page="nform.startIndex"
+            @prev-click="handleCurrentChange"
+            @next-click="handleCurrentChange"
+			      :current-page="currentPage"
 			      :page-sizes="[10, 20, 30, 40]"
-			      :page-size="nform.requestedCount"
+			      :page-size="requestedCount"
 			      layout="total, sizes, prev, pager, next, jumper"
 			      :total="total">
 			    </el-pagination>
@@ -80,6 +83,8 @@ export default {
   	return {
       list: [],
       total:0,
+      currentPage: 1,
+      requestedCount: 10,
       dataList:[],
       defaultProps: {
         children: 'children',
@@ -145,6 +150,9 @@ export default {
         this.getResidentVisitor()
     },
     handleSizeChange (val) {
+      this.requestedCount = val
+      this.currentPage = 1
+      this.form.startIndex = 1
   	  this.form.requestedCount = val
   	  this.getResidentVisitor()
   	},

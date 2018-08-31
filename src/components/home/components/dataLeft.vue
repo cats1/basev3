@@ -3,12 +3,22 @@
 		<el-form :model="form">
 			<el-form-item>
 				<el-select class="width100" v-model="svalue" @change="settype">
-				    <el-option
-				      v-for="(item,index) in $t('checkVtype')"
-				      :key="index"
-				      :label="item"
-				      :value="index" >
-				    </el-option>
+          <template v-if="vTypeShow">
+            <el-option
+              v-for="(item,index) in $t('checkVtype')"
+              :key="index"
+              :label="item"
+              :value="index" >
+            </el-option>
+          </template>
+				  <template v-else>
+            <el-option
+              v-for="(item,index) in $t('checkVtype')"
+              :key="index"
+              :label="item"
+              :value="index" v-show="index !== 7">
+            </el-option> 
+          </template>
 				</el-select>
 			</el-form-item>
 			<el-form-item>
@@ -32,6 +42,16 @@
 					    </el-option>
 					</el-select>
 				</template>
+        <template v-else-if="svalue===7">
+          <el-select class="width100" v-model="vType" >
+              <el-option
+                v-for="(item,index) in vtypelist"
+                :key="item.vType"
+                :label="item.vType"
+                :value="item.vType">
+              </el-option>
+          </el-select>
+        </template>
 				<template v-else>
 					<el-input v-model="value" :placeholder="$t('btn.searchBtn')"></el-input>
 				</template>
@@ -43,7 +63,7 @@
 			      range-separator="-"
             :picker-options="pickerOptions1"
 			      :start-placeholder="$t('vdate[0]')"
-			      :end-placeholder="$t('vdate[1]')" @change="setDate">
+			      :end-placeholder="$t('vdate[1]')" @change="setDate" style="width: 100%;">
 			    </el-date-picker>
 			</el-form-item>
 			<el-form-item>
@@ -62,21 +82,24 @@ export default {
   components: {dataPie},
   data () {
   	return {
+      vTypeShow: process.env.vTypeShow || false,
   		form: {
-  			'userid': getCache('userid'),
-	        'name': '',
-	        'empName': '',
-	        'visitType': '',
-	        'phone': '',
-	        'date': formatDate(new Date(),'yyyy-MM-dd'),
-	        'endDate': formatDate(new Date(),'yyyy-MM-dd'),
-	        'vcompany': '',
-	        'signInGate': ''
+  			 'userid': getCache('userid'),
+	       'name': '',
+	       'empName': '',
+	       'visitType': '',
+	       'phone': '',
+	       'date': formatDate(new Date(),'yyyy-MM-dd'),
+	       'endDate': formatDate(new Date(),'yyyy-MM-dd'),
+	       'vcompany': '',
+	       'signInGate': '',
+         'vType': ''
   		},
   		svalue: 0,
   		value: '',
   		vvalue: '',
   		gvalue: '',
+      vType: '',
   		dvalue: [formatDate(new Date(),'yyyy-MM-dd'),formatDate(new Date(),'yyyy-MM-dd')],
   		vlist: [],
   		typeList: [],
@@ -86,14 +109,29 @@ export default {
         disabledDate(time) {
           return time.getTime() > Date.now();
         }
-      }
+      },
+      vtypelist: []
   	}
   },
   mounted () {
     this.getVisitor()
+    if (this.vTypeShow) {
+      this.getTypeList()
+    }
   },
   methods: {
     setgtype (val) {},
+    getTypeList () {
+      let nform = {
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getVisitorType',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.vtypelist = result
+        }
+      })
+    },
   	settype (val) {
   	  if (val === 0) {
         this.form.name = ''
@@ -104,6 +142,7 @@ export default {
         this.form.signInGate = ''
         this.vvalue = ''
         this.gvalue = ''
+        this.vType = ''
       } else if (val === 1) {
   	  	this.form.name = this.value
         this.form.empName = ''
@@ -113,6 +152,7 @@ export default {
         this.form.signInGate = ''
         this.vvalue = ''
         this.gvalue = ''
+        this.vType = ''
   	  } else if (val === 2) {
   	  	this.form.empName = this.value
         this.form.name = ''
@@ -122,6 +162,7 @@ export default {
         this.form.signInGate = ''
         this.vvalue = ''
         this.gvalue = ''
+        this.vType = ''
   	  } else if (val === 3) {
   	  	this.vvalue = '面试'
   	  	this.getVType()
@@ -132,6 +173,7 @@ export default {
         this.form.vcompany = ''
         this.form.signInGate = ''
         this.gvalue = ''
+        this.vType = ''
   	  } else if (val === 4) {
   	  	this.form.phone = this.value
         this.form.name = ''
@@ -141,6 +183,7 @@ export default {
         this.form.signInGate = ''
         this.vvalue = ''
         this.gvalue = ''
+        this.vType = ''
   	  } else if (val === 5) {
   	  	this.form.vcompany = this.value
         this.form.name = ''
@@ -150,6 +193,7 @@ export default {
         this.form.signInGate = ''
         this.vvalue = ''
         this.gvalue = ''
+        this.vType = ''
   	  } else if (val === 6) {
   	  	this.getGate()
         this.form.name = ''
@@ -159,7 +203,18 @@ export default {
         this.form.vcompany = ''
         this.form.signInGate = ''
         this.vvalue = ''
-  	  }
+        this.vType = ''
+  	  } else if (val === 7) {
+        this.form.name = ''
+        this.form.empName = ''
+        this.form.visitType = ''
+        this.form.phone = ''
+        this.form.vcompany = ''
+        this.form.signInGate = ''
+        this.vvalue = ''
+        this.gvalue = ''
+        this.form.vcompany = ''
+      }
   	},
   	setDate (val) {
   		this.form.date = formatDate(val[0],'yyyy-MM-dd')
@@ -202,6 +257,20 @@ export default {
         'endDate': this.form.endDate,
         'vcompany': this.form.vcompany,
         'signInGate': this.gvalue
+      }
+      if (this.vTypeShow) {
+        nform = {
+          'userid': getCache('userid'),
+          'name': this.form.name,
+          'empName': this.form.empName,
+          'visitType': this.vvalue,
+          'phone': this.form.phone,
+          'date': this.form.date,
+          'endDate': this.form.endDate,
+          'vcompany': this.form.vcompany,
+          'signInGate': this.gvalue,
+          'vType': this.vType
+        }
       }
   	  this.$store.dispatch('SearchVisitByCondition',nform).then(res => {
         let {status,result} = res

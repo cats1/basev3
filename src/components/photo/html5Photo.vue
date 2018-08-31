@@ -1,17 +1,30 @@
 <template>
   <div class="html5photo" id="contentHolder" >
       <video id="video" width="320" height="320" autoplay></video>
-      <el-button type="primary" id="picture" class="btn blue-button1" style="display:block;margin: 10px auto;">拍照</el-button>
+      <el-button type="primary" id="picture" class="btn blue-button1" style="display:block;margin: 10px auto;">{{$t('takePhoto')}}</el-button>
       <canvas style="display:block;margin: 10px auto;" id="canvas" width="320" height="320"></canvas>
-      <el-button type="success" id="sc" class="btn blue-button1" style="display:block;margin: 10px auto;">确定</el-button>
+      <el-button type="success" id="sc" class="btn blue-button1" style="display:block;margin: 10px auto;">{{$t('btn.confirmBtn')}}</el-button>
     </div>
 </template>
 <script>
 import { UploadBase64Common } from '@/utils/upload'
 export default {
+  props: {
+    isShow: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
-     mediaStreamTrack: null 
+      mediaStreamTrack: null 
+    }
+  },
+  watch: {
+    isShow (val) {
+      if (val) {
+        this.init()
+      }
     }
   },
   mounted () {
@@ -21,14 +34,13 @@ export default {
     init () {
       let _self = this
       var mediaStreamTrack
-      this.mediaStreamTrack = mediaStreamTrack
       navigator.getUserMedia = navigator.getUserMedia ||
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia;
       if (navigator.getUserMedia) {
         navigator.getUserMedia({ audio: true, video: { width: 320, height: 320 } },
             function(stream) {
-                _self.mediaStreamTrack = typeof stream.stop === 'function' ? stream : stream.getTracks()[1];
+                mediaStreamTrack = typeof stream.stop === 'function' ? stream : stream.getTracks()[1];
                 video.src = (window.URL || window.webkitURL).createObjectURL(stream);
                 video.play();
                 /*  var video = document.getElementById("video");
@@ -51,6 +63,7 @@ export default {
     document.getElementById("picture").addEventListener("click", function() {
         var context = document.getElementById("canvas").getContext("2d");
         context.drawImage(video, 0, 0, 320, 320);
+        //mediaStreamTrack && mediaStreamTrack.stop();
     });
     document.getElementById("sc").addEventListener("click", function() {
         var imgData = document.getElementById("canvas").toDataURL("image/png");
@@ -59,16 +72,17 @@ export default {
         //console.log(mmmd)        
         UploadBase64Common(data, function(data) {
             _self.$emit('uploaddata',data)
-            _self.mediaStreamTrack && _self.mediaStreamTrack.stop();
+            mediaStreamTrack && mediaStreamTrack.stop();
         })
     });
     }
   },
   beforeDestroy () {
+    console.log(6666)
     this.mediaStreamTrack && this.mediaStreamTrack.stop();
   },
   destroyed () {
-
+    console.log(888)
   }
 }
 </script>

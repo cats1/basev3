@@ -11,7 +11,7 @@
 			<el-form ref="form" class="modeform" :model="form" label-width="100px" :label-position="labelPosition">
 			  <h3 class="form-item-nowrap">{{$t('vCardType')}}</h3>
 			  <div class="form-item-nowrap borderbom">
-			  	<el-radio-group v-model="form.badgemode">
+			  	<el-radio-group v-model="form.badgemode" @change="setCardSeting">
 				    <el-radio :label="0">{{$t('commonText')}}</el-radio>
 				    <el-radio :label="1">{{$t('customized')}}</el-radio>
 				</el-radio-group>
@@ -82,7 +82,7 @@
 </template>
 <script>
 import {getCache} from '@/utils/auth'
-import {booleanToNumber,numberToBoolean,checkIsNull,getBaseLink} from '@/utils/common'
+import {booleanToNumber,numberToBoolean,checkIsNull,getBaseLink,getBaseCardLink} from '@/utils/common'
 import selfUploadPic from '@/components/upload/selfUploadPic'
 export default {
   props: {
@@ -99,11 +99,11 @@ export default {
   data () {
     return {
       labelPosition: 'left',
-      iframeSrc: getBaseLink() + '/card/index.html?userid=' + getCache('userid') + '&token=' + getCache('token'),
+      iframeSrc: getBaseCardLink() + '/card/index.html?userid=' + getCache('userid') + '&token=' + getCache('token'),
       form:{
-      	badgemode: 0,
+      	badgemode: parseInt(getCache('badgeMode')) || 0,
       	brandType: parseInt(getCache('brandType')) || 0,
-      	brandPosition: getCache('brandPosition') || 0,
+      	brandPosition: parseInt(getCache('brandPosition')) || 0,
       	brandText: getCache('cardText'),
       	showAvatar: numberToBoolean(parseInt(getCache('showAvatar'))),
       	avatarType: parseInt(getCache('avatarType')),
@@ -116,18 +116,28 @@ export default {
       checked: false
     }
   },
+  mounted () {
+  	//console.log(this.form.badgemode)
+  },
   methods: {
   	changeIframeSrc () {
-  		this.iframeSrc = getBaseLink() +'/card/index.html?badgeMode=' + this.form.badgeMode + '&badgeCustom=' + this.form.badgeCustom + '&brandType=' + this.form.brandType + '&brandPosition=' + this.form.brandPosition + '&showAvatar=' + booleanToNumber(this.form.showAvatar) + '&avatarType=' + this.form.avatarType + '&fixAvatarUrl=' + this.form.fixAvatarUrl + '&qrcodeText=' + this.form.qrcodeText + '&customText=' + this.form.customText + '&brandText=' + this.form.brandText + '&brandImageUrl=' + this.form.brandImageUrl + '&userid=' + getCache('userid') + '&token=' + getCache('token')
+  		this.iframeSrc = getBaseCardLink() +'/card/index.html?badgeMode=' + this.form.badgeMode + '&badgeCustom=' + this.form.badgeCustom + '&brandType=' + this.form.brandType + '&brandPosition=' + this.form.brandPosition + '&showAvatar=' + booleanToNumber(this.form.showAvatar) + '&avatarType=' + this.form.avatarType + '&fixAvatarUrl=' + this.form.fixAvatarUrl + '&qrcodeText=' + this.form.qrcodeText + '&customText=' + this.form.customText + '&brandText=' + this.form.brandText + '&brandImageUrl=' + this.form.brandImageUrl + '&userid=' + getCache('userid') + '&token=' + getCache('token')
   		this.$emit('getmode',this.form)
   	},
   	changeSelfIframeSrc () {
-  		this.iframeSrc = getBaseLink() + '/card/custom/' + this.form.badgeCustom + '/index.html'
+  		this.iframeSrc = getBaseCardLink() + '/card/custom/' + this.form.badgeCustom + '/index.html'
   		this.$emit('getmode',this.form)
   	},
     getfixAvatarUrl (url) {
       this.form.fixAvatarUrl = url
       this.changeIframeSrc()
+    },
+    setCardSeting (val) {
+      if (val == 0) {
+      	this.changeIframeSrc()
+      } else if (val == 1) {
+      	this.changeSelfIframeSrc()
+      }
     }
   }
 }

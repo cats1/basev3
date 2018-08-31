@@ -19,7 +19,7 @@
 			      <el-radio-button label="role">{{$t('emplist.com')}}</el-radio-button>
 			    </el-radio-group>
 			    <div class="roletreewrap">
-			    	<el-tree :data="list" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+            <r-tree :list="list" :expandedid="expandedid" :dexpanded="defaultGet" :dprops="defaultProps" @nodeclick="handleNodeClick"></r-tree>
 			    </div>
 	  		</div>
 	  	</el-col>
@@ -56,11 +56,14 @@
 	  		  </el-table>
 		  		<div class="page-footer">
   		  		<el-pagination
+            background
   			      @size-change="handleSizeChange"
   			      @current-change="handleCurrentChange"
-  			      :current-page="nform.startIndex"
+              @prev-click="handleCurrentChange"
+              @next-click="handleCurrentChange"
+  			      :current-page="currentPage"
   			      :page-sizes="[10, 20, 30, 40]"
-  			      :page-size="nform.requestedCount"
+  			      :page-size="requestedCount"
   			      layout="total, sizes, prev, pager, next, jumper"
   			      :total="total">
   			    </el-pagination>
@@ -71,15 +74,18 @@
 	</div>
 </template>
 <script>
+import rTree from '@/components/tree/rTree'
 import { getCache } from '@/utils/auth'
 import { getCBarList } from '@/utils/common'
 import { addRoleGroup,addRole,editRoleGroup,editRole,addMember,deleteRoleEmp } from './components'
 export default {
-  components: { addRoleGroup,addRole,editRoleGroup,editRole,addMember,deleteRoleEmp },
+  components: { addRoleGroup,addRole,editRoleGroup,editRole,addMember,deleteRoleEmp,rTree },
   data () {
   	return {
       list: [],
       total:0,
+      currentPage: 1,
+      requestedCount: 10,
       dataList:[],
       sform: {
         name: '',
@@ -97,7 +103,9 @@ export default {
       parent: {},
       roleNode: {},
       vempObj: [],
-      vtype: 'role'
+      vtype: 'role',
+      expandedid: 0,
+      defaultGet: [0]
   	}
   },
   created () {
@@ -128,7 +136,8 @@ export default {
       this.getResidentVisitor()
     },
     getMember () {
-      this.getProjectList()
+      this.vempObj = []
+      //this.getProjectList()
       this.getResidentVisitor()
     },
     getDelete () {
@@ -164,12 +173,16 @@ export default {
   	},
   	handleNodeClick(data,node) {
       this.parent = data
+      this.defaultGet = [data.pid]
       this.roleNode = node.parent.data
       this.nform.rid = data.pid
       this.nform.startIndex = 1
       this.getResidentVisitor()
     },
     handleSizeChange (val) {
+      this.currentPage = 1
+      this.requestedCount = val
+      this.form.startIndex = 1
   	  this.form.requestedCount = val
   	  this.getResidentVisitor()
   	},

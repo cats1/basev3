@@ -55,12 +55,14 @@
 	  		</el-table-column>
 	  	</el-table>
 	  	<div class="page-footer">
-	  		<el-pagination
+	  		<el-pagination background
 	  		  @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-		      :current-page="form.startIndex"
+          @current-change="handleCurrentChange"
+          @prev-click="handleCurrentChange"
+          @next-click="handleCurrentChange"
+		      :current-page="currentPage"
 		      :page-sizes="[10, 20, 30, 40]"
-		      :page-size="form.requestedCount"
+		      :page-size="requestedCount"
 		      layout="total, sizes, prev, pager, next, jumper"
 		      :total="total">
 		    </el-pagination>
@@ -79,15 +81,17 @@ export default {
       isIndeterminate: true,
   	  form: {
   	  	userid: getCache('userid'),
-		empNo: '',
-		empName: '',
-		startDate: null,
-		endDate: null,
-		slist: [0],
-		startIndex: 1,
+    		empNo: '',
+    		empName: '',
+    		startDate: null,
+    		endDate: null,
+    		slist: [0],
+    		startIndex: 1,
         requestedCount: 10
   	  },
   	  total: 0,
+      currentPage: 1,
+      requestedCount: 10,
   	  dateRange: [new Date(), new Date()],
   	  list: [],
   	  editType: 0,
@@ -141,11 +145,14 @@ export default {
       })
     },
   	handleSizeChange (val) {
+      this.currentPage = 1
+      this.requestedCount = val
+      this.form.startIndex = 1
   	  this.form.requestedCount = val
   	  this.doSearch()	  
   	},
   	handleCurrentChange (val) {
-      this.form.startIndex = (val - 1) * this.form.requestedCount + 1
+      this.form.startIndex = (val - 1) * this.requestedCount + 1
       this.doSearch()	 
   	},
   	getStatus (val) {},

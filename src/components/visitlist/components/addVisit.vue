@@ -1,12 +1,13 @@
 <template>
 	<div class="btnsection">
 	  <el-button :type="bType" @click="doAddVisit"><i class="fa fa-user-plus"></i>{{$t('btn.addVisitorBtn')}}</el-button>
-    <visit-edit :edit-type="etype" :cur-emp="curEmp" :cur-rid="curRid" :is-show="dialogVisible" :pro-list="proList" @sendav="getEdit"></visit-edit>
+    <visit-edit :edit-type="etype" :cur-emp="curEmp" :cur-rid="curRid" :is-show="dialogVisible" :pro-list="proList" @sendav="getEdit" @updatesendav="getUpdateEdit" @closesendav="getCloseEdit"></visit-edit>
 	</div>
 </template>
 <script>
 import visitEdit from './visitEdit'
 import {getCache} from '@/utils/auth'
+import {isEmptyObject} from '@/utils/common'
 export default {
   components: {visitEdit},
   props: {
@@ -26,7 +27,8 @@ export default {
       type: Object,
       default: {}
     },
-    pid: null
+    pid: null,
+    curEmpRid: null
   },
   data () {
   	return {
@@ -90,12 +92,12 @@ export default {
       }
     },
     curEmp (val) {
-      console.log(val)
       this.proform = val
       this.dateRange = [val.startDate,val.endDate]
       this.$set(this.dateRange,0,val.startDate)
       this.$set(this.dateRange,1,val.endDate)
-    }
+    },
+    curEmpRid (val) {}
   },
   mounted () {
     if (this.btnType === 1) {
@@ -105,13 +107,45 @@ export default {
     }
   },
   methods: {
+    getCloseEdit (val,data) {
+      this.$emit('closesendav',val,data)
+      this.dialogVisible = false
+    },
     getEdit (val,data) {
       this.$emit('sendav',val,data)
       this.dialogVisible = false
     },
+    getUpdateEdit (val,data) {
+      this.$emit('sendav',val,data)
+      this.dialogVisible = false
+    },
     doAddVisit () {
-      console.log(this.proform)
-      this.curRid = this.proform.rid
+      if (this.editType == 0) {
+        this.proform = {
+          pName: '',
+          remark: '',
+          avatar: '',
+          company: '',
+          name: '',
+          age: '',
+          sex: 0,
+          leader: '',
+          phone: '',
+          area: '',
+          startDate: '',
+          endDate: '',
+          job: '',
+          department: '',
+          rid: '',
+          userid: getCache('userid')
+        }
+      } else {
+        this.proform = this.curEmp
+        this.dateRange = [this.curEmp.startDate,this.curEmp.endDate]
+        this.$set(this.dateRange,0,this.curEmp.startDate)
+        this.$set(this.dateRange,1,this.curEmp.endDate)
+      }
+      //this.curRid = this.proform.rid
       this.$emit('addemp',1)
       this.dialogVisible = true
     },

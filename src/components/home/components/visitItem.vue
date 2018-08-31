@@ -6,7 +6,7 @@
             <img :src="dlogo" alt="" v-else>
             <transition name="el-fade-in">
               <div v-show="maskShow" class="vavatar-mask" >
-                <el-button type="primary" @click.prevent="signOutRecord">签出</el-button>
+                <el-button type="primary" @click.prevent="signOutRecord">{{$t('signOutText')}}</el-button>
                 <!-- <i class="fa fa-trash-o fa-4x"></i> -->
               </div>
             </transition>
@@ -196,85 +196,110 @@ export default {
   	checkStatus () {
       if (parseInt(this.vdata.signinType) === 1) {//邀请访客
         this.vtext = this.$t('vtype[2]')
-        switch (this.vdata.status) {
-          case 0:
-            this.statusText = this.$t('vstatus[0]')
-            this.color = '#36b22b'
-          case 1:
-            this.statusText = this.$t('vstatus[1]')
-            this.color = '#36b22b'
-          case 2:
-            this.statusText = this.$t('vstatus[2]')
-            this.color = '#996b33'
-          case 3:
-            this.statusText = this.$t('vstatus[3]')
-            this.color = '#2c9ffd'
-          case 4:
-            this.statusText = this.$t('vstatus[4]')
-            this.color = '#db231c'
-          default:
-            this.statusText = this.$t('vstatus[0]')
-            this.color = '#36b22b'
-        }
-        if (this.vdata.permission == 1) {
-          this.statusText = this.$t('vstatus[3]')
-          this.color = '#2c9ffd'
-        } else if (this.vdata.permission == 2) {
-          this.statusText = this.$t('vstatus[4]')
-          this.color = '#db231c'
-        }
-        if (this.vdata.visitdate && !this.vdata.signOutDate && this.vdata.appointmentDate) {
-          this.statusText = this.$t('vstatus[1]')
-          this.color = '#36b22b'
-        } else if ((this.vdata.signOutDate && this.vdata.visitdate && this.vdata.appointmentDate) || (this.vdata.signOutDate)) {
+        if (this.vdata.signOutDate) {//签出
           this.statusText = this.$t('vstatus[5]')
           this.color = '#2c9ffd'
-        }
-      } else if (parseInt(this.vdata.signinType) === 2) {//2预约访客
-        if (parseInt(this.permissionSwitch) === 1) {
-          if (this.vdata.signOutDate) {
-            if (this.vdata.visitdate && this.vdata.appointmentDate) {
-              //this.statusText = '已签出'
-            } else if (!this.vdata.visitdate && this.vdata.appointmentDate) {
-              
-            }
-            this.statusText = this.$t('vstatus[5]')
-            this.color = '#2c9ffd'
-          } else {
-            this.statusText = this.$t('vstatus[1]')
-            this.color = '#36b22b'
-            if (this.vdata.appointmentDate && this.vdata.visitdate) {
-              //this.statusText = '已签到'
-            } else {
-              if (this.vdata.permission == 0) { //
-                this.statusText = this.$t('vstatus[6]')
-                this.color = '#e36101'
-              } else if (this.vdata.permission == 1) { //
-                this.statusText = this.$t('vstatus[7]')
-                this.color = '#e8b000'
-              } else if (this.vdata.permission == 2) {
-                this.statusText = this.$t('vstatus[4]')
-                this.color = '#db231c'
-              }
-            }
-          }
         } else {
-          if ((this.vdata.signOutDate && this.vdata.visitdate && this.vdata.appointmentDate) || (this.vdata.signOutDate)) {
-            this.statusText = this.$t('vstatus[5]')
-            this.color = '#2c9ffd'
-          } else if (this.vdata.visitdate && !this.vdata.signOutDate && this.vdata.appointmentDate) {
-            this.statusText = this.$t('vstatus[1]')
-            this.color = '#36b22b'
-          } else if (!this.vdata.visitdate && !this.vdata.signOutDate && this.vdata.appointmentDate) {
-            if (this.vdata.permission === 1) {
-              this.statusText = this.$t('vstatus[7]')
-              this.color = '#e8b000'
-            } else if (this.vdata.permission === 2) {
+          if (this.vdata.leaveTime) {
+            this.statusText = this.$t('endedStatus')
+            this.color = '#996b33'
+          } else {
+            if (this.vdata.permission == 0) {
+              this.statusText = this.$t('waitApprove')
+              this.color = '#db231c'
+            } else if (this.vdata.permission == 1) {
+              let status = parseInt(this.vdata.status)
+              switch (status) {
+                case 0:
+                  this.statusText = this.$t('vstatus[0]')
+                  this.color = '#36b22b'
+                  break;
+                case 1:
+                  this.statusText = this.$t('vstatus[1]')
+                  this.color = '#36b22b'
+                  break;
+                case 2:
+                  this.statusText = this.$t('vstatus[0]')
+                  this.color = '#36b22b'
+                  break;
+                case 3:
+                  this.statusText = this.$t('vstatus[3]')
+                  this.color = '#2c9ffd'
+                  break;
+                case 4:
+                  this.statusText = this.$t('vstatus[4]')
+                  this.color = '#db231c'
+                  break;
+                default:
+                  this.statusText = this.$t('vstatus[0]')
+                  this.color = '#36b22b'
+                  break;
+              }
+            } else if (this.vdata.permission == 2) {
               this.statusText = this.$t('vstatus[4]')
               this.color = '#db231c'
+            }
+            if (this.vdata.visitdate && !this.vdata.signOutDate && this.vdata.appointmentDate) {
+              this.statusText = this.$t('vstatus[1]')
+              this.color = '#36b22b'
+            }
+          }
+        }       
+      } else if (parseInt(this.vdata.signinType) === 2) {//2预约访客
+        if (this.vdata.signOutDate) {//签出
+          this.statusText = this.$t('vstatus[5]')
+          this.color = '#2c9ffd'
+        } else {
+          if (this.vdata.leaveTime) {
+            this.statusText = this.$t('endedStatus')
+            this.color = '#996b33'
+          } else {
+            if (parseInt(this.permissionSwitch) === 1) {
+              if (this.vdata.signOutDate) {
+                if (this.vdata.visitdate && this.vdata.appointmentDate) {
+                  //this.statusText = '已签出'
+                } else if (!this.vdata.visitdate && this.vdata.appointmentDate) {
+                  
+                }
+                this.statusText = this.$t('vstatus[5]')
+                this.color = '#2c9ffd'
+              } else {
+                this.statusText = this.$t('vstatus[1]')
+                this.color = '#36b22b'
+                if (this.vdata.appointmentDate && this.vdata.visitdate) {
+                  //this.statusText = '已签到'
+                } else {
+                  if (this.vdata.permission == 0) { //
+                    this.statusText = this.$t('vstatus[6]')
+                    this.color = '#e36101'
+                  } else if (this.vdata.permission == 1) { //
+                    this.statusText = this.$t('vstatus[7]')
+                    this.color = '#e8b000'
+                  } else if (this.vdata.permission == 2) {
+                    this.statusText = this.$t('vstatus[4]')
+                    this.color = '#db231c'
+                  }
+                }
+              }
             } else {
-              this.statusText = this.$t('vstatus[8]')
-              this.color = '#ef4f20'
+              if ((this.vdata.signOutDate && this.vdata.visitdate && this.vdata.appointmentDate) || (this.vdata.signOutDate)) {
+                this.statusText = this.$t('vstatus[5]')
+                this.color = '#2c9ffd'
+              } else if (this.vdata.visitdate && !this.vdata.signOutDate && this.vdata.appointmentDate) {
+                this.statusText = this.$t('vstatus[1]')
+                this.color = '#36b22b'
+              } else if (!this.vdata.visitdate && !this.vdata.signOutDate && this.vdata.appointmentDate) {
+                if (this.vdata.permission === 1) {
+                  this.statusText = this.$t('vstatus[7]')
+                  this.color = '#e8b000'
+                } else if (this.vdata.permission === 2) {
+                  this.statusText = this.$t('vstatus[4]')
+                  this.color = '#db231c'
+                } else {
+                  this.statusText = this.$t('vstatus[8]')
+                  this.color = '#ef4f20'
+                }
+              }
             }
           }
         }
@@ -287,15 +312,25 @@ export default {
           this.color = '#36b22b'
         }
       } else if (parseInt(this.vdata.signinType) === 0) {
-        if ((this.vdata.signOutDate && this.vdata.visitdate && this.vdata.appointmentDate) || (this.vdata.signOutDate)) {
+        if (this.vdata.signOutDate) {//签出
           this.statusText = this.$t('vstatus[5]')
           this.color = '#2c9ffd'
-        } else if (this.vdata.visitdate && !this.vdata.signOutDate) {
-          this.statusText = this.$t('vstatus[1]')
-          this.color = '#36b22b'
-        } else if (!this.vdata.visitdate && !this.vdata.signOutDate) {
-          this.statusText = this.$t('vstatus[8]')
-          this.color = '#ef4f20'
+        } else {
+          if (this.vdata.leaveTime) {
+            this.statusText = this.$t('endedStatus')
+            this.color = '#996b33'
+          } else {
+            if ((this.vdata.signOutDate && this.vdata.visitdate && this.vdata.appointmentDate) || (this.vdata.signOutDate)) {
+              this.statusText = this.$t('vstatus[5]')
+              this.color = '#2c9ffd'
+            } else if (this.vdata.visitdate && !this.vdata.signOutDate) {
+              this.statusText = this.$t('vstatus[1]')
+              this.color = '#36b22b'
+            } else if (!this.vdata.visitdate && !this.vdata.signOutDate) {
+              this.statusText = this.$t('vstatus[8]')
+              this.color = '#ef4f20'
+            }
+          }
         }
       }
       if (this.vdata.appointmentDate && !this.vdata.visitdate && !this.vdata.signOutDate) {

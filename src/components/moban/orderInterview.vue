@@ -62,7 +62,8 @@ export default {
       mapShow: false,
       getResult: {},
       isChangeXSS: process.env.isChangeXSS || false,
-      empWorkNoCheck: process.env.empWorkNoCheck
+      empWorkNoCheck: process.env.empWorkNoCheck,
+      isDoInit: this.isInit
   	}
   },
   computed: {},
@@ -71,14 +72,19 @@ export default {
     isshow (val) {
       this.mapShow = val
       if (val) {
-        this.showDefault(this.vtype)
+        this.init()
+      }
+    },
+    isInit (val) {
+      if (val) {
+        this.init()
       }
     }
   },
   created () {
     this.vtype = this.mtype === 0 ? '面试' : '商务'
     if (this.isInit) {
-      this.init()
+      //this.init()
     }
   },
   methods: {
@@ -111,7 +117,7 @@ export default {
         this.$emit('getbtraffic',val)
       }
     },
-    htmlUnescape (val,type) {
+    async htmlUnescape (val,type) {
       this.$store.dispatch('htmlUnescape',
         {'inviteContent': val}).then(res => {
           this[type] = replaceRemoveReserveQuotation(res)
@@ -165,9 +171,9 @@ export default {
       }
       this.$store.dispatch('getUsertemplate',newForm).then(res => {
         let { status, result } = res
-        if (status === 0) {
-          this.getResult = result
+        if (status === 0) {          
           if (result != null && result != 'null') {
+            this.getResult = result
             this.showDefault(type)
           } else {
             //showAlert('公司' + type + '模板未设置,请先设置模板', -1);
@@ -185,8 +191,8 @@ export default {
       this.$store.dispatch('getSubAccountTemp',newForm).then(res => {
         let { status, result } = res
         if (status === 0) {
-          this.getResult = result
           if (result != null && result != 'null') {
+            this.getResult = result
             this.showDefault(type)
           } else {
             //showAlert('子公司' + type + '模板未设置,请先设置模板', -1);
@@ -202,9 +208,9 @@ export default {
       }
       this.$store.dispatch('getEmptemplateByType',newForm).then(res => {
         let { status, result } = res
-        if (status === 0) {
-          this.getResult = result
+        if (status === 0) {          
           if(result) {
+            this.getResult = result
             this.showDefault(type)
           } else {
             if (parseInt(getCache('subaccountId')) === 0) { //子公司id为0，联合办公模式关闭
@@ -228,18 +234,29 @@ export default {
           this.setDefaultMoban() 
         }
         if (this.isChangeXSS) {
-          this.htmlUnescape(replaceRemoveQuotation(result.inviteContent),'inviteContent')
-          this.htmlUnescape(replaceRemoveQuotation(result.traffic),'traffic')
-          this.htmlUnescape(replaceRemoveQuotation(result.companyProfile),'companyProfile')
+          this.htmlUnescape(replaceRemoveQuotation(result.inviteContent),'inviteContent').then(() => {
+            this.htmlUnescape(replaceRemoveQuotation(result.traffic),'traffic').then(() => {
+              this.htmlUnescape(replaceRemoveQuotation(result.companyProfile),'companyProfile').then(() => {
+                this.pot.latitude = result.latitude
+                this.pot.longitude = result.longitude 
+                this.address = result.address
+                let sendObj = result
+                sendObj.inviteContent = this.inviteContent
+                sendObj.traffic = this.traffic
+                sendObj.companyProfile = this.companyProfile
+                this.$emit('initmoban',sendObj)
+              })
+            })
+          })
         } else {
           this.inviteContent = replaceRemoveQuotation(result.inviteContent)
           this.traffic = replaceRemoveQuotation(result.traffic)
           this.companyProfile = replaceRemoveQuotation(result.companyProfile)
+          this.pot.latitude = result.latitude
+          this.pot.longitude = result.longitude
+          this.address = result.address
+          this.$emit('initmoban',result)
         }
-        this.pot.latitude = result.latitude
-        this.pot.longitude = result.longitude
-        this.address = result.address
-        this.$emit('initmoban',result)
     },
     saveMoban () {
       let nform = {

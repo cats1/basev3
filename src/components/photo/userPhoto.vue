@@ -1,15 +1,15 @@
 <template>
   <div>
-  	<el-button type="success" @click="doPhoto">拍照</el-button>
+  	<el-button type="success" @click="doPhoto">{{$t('takePhoto')}}</el-button>
   	<el-dialog
 	  title="拍照"
 	  :visible.sync="dialogVisible"
 	  width="800px"
 	  :before-close="handleClose" style="z-index:2002" append-to-body>
-	  <take-photo @sendphoto="getPhoto"></take-photo>
+	  <take-photo :photo-show="dialogVisible" @sendphoto="getPhoto"></take-photo>
 	  <span slot="footer" class="dialog-footer">
-	    <el-button @click="dialogVisible = false">取 消</el-button>
-	    <el-button type="primary" @click="doConfirm">确 定</el-button>
+	    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
+	    <el-button type="primary" @click="doConfirm">{{$t('btn.confirmBtn')}}</el-button>
 	  </span>
 	</el-dialog>
   </div>
@@ -54,18 +54,18 @@ export default {
                   if (dataJson.face.length > 0) {
                     _self.imageUrl = url
                     _self.$emit('updateurl',url)
-      				_self.dialogVisible = false
+      				      _self.dialogVisible = false
                   } else {
                     _self.$message({
                       showClose: true,
-                      message: '请上传头像',
+                      message: _self.$t('form.photo.tip'),
                       type: 'error'
                     })
                   }
                 } else {
                   _self.$message({
                     showClose: true,
-                    message: '人脸识别失败',
+                    message: _self.$t('faceError'),
                     type: 'error'
                   })
                 }

@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "html2canvas": "^1.0.0-alpha.12",
+    "lrz": "^4.9.40",
     "nprogress": "^0.2.0",
     "qrcodejs2": "0.0.2",
     "vue": "^2.5.2",

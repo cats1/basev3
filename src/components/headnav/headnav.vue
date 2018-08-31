@@ -13,8 +13,19 @@
 			  	  <el-menu-item index="index"><router-link to="/">{{$t('navlist[0].name')}}</router-link></el-menu-item>
 			  	  <el-submenu index="emp">
 				    <template slot="title">{{$t('navlist[1].name')}}</template>
-					<template v-for="citem in $t('navlist[1].children')">
-						<el-menu-item :index="citem.dirname"><router-link :to="citem.link">{{citem.name}}</router-link></el-menu-item>
+					<template v-for="(citem,ckey) in $t('navlist[1].children')">
+						<template v-if="ckey < 3">
+							<el-menu-item :index="citem.dirname"><router-link :to="citem.link">{{citem.name}}</router-link></el-menu-item>
+						</template>
+						<template v-else>
+							<template v-if="whiteListShow && ckey == 3">
+								<el-menu-item :index="citem.dirname"><router-link :to="citem.link">{{citem.name}}</router-link></el-menu-item>
+							</template>
+							<template v-if="whiteListShow && ckey == 4">
+								<el-menu-item :index="citem.dirname"><router-link :to="citem.link">{{citem.name}}</router-link></el-menu-item>
+							</template>
+						</template>
+						
 					</template>
 				  </el-submenu>
 				  <el-menu-item index="notice"><router-link to="/notice">{{$t('navlist[2].name')}}</router-link></el-menu-item>
@@ -64,7 +75,8 @@ export default {
         username: this.getCache('company'),
         hlogo: require('@/assets/img/hlogo.png'),
         homepageShow: process.env.homepage,
-        meetshow: process.env.conference || false
+        meetshow: process.env.conference || false,
+        whiteListShow: process.env.whiteListShow || false
       }
     },
     computed: {

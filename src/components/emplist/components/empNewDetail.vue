@@ -69,9 +69,20 @@
             <el-form-item :label="$t('form.company.text1')" v-if="!workbayCheck">
               <el-input v-model="form.workbay" :readonly="empnoread"></el-input>
             </el-form-item>
-            <el-form-item :label="$t('form.company.text1')" prop="workbay" v-else>
-              <el-input v-model="form.workbay" :readonly="empnoread"></el-input>
-            </el-form-item>
+            <el-form-item class="noedit" :label="$t('form.company.text1')" v-if="!workbayCheck">
+                <el-input v-model="form.workbay"></el-input>
+              </el-form-item>
+              <el-form-item class="noedit" :label="$t('form.company.text1')" prop="workbay" v-else>
+                <!-- <el-input v-model="form.workbay"></el-input> -->
+                <el-select v-model="form.workbay" placeholder="请选择">
+                  <el-option
+                    v-for="(item,key) in $t('floorArray')"
+                    :key="key"
+                    :label="item"
+                    :value="key">
+                  </el-option>
+                </el-select>
+              </el-form-item>
             <el-form-item :label="$t('form.gate.text')">
               <gate-group :t-show="false" :check-array="egids" @getclist="getGate" :class="{'noedit':empnoread}"></gate-group>
             </el-form-item>
@@ -274,6 +285,11 @@ export default {
         this.checked = true
       } else {
         this.checked = false
+      }
+      if (val.workbay == '低' || val.workbay == '中' || val.workbay == '高') {
+        this.form.workbay = ''
+      } else {
+        this.form.workbay = parseInt(val.workbay)
       }
       if (val.avatar && val.face !== 0) {
         this.faceTextShow = true

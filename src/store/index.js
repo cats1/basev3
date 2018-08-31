@@ -19,6 +19,7 @@ import role from './modules/role'
 import approve from './modules/approve'
 import calendar from './modules/calendar'
 import white from './modules/white'
+import visitType from './modules/visitType'
 import e from './modules/e'
 import getters from './getters'
 
@@ -44,6 +45,7 @@ const store = new Vuex.Store({
     e,
     upload,
     calendar,
+    visitType,
     white
   },
   getters

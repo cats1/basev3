@@ -7,19 +7,37 @@
 	    <div class="boxshadow bgwhite paddinglr30 paddingtb20">
 	    	<el-form label-position="left" :model="form" :rules="rules" ref="danform" style="width:50%;">
 	    	  <h3 class="marginbom20">{{$t('moban.visitMess')}}</h3>
-		    	<el-form-item :label="$t('form.name.text')" prop="name">
-		    	  <el-input v-model="form.name" :placeholder="$t('visitor.vname')"></el-input>
-		    	</el-form-item>
+          <template v-if="vTypeShow">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item :label="$t('form.name.text')" prop="name">
+                  <el-input v-model="form.name" :placeholder="$t('visitor.vname')"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item :label="$t('visitTypeText')" prop="vType">
+                  <el-select class="block" v-model="form.vType" >
+                    <el-option v-for="item in typelist" :key="item.vType" :label="item.vType" :value="item.vType"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </template>
+          <template v-else>
+            <el-form-item :label="$t('form.name.text')" prop="name">
+              <el-input v-model="form.name" :placeholder="$t('visitor.vname')"></el-input>
+            </el-form-item>
+          </template>		    	
 		    	<!-- <el-form-item :label="$t('form.phone.text')" prop="phone">
 		    		<el-input v-model="form.phone" :placeholder="$t('visitor.vphone')"></el-input>
 		    	</el-form-item> -->
           <el-form-item :label="$t('sendType')" prop="sendValue">
-            <el-row class="block">
+            <el-row class="block" :gutter="20">
               <el-col :span="12">
                 <el-select v-model="stype" >
                   <el-option key="0" :label="$t('form.phone.text')" :value="0"></el-option>
                   <el-option key="1" :label="$t('form.email.text')" :value="1"></el-option>
-              </el-select>
+                </el-select>
               </el-col>
               <el-col :span="12">
                 <el-input v-model="form.sendValue" @change="setSendValue"></el-input>
@@ -34,7 +52,7 @@
 				    </el-date-picker>
 		    	</el-form-item>
 		    	<el-form-item :label="$t('form.visitType.text')">
-		    		<el-select v-model="visitType" class="block" style="width:100%">
+		    		<el-select v-model="visitType" class="block" style="width:100%" @change="getVtypeTemp">
 					    <el-option
 					      v-for="item in $t('itype')"
 					      :key="item.value"
@@ -83,7 +101,7 @@
 		    		</el-row>
 		    	</el-form-item>
 		    </el-form>
-		    <bom-moban @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"
+		    <bom-moban :default-type="visitType" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"
 		    @getbcon="getbinv" @getbtraffic="getbtraffic" @getbcompro="getbcompro" @getinitface="getinitface" @getinitbus="getinitbus"></bom-moban>
 	    </div>
 	    <div class="margintop20">
@@ -99,12 +117,13 @@
 import {mobanDialog,previewDialog} from '@/components/dialog'
 import { getCache } from '@/utils/auth'
 import bomMoban from './bomMoban'
-import { replaceQuotation } from '@/utils/common'
+import { replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation } from '@/utils/common'
 import { formatDate } from '@/utils/index'
 export default {
   components: { bomMoban,mobanDialog,previewDialog },
   data () {
   	return {
+      vTypeShow: process.env.vTypeShow || false,
       timetypeShow: 0,
       form: {
       	address: '',
@@ -124,10 +143,12 @@ export default {
       	userid: '',
       	vcompany: '',
       	visitType: '',
-        sendValue: ''
+        sendValue: '',
+        vType: ''
       },
       rules: {
       	name: [{ required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
+        vType: [{ required: true, message: this.$t('pleaseSelectVtype'), trigger: 'blur' }],
       	sendValue: [{ required: true, message: this.$t('sendTypeIsNull'), trigger: 'blur' }],
       	appointmentDate: [{ required: true, message: this.$t('formCheck.time.tip1'), trigger: 'blur' }],
       	qrcodeType: [
@@ -135,7 +156,7 @@ export default {
           { type: 'number', message: 'Number'}]
       },
       timetype: 0,
-      visitType: 0,
+      visitType: 1,
       mobanShow: false,
       facemoban: {},
       busmoban: {},
@@ -149,7 +170,8 @@ export default {
         disabledDate(time) {
           return time.getTime() < Date.now() - 8.64e7
         }
-      }
+      },
+      typelist: []
   	}
   },
   computed: {
@@ -164,9 +186,26 @@ export default {
       set () {}
     }
   },
+  created () {
+    if (this.vTypeShow) {
+      this.getTypeList()
+    }
+  },
   methods: {
-    setSendValue (val) {
-      console.log(val)
+    getVtypeTemp (val) {
+      this.visitType = val
+    },
+    setSendValue (val) {},
+    getTypeList () {
+      let nform = {
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getVisitorType',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.typelist = result
+        }
+      })
     },
     setQrcodeType (val) {
       if (this.timetype === 0) {
@@ -216,8 +255,7 @@ export default {
     },
   	sendOrder () {
       this.$refs.danform.validate(valid => {
-      	if (valid) {
-          
+      	if (valid) {       
       		if (this.visitType === 0) {
 		        this.demoban = this.facemoban
 		  	  } else {
@@ -238,6 +276,7 @@ export default {
               this.form.vemail = this.form.sendValue
             }
             let date = formatDate(this.form.appointmentDate,'yyyy-MM-dd hh:mm:ss')
+            
             let nform = [{
               address: this.demoban.address,
               appointmentDate: new Date(Date.parse(date.replace(/-/g, '/'))),
@@ -257,28 +296,96 @@ export default {
               vcompany: this.form.vcompany,
               visitType: this.visitType === 0 ? '面试' : '商务'
             }]
+            if (this.vTypeShow) {              
+              nform = [{
+                address: this.demoban.address,
+                appointmentDate: new Date(Date.parse(date.replace(/-/g, '/'))),
+                companyProfile: replaceQuotation(this.demoban.companyProfile),
+                empid: getCache('empid'),
+                inviteContent: replaceQuotation(this.demoban.inviteContent),
+                latitude: this.demoban.latitude,
+                longitude: this.demoban.longitude,
+                name: this.form.name,
+                phone: this.form.phone,
+                vemail: this.form.vemail,
+                qrcodeConf: this.form.qrcodeType,
+                qrcodeType: this.timetype === 0 ? '0' : '1',
+                remark: this.form.remark,
+                traffic: replaceQuotation(this.demoban.traffic),
+                userid: getCache('userid'),
+                vcompany: this.form.vcompany,
+                visitType: this.visitType === 0 ? '面试' : '商务',
+                vType: this.form.vType
+              }]
+            }
             let MaxCount = this.timetype === 0 ? parseInt(getCache('qrMaxDuration')) : parseInt(getCache('qrMaxCount'))
             if (parseInt(this.form.qrcodeType) > MaxCount) {
-              this.$message({
-                showClose: true,
-                type: 'warning',
-                message: this.$t('uptoMax')
-              })
-              return false
+                this.$message({
+                  showClose: true,
+                  type: 'warning',
+                  message: this.$t('uptoMax')
+                })
+                      return false
             } else {
-              this.$store.dispatch('addAppointment',nform).then(res => {
-                let {status} = res
-                if (status === 0) {
-                  this.mobanFlag = true
-                  this.$refs.danform.resetFields()
-                  this.$refs.danform.clearValidate()
-                }
-              })
+              this.doaddAppointment(nform)
             }
           }
       	}
       })
   	},
+    doaddAppointment (nform) {
+      this.$store.dispatch('addAppointment',nform).then(res => {
+        let {status} = res
+        if (status === 0) {
+          this.mobanFlag = true
+          this.form = {
+            address: '',
+            appointmentDate: '',
+            companyProfile: '',
+            empid: '',
+            inviteContent: '',
+            latitude: '',
+            longitude: '',
+            name: '',
+            phone: '',
+            vemail: '',
+            qrcodeConf: '',
+            qrcodeType: '',
+            remark: '',
+            traffic: '',
+            userid: '',
+            vcompany: '',
+            visitType: '',
+            sendValue: ''
+          }
+          if (this.vTypeShow) {
+            this.form = {
+              address: '',
+              appointmentDate: '',
+              companyProfile: '',
+              empid: '',
+              inviteContent: '',
+              latitude: '',
+              longitude: '',
+              name: '',
+              phone: '',
+              vemail: '',
+              qrcodeConf: '',
+              qrcodeType: '',
+              remark: '',
+              traffic: '',
+              userid: '',
+              vcompany: '',
+              visitType: '',
+              sendValue: '',
+              vType: ''
+            }
+          }
+          this.$refs.danform.resetFields()
+          this.$refs.danform.clearValidate()
+        }
+      })
+    },
   	editMoban () {
   	  this.mobanShow = !this.mobanShow
   	},

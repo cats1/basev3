@@ -4,7 +4,7 @@
 	  <el-dialog
 		  :title="$t('btn.addMember')"
 		  :visible.sync="dialogVisible"
-		  width="50%" >
+		  width="50%" @close="handleClose">
       <vemp-menu :left-data="list" :right-data="vemp" @menukit="getSEmp"></vemp-menu>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
@@ -77,6 +77,9 @@ export default {
           this.$emit('addempkit')
         }
       })
+    },
+    handleClose () {
+      this.$emit('closeempkit')
     }
   }
 }

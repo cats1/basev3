@@ -4,27 +4,31 @@ module.exports = {
   homepage: false,
   signupShow: true,
   conference: false,
-  BASE_ISTRUE: false,
+  BASE_ISTRUE: true,
   loginShow: false,
   signupShow: false,
   stageLink: true,
-  signPdf: false,
+  signPdf: true,
   empLogin: true,
-  empPwdShow: true,
+  empPwdShow: false,
   empActiveShow: true,
-  empPhoneCheck: false,
-  empWorkNoCheck: true,
-  workbayCheck: true,
-  agentShow: false,
+  empPhoneCheck: true,
+  empWorkNoCheck: false,
+  workbayCheck: false,
+  agentShow: true,
+  agentCheck: true,
   isChangeXSS: true,
   empComShow: true,
   addAreaIsShow: false,
-  whiteListShow: true,
+  whiteListShow: false,
   doorGate: false,
-  dataError: true,
+  dataError: false,
+  deptNoShow: false,
+  takePhotoShow: false,
+  vTypeShow: false,
   sendSmsType: 2, //0手机号1邮箱2手机号和邮箱二选一
-  BASE_API: '"http://www.coolvisit.top/qcvisit"',//'"http://visit.eastech.com/qcvisit"',//
-  BASE_LINK: '"http://www.coolvisit.top/jh"',//'"http://visit.eastech.com/"',//
-  BASE_VERSION: '"v2.2.0"',
-  HOST: '"www.coolvisit.top"'//'"visit.eastech.com"'
+  BASE_API: '"http://visit.eastech.cn/qcvisit"',//'"http://visit.eastech.com/qcvisit"',//
+  BASE_LINK: '"http://visit.eastech.cn/"',//'"http://visit.eastech.com/"',//
+  BASE_VERSION: '"v2.1.0"',
+  HOST: '"visit.eastech.cn"'//'"visit.eastech.com"'
 }

@@ -15,13 +15,21 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="$t('form.idnum.text')" prop="cardid">
-            <el-input v-model="proform.cardid" :readonly="empnoread"></el-input>
+            <el-input maxlength="18" v-model="proform.cardid" :readonly="empnoread"></el-input>
           </el-form-item>
         </el-col>        
       </el-row>
 			<el-row>  
         <el-col :span="12">
           <el-form-item :label="$t('Projectselect')" prop="curDefaultRid">
+            <!-- <el-select v-model="proform.curDefaultRid" :placeholder="$t('mustSelect')" @change="getProname">
+              <el-option
+                v-for="item in list"
+                :key="item.pid"
+                :label="item.pName"
+                :value="item.pid">
+              </el-option>
+            </el-select> -->
             <el-select v-model="curDefaultRid" :placeholder="$t('mustSelect')" @change="getProname">
               <el-option
                 v-for="item in list"
@@ -97,7 +105,7 @@
               type="daterange"
               range-separator="-"
               :start-placeholder="$t('startTime')"
-              :end-placeholder="$t('endTime')" @change="setrange">
+              :end-placeholder="$t('endTime')" @change="setrange" style="width: 100%;">
             </el-date-picker>
         </el-form-item>    
 	      <el-form-item :label="$t('form.remark.text')" prop="remark">
@@ -143,6 +151,7 @@ export default {
       bType: 'default',
       curDefaultRid: this.curRid,
       empnoread: false,
+      curDefaultRid: '',
   	  proform: {
   	  	pName: '',
   	  	remark: '',
@@ -160,7 +169,9 @@ export default {
         cardid: '',
         department: '',
         pid: '',
-  	  	userid: getCache('userid')
+        rid: '',
+  	  	userid: getCache('userid'),
+        curDefaultRid: this.curDefaultRid
   	  },
       dateRange: [],
   	  rules: {
@@ -177,7 +188,8 @@ export default {
         startDate: [
           { required: true, message: this.$t('dateIsBlank'), trigger: 'blur' }],
         cardid: [
-          { required: true, message: this.$t('cardidIsNotNull'), trigger: 'blur' }],
+          { required: true, message: this.$t('cardidIsNotNull'), trigger: 'blur' },
+          { min:18,max: 18, message: this.$t('cardidIsError'), trigger: 'blur' }],
         curDefaultRid: [
           { required: true, message: this.$t('selectProject'), trigger: 'blur' }]
   	  },
@@ -200,6 +212,7 @@ export default {
     }
   },
   watch: {
+    editType (val) {},
     btnType (val) {
       if (val === 1) {
         this.bType = 'primary'
@@ -219,6 +232,9 @@ export default {
     curEmp (val) {
       if (this.editType === 1) {
       	this.proform = val
+        this.curDefaultRid = val.pid
+        this.proform.curDefaultRid = val.pid
+        this.proform.rid = val.rid
         this.dateRange = [val.startDate,val.endDate]
         if (val.avatar && val.face !== 0) {
           this.faceTextShow = true
@@ -232,8 +248,11 @@ export default {
       }
     },
     curRid (val) {
-      this.curDefaultRid = val
+      this.proform.curDefaultRid = val
       this.getProname(val)
+    },
+    curDefaultRid (val) {
+      this.proform.curDefaultRid = val
     }
   },
   mounted () {
@@ -254,6 +273,7 @@ export default {
           pName = element.pName
   	  	}
   	  })
+      this.proform.curDefaultRid = pid
   	  this.proform.pid = pid
       this.proform.pName = pName
   	},
@@ -263,7 +283,7 @@ export default {
     },
     getUserPhoto (url) {
       this.proform.avatar = url
-      this.regPhoto()
+      //this.regPhoto()
     },
     regPhoto () {
       let nform = {
@@ -333,19 +353,62 @@ export default {
       })
     },
     updateResidentVisitor () {//updateResidentVisitor
-      this.$store.dispatch('updateResidentVisitor',this.proform).then(res => {
+      let nform = {
+        rid: this.proform.rid,
+        userid: getCache('userid'),
+        pid: this.proform.pid,
+        company: this.proform.company,
+        name: this.proform.name,
+        age: this.proform.age,
+        sex: this.proform.sex,
+        pName: this.proform.pName,
+        leader: this.proform.leader,
+        phone: this.proform.phone,
+        area: this.proform.area,
+        startDate: this.proform.startDate,
+        endDate: this.proform.endDate,
+        remark: this.proform.remark,
+        avatar: this.proform.avatar,
+        job: this.proform.job,
+        cardid: this.proform.cardid,
+        department: this.proform.department
+      }
+      this.$store.dispatch('updateResidentVisitor',nform).then(res => {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
-          this.$emit('sendav',this.editType,this.proform)
-          this.dateRange = []
+          this.$emit('updatesendav',this.editType,this.proform)
+          /*this.dateRange = []
           this.$refs.proform.resetFields()
-          this.$refs.proform.clearValidate()
+          this.$refs.proform.clearValidate()*/
         }
       })
     },
     handClose () {
-      this.$emit('sendav',this.editType,this.proform)
+      this.proform = {
+        pName: '',
+        remark: '',
+        avatar: '',
+        company: '',
+        name: '',
+        age: '',
+        sex: 0,
+        leader: '',
+        phone: '',
+        area: '',
+        startDate: '',
+        endDate: '',
+        job: '',
+        cardid: '',
+        department: '',
+        pid: '',
+        userid: getCache('userid'),
+        curDefaultRid: this.curDefaultRid
+      }
+      this.dialogVisible = false
+      this.empnoread = false
+      this.curDefaultRid = ''
+      this.$emit('closesendav',this.editType,this.proform)
       this.dateRange = []
       this.$refs.proform.resetFields()
       this.$refs.proform.clearValidate()

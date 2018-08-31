@@ -19,8 +19,33 @@ export default {
     history: 'History',
     404: '404',
     calendar: 'Calendar',
-    overtime: 'Work overtime'
+    overtime: 'Work overtime',
+    vset: 'Visittype'
   },
+  agentName: 'Agent',
+  agentStatus: 'Agent status',
+  selectAgent: 'Please select an agent',
+  visitTypeText: 'Visitor type',
+  pleaseInputVtype: 'Please input visitor type',
+  pleaseSelectVtype: 'Please select visitor type',
+  addVtype: 'Add visitor type',
+  editVtype: 'Edit visitor type',
+  vtypeSetTitle: "Visitor's type setting",
+  vtypeSetDesc: 'You can add a type of visitor',
+  peopleNo: 'Personnel number',
+  endedStatus: 'Ended',
+  direction: 'Direction',
+  pleaseDepart: 'Please select department',
+  endVisitTime: 'The time of ending visit',
+  sendError: 'Send error',
+  waitApprove: 'Pending',
+  signOutText: 'Signout',
+  exportEmpList: 'Export employee datas',
+  twoCharter: 'Please enter 2 digits',
+  selectOneMore: 'Choose at least one',
+  departNo: 'Department number',
+  faceError: 'Face recognition failed',
+  takePhoto: 'Take a photo',
   floorArray: ['Low','Mid','High'],
   confirmStopEmp: 'Are you sure that the employee is out of service',
   portrait: 'Portrait',
@@ -31,6 +56,7 @@ export default {
   dataSuccess: 'Data success',
   onWorkReason: 'The reason of work overtime',
   cardidIsNotNull: 'ID cannot be empty',
+  cardidIsError: 'ID number must be 18 digits',
   visitSetTime: "Visit's time setting",
   visitSetTimeDesc: 'Visitors can only visit during this time period.',
   visitStartTime: 'Starting time',
@@ -114,8 +140,9 @@ export default {
   uploadPicError: 'Upload picture failed',
   picFormatError: 'Image format is incorrect',
   emailOrderSuccess: 'Mail subscriptions have been set up successfully',
-  pwdSuccess: 'Password modification success',
-  pwdInitSuccess: 'Password initialization success',
+  pwdSuccess: 'Password reset successfully',
+  pwdResetSuccess: 'Password modify successfully',
+  pwdInitSuccess: 'Password initialise successfully',
   comSuccess: 'The success of multi company service mode modification',
   lessOneGate: 'Less one gate',
   floorNumber: 'Floor',
@@ -572,7 +599,8 @@ export default {
       tip4: 'Please choose the sponsor of the conference',
       tip5: 'Employee name can not be empty',
       tip6: 'Depart name can not be empty',
-      tip7: 'Project name can not be empty'
+      tip7: 'Project name can not be empty',
+      tip8: 'Depart number can not be empty'
     },
     validEmpName: {
       holder: 'Employee name'
@@ -608,7 +636,7 @@ export default {
     label: 'Business affairs',
     value: 1
   }],
-  checkVtype: ['all', 'visitor’s name', 'Interviewee’s name', 'purpose of Visit', 'TEL', 'company', 'Security'],
+  checkVtype: ['all', 'visitor’s name', 'Interviewee’s name', 'purpose of Visit', 'TEL', 'company', 'Security','Visittype'],
   outTip: {
     title: 'Do you confirm the withdrawal?',
     desc: 'tip',
@@ -618,7 +646,7 @@ export default {
   meeting: {},
   nodata: 'no data',
   dataM: 'Data Analytics',
-  vstatus: ['sent', 'signed in', 'viewed', 'Accepted', 'refused', 'signed out', 'Unauthorized', 'Authorized', 'reserved', 'Expired'],
+  vstatus: ['Sent', 'Signed in', 'Viewed', 'Accepted', 'Refused', 'Signed out', 'Unauthorized', 'Authorized', 'Reserved', 'Expired'],
   vtype: ['Sign-in visitors', 'Reserved visitors', 'Invited visitors', 'Resident visitors'],
   vnum: ['Total', 'Left', 'Visiting', 'Total', 'Sign-in', 'Absent', 'Visitor'],
   vdate: ['Start date', 'End date', 'Selection date'],
@@ -720,6 +748,7 @@ export default {
   },
   status: {
     on: 'Enable',
+    forbid: 'Forbidden',
     off: 'Disabled',
     text: 'Status',
     startText: 'Open state'
@@ -777,7 +806,7 @@ export default {
       desc: 'Notify employees via email when a visitor signs in',
       ptitle: 'Please select the mail configuration method',
       defaults: 'Default configuration',
-      ddesc: 'In the default configuration, notifications will be sent from the exchange account of the system.',
+      ddesc: 'In the default configuration, notifications will be sent from the 163 account of the system.',
       tips: 'Successfully modified',
       server1: 'Exchange server',
       server2: 'SMTP server'
@@ -992,7 +1021,8 @@ export default {
   emplist: {
     pro: 'Organizational Structure',
     com: 'Role',
-    pad: 'Whether it is not searchable at the Pad terminal',
+    pad1: 'Whether it is not searchable at the Pad terminal',
+    pad: 'No appointment',
     cardTip: 'This function is only used for batch issuance of the cards, and the original data will be deleted in the process. The card issuance will last for several minutes.'
   },
   project: {

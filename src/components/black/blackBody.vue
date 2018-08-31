@@ -15,12 +15,14 @@
 	  		<el-table-column prop="phone" :label="$t('form.phone.text')"></el-table-column>
 	  	</el-table>
 	  	<div class="page-footer">
-	  		<el-pagination
+	  		<el-pagination background
 		      @size-change="handleSizeChange"
 		      @current-change="handleCurrentChange"
-		      :current-page="form.startIndex"
+          @prev-click="handleCurrentChange"
+          @next-click="handleCurrentChange"
+		      :current-page="currentPage"
 		      :page-sizes="[10, 20, 30, 40]"
-		      :page-size="form.requestedCount"
+		      :page-size="requestedCount"
 		      layout="total, sizes, prev, pager, next, jumper"
 		      :total="total">
 		    </el-pagination>
@@ -34,7 +36,7 @@
         <el-form-item prop="name" :label="$t('form.name.text')">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item prop="phone" :label="$t('form.phone.text')">
+        <el-form-item prop="phone" :label="$t('form.phone.text')" >
           <el-input v-model="form.phone"></el-input>
         </el-form-item>
         <el-form-item prop="credentialNo" :label="$t('form.idnum.text')">
@@ -60,7 +62,7 @@ export default {
   data () {
     const isvalidPhone = (rule, value, callback) => {
       if (value === '') {
-        callback()
+        callback(new Error(this.$t('formCheck.validphone.tip2')))
       } else if (!isvalidatPhone(value)) {
         callback(new Error(this.$t('validphone.tip1')))
       } else {
@@ -90,10 +92,12 @@ export default {
         name: [
           { required: true, message: this.$t('formCheck.validName.tip3'), trigger: 'blur' }
         ],
-        phone: [{ required: false,trigger: 'blur', validator: isvalidPhone }],
+        phone: [{ required: true,trigger: 'blur', validator: isvalidPhone }],
         credentialNo: [{ required: false,trigger: 'blur', validator: isvalidIdNum }]
       },
   	  total: 0,
+      currentPage: 1,
+      requestedCount: 10,
   	  dform: {
   	  	userid: getCache('userid'),
   	  	bids: []
@@ -122,11 +126,14 @@ export default {
   	  })
   	},
   	handleSizeChange (val) {
+      this.currentPage = 1
+      this.requestedCount = val
+      this.form.startIndex = 1
   	  this.form.requestedCount = val
       this.getList()
   	},
   	handleCurrentChange (val) {
-  	  this.form.startIndex = (val - 1) * this.form.requestedCount + 1
+  	  this.form.startIndex = (val - 1) * this.requestedCount + 1
       this.getList()
   	},
   	handleSelectionChange (val) {
@@ -166,19 +173,24 @@ export default {
       })
     },
   	deleteBlack () {
-      this.$store.dispatch('delBlacklist',this.dform).then(res => {
-      	let {status} = res
-      	if (status === 0) {
-          this.getList()
-      	}
-      })
+      if (this.dform.bids.length > 0) {
+        this.$store.dispatch('delBlacklist',this.dform).then(res => {
+          let {status} = res
+          if (status === 0) {
+            this.getList()
+          }
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: this.$t('selectOneMore'),
+          type: 'warning'
+        })
+      }
   	}
   },
   created () {
   	this.getList()
-  },
-  mounted () {
-      	
   }
 }
 </script>

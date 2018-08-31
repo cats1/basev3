@@ -2,7 +2,7 @@
 	<div>
 	  <div class="boxshadow paddinglr30 paddingtb20 bgwhite" style="overflow:hidden;">
       <add-pro :btn-type="btnType" @editpro="getBtnType" @editkit="getaddpro"></add-pro>
-      <add-visit :cur-emp="curEmp" :btn-type="btnType" :pro-list="projectList" :pid="nform.pid" @sendav="getaddv" :edit-type="editType" @addemp="getBtnType"></add-visit>
+      <add-visit :cur-emp="curEmp" :btn-type="btnType" :pro-list="projectList" :pid="nform.pid" :edit-type="editType" @sendav="getaddv" @addemp="getBtnType" @closesendav="getaddvClose"></add-visit>
       <edit-pro :btn-type="btnType" :epdata="probj" @editpro="getBtnType" @editkit="geteditv"></edit-pro>
       <move-pro :btn-type="btnType" :cardarray="cardarray" :pro-list="projectList" @movekit="getmove" @movebtn="getBtnType"></move-pro>
       <make-visit-card :cardarray="cardarray"></make-visit-card>
@@ -48,7 +48,7 @@
 				      <template slot-scope="scope">{{ scope.row.leader }}</template>
 				    </el-table-column>
 				    <el-table-column
-				      :label="$t('chargePersonPhone')">
+				      :label="$t('chargePersonPhone')" width="130">
 				      <template slot-scope="scope">{{ scope.row.phone }}</template>
 				    </el-table-column>
 				    <el-table-column
@@ -57,16 +57,19 @@
 				    </el-table-column>
 				    <el-table-column
 				      :label="$t('form.time.text4')" width="200">
-				      <template slot-scope="scope">{{ scope.row.startDate }}-{{ scope.row.endDate }}</template>
+				      <template slot-scope="scope">{{ scope.row.startDate }}~{{ scope.row.endDate }}</template>
 				    </el-table-column>
 	  		    </el-table>
 		  		<div class="page-footer">
   		  		<el-pagination
+            background
   			      @size-change="handleSizeChange"
   			      @current-change="handleCurrentChange"
-  			      :current-page="nform.startIndex"
+              @prev-click="handleCurrentChange"
+              @next-click="handleCurrentChange"
+  			      :current-page="currentPage"
   			      :page-sizes="[10, 20, 30, 40]"
-  			      :page-size="nform.requestedCount"
+  			      :page-size="requestedCount"
   			      layout="total, sizes, prev, pager, next, jumper"
   			      :total="total">
   			    </el-pagination>
@@ -91,6 +94,8 @@ export default {
       list: [],
       btnType: 0,
       total:0,
+      currentPage: 1,
+      requestedCount: 10,
       dataList:[],
       projectList: [],
       sform: {
@@ -151,13 +156,31 @@ export default {
     getBtnType (val) {
       this.btnType = val
     },
+    getaddvClose (val,data) {
+      this.editType = 0
+      this.btnType = 1
+      //this.curEmp = {}
+      if (val !== 0) {
+        if (data.pid) {
+          this.nform.pid = data.pid
+        }
+        if (data.curDefaultRid) {
+          this.nform.pid = data.curDefaultRid
+        }
+        this.getResidentVisitor()
+      }
+    },
     getaddv (val,data) {
       this.editType = 0
       this.btnType = 1
-      this.curEmp = {}
-      console.log(data)
+      //this.curEmp = {}
       if (val !== 0) {
-        this.nform.pid = data.pid
+        if (data.pid) {
+          this.nform.pid = data.pid
+        }
+        if (data.curDefaultRid) {
+          this.nform.pid = data.curDefaultRid
+        }
         this.getResidentVisitor()
       }
     },
@@ -166,6 +189,7 @@ export default {
       this.getProjectList()
     },
     getDev () {
+      this.dform.rids = []
       this.getProjectList()
       this.getResidentVisitor()
     },
@@ -177,13 +201,15 @@ export default {
   	  	let {status,result} = res
   	  	if (status === 0) {
   	  	  this.list = getBarList(result,'pName','pid','pcount','remark')
+          /*let pArray = [{
+            pName: getCache('company'),
+            pcount: 0,
+            pid: '',
+            remark: '',
+            userid: getCache('userid')
+          }]
+          this.projectList = pArray.concat(result)*/
           this.projectList = result
-  	  	  /*if (result.length>0) {
-            this.nform.pid = result[0].pid
-            this.probj = result[0]
-  	  	  } else {
-            this.nform.pid = ''
-          }*/
           this.getResidentVisitor()
   	  	}
   	  })
@@ -198,7 +224,6 @@ export default {
   	  })	
   	},
   	handleNodeClick(data) {
-      console.log(data)
       this.defaultExpandedKeys = [data.pid]
       this.defaultCheckedKeys = [data.pid]
       let probj = {
@@ -213,6 +238,9 @@ export default {
       this.getResidentVisitor()
     },
     handleSizeChange (val) {
+      this.requestedCount = val
+      this.currentPage = 1
+      this.form.startIndex = 1
   	  this.form.requestedCount = val
   	  this.getResidentVisitor()
   	},
@@ -228,6 +256,8 @@ export default {
   	  })
   	},
     checkRow (val) {
+      console.log(val)
+      this.nform.pid = this.probj.pid
       this.editType = 1
       this.btnType = 1
       this.curEmp = val

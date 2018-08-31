@@ -8,15 +8,21 @@
       <move-depart :parent="parent" :dlist="list" :semp="sempArray" @movekit="getmove" @clickit="changeRightType"></move-depart>
       <template v-if="!empWorkNoCheck">
         <delete-emp :semp="sempArray" @delekit="getDelete" @clickit="changeRightType"></delete-emp>
-      </template>      
+      </template>
   		<send-all-face></send-all-face>
+      <template v-if="empWorkNoCheck">
+        <export-emp-list></export-emp-list>
+      </template>
 	  </div>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
-          <el-autocomplete v-model="sname" :fetch-suggestions="querySearchAsync" value-key="empName" @select="handleSelect" :placeholder="$t('sempholder1')">
+          <!-- <el-autocomplete v-model="sform.name" :fetch-suggestions="querySearchAsync" value-key="empName" :trigger-on-focus="false" @select="handleSelect" :placeholder="$t('sempholder1')">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
-          </el-autocomplete>
+          </el-autocomplete> -->
+          <el-input v-model="sform.name" @change="searchEmp">
+            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+          </el-input>
 	  			<el-radio-group class="margintop20" v-model="vtype" @change="changeVtype">
 			      <el-radio-button label="emplist">{{$t('emplist.pro')}}</el-radio-button>
 			      <el-radio-button label="role">{{$t('emplist.com')}}</el-radio-button>
@@ -32,7 +38,7 @@
         </div>
         <div class="" v-else>
           <div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
-            <el-table :data="dataList" border @selection-change="handleSelectionChange" @row-click="editEmp">
+            <el-table :data="dataList" border @selection-change="handleSelectionChange" @row-click="editEmp" :row-class-name="tableRowClassName">
               <el-table-column
                 type="selection"
                 width="55">
@@ -64,11 +70,14 @@
             </el-table>
             <div class="page-footer">
               <el-pagination
+                background
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
-                :current-page="nform.startIndex"
+                @prev-click="handleCurrentChange"
+                @next-click="handleCurrentChange"
+                :current-page="currentPage"
                 :page-sizes="[10, 20, 30, 40]"
-                :page-size="nform.requestedCount"
+                :page-size="requestedCount"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="total">
               </el-pagination>
@@ -83,12 +92,12 @@
 import $ from 'jquery'
 import {getCache} from '@/utils/auth'
 import {getCgBarList} from '@/utils/common'
-import {addDepart,addEmp,editDepart,moveDepart,deleteEmp,sendAllFace,empDetail,exportAddressBook} from './components'
+import {addDepart,addEmp,editDepart,moveDepart,deleteEmp,sendAllFace,empDetail,exportAddressBook,exportEmpList} from './components'
 import {exportAddressList,useExcel,useRtx,useDing,changeUploadType} from '@/components/upload'
 import lTree from '@/components/tree/lTree'
 import {stringToArray,arrayToString} from '@/utils/common'
 export default {
-  components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace,empDetail,exportAddressBook,lTree},
+  components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace,empDetail,exportAddressBook,lTree,exportEmpList},
   data () {
   	return {
       defaultOpen: [0],
@@ -96,6 +105,8 @@ export default {
       expandedid: 0,
       list: [],
       total:0,
+      currentPage: 1,
+      requestedCount: 10,
       dataList:[],
       dialogVisible: false,
       btnType: 0,
@@ -111,12 +122,12 @@ export default {
       nform:{
   	  	deptid:'',
   	  	requestedCount: 10,
-  	  	startIndex:1,
+  	  	startIndex:0,
   	  	userid: getCache('userid')
   	  },
       rform:{
         requestedCount: 10,
-        startIndex:1,
+        startIndex:0,
         userid: getCache('userid')
       },
       deform: {
@@ -137,7 +148,8 @@ export default {
       restaurants: [],
       timeout:  null,
       whiteListShow: process.env.whiteListShow || false,
-      empWorkNoCheck: process.env.empWorkNoCheck || false
+      empWorkNoCheck: process.env.empWorkNoCheck || false,
+      searchFlag: false
   	}
   },
   computed: {
@@ -163,6 +175,13 @@ export default {
     this.getProjectList()
   },
   methods: {
+    tableRowClassName({row, rowIndex}) {
+      if (row.empType === 4) {
+        return 'off-row'
+      } else {
+        return 'on-row'
+      }
+    },
     changeRightType (val) {
       this.rightType = val
     },
@@ -205,6 +224,7 @@ export default {
       //deptid
       this.editType = 0
       this.curEmp = {}
+      this.searchFlag = false
       //this.getProjectList()
       this.getEmpList()
     },
@@ -268,7 +288,7 @@ export default {
   	  this.$store.dispatch('getDeptList',nform).then(res => {
   	  	let {status,result} = res
   	  	if (status === 0) {
-  	  	  this.list = getCgBarList(result,'deptName','deptid','empCount','deptManagerEmpid','childDeptList')
+  	  	  this.list = getCgBarList(result,'deptName','deptid','empCount','deptManagerEmpid','childDeptList','deptNo')
           this.getEmpList()
           if (JSON.stringify(this.parent) == "{}") {
             this.parent = this.list[0]
@@ -296,6 +316,7 @@ export default {
     },
     getNode (data) {},
   	handleNodeClick(data,node,d) {
+      this.searchFlag = false
       this.defaultGet = [data.id]
       this.rightType = 1
       this.parentNode = node.parent.data
@@ -313,20 +334,24 @@ export default {
       }        
     },
     handleSizeChange (val) {
+      this.currentPage = 1
+      this.requestedCount = val
       if (this.dtype === 0) {
+        this.rform.startIndex = 1
         this.rform.requestedCount = val
         this.getEmpListPages()
       } else {
+        this.nform.startIndex = 1
         this.nform.requestedCount = val
         this.getResidentVisitor()
-      }  	  
+      }	  
   	},
   	handleCurrentChange (val) {
       if (this.dtype === 0) {
-        this.rform.startIndex = (val - 1) * this.rform.requestedCount + 1
+        this.rform.startIndex = (val - 1) * this.requestedCount + 1
         this.getEmpListPages()
       } else {
-        this.nform.startIndex = (val - 1) * this.nform.requestedCount + 1
+        this.nform.startIndex = (val - 1) * this.requestedCount + 1
         this.getResidentVisitor()
       }
   	},
@@ -359,7 +384,7 @@ export default {
             clearTimeout(this.timeout)
             this.timeout = setTimeout(() => {
                 cb(results)
-            }, 3000 * Math.random())
+            }, 1000 * Math.random())
           }
       })
     },
@@ -371,9 +396,21 @@ export default {
     handleSelect(item) {
       let varray = []
       varray.push(item)
+      this.searchFlag = true
       this.dataList = varray
       this.total = 1
     }
   }
 }
 </script>
+<style>
+  .el-table .off-row {
+    /*background: #dcdcdc;*/
+    color:#9e9e9e;
+  }
+
+  .el-table .on-row {
+    /*background: #f0f9eb;*/
+    color: #409EFF;
+  }
+</style>

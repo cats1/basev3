@@ -23,6 +23,16 @@
 				      <el-input v-model="scope.row.name" :placeholder="$t('visitor.vname')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				    </template>
 				</el-table-column>
+        <template v-if="vTypeShow">
+          <el-table-column prop="vType" :label="$t('visitTypeText')" width="180">
+            <template slot-scope="scope">
+                <el-select v-model="scope.row.vType" :disabled="!numberToBoolean(scope.row.etype)">
+                    <el-option v-for="item in typelist" :key="item.vType" :label="item.vType" :value="item.vType"></el-option>
+                  </el-select>
+                </el-form-item>
+              </template>
+          </el-table-column>
+        </template>        
 				<el-table-column prop="vphone" :label="$t('form.phone.text')" width="180">
 					<template slot-scope="scope">
 				      <el-input v-model="scope.row.phone" :placeholder="$t('visitor.vphone')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
@@ -49,7 +59,7 @@
 					<template slot-scope="scope">
 					    <el-date-picker :disabled="!numberToBoolean(scope.row.etype)"
 					      v-model="scope.row.appointmentDate"
-					      type="datetime" @change="updateType(scope.$index)"
+					      type="datetime" :picker-options="options" @change="updateType(scope.$index)"
 					      :placeholder="$t('formCheck.time.tip1')">
 					    </el-date-picker>
 				    </template>
@@ -79,12 +89,28 @@
 		    		<el-row>
 		    			<el-col :span="8">
 			    			<el-select v-model="timetype" >
-							    <el-option
-							      v-for="item in $t('timetype')"
-							      :key="item.value"
-							      :label="item.label"
-							      :value="item.value">
-							    </el-option>
+							    <template v-if="timetypeShow == 0">
+                    <el-option
+                      :key="$t('timetype')[0].value"
+                      :label="$t('timetype')[0].label"
+                      :value="$t('timetype')[0].value">
+                    </el-option>
+                  </template>
+                  <template v-else-if="timetypeShow == 1">
+                    <el-option
+                      :key="$t('timetype')[1].value"
+                      :label="$t('timetype')[1].label"
+                      :value="$t('timetype')[1].value">
+                    </el-option>
+                  </template>
+                  <template v-else>
+                    <el-option
+                      v-for="item in $t('timetype')"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </template>
 							</el-select>
 			    		</el-col>
 			    		<el-col :span="4">
@@ -93,7 +119,7 @@
 		    		</el-row>
 		    	</el-form-item>
 		    </el-form>
-		    <bom-moban @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"
+		    <bom-moban :is-all="true" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"
 		    @getbcon="getbinv" @getbtraffic="getbtraffic" @getbcompro="getbcompro" @getinitface="getinitface" @getinitbus="getinitbus"></bom-moban>
 	    </div>
 	    <div class="margintop20">
@@ -116,6 +142,9 @@ export default {
   components: { bomMoban,downInviteMoban,uploadInvite,mobanDialog,previewDialog },
   data () {
   	return {
+      vTypeShow: process.env.vTypeShow || false,
+      typelist: [],
+      timetypeShow: 0,
       data: [{
       	address: '',
       	appointmentDate: '',
@@ -134,7 +163,8 @@ export default {
       	userid: '',
       	vcompany: '',
       	visitType: '',
-      	etype: 0
+      	etype: 0,
+        vType: ''
       },{
       	address: '',
       	appointmentDate: '',
@@ -153,7 +183,8 @@ export default {
       	userid: '',
       	vcompany: '',
       	visitType: '',
-      	etype: 0
+      	etype: 0,
+        vType: ''
       },{
       	address: '',
       	appointmentDate: '',
@@ -172,7 +203,8 @@ export default {
       	userid: '',
       	vcompany: '',
       	visitType: '',
-      	etype: 0
+      	etype: 0,
+        vType: ''
       }],
       form: {
       	address: '',
@@ -191,7 +223,8 @@ export default {
       	traffic: '',
       	userid: '',
       	vcompany: '',
-      	visitType: ''
+      	visitType: '',
+        vType: ''
       },
       rules: {
       	name: [{ required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
@@ -200,14 +233,19 @@ export default {
       	qrcodeType: [{ required: true, message: this.$t('form.time.text7'), trigger: 'blur' }]
       },
       timetype: 0,
-      visitType: 0,
+      visitType: 1,
       mobanShow: false,
       facemoban: {},
       busmoban: {},
       demoban: {},
       mobanShow: true,
       mobanFlag: false,
-      previewFlag: false
+      previewFlag: false,
+      options: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7
+        }
+      }
   	}
   },
   computed: {
@@ -222,8 +260,24 @@ export default {
       set () {}
     }
   },
+  created () {
+    if (this.vTypeShow) {
+      this.getTypeList()
+    }
+  },
   methods: {
     numberToBoolean:numberToBoolean,
+    getTypeList () {
+      let nform = {
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getVisitorType',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.typelist = result
+        }
+      })
+    },
     setQrcodeType (val) {
       if (this.timetype === 0) {
         if (val > getCache('qrMaxDuration')) {
@@ -304,7 +358,8 @@ export default {
             userid: '',
             vcompany: '',
             visitType: '',
-            etype: 0
+            etype: 0,
+            vType: ''
           }
         this.$message({
           type: 'error',
@@ -331,7 +386,8 @@ export default {
       	userid: '',
       	vcompany: '',
       	visitType: '',
-      	etype: 0
+      	etype: 0,
+        vType: ''
       }
       this.data.push(nform)
     },
@@ -339,33 +395,36 @@ export default {
       this.$refs.danform.validate(valid => {
       	if (valid) {
       		let _self = this
-		  	let nform = []
-		  	this.data.forEach(function(element,index){
-		  	  if (element.visitType === 0 || element.visitType === '面试') {
-  			    _self.demoban = _self.facemoban
-  			  } else {
-  			  	_self.demoban = _self.busmoban
-  			  }
-          if (element.name !== '' && element.phone !== '' && element.visitType !== '' && element.appointmentDate !== '') {
+		  	  let nform = []
+		  	  this.data.forEach(function(element,index){
+  		  	  let demoban 
+            if (parseInt(element.visitType) === 0 || element.visitType === '面试') {
+    			    demoban = _self.facemoban
+    			  } else if (parseInt(element.visitType) === 1 || element.visitType === '商务') {
+    			  	demoban = _self.busmoban
+    			  }
+
+            if (element.name !== '' && element.phone !== '' && element.visitType !== '' && element.appointmentDate !== '') {
                 let date = new Date(element.appointmentDate)
                 let obj = {
-                  address: _self.demoban.address,
+                  address: demoban.address,
                   appointmentDate: date,
-                  companyProfile: replaceQuotation(_self.demoban.companyProfile),
+                  companyProfile: replaceQuotation(demoban.companyProfile),
                   empid: getCache('empid'),
-                  inviteContent: replaceQuotation(_self.demoban.inviteContent),
-                  latitude: _self.demoban.latitude,
-                  longitude: _self.demoban.longitude,
+                  inviteContent: replaceQuotation(demoban.inviteContent),
+                  latitude: demoban.latitude,
+                  longitude: demoban.longitude,
                   name: element.name,
                   phone: element.phone,
                   vemail: element.vemail,
-                  qrcodeConf: _self.timetype === 0 ? '0' : '1',
-                  qrcodeType: _self.form.qrcodeType,
+                  qrcodeConf: _self.form.qrcodeType,
+                  qrcodeType: _self.timetype === 0 ? '0' : '1',
                   remark: element.remark,
-                  traffic: replaceQuotation(_self.demoban.traffic),
+                  traffic: replaceQuotation(demoban.traffic),
                   userid: getCache('userid'),
                   vcompany: element.vcompany,
-                  visitType: _self.visitType === 0 ? '面试' : '商务'
+                  visitType: parseInt(element.visitType) === 0 ? '面试' : '商务',
+                  vType: element.vType
                 }
                 nform.push(obj)
           }    
@@ -384,19 +443,104 @@ export default {
                 message: this.$t('moban.tip6')
               })
             } else {
-              this.$store.dispatch('addAppointment',nform).then(res => {
-                let {status} = res
-                if (status === 0) {
-                  this.mobanFlag = true
-                  this.$refs.danform.resetFields()
-                  this.$refs.danform.clearValidate()
-                }
-              })
+              this.doaddAppointment(nform)
             }
           }
       	}
       })
   	},
+    doaddAppointment (nform) {
+      this.$store.dispatch('addAppointment',nform).then(res => {
+        let {status} = res
+        if (status === 0) {
+          this.mobanFlag = true
+                  this.form = {
+                    address: '',
+                    appointmentDate: '',
+                    companyProfile: '',
+                    empid: '',
+                    inviteContent: '',
+                    latitude: '',
+                    longitude: '',
+                    name: '',
+                    phone: '',
+                    vemail: '',
+                    qrcodeConf: '',
+                    qrcodeType: '',
+                    remark: '',
+                    traffic: '',
+                    userid: '',
+                    vcompany: '',
+                    visitType: '',
+                    sendValue: '',
+                    vType: ''
+                  }
+                  this.data = [{
+                    address: '',
+                    appointmentDate: '',
+                    companyProfile: '',
+                    empid: '',
+                    inviteContent: '',
+                    latitude: '',
+                    longitude: '',
+                    name: '',
+                    phone: '',
+                    vemail: '',
+                    qrcodeConf: '',
+                    qrcodeType: '',
+                    remark: '',
+                    traffic: '',
+                    userid: '',
+                    vcompany: '',
+                    visitType: '',
+                    etype: 0,
+                    vType: ''
+                  },{
+                    address: '',
+                    appointmentDate: '',
+                    companyProfile: '',
+                    empid: '',
+                    inviteContent: '',
+                    latitude: '',
+                    longitude: '',
+                    name: '',
+                    phone: '',
+                    vemail: '',
+                    qrcodeConf: '',
+                    qrcodeType: '',
+                    remark: '',
+                    traffic: '',
+                    userid: '',
+                    vcompany: '',
+                    visitType: '',
+                    etype: 0,
+                    vType: ''
+                  },{
+                    address: '',
+                    appointmentDate: '',
+                    companyProfile: '',
+                    empid: '',
+                    inviteContent: '',
+                    latitude: '',
+                    longitude: '',
+                    name: '',
+                    phone: '',
+                    vemail: '',
+                    qrcodeConf: '',
+                    qrcodeType: '',
+                    remark: '',
+                    traffic: '',
+                    userid: '',
+                    vcompany: '',
+                    visitType: '',
+                    etype: 0,
+                    vType: ''
+                  }]
+                  this.$refs.danform.resetFields()
+                  this.$refs.danform.clearValidate()
+        }
+      })
+    },
   	editMoban () {
   	  this.mobanShow = !this.mobanShow
   	},

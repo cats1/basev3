@@ -65,6 +65,7 @@ const user = {
 		        updateQRcode(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
+		          	console.log(info)
 		          	setCache('qrcode', info.qrcode)
 		          	setCache('qrcodeType', info.qrcodeType)
 		          	setCache('qrcodeSwitch', info.qrcodeSwitch)

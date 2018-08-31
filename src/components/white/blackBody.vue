@@ -17,9 +17,11 @@
 	  		<el-pagination
 		      @size-change="handleSizeChange"
 		      @current-change="handleCurrentChange"
-		      :current-page="form.startIndex"
+          @prev-click="handleCurrentChange"
+          @next-click="handleCurrentChange"
+		      :current-page="currentPage"
 		      :page-sizes="[10, 20, 30, 40]"
-		      :page-size="form.requestedCount"
+		      :page-size="requestedCount"
 		      layout="total, sizes, prev, pager, next, jumper"
 		      :total="total">
 		    </el-pagination>
@@ -37,7 +39,7 @@
               :key="item.empid"
               :label="item.empName"
               :value="item.empid"
-              :disabled="item.disabled">
+              :disabled="item.disabled">{{item.empName}}({{item.empNo}})
             </el-option>
           </el-select>
         </el-form-item>
@@ -104,6 +106,8 @@ export default {
         credentialNo: [{ required: false,trigger: 'blur', validator: isvalidIdNum }]
       },
   	  total: 0,
+      currentPage: 1,
+      requestedCount: 10,
   	  dform: {
   	  	userid: getCache('userid'),
   	  	bids: []
@@ -213,11 +217,14 @@ export default {
       this.getAllEmpList()
     },
   	handleSizeChange (val) {
+      this.currentPage = 1
+      this.requestedCount = val
+      this.form.startIndex = 1
   	  this.form.requestedCount = val
       this.getList()
   	},
   	handleCurrentChange (val) {
-  	  this.form.startIndex = (val - 1) * this.form.requestedCount + 1
+  	  this.form.startIndex = (val - 1) * this.requestedCount + 1
       this.getList()
   	},
   	handleSelectionChange (val) {
@@ -250,7 +257,7 @@ export default {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
-          if (type !== 0) {
+          if (type == 0) {
             this.$refs.blackform.resetFields()
             this.$refs.blackform.clearValidate()
             this.curEmp = {}
@@ -287,9 +294,6 @@ export default {
   },
   created () {
     this.getList()
-  },
-  mounted () {
-      	
   }
 }
 </script>

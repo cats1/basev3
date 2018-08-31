@@ -62,6 +62,7 @@ export default {
       mapShow: false,
       getResult: {},
       isChangeXSS: process.env.isChangeXSS || false,
+      empWorkNoCheck: process.env.empWorkNoCheck
     }
   },
   computed: {},
@@ -70,14 +71,19 @@ export default {
     isshow (val) {
       this.mapShow = val
       if (val) {
-        this.showDefault(this.vtype)
+        this.init()
+      }
+    },
+    isInit (val) {
+      if (val) {
+        this.init()
       }
     }
   },
   created () {
     this.vtype = this.mtype === 0 ? '面试' : '商务'
     if (this.isInit) {
-      this.init()
+      //this.init()
     }
   },
   methods: {
@@ -211,7 +217,7 @@ export default {
         }
       })
     },
-    htmlUnescape (val,type) {
+    async htmlUnescape (val,type) {
       this.$store.dispatch('htmlUnescape',
         {'inviteContent': val}).then(res => {
           this[type] = replaceRemoveReserveQuotation(res)
@@ -227,40 +233,29 @@ export default {
           this.setDefaultMoban() 
         }
         if (this.isChangeXSS) {
-          this.htmlUnescape(replaceRemoveQuotation(result.inviteContent),'inviteContent')
-          this.htmlUnescape(replaceRemoveQuotation(result.traffic),'traffic')
-          this.htmlUnescape(replaceRemoveQuotation(result.companyProfile),'companyProfile')
+          this.htmlUnescape(replaceRemoveQuotation(result.inviteContent),'inviteContent').then(() => {
+            this.htmlUnescape(replaceRemoveQuotation(result.traffic),'traffic').then(() => {
+              this.htmlUnescape(replaceRemoveQuotation(result.companyProfile),'companyProfile').then(() => {
+                this.pot.latitude = result.latitude
+                this.pot.longitude = result.longitude 
+                this.address = result.address
+                let sendObj = result
+                sendObj.inviteContent = this.inviteContent
+                sendObj.traffic = this.traffic
+                sendObj.companyProfile = this.companyProfile
+                this.$emit('initmoban',sendObj)
+              })
+            })
+          })
         } else {
           this.inviteContent = replaceRemoveQuotation(result.inviteContent)
           this.traffic = replaceRemoveQuotation(result.traffic)
           this.companyProfile = replaceRemoveQuotation(result.companyProfile)
-        }
-        this.pot.latitude = result.latitude
-        this.pot.longitude = result.longitude 
-        this.address = result.address
-      /*if (this.isInit && !this.isshow) {
-        console.log(666)
-        //console.log('init')
-      } else {
-        console.log(888)
-        console.log(result)
-        if (!result) {
-          result = this.defaultmoban
-        }
-        this.inviteContent = replaceRemoveQuotation(result.inviteContent)
-        if (!result.inviteContent) {
-          this.setDefaultMoban() 
-        }
-        this.traffic = replaceRemoveQuotation(result.traffic)
-        this.companyProfile = replaceRemoveQuotation(result.companyProfile)
-        this.pot.latitude = result.latitude
-        this.pot.longitude = result.longitude
-        this.address = result.address
-        if (getCache('tempEditSwitch') === 1) {
-
-        }
-      }*/
-      this.$emit('initmoban',result)
+          this.pot.latitude = result.latitude
+          this.pot.longitude = result.longitude 
+          this.address = result.address
+          this.$emit('initmoban',result)
+        } 
     },
     saveMoban () {
       let nform = {
@@ -274,6 +269,20 @@ export default {
         templateType: this.vtype,
         traffic: replaceQuotation(this.traffic),
         userid: getCache('userid')
+      }
+      if (this.empWorkNoCheck) {
+        nform = {
+          address: this.address,
+          companyProfile: replaceQuotation(this.companyProfile),
+          empEmail: '',
+          empNo: getCache('empNo'),
+          inviteContent: replaceQuotation(this.inviteContent),
+          latitude: this.pot.latitude,
+          longitude: this.pot.longitude,
+          templateType: this.vtype,
+          traffic: replaceQuotation(this.traffic),
+          userid: getCache('userid')
+        }
       }
       this.$store.dispatch('addEmptemplate',nform)
     },

@@ -1,7 +1,7 @@
 <template>
 	<div style="width:100%;height:300px;display:block">
        <template v-if="photoType == 0">
-          <html5-photo @uploaddata="getHtmlUpload"></html5-photo>
+          <html5-photo :is-show="isShow" @uploaddata="getHtmlUpload"></html5-photo>
        </template>
        <template v-else-if="photoType == 1">
           <ie-photo @uploaddata="getIeUpload"></ie-photo>
@@ -15,9 +15,21 @@ import { isIE } from '@/utils/common'
 
 export default {
   components: {html5Photo,iePhoto},
+  props: {
+    photoShow: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
   	return {
-      photoType: 0
+      photoType: 0,
+      isShow: this.photoShow
+    }
+  },
+  watch: {
+    photoShow (val) {
+      this.isShow = val
     }
   },
   created () {

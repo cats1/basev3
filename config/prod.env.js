@@ -1,6 +1,7 @@
 'use strict'
 const merge = require('webpack-merge')
-const base = require('./base')
+const base = require('./eastbase')//东威
+//const base = require('./ccbbase')//建行
 module.exports = merge(base, {
   NODE_ENV: '"production"',
   /*BASE_API: '"http://www.coolvisit.top/qcvisitBase"',

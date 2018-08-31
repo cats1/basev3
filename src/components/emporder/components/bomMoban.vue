@@ -8,7 +8,7 @@
 		    </el-button>
 		</p>		
 		<el-collapse-transition>
-		    <order-moban v-show="mobanShow" :isshow="mobanShow" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro" @getbcon="getbinv" @getbtraffic="getbtraffic" @getbcompro="getbcompro" @getinitface="getinitface" @getinitbus="getinitbus"></order-moban>
+		    <order-moban :is-all="showAllTemp" :default-type="getVtype" v-show="mobanShow" :isshow="mobanShow" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro" @getbcon="getbinv" @getbtraffic="getbtraffic" @getbcompro="getbcompro" @getinitface="getinitface" @getinitbus="getinitbus"></order-moban>
 		</el-collapse-transition>
 	</div>
 </template>
@@ -17,12 +17,26 @@ import orderMoban from '@/components/moban/orderMoban'
 import { getCache } from '@/utils/auth'
 import { numberToBoolean } from '@/utils/common'
 export default {
+  props: {
+    defaultType: null,
+    isAll: null
+  },
   components: { orderMoban },
   data () {
   	return {
   	  mobanShow: false,
+      getVtype: this.defaultType || 0,
+      showAllTemp: this.isAll || false
       //isEdit: numberToBoolean(getCache('tempEditSwitch'))
   	}
+  },
+  watch: {
+    defaultType (val) {
+      this.getVtype = val
+    },
+    isAll (val) {
+      this.showAllTemp = val
+    }
   },
   computed: {
     isEdit: {

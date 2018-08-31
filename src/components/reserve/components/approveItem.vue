@@ -90,7 +90,9 @@ export default {
       this.depidDefault = val
     }
   },
-  mounted () {},
+  mounted () {
+    
+  },
   methods: {
   	doContact () {
   	  this.contactShow = true

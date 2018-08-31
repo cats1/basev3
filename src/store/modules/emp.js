@@ -6,7 +6,8 @@ import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	GetUserInfo,getSubAccountById,getEmptemplateByType,getUsertemplate,getSubAccountTemp,
 	getEmpByName,updateEmpPwd,addEmptemplate,SynchronCardNo,addUserTemplate,
 	updateEmpSubAccount,resetEmpPwd,webActivateAccount,updateFace,getMeetingByPhone,
-	getVisitProxyForEmp,getVisitProxyForProxy,setVisitProxy,SearchRecordsByEmpNo } from '@/api/emp'
+	getVisitProxyForEmp,getVisitProxyForProxy,setVisitProxy,
+	SearchRecordsByEmpNo,getMaxEmpNo } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
@@ -441,6 +442,15 @@ const user = {
 		        })
 		    })
 		},
+		getMaxEmpNo({ commit },info) {
+			return new Promise((resolve, reject) => {
+		        getMaxEmpNo(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
 		addEmptemplate({ commit },info) {
 			return new Promise((resolve, reject) => {
 		        addEmptemplate(info).then(response => {
@@ -482,7 +492,7 @@ const user = {
 		          if (status === 0) {
 		          	let local = this.state.app.language
 		          	Message({
-                  		message: i18n.messages[local]['updateSuccess'],
+                  		message: i18n.messages[local]['pwdResetSuccess'],
                   		type: 'success'
                 	})
 		          }

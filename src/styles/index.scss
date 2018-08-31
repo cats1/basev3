@@ -803,6 +803,9 @@ label {
     margin-right: 3px;
     margin-top: 1px;
     margin-bottom: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
@@ -1079,6 +1082,30 @@ label {
 
 .roletreewrap {
   padding: 20px 0;
+  .el-tree--highlight-current {
+    .el-tree-node.is-current>.el-tree-node__content{
+      background: #409EFF;
+      color: #fff;
+    }
+    /* .el-tree-node.is-expanded.is-focusable.is-checked{
+      .el-tree-node__content {
+        background: #409EFF;
+        color: #fff;
+      }
+    } */
+  }
+  .is-expanded .is-current{
+    .el-tree-node__content {
+      background: #409EFF;
+      color: #fff;
+    }
+    .el-tree-node__children {
+      .el-tree-node__content {
+        background: #fff;
+        color: #606266;
+      }
+    }
+  }
   .el-tree-node__label {
     background: url('../assets/img/roleroot.png') left center no-repeat;
     text-indent: 24px;

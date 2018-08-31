@@ -23,6 +23,11 @@
             </template>
           </div>
         </el-form-item>
+        <template v-if="deptNoShow">
+          <el-form-item :label="$t('departNo')" >
+            <el-input v-model="departform.deptNo" disabled></el-input>
+          </el-form-item>
+        </template>
       </el-form>
       <el-dialog
       width="50%"
@@ -70,6 +75,7 @@ export default {
   	  departform: {
   	  	deptName: this.parent.name,
   	  	parentId: '',
+        deptNo: this.parent.dpno,
         deptid: this.parent.pid,
         deptManagerEmpid: this.parent.dp,
   	  	userid: getCache('userid')
@@ -85,7 +91,8 @@ export default {
       cobj: [],
       parentNodeObj: [],
       managerObj: [],
-      btnType: 3
+      btnType: 3,
+      deptNoShow: process.env.deptNoShow || false
   	}
   },
   computed: {
@@ -118,6 +125,7 @@ export default {
       this.parentObj = val
       this.departform.deptid = val.pid      
       this.departform.deptName = val.name
+      this.departform.deptNo = val.dpno
     },
     empList (val) {
       let earray = []

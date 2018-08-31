@@ -45,6 +45,7 @@ service.interceptors.response.use(
           messages = response.data.reason
         }
         Message({
+          showClose: true,
           message: messages,
           type: 'error',
           duration: 4 * 1000,
@@ -65,6 +66,7 @@ service.interceptors.response.use(
             messages = response.data.reason
           }
           Message({
+            showClose: true,
             message: messages,
             type: 'error',
             duration: 5 * 1000
@@ -78,8 +80,8 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log(8888)
     Message({
+      showClose: true,
       message: error.message,
       type: 'error',
       duration: 5 * 1000

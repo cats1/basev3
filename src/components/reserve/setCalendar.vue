@@ -83,13 +83,17 @@ export default {
       this.calendar1.value = [year,month,day]
     },
   	select(value) {
-      this.form.hid = ''
-      this.form.remark = ''
-      this.form.passFlag = 0
-  		this.form.hdate = new Date(value.join('-'))
+      this.form = {
+        hid: '',
+        hdate: new Date(value.join('-')),
+        remark: '',
+        passFlag: 0,
+        userid: getCache('userid')
+      }
   		this.dialogVisible  = true
     },
     update (value,item,k) {
+      console.log(k)
       this.updateKey = k
       this.form = {
         hid: item.hid,
@@ -100,9 +104,7 @@ export default {
       }
       this.dialogVisible  = true
     },
-    selectMonth(month, year) {
-        console.log(year, month)
-    },
+    selectMonth(month, year) {},
     selectYear(year) {
       this.getHoliday(new Date(year + '-01-01'))
     },

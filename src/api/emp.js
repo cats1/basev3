@@ -325,3 +325,19 @@ export function setVisitProxy(data) {
     data
   })
 }
+//getMaxEmpNo
+export function getMaxEmpNo(data) {
+  return request({
+    url: '/getMaxEmpNo',
+    method: 'post',
+    data
+  })
+}
+//getDeptByEmpid
+/*export function getDeptByEmpid(data) {
+  return request({
+    url: '/getDeptByEmpid',
+    method: 'post',
+    data
+  })
+}*/

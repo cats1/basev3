@@ -14,7 +14,7 @@
               start: '00:00',
               step: '00:15',
               end: '24:00'
-            }">
+            }" :editable="false">
           </el-time-select>
         </el-form-item>
         <el-form-item :label="$t('notice.worktime.dialog.offDuty')">
@@ -26,7 +26,7 @@
               step: '00:15',
               end: '24:00',
               minTime: form.upDuty
-            }">
+            }" :editable="false">
           </el-time-select>
         </el-form-item>
       </el-form>
