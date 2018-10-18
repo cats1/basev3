@@ -1,0 +1,19 @@
+
+body.user form .emp_code_wrap1 .form-control,body.user form .emp_code_wrap2 .form-control{
+    margin-bottom: 10px;
+    width: 100%
+}
+body.user form .emp_code_wrap1 .form-group2 .form-control{
+	display: inline-block;
+	float: left;
+    width: 60%
+}
+body.user form .emp_code_wrap1 .form-group2 .sendCode{
+	display: inline-block;
+	float: right;
+	width: 28%;
+	font-size: 14px
+}
+body.user form .emp_code_wrap2 {
+    display: none
+}

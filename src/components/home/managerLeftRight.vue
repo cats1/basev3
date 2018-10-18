@@ -5,7 +5,7 @@
         <show-date class="boxshadow paddinglr30 paddingtb20 bgwhite" :value="value" @select="getSelect"></show-date>
       </el-col>
       <el-col :span="16">
-        <type-header class="bgwhite" @changekit="getList" :total-num="totalNum" :leavel-num="leavelNum" :on-num="onNum" :check-array="checkArray" @totalkit="changeTotal" @leavelkit="changeLeavel" @onkit="changeOn" @outkit="doAllOut" @outconfirmkit="doAllConfirm" @searchkit="searchVisitor" @outcancelkit="doAllCancel" @datakit="goData"></type-header>
+        <type-header class="bgwhite" @changekit="changekit" :select-type="selectVType" :total-num="totalNum" :leavel-num="leavelNum" :on-num="onNum" :check-array="checkArray" @totalkit="changeTotal" @leavelkit="changeLeavel" @onkit="changeOn" @outkit="doAllOut" @outconfirmkit="doAllConfirm" @searchkit="searchVisitor" @outcancelkit="doAllCancel" @datakit="goData"></type-header>
         <div class="vlist-wrap boxshadow margintop20 paddingtb20 bgwhite">
           <template v-if="vlist.length > 0">
             <template v-for="(vitem,index) in vlist">
@@ -51,7 +51,8 @@ export default {
       onNum: 0,
       checkArray: [],
       onShowType: 0,
-      extendCol: []
+      extendCol: [],
+      selectVType: 0
     }
   },
   created () {
@@ -70,10 +71,14 @@ export default {
       this.form.endDate = value
       this.oform.date = value
       this.oform.endDate = value
-      this.getList()
+      this.getList(this.selectVType)
+    },
+    changekit (type) {
+      this.selectVType = type
+      this.getList(this.selectVType)
     },
     getSignout () {
-      this.getList(this.onShowType)
+      this.getList(this.selectVType)
     },
     getValue (val) {
       let nval = formatDate(val,'yyyy-MM-dd')
@@ -147,6 +152,7 @@ export default {
       this.totalNum = 0
       this.leavelNum = 0
       this.onNum = 0
+      this.onShowType = 0
       if (val === 0) {
         this.getSignVisitor()
       } else if (val === 1) {

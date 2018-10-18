@@ -75,7 +75,7 @@ export default {
   	  checkArray: [],
   	  rolelist: [],
       depidDefault: this.depid,
-      addAreaIsShow: process.env.addAreaIsShow
+      addAreaIsShow: process.env.addAreaIsShow || false
   	}
   },
   watch: {
@@ -245,7 +245,7 @@ export default {
   	  	  role: ele.rid,
   	  	  roleName: ele.rgName
   	  	}
-        if (!_self.addAreaIsShow) {
+        if (_self.addAreaIsShow) {
           obj = {
             aid: _self.areaObj.aid,
             level: index + 1,
@@ -256,7 +256,15 @@ export default {
         }
   	  	cobj.push(obj)
   	  })
-  	  this.saveSet(cobj)
+      if (cobj.length > 0) {
+        this.saveSet(cobj)
+      } else {
+        this.$message({
+          showClose: true,
+          message: this.$t('selectOneMore'),
+          type: 'warning'
+        })
+      }
   	},
   	saveSet (obj) {
   	  this.$store.dispatch('addProcessRule',obj).then(res => {

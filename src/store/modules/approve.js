@@ -3,6 +3,9 @@ import { updateProcessSwitch,getProcessArea,addProcessArea,
 import { Message } from 'element-ui'
 import { getCache,setCache } from '@/utils/auth'
 import i18n from '@/lang'
+import 'babel-polyfill'
+import promise from 'es6-promise'
+promise.polyfill()
 const user = {
   state: {},
   mutations: {},

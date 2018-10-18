@@ -9,9 +9,9 @@
 		<el-dialog
 		  :title="$t('approve.addArea')"
 		  :visible.sync="dialogVisible"
-		  width="30%" >
-		  <el-form :model="form">
-		  	<el-form-item :label="$t('approve.areaName')">
+		  width="30%" @close="handClose">
+		  <el-form :model="form" ref="areaform" :rules="rules">
+		  	<el-form-item :label="$t('approve.areaName')" prop="aName">
 		  		<el-input v-model="form.aName"></el-input>
 		  	</el-form-item>
 		  	<el-form-item :label="$t('approve.areaAddress')">
@@ -36,18 +36,33 @@ export default {
   	  	aName: '',
   	  	address: '',
   	  	userid: getCache('userid')
+  	  },
+  	  rules:{
+  	  	aName: [{ required: true, message: this.$t('exporttype.isNull'), trigger: 'blur' }]
   	  }
   	}
   },
   methods: {
   	saveSet () {
-  	  this.$store.dispatch('addProcessArea',this.form).then(res => {
-        let {status} = res
-        if (status === 0) {
-          this.dialogVisible = false
-          this.$emit('addkit')
+  	  this.$refs['areaform'].validate((valid) => {
+        if (valid) {
+          this.$store.dispatch('addProcessArea',this.form).then(res => {
+	        let {status} = res
+	        if (status === 0) {
+	          this.dialogVisible = false
+	          this.$emit('addkit')
+	        }
+  	  	  })
         }
-  	  })
+      })
+  	  
+  	},
+  	handClose () {
+  	  this.form = {
+  	  	aName: '',
+  	  	address: '',
+  	  	userid: getCache('userid')
+  	  }
   	}
   }
 }

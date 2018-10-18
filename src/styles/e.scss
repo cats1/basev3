@@ -35,7 +35,15 @@ li {
 .black {
     color: #222;
 }
-
+.popup-picker-wrap{
+    width:200px;
+    height: 100px;
+    position: relative;
+    .btn{
+      position: absolute;
+      width: 100%;
+    }
+}
 .btn {
     color: #fff; //padding: 8px 16px;
     outline: none;
@@ -73,7 +81,54 @@ li {
         height: 36px;
     }
 }
-
+.popbtn{
+    text-decoration: none;
+}
+.popupwrap{
+    width:100%;
+    height: 100%;
+    background: rgba(0,0,0,.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1121;
+    .popupdialog{
+        width: 100%;
+        height: auto;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background: #fff;
+        .popuptitle{
+            text-align: center;
+            line-height: 2em;
+        }
+        .popupbody{
+            height: auto;
+            text-align: center;
+            line-height: 1.8em;
+        }
+        .popupfooter{
+            .popbtn{
+                width:50%;
+                display: inline-block;
+                float: left;
+                text-align: center;
+                line-height: 2em;
+                color: #000;
+            }
+        }
+        .popuplist{
+            height: 4em;
+            overflow-y:auto;
+            li{
+                &.on{
+                    color: #9E9E9E;
+                }
+            }
+        }
+    }
+}
 .cardwrap {
     width: 100%;
     max-width: 519px;

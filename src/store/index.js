@@ -21,6 +21,7 @@ import calendar from './modules/calendar'
 import white from './modules/white'
 import visitType from './modules/visitType'
 import e from './modules/e'
+import transfer from './modules/transfer'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -45,6 +46,7 @@ const store = new Vuex.Store({
     e,
     upload,
     calendar,
+    transfer,
     visitType,
     white
   },

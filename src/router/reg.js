@@ -7,17 +7,30 @@ export default new Router({
   routes: [{
   	path: '/',
   	name: 'index',
-  	component: _import('signup/layOut')
+  	component: _import('signup/layOut'),
+    meta: {
+      title: 'signup'
+    }
   },{
     path: '/guide',
     name: 'guide',
     component: _import('signup/guideShow'),
     children: [
-      {path: '/',name: 'guide1',component: _import('signup/components/guideOne')},
-      {path: '/guide2',name: 'guide2',component: _import('signup/components/guideTwo')},
-      {path: '/guide3',name: 'guide3',component: _import('signup/components/guideThree')},
-      {path: '/guide4',name: 'guide4',component: _import('signup/components/guideFour')},
-      {path: '/done',name: 'guide5',component: _import('signup/components/guideFive')}
+      {path: '/',name: 'guide1',component: _import('signup/components/guideOne'),meta: {
+      title: 'signup'
+    }},
+      {path: '/guide2',name: 'guide2',component: _import('signup/components/guideTwo'),meta: {
+      title: 'signup'
+    }},
+      {path: '/guide3',name: 'guide3',component: _import('signup/components/guideThree'),meta: {
+      title: 'signup'
+    }},
+      {path: '/guide4',name: 'guide4',component: _import('signup/components/guideFour'),meta: {
+      title: 'signup'
+    }},
+      {path: '/done',name: 'guide5',component: _import('signup/components/guideFive'),meta: {
+      title: 'signup'
+    }}
     ]
   }]
 })

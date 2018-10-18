@@ -16,6 +16,14 @@
           <el-form-item :label="$t('form.name.text')" prop="sname">
             <el-input type="text" v-model="form.sname"></el-input>
           </el-form-item>
+          <template v-if="areaEquipShow">
+            <el-form-item :label="$t('authorArea')">
+              <el-radio-group v-model="form.sType">
+                  <el-radio label='1'>{{$t('unengineRoom')}}</el-radio>
+                  <el-radio label='2'>{{$t('engineRoom')}}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </template>          
           <el-form-item >
             <el-button type="primary" @click="saveBase">{{$t('btn.saveBtn')}}</el-button>
           </el-form-item>
@@ -53,7 +61,7 @@
             <template v-else>
               <el-button type="text" size="small" @click="changeCheck(scope.$index,scope.row)">{{$t('btn.updateBtn')}}</el-button>
             </template>
-            <el-button type="text" size="small" @click="DeleteManager">{{$t('btn.deleteBtn')}}</el-button>
+            <el-button type="text" size="small" @click="DeleteManager(scope.row)">{{$t('btn.deleteBtn')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -70,7 +78,8 @@ export default {
         userId: getCache('userid'),
         account: '',
         password: '',
-        sname: ''
+        sname: '',
+        sType: '1'
       },
       renewpwd:'',
       list: [],
@@ -85,7 +94,8 @@ export default {
         sname: [
           { required: true, message: this.$t('formCheck.validName.tip3'), trigger: 'blur' },
         ]},
-      checkArray: []
+      checkArray: [],
+      areaEquipShow: process.env.areaEquipShow || false
     }
   },
   methods: {
@@ -95,7 +105,22 @@ export default {
     AddManager () {
       this.$refs['baseform'].validate((valid) => {
           if (valid) {
-            this.$store.dispatch('AddManager',this.form).then(res => {
+            let nform = {
+              userId: getCache('userid'),
+              account: this.form.account,
+              password: this.form.password,
+              sname: this.form.sname
+            }
+            if (this.areaEquipShow) {
+              nform = {
+                userId: getCache('userid'),
+                account: this.form.account,
+                password: this.form.password,
+                sname: this.form.sname,
+                sType: this.form.sType
+              }
+            }
+            this.$store.dispatch('AddManager',nform).then(res => {
               let {status} = res
               if (status === 0) {
                 this.$refs.baseform.resetFields()

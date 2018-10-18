@@ -6,7 +6,7 @@
 	        <div class="searchResultPanel" :id="panelid" ></div>
         </div>
 		<div class="mapwrap">
-			<div :id="mapid" style="width:500px;height:300px;"></div>
+			<div :id="mapid" style="width:100%;height:100%;"></div>
 		</div>
 	</div>
 	
@@ -28,6 +28,8 @@ export default {
         }
       }
     },
+    latitude:null,
+    longitude:null,
     isshow: {
       type: Boolean,
       default: false
@@ -43,9 +45,13 @@ export default {
       panelid: 'searchResultPanel_' + this.mapid,
       maddress: this.address,
   	  gmap: null,
-  	  lat: 39.915168,
-  	  lng: 116.403875,
-  	  zoom: 10,
+      pot: {
+        lat: 39.915168,
+        lng: 116.403875
+      },
+      lat: 39.915168,
+      lng: 116.403875,
+  	  zoom: 20,
   	  marker: null
   	}
   },
@@ -55,15 +61,42 @@ export default {
     }
   },
   watch: {
-    sendpot (val) {
-      this.lat = val.latitude
-      this.lng = val.longitude
+    longitude (val) {
+      this.lng = val
+      if (this.isshow) {
+        this.init()
+      }
     },
-    language (val) {}
+    latitude (val) {
+      this.lat = val
+      if (this.isshow) {
+        this.init()
+      }
+    },
+    language (val) {},
+    sendpot (val) {
+      this.lat = val.latitude || 39.915168
+      this.lng = val.longitude || 116.403875
+      if (this.isshow) {
+        //this.init()
+      }
+    },
+    address (val) {
+      this.maddress = val
+      if (this.isshow) {
+        //this.init()
+      }
+    },
+    isshow (val) {
+      if (val) {
+        this.maddress = this.address
+        this.pot.lat = this.sendpot.latitude
+        this.pot.lng = this.sendpot.longitude
+        this.init()
+      }
+    }
   },
-  mounted () {
-  	this.init()
-  },
+  mounted () {},
   methods: {
   	init () {
   		let mapType = google.maps.MapTypeId.ROADMAP	
@@ -75,7 +108,7 @@ export default {
 		  }
   		this.gmap = new google.maps.Map(document.getElementById(this.mapid), mapOptions) //创建谷歌地图
   		this.addSelfMarker()
-  		this.addInfoWindow()
+  		//this.addInfoWindow()
   	},
     searchMap () {
       let geocoder = new google.maps.Geocoder()
@@ -92,7 +125,7 @@ export default {
             latitude: point.lat(),
             longitude: point.lng()
           }
-          _self.$emit('getpoint',sendPoint,this.maddress)
+          _self.$emit('getpoint',sendPoint,_self.maddress)
         } else {
           alert('：error ' + status)
         }

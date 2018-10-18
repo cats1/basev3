@@ -1,19 +1,24 @@
 <template>
 	<div>
-	  <div class="boxshadow paddinglr30 paddingtb20 block bgwhite">
-      <add-depart :btn-type="btnType" :parent="parent" :dlist="list" @addkit="getAddkit" @clickit="changeRightType"></add-depart>
-      <add-emp :btn-type="btnType" :parent="parent" :edit-type="editType" :cur-emp="curEmp" :dlist="list" @addempkit="getAddEmpkit" @updateempkit="getUpdatekit" @closeempkit="getClosekit" @clickit="changeRightType"></add-emp>
-      <export-address-list @exportkit="changeExport"></export-address-list>
-      <edit-depart :parent-node="parentNode" :parent="parent" :dlist="list" @addkit="getAddkit" :emp-list="dataList" @clickit="changeRightType"></edit-depart>
-      <move-depart :parent="parent" :dlist="list" :semp="sempArray" @movekit="getmove" @clickit="changeRightType"></move-depart>
-      <template v-if="!empWorkNoCheck">
-        <delete-emp :semp="sempArray" @delekit="getDelete" @clickit="changeRightType"></delete-emp>
-      </template>
-  		<send-all-face></send-all-face>
-      <template v-if="empWorkNoCheck">
-        <export-emp-list></export-emp-list>
-      </template>
-	  </div>
+    <template v-if="!empAddMenuShow">
+  	  <div class="boxshadow paddinglr30 paddingtb20 block bgwhite">
+        <add-depart :btn-type="btnType" :parent="parent" :dlist="list" @addkit="getAddkit" @clickit="changeRightType"></add-depart>
+        <add-emp :btn-type="btnType" :parent="parent" :edit-type="editType" :cur-emp="curEmp" :dlist="list" @addempkit="getAddEmpkit" @updateempkit="getUpdatekit" @closeempkit="getClosekit" @clickit="changeRightType"></add-emp>
+        <export-address-list @exportkit="changeExport"></export-address-list>
+        <edit-depart :parent-node="parentNode" :parent="parent" :dlist="list" @addkit="getAddkit" :emp-list="dataList" @clickit="changeRightType"></edit-depart>
+        <move-depart :parent="parent" :dlist="list" :semp="sempArray" @movekit="getmove" @clickit="changeRightType"></move-depart>
+        <template v-if="!empWorkNoCheck">
+          <delete-emp :semp="sempArray" @delekit="getDelete" @clickit="changeRightType"></delete-emp>
+        </template>
+    		<send-all-face></send-all-face>
+        <template v-if="empWorkNoCheck">
+          <export-emp-list></export-emp-list>
+        </template>
+  	  </div>
+    </template>
+    <template v-else>
+      <show-emp-detail :btn-type="btnType" :parent="parent" :edit-type="editType" :cur-emp="curEmp" :dlist="list" @addempkit="getAddEmpkit" @updateempkit="getUpdatekit" @closeempkit="getClosekit" @clickit="changeRightType"></show-emp-detail>
+    </template>
 	  <el-row :gutter="20">
 	  	<el-col :span="6" >
 	  		<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
@@ -92,12 +97,12 @@
 import $ from 'jquery'
 import {getCache} from '@/utils/auth'
 import {getCgBarList} from '@/utils/common'
-import {addDepart,addEmp,editDepart,moveDepart,deleteEmp,sendAllFace,empDetail,exportAddressBook,exportEmpList} from './components'
+import {addDepart,addEmp,editDepart,moveDepart,deleteEmp,sendAllFace,empDetail,exportAddressBook,exportEmpList,showEmpDetail} from './components'
 import {exportAddressList,useExcel,useRtx,useDing,changeUploadType} from '@/components/upload'
 import lTree from '@/components/tree/lTree'
 import {stringToArray,arrayToString} from '@/utils/common'
 export default {
-  components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace,empDetail,exportAddressBook,lTree,exportEmpList},
+  components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace,empDetail,exportAddressBook,lTree,exportEmpList,showEmpDetail},
   data () {
   	return {
       defaultOpen: [0],
@@ -149,7 +154,8 @@ export default {
       timeout:  null,
       whiteListShow: process.env.whiteListShow || false,
       empWorkNoCheck: process.env.empWorkNoCheck || false,
-      searchFlag: false
+      searchFlag: false,
+      empAddMenuShow: process.env.empAddMenuClose || false
   	}
   },
   computed: {
@@ -403,7 +409,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
   .el-table .off-row {
     /*background: #dcdcdc;*/
     color:#9e9e9e;

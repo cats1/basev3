@@ -8,6 +8,7 @@ const LocationProtocol = window.location.protocol
 const IpReg = LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.63') > -1
 let baseURL = process.env.BASE_API
 let baseLink = process.env.BASE_LINK
+let idCardNum = process.env.idCardNum || 0
 let stageUrl = ''
 export function getBaseUrl() {
   if (IpReg) {
@@ -34,7 +35,7 @@ export function getBaseLink() {
 }
 export function getBaseCardLink() {
   if (IpReg) {
-    baseLink = process.env.BASE_LINK
+    baseLink = process.env.BASE_LINK + 'base'
   } else {
     let url = window.location.href    
     if (url.indexOf('/#/') > -1) {
@@ -51,9 +52,9 @@ export function getBaseCardLink() {
 }
 export function getBaseStageLink() {
   if (IpReg) {
-    stageUrl = 'http://' + process.env.HOST + '/stage/index.html?idcard=0&photo=0'
+    stageUrl = 'http://' + process.env.HOST + '/stage/index.html?idcard='+idCardNum+'&photo=0'
   } else {
-    stageUrl = LocationProtocol + '//' + LocationHost + '/stage/index.html?idcard=0&photo=0'
+    stageUrl = LocationProtocol + '//' + LocationHost + '/stage/index.html?idcard='+idCardNum+'&photo=0'
   }
   return stageUrl
 }
@@ -95,7 +96,7 @@ export function randomString(len) {
   return pwd;
 }
 export function downloadPDF(item) {
-  var links = getBaseLink() + '/pdf/' + judgeDate(item.visitdate, 1) + '_' + item.vid + '.pdf'
+  var links = getBaseCardLink() + '/pdf/' + judgeDate(item.visitdate, 1) + '_' + item.vid + '.pdf'
   window.open(links)
 }
 //加密
@@ -461,21 +462,24 @@ export function getBarList(array, name, id, count, remark) {
 }
 export function getCBarList(array, name, id, child) {
   let list = []
-  array.forEach(function(element, index) {
-    let obj = {
-      label: element[name],
-      name: element[name],
-      pid: element[id],
-      pcount: 0,
-      type: 0,
-      children: []
-    }
-    if (element[child] && element[child].length > 0) {
-      let citem = getCRoleBarList(element[child], name, id, child)
-      obj.children = citem
-    }
-    list.push(obj)
-  })
+  if (array.length > 0) {
+    array.forEach(function(element, index) {
+      let obj = {
+        label: element[name],
+        name: element[name],
+        pid: element[id],
+        pcount: 0,
+        type: 0,
+        children: []
+      }
+      if (element[child] && element[child].length > 0) {
+        let citem = getCRoleBarList(element[child], name, id, child)
+        obj.children = citem
+      }
+      list.push(obj)
+    })
+  }
+  
   return list
 }
 export function getCRoleBarList(array, name, id, child) {
@@ -756,7 +760,28 @@ export function chineseFromUtf8Url(strUtf8) {
 
   return bstr + strUtf8;
 }
-
+export function checkIsChinese (str) {
+  if (str) {
+    if(!/^[\u4e00-\u9fa5]+$/.test(str)) {
+      return true
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
+}
+export function checkIsEnglish (str) {
+  if (str) {
+    if(!/[\u4E00-\u9FA5]/g.test(str)) {
+      return true
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
+}
 function unicodeFromUtf8(strUtf8) {
   var bstr = "";
   var nTotalChars = strUtf8.length; //   total chars to be processed. 
@@ -910,6 +935,17 @@ export function judgeRecordStatus(str) {
     return i18n.messages[getLanguage()].successText
   } else if (str == false || str == "false" || str == 0) {
     return i18n.messages[getLanguage()].errorText
+  } else if (str == false || str == "false" || str == 2) {
+    return i18n.messages[getLanguage()].errorText1
+  }
+}
+export function judgeRecordStatus1(str) {
+  if (str == true || str == "true" || str == 1) {
+    return i18n.messages[getLanguage()].normalText
+  } else if (str == false || str == "false" || str == 0) {
+    return i18n.messages[getLanguage()].errorText
+  } else if (str == false || str == "false" || str == 2) {
+    return i18n.messages[getLanguage()].errorText1
   }
 }
 export function swapItems(arr, index1, index2) {
@@ -1154,4 +1190,13 @@ export function checkIdCard(idcard) {
 
     }
 
+}
+export function mobile_device_detect() {
+  var userAgentInfo = navigator.userAgent;  
+  var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");    
+  var flag = false;    
+  for (var v = 0; v < Agents.length; v++) {    
+      if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = true; break; }    
+  }    
+  return flag
 }

@@ -46,6 +46,10 @@
 <script>
 export default {
   props: {
+    selectType: {
+      type: Number,
+      default: 0
+    },
     totalNum: {
       type: Number,
       default: 0
@@ -70,7 +74,7 @@ export default {
   data () {
   	return {
       cShow: false,
-      ctype: 0,
+      ctype: this.selectType,
       total: 0,
       onNo: 0,
       LeavelNo: 0,
@@ -83,6 +87,9 @@ export default {
     }
   },
   watch: {
+    selectType (val) {
+      this.ctype = val
+    },
     totalNum (val) {
       this.total = val
     },
@@ -103,7 +110,6 @@ export default {
       this.form = ara
     }
   },
-  created () {},
   mounted () {},
   methods: {
   	getSignVisitor () {},

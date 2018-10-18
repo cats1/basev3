@@ -2,10 +2,10 @@
 	<div>
 		<el-tabs v-model="activeName" type="card">
 		    <el-tab-pane :label="$t('moban.facemoban')" name="face" @tab-click="activeName === 'face'">
-		    	<order-interview :readonly="!isEdit" :mtype="0" :is-init="faceShow" mapid="facemap" :isshow="faceShow" @initmoban="getinitface" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"></order-interview>
+		    	<order-interview :readonly="!isEdit" :mtype="0" :is-init="faceInitShow" mapid="facemap" :isshow="faceShow" @initmoban="getinitface" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"></order-interview>
 		    </el-tab-pane>
 		    <el-tab-pane :label="$t('moban.busmoban')" name="bus" @tab-click="activeName === 'bus'">
-		    	<order-business :readonly="!isEdit" :mtype="1" :is-init="busShow" mapid="busmap" :isshow="busShow" @initmoban="getinitbus" @getcon="getbinv" @gettraffic="getbtraffic" @getcompro="getbcompro"></order-business>
+		    	<order-business :readonly="!isEdit" :mtype="1" :is-init="busInitShow" mapid="busmap" :isshow="busShow" @initmoban="getinitbus" @getcon="getbinv" @gettraffic="getbtraffic" @getcompro="getbcompro"></order-business>
 		    </el-tab-pane>
 		</el-tabs>
 	</div>
@@ -26,7 +26,9 @@ export default {
   	return {
   	  activeName: 'face',
       initShow: true,
+      faceInitShow: false,
       faceShow: false,
+      busInitShow: false,
       busShow: false,
       isEdit: numberToBoolean(getCache('tempEditSwitch')),
       getVtype: this.defaultType || 0,
@@ -58,8 +60,19 @@ export default {
         this.busShow = false
       }
     },
-    isAll (val) {
-      console.log(val)
+    isAll (val) {}
+  },
+  created () {
+    if (!this.isshow) {
+      if (this.getVtype == 1) {
+        this.activeName = 'bus'
+        this.busInitShow = true
+        this.faceInitShow = false
+      } else if (this.getVtype == 0) {
+        this.activeName = 'face'
+        this.faceInitShow = true
+        this.busInitShow = false
+      }
     }
   },
   mounted () {

@@ -5,7 +5,7 @@
 				<h3>
 				  <strong>{{item.aName}}</strong>
 				  <i>{{item.address}}</i>
-          <template v-if="addAreaIsShow">
+          <template v-if="addAreaCloseIsShow">
             <span class="right">
               <span class="editarea" @click="dialogVisible = true">
                 <i class="el-icon-edit"></i>
@@ -27,16 +27,15 @@
 				</template>
 				<template v-else>
 				  <el-button type="primary" @click="doContact">{{$t('approve.contact')}}</el-button>
-				</template>
-				
+				</template>				
 			</span>
 		</div>
 		<el-dialog
 		  :title="$t('approve.contact')"
 		  :visible.sync="dialogVisible"
 		  width="30%" >
-		  <el-form :model="item">
-		  	<el-form-item :label="$t('approve.areaName')">
+		  <el-form :model="item" @close="handClose" ref="areaform" :rules="rules">
+		  	<el-form-item :label="$t('approve.areaName')" prop="aName">
 		  		<el-input v-model="item.aName"></el-input>
 		  	</el-form-item>
 		  	<el-form-item :label="$t('approve.areaAddress')">
@@ -79,7 +78,10 @@ export default {
   	  	userid: getCache('userid')
   	  },
       depidDefault: this.depid,
-      addAreaIsShow: process.env.addAreaIsShow
+      addAreaCloseIsShow: process.env.addAreaCloseIsShow,
+      rules:{
+        aName: [{ required: true, message: this.$t('exporttype.isNull'), trigger: 'blur' }]
+      }
   	}
   },
   watch: {
@@ -89,9 +91,6 @@ export default {
     depid (val) {
       this.depidDefault = val
     }
-  },
-  mounted () {
-    
   },
   methods: {
   	doContact () {
@@ -112,13 +111,18 @@ export default {
   	  	address: this.item.address,
   	  	aid: this.item.aid
   	  }
-  	  this.$store.dispatch('updateProcessArea',nform).then(res => {
-        let {status} = res
-        if (status === 0) {
-          this.dialogVisible = false
-          this.$emit('updatekit')
+      this.$refs['areaform'].validate((valid) => {
+        if (valid) {
+          this.$store.dispatch('updateProcessArea',nform).then(res => {
+            let {status} = res
+            if (status === 0) {
+              this.dialogVisible = false
+              this.$emit('updatekit')
+            }
+          })
         }
-  	  })
+      })
+  	  
   	},
   	deleteArea () {
   	  let nform = {
@@ -131,7 +135,14 @@ export default {
           this.$emit('deletekit')
         }
   	  })
-  	}
+  	},
+    handClose () {
+      this.form = {
+        aName: '',
+        address: '',
+        userid: getCache('userid')
+      }
+    }
   }
 }
 </script>

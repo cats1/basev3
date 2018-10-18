@@ -37,9 +37,7 @@ export default {
   	}
   },
   watch: {
-  	parent (val) {
-  	  console.log(val)
-  	}
+  	parent (val) {}
   },
   mounted () {
   	this.getProjectList()
@@ -61,9 +59,7 @@ export default {
   	  	}
   	  })
   	},
-  	getNode (data) {
-  		console.log(data)
-  	},
+  	getNode (data) {},
   	handleNodeClick(data,node,d) {
       if (data.dp !== 'root') {
         this.depidDefault = data.pid

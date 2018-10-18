@@ -18,13 +18,16 @@ module.exports = {
   agentShow: false,
   isChangeXSS: true,
   empComShow: true,
-  addAreaIsShow: false,
+  addAreaIsShow: true,
+  addAreaCloseIsShow: false,
   whiteListShow: true,
   doorGate: false,
   dataError: true,
   deptNoShow: true,
   takePhotoShow: true,
   sendSmsType: 2, //0手机号1邮箱2手机号和邮箱二选一
+  calendarShow: true,
+  dataErrorExport: true,
   BASE_API: '"https://jhds.coolvisit.top/qcvisit"',//'"http://visit.eastech.com/qcvisit"',//
   BASE_LINK: '"https://jhds.coolvisit.top/"',//'"http://visit.eastech.com/"',//
   BASE_VERSION: '"v2.2.0"',

@@ -20,6 +20,7 @@ module.exports = {
   isChangeXSS: true,
   empComShow: false,
   addAreaIsShow: false,
+  addAreaCloseIsShow: true,
   whiteListShow: false,
   doorGate: false,
   dataError: false,
@@ -27,6 +28,7 @@ module.exports = {
   takePhotoShow: true,
   vTypeShow: true,
   sendSmsType: 2, //0手机号1邮箱2手机号和邮箱二选一
+  smsDetailShow: true,
   BASE_API: '"http://visit.eastech.cn/qcvisit"',//'"http://visit.eastech.com/qcvisit"',//
   BASE_LINK: '"http://visit.eastech.cn/"',//'"http://visit.eastech.com/"',//
   BASE_VERSION: '"v2.1.0"',

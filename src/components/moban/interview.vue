@@ -4,7 +4,12 @@
     <tinymce class="margintop20" :height=400 ref="ceditor" v-model="defaultmoban.inviteContent" @input="getcon"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.address')}}</h3>
     <!-- <baidu-map class="marginbom20" :isshow="isshow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;"></baidu-map> -->
-    <map-component class="marginbom20" :isshow="isshow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getAddress"></map-component>
+    <template v-if="baiduMapShow">
+      <map-component class="marginbom20" :isshow="mapIsShow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getAddress"></map-component>
+    </template>
+    <!-- <template v-else-if="googleMapShow">
+      <google-map class="marginbom20" :isshow="mapIsShow" :address="defaultmoban.address" :latitude="pot.latitude" :longitude="pot.longitude" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getGoogleAddress"></google-map>
+    </template> -->
     <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
     <tinymce :height=100 :toolbarShow="false" :menubarShow="false" ref="teditor" v-model="defaultmoban.traffic" @input="getTraffic"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.compro')}}</h3>
@@ -17,13 +22,14 @@
 </template>
 <script>
 import mHeader from './components/mHeader'
+//import {MapComponent,googleMap} from '@/components/map'
 import {MapComponent} from '@/components/map'
 import { getCache } from '@/utils/auth'
 import Tinymce from '@/components/tinymce/tiny'
-import { valueToString, replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation } from '@/utils/common'
+import { valueToString, replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation,checkIsNull } from '@/utils/common'
 export default {
   props: ['mtype','isshow','mapid'],
-  components: { mHeader, MapComponent, Tinymce },
+  components: { mHeader, MapComponent, Tinymce}, //googleMap },
   data () {
   	return {
   	  traffic: '',
@@ -44,15 +50,31 @@ export default {
         longitude: ''
       },
       form: {},
-      isChangeXSS: process.env.isChangeXSS || false
+      isChangeXSS: process.env.isChangeXSS || false,
+      mapValue: process.env.mapValue || 0,
+      baiduMapShow: false,
+      googleMapShow: false,
+      mapIsShow: this.isshow
   	}
   },
   computed: {},
   watch: {
-  	traffic (val, oldval) {}
+  	traffic (val, oldval) {},
+    isshow (val) {
+      this.mapIsShow = val
+      if (val) {
+        this.init()
+      }
+    }
   },
   mounted () {
-    this.init()
+    if (this.mapValue == 0) {
+      this.baiduMapShow = true
+      this.googleMapShow = false
+    } else if (this.mapValue == 1) {
+      this.baiduMapShow = false
+      this.googleMapShow = true
+    }
   },
   methods: {
     getcon () {},
@@ -102,20 +124,58 @@ export default {
               this.defaultmoban.companyProfile = replaceRemoveQuotation(result.companyProfile)
             }
             this.defaultmoban.address = result.address
+            this.defaultmoban.latitude = result.latitude
+            this.defaultmoban.longitude = result.longitude
           } else {
             this.setDefaultMoban() 
           }
-          
   			}
   		})
   	},
     saveMoban () {
       this.$emit('savekit',this.form)
-      this.$store.dispatch('addUserTemplate',this.defaultmoban)
+      if (checkIsNull(this.defaultmoban.inviteContent) == '') {
+        this.$message({
+          showClose: true,
+          message: '请填写模板内容',
+          type: 'warning'
+        })
+      } else if (checkIsNull(this.defaultmoban.address) == '') {
+        this.$message({
+          showClose: true,
+          message: '请填写地址信息',
+          type: 'warning'
+        })
+      } else if (checkIsNull(this.defaultmoban.longitude) == '' || checkIsNull(this.defaultmoban.latitude) == '') {
+        this.$message({
+          showClose: true,
+          message: '请填写地址信息',
+          type: 'warning'
+        })
+      } else if (checkIsNull(this.defaultmoban.traffic) == '') {
+        this.$message({
+          showClose: true,
+          message: '请填写停车信息',
+          type: 'warning'
+        })
+      } else if (checkIsNull(this.defaultmoban.companyProfile) == '') {
+        this.$message({
+          showClose: true,
+          message: '请填写公司简介',
+          type: 'warning'
+        })
+      } else {
+        this.$store.dispatch('addUserTemplate',this.defaultmoban)
+      }
     },
     sendMoban () {
       this.defaultmoban.empid = this.defaultmoban.empid      
       this.$emit('sendkit',this.form)
+    },
+    getGoogleAddress (point,address) {
+      this.defaultmoban.latitude = point.latitude
+      this.defaultmoban.longitude = point.longitude
+      this.defaultmoban.address = address
     },
     getAddress (point,address) {
       this.defaultmoban.latitude = point.latitude

@@ -4,6 +4,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const webpack = require('webpack')
+//const vuxLoader = require('vux-loader')
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -36,7 +37,7 @@ const Webpackconfig = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json', '.scss'],
+    extensions: ['.js', '.vue', '.json', '.scss','.less'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src')
@@ -106,3 +107,4 @@ const Webpackconfig = {
   }
 }
 module.exports = Webpackconfig
+//module.exports = vuxLoader.merge(Webpackconfig, { plugins: ['vux-ui'] })

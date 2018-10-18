@@ -1,12 +1,19 @@
 <template>
 	<div class="boxshadow bgwhite paddinglr30 paddingtb20">
-		<el-button type="primary" @click="addEquip">{{$t('key.addEquip')}}</el-button>
+		<el-button type="primary" @click="addEquip"><i class="fa fa-plus"></i>{{$t('key.addEquip')}}</el-button>
 		<el-table class="margintop20" :data="list" border>
 			<el-table-column prop="deviceName"
 	        :label="$t('key.equipeName')" ></el-table-column>
-	    <el-table-column prop="deviceCode"
-	        :label="$t('key.equipeName')"
-	        width="180"></el-table-column>
+      <template v-if="!areaEquipShow">
+        <el-table-column prop="deviceCode"
+          :label="$t('key.equipMark')"
+          width="180"></el-table-column>
+      </template>
+	    <template v-else>
+        <el-table-column prop="deviceCode"
+          :label="$t('equipCode')"
+          width="180"></el-table-column>
+      </template>
 	    <el-table-column prop="status"
 	        :label="$t('status.text')">
 	        <template slot-scope="scope">
@@ -32,7 +39,8 @@ import { groupStatusText } from '@/utils/common'
 export default {
   data () {
   	return {
-  	  list: []
+  	  list: [],
+      areaEquipShow: process.env.areaEquipShow || false
   	}
   },
   created () {

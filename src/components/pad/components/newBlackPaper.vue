@@ -99,7 +99,7 @@ export default {
   data () {
     return {
       labelPosition: 'left',
-      iframeSrc: getBaseCardLink() + '/card/index.html?userid=' + getCache('userid') + '&token=' + getCache('token'),
+      iframeSrc: '',//getBaseCardLink() + '/card/index.html?userid=' + getCache('userid') + '&token=' + getCache('token'),
       form:{
       	badgemode: parseInt(getCache('badgeMode')) || 0,
       	brandType: parseInt(getCache('brandType')) || 0,
@@ -117,7 +117,7 @@ export default {
     }
   },
   mounted () {
-  	//console.log(this.form.badgemode)
+  	this.setCardSeting(this.form.badgemode)
   },
   methods: {
   	changeIframeSrc () {

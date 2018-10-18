@@ -1,0 +1,42 @@
+'use strict'
+module.exports = {
+  Door: true,
+  homepage: false,
+  conference: false,
+  BASE_ISTRUE: false,
+  loginShow: false,
+  signupShow: true,
+  stageLink: true,
+  signPdf: true,
+  empLogin: true,
+  empPwdShow: false,
+  empActiveShow: true,
+  empPhoneCheck: true,
+  empWorkNoCheck: false,
+  workbayCheck: false,
+  agentShow: true,
+  agentCheck: true,
+  isChangeXSS: true,
+  empComShow: true,
+  addAreaIsShow: false,
+  addAreaCloseIsShow: true,
+  whiteListShow: false,
+  doorGate: false,
+  dataError: false,
+  deptNoShow: false,
+  takePhotoShow: false,
+  vTypeShow: false,
+  sendSmsType: 2, //0手机号1邮箱2手机号和邮箱二选一
+  logoClose: true,
+  accountMessClose: true,
+  empAddMenuClose: true,
+  empEditClose: true,
+  whiteHeaderClass: true,
+  footerEmpClose: true,
+  mapValue: 0,//0百度1谷歌
+  //internalPhoneShow: true,
+  BASE_API: '"http://www.coolvisit.top/qcvisitBase"',//'"http://visitor.leanloop.net/qcvisit"',//
+  BASE_LINK: '"http://www.coolvisit.top/"',//'"http://visitor.leanloop.net/"',//
+  BASE_VERSION: '"v2.2.3"',
+  HOST: '"www.coolvisit.top"'//'"visitor.leanloop.net"'
+}

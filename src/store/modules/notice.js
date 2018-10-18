@@ -8,6 +8,9 @@ import {updateSecureProtocol,UpdateDefaultPhoto,UploadPic} from '@/api/pad'
 import { Message } from 'element-ui'
 import { getCache,setCache } from '@/utils/auth'
 import i18n from '@/lang'
+import 'babel-polyfill'
+import promise from 'es6-promise'
+promise.polyfill()
 const local = i18n.locale
 const messages = i18n.messages[local]
 const app = {

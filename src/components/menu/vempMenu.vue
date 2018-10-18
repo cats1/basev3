@@ -40,6 +40,10 @@ export default {
     checkNum: {
       type: Number,
       default: 0
+    },
+    searchFlag: {
+      type: Boolean,
+      default: false
     }
   },
   components: {checkItem},
@@ -65,7 +69,10 @@ export default {
       this.rightItem = val
     },
     checkValue (val) {},
-    checkNum (val) {}
+    checkNum (val) {},
+    searchFlag (val) {
+      this.sname = ''
+    }
   },
   mounted () {
     this.rightItem = this.rightData

@@ -5,6 +5,7 @@ import { getLanguage } from '@/utils/i18n'
 import store from '@/store'
 import { getCache, clearCookie } from '@/utils/auth'
 import { getBaseUrl } from '@/utils/common'
+require("babel-polyfill")
 require('es6-promise').polyfill()
 var baseURL = getBaseUrl()
 // create an axios instance
@@ -40,6 +41,8 @@ service.interceptors.response.use(
         if (getLanguage() === 'zh') {
           if (noticeMessages[status]) {
             messages = noticeMessages[status]
+          } else {
+            messages = response.data.reason
           }
         } else {
           messages = response.data.reason

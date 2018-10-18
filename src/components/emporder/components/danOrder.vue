@@ -1,11 +1,13 @@
 <template>
 	<div>
-		  <el-row class="margintop20 marginbom20 ">
-	      <p class="lh36">{{$t('moban.ctitle')}}
-	      <el-button class="right" @click="goDot"><i class="fa fa-list"></i>{{$t('moban.dot')}}</el-button></p>
-	    </el-row>
-	    <div class="boxshadow bgwhite paddinglr30 paddingtb20">
-	    	<el-form label-position="left" :model="form" :rules="rules" ref="danform" style="width:50%;">
+    <template v-if="!isMobile">
+      <el-row class="margintop20 marginbom20 ">
+        <p class="lh36">{{$t('moban.ctitle')}}
+        <el-button class="right" @click="goDot"><i class="fa fa-list"></i>{{$t('moban.dot')}}</el-button></p>
+      </el-row>
+    </template>
+		  <div class="boxshadow bgwhite paddinglr30 paddingtb20">
+	    	<el-form label-position="left" :model="form" :rules="rules" ref="danform" style="width:50%;" :style="{'width': isMobile ? '100%' : '50%'}">
 	    	  <h3 class="marginbom20">{{$t('moban.visitMess')}}</h3>
           <template v-if="vTypeShow">
             <el-row :gutter="20">
@@ -33,14 +35,24 @@
 		    	</el-form-item> -->
           <el-form-item :label="$t('sendType')" prop="sendValue">
             <el-row class="block" :gutter="20">
-              <el-col :span="12">
+              <el-col :span="6">
                 <el-select v-model="stype" >
                   <el-option key="0" :label="$t('form.phone.text')" :value="0"></el-option>
                   <el-option key="1" :label="$t('form.email.text')" :value="1"></el-option>
                 </el-select>
               </el-col>
-              <el-col :span="12">
-                <el-input v-model="form.sendValue" @change="setSendValue"></el-input>
+              <el-col :span="18">
+                <template v-if="internalPhoneShow">
+                  <template v-if="internalPhoneShow">
+                    <country-number @sendcode="getPhoneNumber"></country-number>
+                  </template>
+                  <template v-else>
+                    <el-input v-model="form.sendValue" @change="setSendValue"></el-input>
+                  </template>
+                </template>
+                <template v-else>
+                  <el-input v-model="form.sendValue" @change="setSendValue"></el-input>
+                </template>
               </el-col>
             </el-row>
           </el-form-item>
@@ -68,8 +80,8 @@
 		    		<el-input v-model="form.remark" :placeholder="$t('form.remark.text')"></el-input>
 		    	</el-form-item>
 		    	<el-form-item :label="$t('form.time.text7')" prop="qrcodeType">
-		    		<el-row class="block">
-		    			<el-col :span="12">
+		    		<el-row class="block" :gutter="20">
+		    			<el-col :span="6">
 			    			<el-select v-model="timetype" >
                   <template v-if="timetypeShow == 0">
                     <el-option
@@ -95,18 +107,18 @@
                   </template>
 							</el-select>
 			    		</el-col>
-			    		<el-col :span="12">
+			    		<el-col :span="18">
 			    			<el-input v-model.number="form.qrcodeType" :placeholder="qrcodePlace" @change="setQrcodeType"></el-input>
 			    		</el-col>
 		    		</el-row>
 		    	</el-form-item>
 		    </el-form>
-		    <bom-moban :default-type="visitType" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"
+		    <bom-moban v-show="!isMobile" :default-type="visitType" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"
 		    @getbcon="getbinv" @getbtraffic="getbtraffic" @getbcompro="getbcompro" @getinitface="getinitface" @getinitbus="getinitbus"></bom-moban>
 	    </div>
 	    <div class="margintop20">
 	    	<el-button type="success" @click="sendOrder">{{$t('btn.sendInvite')}}</el-button>
-	    	<el-button type="default" @click="previewOrder">{{$t('btn.overview')}}</el-button>
+	    	<el-button type="default" @click="previewOrder" v-show="!isMobile">{{$t('btn.overview')}}</el-button>
 	    </div>
         <moban-dialog :mobanFlag="mobanFlag" :ptip="$t('moban.tip1')" @closekit="getClose"></moban-dialog>
         <preview-dialog :obj="form" :mobanFlag="previewFlag"></preview-dialog>
@@ -114,13 +126,14 @@
 	</div>
 </template>
 <script>
+import countryNumber from '@/components/countrynumber/countryNumber'
 import {mobanDialog,previewDialog} from '@/components/dialog'
 import { getCache } from '@/utils/auth'
 import bomMoban from './bomMoban'
-import { replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation } from '@/utils/common'
+import { mobile_device_detect,replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation,checkIsNull } from '@/utils/common'
 import { formatDate } from '@/utils/index'
 export default {
-  components: { bomMoban,mobanDialog,previewDialog },
+  components: { bomMoban,mobanDialog,previewDialog,countryNumber },
   data () {
   	return {
       vTypeShow: process.env.vTypeShow || false,
@@ -171,7 +184,9 @@ export default {
           return time.getTime() < Date.now() - 8.64e7
         }
       },
-      typelist: []
+      typelist: [],
+      isMobile: false,
+      internalPhoneShow: process.env.internalPhoneShow || false
   	}
   },
   computed: {
@@ -186,7 +201,19 @@ export default {
       set () {}
     }
   },
+  watch: {
+    isMobile (val) {
+      if (val) {
+
+      }
+    }
+  },
   created () {
+    let _self = this
+    this.isMobile = mobile_device_detect()
+    window.onresize = function(){
+      _self.isMobile = mobile_device_detect()
+    }
     if (this.vTypeShow) {
       this.getTypeList()
     }
@@ -196,6 +223,9 @@ export default {
       this.visitType = val
     },
     setSendValue (val) {},
+    getPhoneNumber (first,code,phone) {
+      this.form.sendValue = first + code + phone
+    },
     getTypeList () {
       let nform = {
         userid: getCache('userid')
@@ -294,7 +324,8 @@ export default {
               traffic: replaceQuotation(this.demoban.traffic),
               userid: getCache('userid'),
               vcompany: this.form.vcompany,
-              visitType: this.visitType === 0 ? '面试' : '商务'
+              visitType: this.visitType === 0 ? '面试' : '商务',
+              vType: ''
             }]
             if (this.vTypeShow) {              
               nform = [{
@@ -325,7 +356,7 @@ export default {
                   type: 'warning',
                   message: this.$t('uptoMax')
                 })
-                      return false
+                return false
             } else {
               this.doaddAppointment(nform)
             }
@@ -337,7 +368,17 @@ export default {
       this.$store.dispatch('addAppointment',nform).then(res => {
         let {status} = res
         if (status === 0) {
-          this.mobanFlag = true
+          if (!this.isMobile) {
+            this.mobanFlag = true
+          } else {
+            this.$message({
+              message: this.$t('moban.tip'),
+              type: 'success',
+              showClose: false
+            })
+          }
+          
+          
           this.form = {
             address: '',
             appointmentDate: '',
@@ -356,7 +397,8 @@ export default {
             userid: '',
             vcompany: '',
             visitType: '',
-            sendValue: ''
+            sendValue: '',
+            vType: ''
           }
           if (this.vTypeShow) {
             this.form = {

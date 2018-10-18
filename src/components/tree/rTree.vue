@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-tree :data="list" :props="defaultProps" :highlight-current="true" :check-on-click-node="true" node-key="pid" accordion :default-expanded-keys="defaultGet" :default-checked-keys="defaultGet"  @getNode="getNode" @node-click="handleNodeClick"></el-tree><!-- :default-expanded-keys="defaultGet" :default-checked-keys="defaultChecked" -->
+		<el-tree :data="list" :props="defaultProps" :highlight-current="true" :check-on-click-node="true" :node-key="nodeKey" accordion :default-expanded-keys="defaultGet" :default-checked-keys="defaultGet"  @getNode="getNode" @node-click="handleNodeClick"></el-tree><!-- :default-expanded-keys="defaultGet" :default-checked-keys="defaultChecked" -->
 	</div>
 </template>
 <script>
@@ -35,12 +35,15 @@ export default {
       defaultGet: this.dexpanded,
       defaultProps: this.dprops,
       defaultChecked: this.expandedid == 0 ? [] : this.dexpanded,
-      curexpandedid: 0
+      curexpandedid: 0,
+      nodeKey: 'pid'
     }
   },
   watch: {
   	list (val) {
-  	  this.getInit()
+      if (val.length > 0) {
+        this.getInit()
+      }
   	},
   	dexpanded (val) {
   	  this.defaultGet = val
@@ -57,7 +60,6 @@ export default {
   	  }
   	}
   },
-  mounted () {},
   methods: {
   	getInit () {
   	  if (this.dexpanded[0] == 0) {

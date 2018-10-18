@@ -1,32 +1,46 @@
 <template>
 	<div class="block boxshadow bgwhite">
-      <g-title>{{$t('key.title')}}</g-title>
+      <template v-if="!areaEquipShow"><g-title>{{$t('key.title')}}</g-title></template>
+      <template v-else><g-title>{{$t('key.title')}}</g-title></template>
       <el-row class="margintop20 paddinglr30" style="width:60%;">
 				<el-form ref="eform" :rules="rules" :model="form" label-width="120px" >
-					<el-form-item :label="$t('key.equipeName')" prop="deviceName">
-					  <el-input v-model="form.deviceName"></el-input>
-					</el-form-item>
-          <el-form-item :label="$t('key.equipMark')" prop="deviceCode">
-            <el-input v-model="form.deviceCode"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('key.extendMark')" prop="extendCode">
-            <el-input v-model="form.extendCode"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('key.doorNumber')">
-            <el-input v-model="form.roomNum"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('key.equipIp')">
-            <el-input v-model="form.deviceIp"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('key.equipPort')">
-            <el-input v-model="form.devicePort"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('key.headNumber')" prop="deviceQrcode">
-            <el-input v-model="form.deviceQrcode"></el-input>
-          </el-form-item>
-					<el-form-item :label="$t('key.equipDist')">
-					  <egroup :eid="eid" @skit="getSelect"></egroup>
-					</el-form-item>
+          <template v-if="!areaEquipShow">
+            <el-form-item :label="$t('key.equipeName')" prop="deviceName">
+              <el-input v-model="form.deviceName"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('key.equipMark')" prop="deviceCode">
+              <el-input v-model="form.deviceCode"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('key.extendMark')" prop="extendCode">
+              <el-input v-model="form.extendCode"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('key.doorNumber')">
+              <el-input v-model="form.roomNum"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('key.equipIp')">
+              <el-input v-model="form.deviceIp"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('key.equipPort')">
+              <el-input v-model="form.devicePort"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('key.headNumber')" prop="deviceQrcode">
+              <el-input v-model="form.deviceQrcode"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('key.equipDist')">
+              <egroup :eid="eid" @skit="getSelect"></egroup>
+            </el-form-item>
+          </template>
+					<template v-else>
+            <el-form-item :label="$t('key.equipeName')" prop="deviceName">
+              <el-input v-model="form.deviceName"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('equipCode')" prop="deviceCode">
+              <el-input v-model="form.deviceCode"></el-input>
+            </el-form-item>
+            <el-form-item :label="$t('key.equipDist')">
+              <egroup :eid="eid" @skit="getSelect"></egroup>
+            </el-form-item>  
+          </template>
 					<el-form-item>
 					  <el-button type="primary" @click="submitForm">{{$t('btn.saveBtn')}}</el-button>
 					  <el-button @click="goBack">{{$t('btn.backListBtn')}}</el-button>
@@ -72,7 +86,8 @@ export default {
       editType: 0,
       eid: '',
       table: [],
-      stable: []
+      stable: [],
+      areaEquipShow: process.env.areaEquipShow || false
   	}
   },
   methods: {

@@ -369,6 +369,10 @@ export function setYearAgo(time, num) {
   time.setFullYear(time.getFullYear() - num)
   return time
 }
+export function setYearAfter(time, num) {
+  time.setFullYear(time.getFullYear() + num)
+  return time
+}
 export function timeDiff(date1, date2, type) {
   let date3 = date2.getTime() - date1.getTime()
   let day = Math.floor(date3 / (24 * 3600 * 1000))

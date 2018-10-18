@@ -46,7 +46,7 @@
 </template>
 <script>
 import {getCache} from '@/utils/auth'
-import {chineseFromUtf8Url,numberToBoolean} from '@/utils/common'
+import {chineseFromUtf8Url,numberToBoolean,checkIsChinese} from '@/utils/common'
 import {version} from './components'
 export default {
   components: {version},
@@ -60,7 +60,7 @@ export default {
       },
       cform: {
         userid: getCache('userid'),
-        cardText: chineseFromUtf8Url(getCache('cardText'))
+        cardText: !checkIsChinese(getCache('cardText')) ? chineseFromUtf8Url(getCache('cardText')) : getCache('cardText')
       },
       //unsubscribe: numberToBoolean(getCache('unsubscribe')),
       dialogVisible: false,

@@ -2,6 +2,9 @@ import { UpdateThemeColor,GetExtendVisitor,addExtendVisitor,updateQRcode,updateC
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
+import 'babel-polyfill'
+import promise from 'es6-promise'
+promise.polyfill()
 const local = i18n.locale
 const messages = i18n.messages[local]
 const user = {

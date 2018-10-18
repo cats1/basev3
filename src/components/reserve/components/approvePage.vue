@@ -1,7 +1,7 @@
 <template>
 	<div class="marginbom20">
       <approve-switch class="bgwhite"></approve-switch>
-      <template v-if="addAreaIsShow">
+      <template v-if="!addAreaIsShow">
       	<approve-list class="bgwhite"></approve-list>	
       </template>
       <template v-else>

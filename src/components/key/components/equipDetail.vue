@@ -1,10 +1,20 @@
 <template>
 	<div class="block bgwhite boxshadow">
       <template v-if="editType === 1">
-        <g-title>{{$t('key.addGroup')}}</g-title>
+        <template v-if="!areaEquipShow">
+          <g-title>{{$t('key.addGroup')}}</g-title>
+        </template>
+        <template v-else>
+          <g-title>{{$t('addAreaGroup')}}</g-title>
+        </template>
       </template>
       <template v-else>
-        <g-title>{{$t('key.updateGroup')}}</g-title>
+        <template v-if="!areaEquipShow">
+          <g-title>{{$t('key.updateGroup')}}</g-title>
+        </template>
+        <template v-else>
+          <g-title>{{$t('updateAreaGroup')}}</g-title>
+        </template>
       </template>      
       <el-row class="margintop20 paddinglr30">
   			<el-col :span="4">
@@ -12,22 +22,41 @@
   			</el-col>
   			<el-col :span="12">
   				<el-form ref="eform" :rules="rules" :model="form" label-width="120px">
-  					<el-form-item :label="$t('key.groupName')">
-  					  <el-input v-model="form.egname"></el-input>
-  					</el-form-item>
-  					<el-form-item :label="$t('key.groupRule')">
-  					  <el-radio-group v-model="form.status">
-  					      <el-radio label='1'>{{$t('status.on')}}</el-radio>
-  					      <el-radio label='2'>{{$t('status.off')}}</el-radio>
-  					  </el-radio-group>
-  					</el-form-item>
-  					<el-form-item :label="$t('key.groupAuth')">
-  					  <el-radio-group v-model="form.etype">
-  					      <el-radio label="1">{{$t('people.emp')}}</el-radio>
-  					      <el-radio label="2">{{$t('people.visit')}}</el-radio>
-  					      <el-radio label="0">{{$t('people.emp')}}{{$t('people.and')}}{{$t('people.visit')}}</el-radio>
-  					  </el-radio-group>
-  					</el-form-item>
+            <template v-if="!areaEquipShow">
+              <el-form-item :label="$t('key.groupName')" prop="egname">
+                <el-input v-model="form.egname"></el-input>
+              </el-form-item>
+              <el-form-item :label="$t('key.groupRule')">
+                <el-radio-group v-model="form.status">
+                    <el-radio label='1'>{{$t('status.on')}}</el-radio>
+                    <el-radio label='2'>{{$t('status.off')}}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item :label="$t('key.groupAuth')">
+                <el-radio-group v-model="form.etype">
+                    <el-radio label="1">{{$t('people.emp')}}</el-radio>
+                    <el-radio label="2">{{$t('people.visit')}}</el-radio>
+                    <el-radio label="0">{{$t('people.emp')}}{{$t('people.and')}}{{$t('people.visit')}}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </template>
+            <template v-else>
+              <el-form-item :label="$t('key.groupName')" prop="egname">
+                <el-input v-model="form.egname"></el-input>
+              </el-form-item>
+              <el-form-item :label="$t('key.groupRule')">
+                <el-radio-group v-model="form.status">
+                    <el-radio label='1'>{{$t('status.on')}}</el-radio>
+                    <el-radio label='2'>{{$t('status.off')}}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item :label="$t('authorArea')">
+                <el-radio-group v-model="form.etype">
+                    <el-radio label='1'>{{$t('unengineRoom')}}</el-radio>
+                    <el-radio label='2'>{{$t('engineRoom')}}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </template>  					
   					<el-form-item>
               <el-button type="primary" @click="submitForm('ruleForm')">{{$t('btn.saveBtn')}}</el-button>
   					  <el-button @click="goBack">{{$t('btn.backListBtn')}}</el-button>
@@ -46,6 +75,7 @@ export default {
   data () {
   	return {
   	  logoSrc: require('@/assets/img/equiment.png'),
+      areaEquipShow: process.env.areaEquipShow || false,
   	  form: {
   	  	egname: '',
   	  	etype: '0',
@@ -94,6 +124,9 @@ export default {
   	}
   },
   created () {
+    if (this.areaEquipShow) {
+      this.form.etype = '1'
+    }
   	if (this.$route.params.egid) {
       this.$store.commit('get_group',this.$route.params.egid)
       this.form = this.$store.state.key.groupD

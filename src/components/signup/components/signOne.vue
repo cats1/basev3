@@ -117,6 +117,7 @@ export default {
       this.form.smscode = code
     },
     doRegister () {
+      
       this.$refs.signupForm.validate(valid => {
         if (valid) {
           let newForm = {
@@ -130,7 +131,8 @@ export default {
           this.$store.dispatch('Register', newForm).then(res => {
             let {status} = res
             if (status === 0) {
-              window.location.href = 'guide.html'
+              this.$router.push({'path': 'guide'})
+              //window.location.href = 'guide.html'
             }
           })
         }

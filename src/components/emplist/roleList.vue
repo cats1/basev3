@@ -125,15 +125,15 @@ export default {
     },
     getAddRole () {
       this.getProjectList()
-      this.getResidentVisitor()
+      //this.getResidentVisitor()
     },
     getdeleRole () {
       this.getProjectList()
-      this.getResidentVisitor()
+      //this.getResidentVisitor()
     },
     getAddRoleGroup () {
       this.getProjectList()
-      this.getResidentVisitor()
+      //this.getResidentVisitor()
     },
     getMember () {
       this.vempObj = []
@@ -142,7 +142,7 @@ export default {
     },
     getDelete () {
       this.getProjectList()
-      this.getResidentVisitor()
+      //this.getResidentVisitor()
     },
   	changeVtype (val) {
   	  this.$router.push({name:val})
@@ -153,17 +153,24 @@ export default {
   	  }
   	  this.$store.dispatch('getRARG',nform).then(res => {
   	  	let {status,result} = res
-  	  	if (status === 0) {
-  	  	  this.list = getCBarList(result,'rgName','rid','childRoleList')
-  	  	  if (result.length>0) {
+  	  	if (status === 0) {  	  	  
+  	  	  if (result.length > 0) {
+            this.list = getCBarList(result,'rgName','rid','childRoleList')
             this.nform.rid = result[0].rid
             this.getResidentVisitor()
-  	  	  }
+  	  	  } else {
+            this.list = []
+          }
   	  	}
   	  })
   	},
   	getResidentVisitor () {
-  	  this.$store.dispatch('getEmpRoleList',this.nform).then(res => {
+      let nform = {
+        rid: this.nform.rid,
+        requestedCount: this.requestedCount,
+        startIndex:this.nform.startIndex
+      }
+  	  this.$store.dispatch('getEmpRoleList',nform).then(res => {
   	  	let {status,result} = res
   	  	if (status === 0) {
   	  	  this.dataList = result.list
@@ -182,12 +189,12 @@ export default {
     handleSizeChange (val) {
       this.currentPage = 1
       this.requestedCount = val
-      this.form.startIndex = 1
-  	  this.form.requestedCount = val
+      this.nform.startIndex = 1
+  	  this.nform.requestedCount = val
   	  this.getResidentVisitor()
   	},
   	handleCurrentChange (val) {
-  	  this.form.startIndex = (val - 1) * this.form.requestedCount + 1
+  	  this.nform.startIndex = (val - 1) * this.requestedCount + 1
   	  this.getResidentVisitor()
   	},
   	handleSelectionChange (val) {

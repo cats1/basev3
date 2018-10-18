@@ -6,7 +6,7 @@
            <img :src="icon" alt="">
            <h3 class="title">{{$t('login.active')}}</h3>
           </div>
-          <el-form-item prop="phone">
+          <el-form-item prop="phone">            
             <el-input name="phone" type="text" v-model="loginForm.phone" autoComplete="on" placeholder="phone" />
           </el-form-item>
           <el-form-item prop="vcode">
@@ -55,17 +55,25 @@ export default {
   components: { ImgCode,smsCode },
   data () {
   	const validatePhone = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error(this.$t('formCheck.validphone.tip2')))
-      } else if (!isvalidatPhone(value)) {
-        callback(new Error(this.$t('formCheck.validphone.tip1')))
+      if (this.internalPhoneShow) {
+        if (!value) {
+          callback(new Error(this.$t('formCheck.validphone.tip2')))
+        } else {
+          callback()
+        }
       } else {
-        callback()
+        if (!value) {
+          callback(new Error(this.$t('formCheck.validphone.tip2')))
+        } else if (!isvalidatPhone(value)) {
+          callback(new Error(this.$t('formCheck.validphone.tip1')))
+        } else {
+          callback()
+        }
       }
     }
     const validateCode = (rule, value, callback) => {
       if (value == '') {
-        callback(new Error('The vcode can not be blank'))
+        callback(new Error(this.$t('imgcode.tip1')))
       } else {
         callback()
       }
@@ -111,7 +119,8 @@ export default {
       step: 0,
       passwordType: 'password',
       success: false,
-      getCode: false
+      getCode: false,
+      internalPhoneShow: process.env.internalPhoneShow || false
     }
   },
   methods: {
@@ -170,7 +179,6 @@ export default {
           })          
           return false        
         } else {
-          console.log('error submit!!')
           return false
         }
       })

@@ -1,10 +1,12 @@
 import { managerLogin, getCode, isCodeTrue, RetrievePassword, Register, ModifyPassword } from '@/api/login'
 import { getToken, setToken, removeToken, setCache, getCache,clearCookie,clearSession,clearLocal } from '@/utils/auth'
+import 'babel-polyfill'
+import promise from 'es6-promise'
+promise.polyfill()
 const user = {
 	state: {
 		userid: '',
-		token: getToken(),
-
+		token: getToken()
 	},
 	mutations: {
 		SET_USERID: (state, userid) => {
@@ -22,7 +24,7 @@ const user = {
 		          if (status == 0) {
                     for (let key in result) {
 		          		if (key !== 'token') {
-		          			setCache(key, result[key] || '')
+		          		  setCache(key, result[key] || '')
 		          		} else {
 		          		  setCache('token', result.userid + '-' + result.token)
 		          		}
@@ -48,7 +50,7 @@ const user = {
 		          				setCache(key, '')
 		          			}
 		          		} else {
-		          		  setCache('token', userInfo.userid + '-' + result.token)
+		          		  setCache('token', result.userid + '-' + result.token)
 		          		}
 		            }
 		          }

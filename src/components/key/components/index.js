@@ -1,4 +1,5 @@
 export { default as equipGroup } from './equipGroup'
+export { default as areaGroup } from './areaGroup'
 export { default as equipDetail } from './equipDetail'
 export { default as equipList } from './equipList'
 export { default as detail } from './detail'

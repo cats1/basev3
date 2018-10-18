@@ -45,10 +45,18 @@
           <el-form-item :label="$t('notice.email.server2')">
             <el-input v-model="form.smtp"></el-input>
           </el-form-item>
-          <el-form-item :label="$t('exporttype.port')">
-            <el-checkbox v-model="form.ssl" class="right">SSL</el-checkbox>
-            <el-input v-model="form.smtp_port"></el-input>
-          </el-form-item>
+          <template v-if="SSLShow">
+            <el-form-item :label="$t('exporttype.port')">
+              <el-checkbox checked class="right" style="pointer-events: none;">SSL</el-checkbox>
+              <el-input v-model="form.smtp_port"></el-input>
+            </el-form-item>
+          </template>
+          <template v-else>
+            <el-form-item :label="$t('exporttype.port')">
+              <el-checkbox v-model="form.ssl" class="right">SSL</el-checkbox>
+              <el-input v-model="form.smtp_port"></el-input>
+            </el-form-item>
+          </template>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="saveSmtp" >{{$t('btn.saveBtn')}}</el-button>
@@ -104,7 +112,8 @@ export default {
         account: [
         { required: true, message: this.$t('validEmail.tip2'), trigger: 'blur' },
         { type: 'email', message: this.$t('validEmail.tip1'), trigger: 'blur'}]
-      }
+      },
+      SSLShow: process.env.SSLValue || true
   	}
   },
   computed: {

@@ -1,6 +1,8 @@
 import { LoginManager } from '@/api/stage'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
-
+import 'babel-polyfill'
+import promise from 'es6-promise'
+promise.polyfill()
 const user = {
 	state: {
 		id: getCache('id'),

@@ -7,51 +7,54 @@
 		  width="60%">
 		  <div class="exportwap">
     		  	<span class="exsection">{{$t('form.name.text1')}}
-    		  		<el-checkbox v-model="exportTable[0]"></el-checkbox>
+    		  		<el-checkbox v-model="exportTable[0]" @change="changeCheck"></el-checkbox>
     		  	</span>
             <span class="exsection">{{$t('form.phone.text1')}}
-            	<el-checkbox v-model="exportTable[1]"></el-checkbox></span>
+            	<el-checkbox v-model="exportTable[1]" @change="changeCheck"></el-checkbox></span>
             <span class="exsection">{{$t('form.name.text2')}}
-            	<el-checkbox v-model="exportTable[2]"></el-checkbox></span>
+            	<el-checkbox v-model="exportTable[2]" @change="changeCheck"></el-checkbox></span>
             <span class="exsection">{{$t('form.phone.text2')}}
-            	<el-checkbox v-model="exportTable[3]"></el-checkbox></span>
+            	<el-checkbox v-model="exportTable[3]" @change="changeCheck"></el-checkbox></span>
             <span class="exsection">{{$t('checkVtype[3]')}}
-                <el-checkbox v-model="exportTable[4]"></el-checkbox></span>
+              <el-checkbox v-model="exportTable[4]" @change="changeCheck"></el-checkbox></span>
             <template v-if="isDoorShow">
               <span class="exsection">{{$t('notice.doorset.signinDoor')}}
-                <el-checkbox v-model="exportTable[5]"></el-checkbox></span>
+                <el-checkbox v-model="exportTable[5]" @change="changeCheck"></el-checkbox></span>
               <span class="exsection">{{$t('notice.doorset.signoutDoor')}}
-                  <el-checkbox v-model="exportTable[6]"></el-checkbox>
+                  <el-checkbox v-model="exportTable[6]" @change="changeCheck"></el-checkbox>
               </span>
               <span class="exsection">{{$t('notice.doorset.signinGuard')}}
-                  <el-checkbox v-model="exportTable[7]"></el-checkbox>
+                  <el-checkbox v-model="exportTable[7]" @change="changeCheck"></el-checkbox>
               </span>
               <span class="exsection">{{$t('notice.doorset.signoutGuard')}}
-                  <el-checkbox v-model="exportTable[8]"></el-checkbox>
+                  <el-checkbox v-model="exportTable[8]" @change="changeCheck"></el-checkbox>
               </span>
             </template>
             <span class="exsection">{{$t('form.companypro.text2')}}
-                <el-checkbox v-model="exportTable[9]"></el-checkbox>
+                <el-checkbox v-model="exportTable[9]" @change="changeCheck"></el-checkbox>
             </span>
             <span class="exsection">{{$t('form.idnum.text1')}}
-                <el-checkbox v-model="exportTable[10]"></el-checkbox>
+                <el-checkbox v-model="exportTable[10]" @change="changeCheck"></el-checkbox>
             </span>
             <span class="exsection">{{$t('form.idnum.text2')}}
-                <el-checkbox v-model="exportTable[11]"></el-checkbox>
+                <el-checkbox v-model="exportTable[11]" @change="changeCheck"></el-checkbox>
             </span>
             <span class="exsection">{{$t('form.count.text')}}
-                <el-checkbox v-model="exportTable[12]"></el-checkbox>
+                <el-checkbox v-model="exportTable[12]" @change="changeCheck"></el-checkbox>
             </span>
             <span class="exsection">{{$t('form.count.text1')}}
-            	<el-checkbox v-model="exportTable[13]"></el-checkbox></span>
+            	<el-checkbox v-model="exportTable[13]" @change="changeCheck"></el-checkbox></span>
             <span class="exsection">{{$t('form.remark.text')}}
-            	<el-checkbox v-model="exportTable[14]"></el-checkbox></span>
+            	<el-checkbox v-model="exportTable[14]" @change="changeCheck"></el-checkbox></span>
             <span class="exsection">{{$t('form.time.text')}}
-            	<el-checkbox v-model="exportTable[15]"></el-checkbox></span>
+            	<el-checkbox v-model="exportTable[15]" @change="changeCheck"></el-checkbox></span>
             <span class="exsection">{{$t('form.time.text1')}}
-            	<el-checkbox v-model="exportTable[16]"></el-checkbox></span>
+            	<el-checkbox v-model="exportTable[16]" @change="changeCheck"></el-checkbox></span>
 		  </div>
 		  <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="checkAll">
+          <template v-if="allCheckFlag">{{$t('btn.cancelBtn')}}</template>
+          <template v-else>{{$t('CheckAll')}}</template></el-button>
 		    <el-button type="success" @click="getExport">{{$t('btn.export')}}</el-button>
 		  </span>
 		</el-dialog>
@@ -81,7 +84,9 @@ export default {
   	  dialogVisible: false,
   	  exportTable:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   	  type: this.vtype,
-      isDoorShow: this.extendShow
+      isDoorShow: this.extendShow,
+      dataErrorExport: process.env.dataErrorExport || false,
+      allCheckFlag: false
   	}
   },
   computed: {},
@@ -93,8 +98,40 @@ export default {
       this.isDoorShow = val
     }
   },
-  mounted () {},
+  created () {
+    if (this.dataErrorExport) {
+      this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+    } else {
+      this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    }
+  },
   methods: {
+    changeCheck (val) {
+      let cFlag = true
+      this.exportTable.forEach(function(element, index) {
+        if (!element) {
+          cFlag = false
+          return false
+        }
+      })
+      this.allCheckFlag = cFlag
+    },
+    checkAll () {
+      this.allCheckFlag = !this.allCheckFlag
+      if (this.allCheckFlag) {
+        if (this.dataErrorExport) {
+          this.exportTable = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+        } else {
+          this.exportTable = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+        }
+      } else {
+        if (this.dataErrorExport) {
+          this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+        } else {
+          this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }
+      }
+    },
   	getExport () {
   	  let cArray = []
       let _self = this

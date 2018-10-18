@@ -1,0 +1,177 @@
+@charset "UTF-8";
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  height: inherit;
+  min-height: 100%;
+  position: relative;
+  min-width: 360px; }
+
+* {
+  font-weight: 300;
+  margin: 0;
+  padding: 0; }
+
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
+.light {
+  color: #888; }
+
+.black {
+  color: #222; }
+
+.popup-picker-wrap {
+  width: 200px;
+  height: 100px;
+  position: relative; }
+  .popup-picker-wrap .btn {
+    position: absolute;
+    width: 100%; }
+
+.btn {
+  color: #fff;
+  outline: none;
+  border: 0;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer; }
+  .btn img {
+    margin: 0 10px -2px 0; }
+  .btn.green {
+    background: #36b22b;
+    background: -webkit-linear-gradient(#8fdcd7, #36bda0);
+    /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#8fdcd7, #36bda0);
+    /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#8fdcd7, #36bda0);
+    /* Firefox 3.6 - 15 */
+    background: linear-gradient(#8fdcd7, #36bda0);
+    /* 标准的语法 */
+    width: 81px;
+    height: 36px; }
+  .btn.red {
+    background: #f57876;
+    background: -webkit-linear-gradient(#fc85a7, #eb5f87);
+    /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(#fc85a7, #eb5f87);
+    /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(#fc85a7, #eb5f87);
+    /* Firefox 3.6 - 15 */
+    background: linear-gradient(#fc85a7, #eb5f87);
+    /* 标准的语法 */
+    width: 81px;
+    height: 36px; }
+
+.popbtn {
+  text-decoration: none; }
+
+.popupwrap {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1121; }
+  .popupwrap .popupdialog {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #fff; }
+    .popupwrap .popupdialog .popuptitle {
+      text-align: center;
+      line-height: 2em; }
+    .popupwrap .popupdialog .popupbody {
+      height: auto;
+      text-align: center;
+      line-height: 1.8em; }
+    .popupwrap .popupdialog .popupfooter .popbtn {
+      width: 50%;
+      display: inline-block;
+      float: left;
+      text-align: center;
+      line-height: 2em;
+      color: #000; }
+    .popupwrap .popupdialog .popuplist {
+      height: 4em;
+      overflow-y: auto; }
+      .popupwrap .popupdialog .popuplist li.on {
+        color: #9E9E9E; }
+
+.cardwrap {
+  width: 100%;
+  max-width: 519px;
+  margin: 0 auto;
+  padding: 124px 0;
+  background: url("../assets/img/e/top.png") left top no-repeat, url("../assets/img/e/bom.png") left bottom no-repeat;
+  background-size: 100% auto, 100% auto;
+  padding-bottom: 115px; }
+  .cardwrap .cardtop {
+    text-align: center;
+    position: relative; }
+    .cardwrap .cardtop .cardavatar {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      left: 50%;
+      margin-left: -70px;
+      overflow: hidden; }
+      .cardwrap .cardtop .cardavatar img {
+        width: 100%;
+        height: auto;
+        min-height: 100%; }
+      .cardwrap .cardtop .cardavatar .cardstatus {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #fff;
+        font-size: 14px;
+        width: 170px;
+        height: 30px;
+        line-height: 30px;
+        transform: rotate(-45deg) translateX(-49px) translateY(-20px); }
+        .cardwrap .cardtop .cardavatar .cardstatus.signin {
+          background: #36b22b; }
+    .cardwrap .cardtop .empname {
+      margin-top: 30px; }
+    .cardwrap .cardtop .cardbutton {
+      padding: 30px 0 0; }
+      .cardwrap .cardtop .cardbutton .btn {
+        margin: 0 10px; }
+  .cardwrap .cardbody {
+    font-size: 18px;
+    padding: 0 30px; }
+    .cardwrap .cardbody p {
+      line-height: 18px;
+      margin-top: 30px; }
+
+@media (max-width: 519px) {
+  .cardwrap {
+    width: 100%;
+    max-width: 519px;
+    margin: 0 auto;
+    padding: 90px 0; } }
+
+@media (min-width: 520px) {
+  .cardwrap {
+    width: 100%;
+    max-width: 519px;
+    margin: 0 auto;
+    padding: 124px 0;
+    padding-bottom: 115px; }
+    .cardwrap .cardbody {
+      font-size: 18px;
+      padding: 0 60px; } }

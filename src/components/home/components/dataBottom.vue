@@ -11,7 +11,9 @@
 		        :label="$t('form.name.text1')">
 		        <template slot-scope="scope">
 		        	<div class="vphotowrap">
-		        		<span class="vphoto"><img :src="scope.row.vphoto" alt=""></span>
+		        		<span class="vphoto">
+		        			<img :src="scope.row.vphoto" alt="" @click="setResPhotoUrl(scope.row.vphoto)">
+		        		</span>
 			            <span class="vname">{{scope.row.vname}}</span>
 		        	</div> 
 			    </template>
@@ -38,6 +40,45 @@
 		        prop="visitType"
 		        :label="$t('checkVtype[3]')">
 		    </el-table-column>
+		    <template v-if="areaEquipShow">
+		      <el-table-column align="center"
+		        prop="area"
+		        :label="$t('visitArea')">
+		      </el-table-column>
+		      <el-table-column align="center"
+		        prop="rfid"
+		        label="RFID">
+		      </el-table-column>
+		      <el-table-column align="center"
+		        prop="rfid"
+		        :label="$t('certType')">
+		        <template slot-scope="scope">
+		        	{{judgeCertType(scope.row.certType)}}
+		        </template>
+		      </el-table-column>
+		      <el-table-column align="center"
+		        prop="belongings"
+		        :label="$t('carrytools')">
+		      </el-table-column>
+		      <el-table-column align="center"
+		        prop="projectName"
+		        :label="$t('project.proname')">
+		      </el-table-column>
+		      <el-table-column align="center" :label="$t('filePhoto')" width="200">
+		        <template slot-scope="scope">
+		        	<template v-if="scope.row.resPhoto == 0">
+		        		{{scope.row.resPhoto}}
+		        	</template>
+		        	<template v-else>
+		        		<template v-if="scope.row.resPhoto">
+		        			<template v-for="item in stringToArray(scope.row.resPhoto)">
+		        			  <img class="showPhotoPic" :src="item" alt="" @click="setResPhotoUrl(item)">
+		        		    </template>
+		        		</template>
+		        	</template>
+		        </template>
+		      </el-table-column>
+		    </template>
 		    <template v-show="extendShow">
 		    	<template v-for="extend in extendArray">
 		    		<el-table-column align="center"
@@ -72,15 +113,19 @@
 		        :label="$t('form.idnum.text1')"
 		        width="180">
 		    </el-table-column>
+		    <template v-if="!areaEquipShow">
+		    </template>
 		    <template v-if="!dataError">
-		    	<el-table-column align="center"
-		        prop="vphoto"
-		        :label="$t('form.idnum.text2')"
-		        width="180">
-			        <template slot-scope="scope">
-				        <img :src="setVphoto(scope.row.cardId)" alt="" @click="setShowUrl(scope.row)">
-				    </template>
-			    </el-table-column>
+		    	<template v-if="!areaEquipShow">
+		    		<el-table-column align="center"
+			        prop="vphoto"
+			        :label="$t('form.idnum.text2')"
+			        width="180">
+				        <template slot-scope="scope">
+					        <img :src="setVphoto(scope.row.cardId)" alt="" @click="setShowUrl(scope.row)">
+					    </template>
+			        </el-table-column>
+		        </template>		    	
 			    <el-table-column align="center"
 			        prop="peopleCount"
 			        :label="$t('form.count.text')" >
@@ -166,8 +211,9 @@
 		        :label="$t('dataError')"
 		        width="180">
 			        <template slot-scope="scope">
-			        	<template v-if="scope.row.excpStatus === 0">{{$t('dataSuccess')}}</template>
-			        	<template v-else-if="scope.row.excpStatus === 1">{{$t('dataError')}}</template>
+			        	{{getErrorStatus(scope.row)}}
+			        	<!-- <template v-if="scope.row.excpStatus === 0">{{$t('dataSuccess')}}</template>
+			        	<template v-else-if="scope.row.excpStatus === 1">{{$t('dataError')}}</template> -->
 				    </template>
 		        </el-table-column>
 		    </template>
@@ -189,8 +235,8 @@
 <script>
 import lightbox from '@/components/lightbox'
 import { getCache } from '@/utils/auth'
-import {formatDate} from '@/utils/index'
-import { downloadPDF } from '@/utils/common'
+import {formatDate,getDateFormat} from '@/utils/index'
+import { downloadPDF,checkIsNull,stringToArray } from '@/utils/common'
 import exportSet from './exportSet'
 export default {
   components: {exportSet,lightbox},
@@ -222,7 +268,8 @@ export default {
   	  show: false,
   	  vTypeShow: process.env.vTypeShow || false,
   	  signPdfShow: process.env.signPdf,
-  	  dataError: process.env.dataError
+  	  dataError: process.env.dataError,
+  	  areaEquipShow: process.env.areaEquipShow || false
   	}
   },
   filters:{
@@ -235,6 +282,7 @@ export default {
   },
   watch: {
   	vdata (val) {
+  	  this.current = 1
   	  this.data = this.vdata
   	  this.total = this.vdata.length
   	  this.setPage()
@@ -246,7 +294,59 @@ export default {
   	this.setPage()
   },
   methods: {
+  	stringToArray:stringToArray,
   	downloadPDF: downloadPDF,
+  	judgeCertType (val) {
+  	  if(parseInt(val) == 0) {
+  	  	return this.$t('idcard')
+  	  } else if(parseInt(val) == 1) {
+  	  	return this.$t('carId')
+  	  } else if(parseInt(val) == 2) {
+  	  	return this.$t('passport')
+  	  } else if(parseInt(val) == 3) {
+  	  	return this.$t('officialCard')
+  	  } else if(parseInt(val) == 4) {
+  	  	return this.$t('jobCard')
+  	  } else if(parseInt(val) == 5) {
+  	  	return this.$t('others')
+  	  } else {
+  	  	return ''
+  	  }
+  	},
+  	getExcpStatus (val) {
+  	  if (val == 0) {
+        return this.$t('dataSuccess')
+  	  } else if (val == 1) {
+        return this.$t('dataError')
+  	  } else {
+  	  	return ''
+  	  }
+  	},
+  	getErrorStatus (row) {
+  	  let today = formatDate(new Date(),'yyyy-MM-dd')
+  	  let visitdate = row.visitdate
+  	  let signOutDate = row.signOutDate
+  	  let formatVisitdate = formatDate(new Date(row.visitdate),'yyyy-MM-dd')
+  	  let formatSignOutDate = formatDate(new Date(row.signOutDate),'yyyy-MM-dd')
+  	  if (formatVisitdate === today) {
+        return this.getExcpStatus(row.excpStatus)
+      } else {
+      	if (checkIsNull(signOutDate) !== '') {
+          if (formatVisitdate == formatSignOutDate) {
+        	return this.getExcpStatus(row.excpStatus)
+	      } else {
+	        return this.$t('dataError')
+	      }
+      	} else {
+          return this.$t('dataError')
+      	}
+        
+      }
+  	},
+  	setResPhotoUrl (url) {
+  	  this.showUrl = url
+  	  this.show = true
+  	},
   	setShowUrl (row) {
   	  this.showUrl = row.vphoto
   	  this.show = true

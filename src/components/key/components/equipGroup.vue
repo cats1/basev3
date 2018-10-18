@@ -1,6 +1,11 @@
 <template>
 	<div class="boxshadow bgwhite paddinglr30 paddingtb20">
-		<el-button type="primary" @click="addGroup">{{$t('key.addGroup')}}</el-button>
+    <template v-if="!areaEquipShow">
+      <el-button type="primary" @click="addGroup"><i class="fa fa-plus"></i>{{$t('key.addGroup')}}</el-button>
+    </template>
+		<template v-else>
+      <el-button type="primary" @click="addGroup"><i class="fa fa-plus"></i>{{$t('addAreaGroup')}}</el-button>
+    </template>
 		<el-table class="margintop20" :data="list" border>
 			<el-table-column prop="egname"
 	        :label="$t('key.groupName')" ></el-table-column>
@@ -31,7 +36,8 @@ import { groupStatusText } from '@/utils/common'
 export default {
   data () {
   	return {
-  	  list: []
+  	  list: [],
+      areaEquipShow: process.env.areaEquipShow || false
   	}
   },
   created () {

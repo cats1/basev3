@@ -1,0 +1,35 @@
+.form-group.code_form input,.form-group.email_form input{
+	margin-bottom: 10px;
+	width: 100%;
+
+}
+.form-group.code_form button,.form-group.checkcode_form button{
+	margin-bottom: 10px
+}
+.form-group.checkcode_form .empCode{
+	width: 50%;
+	display: inline-block;
+	float: left;
+}
+.form-group.checkcode_form .send_code{
+	width: 40%;
+	display: inline-block;
+	float: right;
+}
+/* .send_code{
+	margin-top: 10px
+} */
+.pointer_none{
+	pointer-events: none;
+	background: #ccc;
+	color: #333
+}
+.form-group.checkcode_form{
+	display: none
+}
+.form-group.email_form{
+	display: none
+}
+.form-group.email_form input{
+	margin-bottom: 10px
+}

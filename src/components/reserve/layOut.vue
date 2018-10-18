@@ -9,7 +9,9 @@
     <code-time class="bgwhite"></code-time>
     <code-sign class="bgwhite"></code-sign>
     <approve-set class="bgwhite"></approve-set>
-    <set-calendar class="bgwhite"></set-calendar>
+    <template v-if="calendarShow">
+      <set-calendar class="bgwhite"></set-calendar>
+    </template>
   </div>
 </template>
 <script>
@@ -18,7 +20,9 @@ import {workTime,visitTime} from '@/components/pad/components'
 export default {
   name: 'App',
   data () {
-    return {}
+    return {
+      calendarShow: process.env.calendarShow || false
+    }
   },
   components: { order, codeTime, codeSign, stageSignout, stageTime, inviteMoban,approveSet,setCalendar,workTime,visitTime}
 }

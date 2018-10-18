@@ -732,6 +732,12 @@ export default {
             if (this.editType === 0) {
               this.addEmployee()
             } else {
+              let workbay
+              if (this.workbayCheck) {
+                workbay = this.changeArrToFloor(this.workbay)  
+              } else {
+                workbay = this.form.workbay
+              }
               let nform = {
                     avatar: this.form.avatar || '',
                     deptIds: this.form.deptIds,
@@ -752,7 +758,7 @@ export default {
                     telephone: this.form.telephone,
                     userid: getCache('userid'),
                     visitType: '',
-                    workbay: this.changeArrToFloor(this.workbay)
+                    workbay: workbay
                 }
                 this.updateEmployee(nform)
             }

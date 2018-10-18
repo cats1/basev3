@@ -1,4 +1,7 @@
 import { sendSmsCode } from '@/api/smscode'
+import 'babel-polyfill'
+import promise from 'es6-promise'
+promise.polyfill()
 const user = {
 	state: {},
 	mutations: {},

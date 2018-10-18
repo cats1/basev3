@@ -2,6 +2,9 @@ import { addHoliday,updateHoliday,delHoliday,getHoliday } from '@/api/calendar'
 import { Message } from 'element-ui'
 import Cookies from 'js-cookie'
 import i18n from '@/lang'
+import 'babel-polyfill'
+import promise from 'es6-promise'
+promise.polyfill()
 const user = {
   state: {},
   mutations: {},

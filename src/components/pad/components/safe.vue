@@ -36,7 +36,7 @@ export default {
     }
   },
   created () {
-    this.htmlUnescape()
+    //this.htmlUnescape()
   },
   methods: {
     showDown () {

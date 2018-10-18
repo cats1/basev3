@@ -4,7 +4,7 @@
 		<template v-for="item in list">
 			<approve-item :aitem="item" class="margintop20" @deletekit="deleteArea" @updatekit="updateArea" @savekit="updateArea"></approve-item>
 		</template>
-    <template v-if="addAreaIsShow">
+    <template v-if="!addAreaIsShow">
       <add-item class="margintop20" @addkit="getAdd" ></add-item>
     </template>
 	</div>

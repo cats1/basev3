@@ -10,14 +10,25 @@
 			        <template slot="title">
 			          <span>{{$t('key.title')}}</span>
 			        </template>
-			        <router-link :to="{name: 'group'}"><el-menu-item index="group">{{$t('key.ctitle')}}</el-menu-item></router-link>
-			        <router-link :to="{name: 'list'}"><el-menu-item index="list">{{$t('key.ctitle1')}}</el-menu-item></router-link>
+			        <template v-if="!areaEquipShow">
+			        	<router-link :to="{name: 'group'}"><el-menu-item index="group">{{$t('key.ctitle')}}</el-menu-item></router-link>
+			        	<router-link :to="{name: 'list'}"><el-menu-item index="list">{{$t('key.ctitle1')}}</el-menu-item></router-link>
+			        </template>
+			        <template v-else>
+			        	<router-link :to="{name: 'group'}"><el-menu-item index="group">{{$t('AreaTitle')}}</el-menu-item></router-link>
+			        	<router-link :to="{name: 'list'}"><el-menu-item index="list">{{$t('key.ctitle1')}}</el-menu-item></router-link>
+			        </template>
 			    </el-submenu>
 			    <el-submenu index="record">
 			        <template slot="title">
 			          <span>{{$t('key.title1')}}</span>
 			        </template>
-			        <router-link :to="{name: 'record'}"><el-menu-item index="record">{{$t('key.ctitle2')}}</el-menu-item></router-link>
+			        <template v-if="!areaEquipShow">
+			          <router-link :to="{name: 'record'}"><el-menu-item index="record">{{$t('key.ctitle2')}}</el-menu-item></router-link>
+			        </template>
+			        <template v-else>
+			        	<router-link :to="{name: 'record'}"><el-menu-item index="record">{{$t('passRecord')}}</el-menu-item></router-link>
+			        </template>
 			    </el-submenu>
 		  </el-menu>
         </el-col>
@@ -34,7 +45,8 @@ export default {
   name: 'App',
   data () {
     return {
-      defaultIndex: ''
+      defaultIndex: '',
+      areaEquipShow: process.env.areaEquipShow || false
     }
   },
   components: { siderBarItem, siderBarMenu },

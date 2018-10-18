@@ -55,6 +55,14 @@ export function getOpendoorInfo(data) {
     data
   })
 }
+//getRfidRecords
+export function getRfidRecords(data) {
+  return request({
+    url: '/getRfidRecords',
+    method: 'post',
+    data
+  })
+}
 //addEquipment
 export function addEquipment(data) {
   return request({

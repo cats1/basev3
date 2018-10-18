@@ -1,9 +1,12 @@
 import { getEquipmentGroupByUserid, addEquipmentGroup,
 	updateEquipmentGroup, delEquipmentGroup,delEquipment, getEquipmentbyUserid,
-	addEquipment,updateEquipment,getOpendoorInfo,getEGroupByEid } from '@/api/key'
+	addEquipment,updateEquipment,getOpendoorInfo,getEGroupByEid,getRfidRecords } from '@/api/key'
 import { Message } from 'element-ui'
 import Cookies from 'js-cookie'
 import i18n from '@/lang'
+import 'babel-polyfill'
+import promise from 'es6-promise'
+promise.polyfill()
 const user = {
   state: {
   	groupD: {}
@@ -26,6 +29,15 @@ const user = {
     getEquipmentGroupByUserid({ commit }, info) {
       return new Promise((resolve, reject) => {
         getEquipmentGroupByUserid(info).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    getRfidRecords({ commit }, info) {
+      return new Promise((resolve, reject) => {
+        getRfidRecords(info).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)

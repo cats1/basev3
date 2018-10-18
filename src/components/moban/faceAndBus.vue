@@ -2,10 +2,10 @@
 	<div>
 		<el-tabs v-model="activeName" type="card">
 		    <el-tab-pane :label="$t('moban.facemoban')" name="face" @tab-click="activeName === 'face'">
-		    	<interview mtype="面试" mapid="facemap" :isshow="isshow" ></interview>
+		    	<interview mtype="面试" mapid="facemap" :isshow="faceShow" ></interview>
 		    </el-tab-pane>
 		    <el-tab-pane :label="$t('moban.busmoban')" name="bus" @tab-click="activeName === 'bus'">
-		    	<interview mtype="商务" mapid="busmap" :isshow="isshow"></interview>
+		    	<business mtype="商务" mapid="busmap" :isshow="!faceShow"></business>
 		    </el-tab-pane>
 		</el-tabs>
 	</div>
@@ -18,7 +18,22 @@ export default {
   components: { interview, business },
   data () {
   	return {
-  	  activeName: 'face'
+  	  activeName: 'face',
+  	  faceShow: false
+  	}
+  },
+  watch: {
+  	activeName (val) {
+  	  if (val == 'face') {
+  	  	this.faceShow = true
+  	  } else {
+  	  	this.faceShow = false
+  	  }
+  	},
+  	isshow (val) {
+  	  if (this.activeName == 'face') {
+  	  	this.faceShow = true
+  	  }
   	}
   }
 }

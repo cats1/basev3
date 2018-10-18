@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Cookies from 'js-cookie'
 Vue.use(Router)
+console.log(process.env.NODE_ENV)
 const _import = require('./_import_' + process.env.NODE_ENV)
 export default new Router({
   routes: [{
@@ -139,8 +140,7 @@ export default new Router({
             meta: {
               title: 'key'
             }
-          },
-          {
+          },{
             path: 'detail/:egid?',
             name: 'detail',
             component: _import('key/components/equipDetail'),
@@ -253,6 +253,10 @@ export default new Router({
     meta: {
       title: '404'
     }
+  },{
+    path: '/map',
+    name: 'map',
+    component: _import('map/googleMap')
   }/*, {
     path: '/takephoto',
     name: 'takephoto',

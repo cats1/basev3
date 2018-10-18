@@ -4,6 +4,9 @@ import { addProject,Compressface,addResidentVisitor,updateProject,
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
+import 'babel-polyfill'
+import promise from 'es6-promise'
+promise.polyfill()
 const user = {
 	state: {},
 	mutations: {},

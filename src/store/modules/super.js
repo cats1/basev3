@@ -2,6 +2,9 @@ import { superAccountLogin } from '@/api/login'
 import { getRelatedAccount, getAllSuperAccountVCount, getSupAccVCount,ModifySupAccPassword } from '@/api/super'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import i18n from '@/lang'
+import 'babel-polyfill'
+import promise from 'es6-promise'
+promise.polyfill()
 const user = {
 	state: {
 		id: getCache('id'),

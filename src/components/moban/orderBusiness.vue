@@ -3,7 +3,12 @@
     <m-header class="marginbom20" :title="$t('moban.interview.title')" :desc="$t('moban.interview.desc')"></m-header>
     <tinymce class="margintop20" :id="contentId" :height=400 ref="ceditor" v-model="inviteContent" @input="getcon"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
-    <map-component :isshow="mapShow" class="marginbom20" :address="address" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getAddress"></map-component>
+    <template v-if="baiduMapShow">
+      <map-component :isshow="mapIsShow" class="marginbom20" :address="address" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getAddress"></map-component>
+    </template>
+    <template v-else-if="googleMapShow">
+      <google-map :isshow="mapIsShow" class="marginbom20" :address="address" :latitude="pot.latitude" :longitude="pot.longitude" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getGoogleAddress"></google-map>
+    </template>
     <h3 class="margintop20 marginbom20" >{{$t('moban.traffic')}}</h3>
     <tinymce :height=100 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="trafficId" ref="teditor" v-model="traffic" @input="gettraffic"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.compro')}}</h3>
@@ -16,6 +21,7 @@
 <script>
 import mHeader from './components/mHeader'
 import Tinymce from '@/components/tinymce/tiny'
+//import {MapComponent,googleMap} from '@/components/map'
 import {MapComponent} from '@/components/map'
 import { getCache } from '@/utils/auth'
 import { valueToString,replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation } from '@/utils/common'
@@ -42,7 +48,7 @@ export default {
       default: true
     }
   },
-  components: { mHeader,Tinymce,MapComponent },
+  components: { mHeader,Tinymce,MapComponent},//,googleMap },
   data () {
     return {
       contentId: 'vue-tinymce-content-' + this.mapid,
@@ -51,7 +57,7 @@ export default {
       profileToolbar: [''],
       traffic: '',
       companyProfile: '',
-      inviteContent: this.$t('moban.interview.defaultMoban'),
+      inviteContent: '',//this.$t('moban.interview.defaultMoban'),
       pot: {
         latitude: '',
         longitude: ''
@@ -62,14 +68,18 @@ export default {
       mapShow: false,
       getResult: {},
       isChangeXSS: process.env.isChangeXSS || false,
-      empWorkNoCheck: process.env.empWorkNoCheck
+      empWorkNoCheck: process.env.empWorkNoCheck,
+      mapValue: process.env.mapValue || 0,
+      baiduMapShow: false,
+      googleMapShow: false,
+      mapIsShow: this.isshow
     }
   },
   computed: {},
   watch: {
     traffic (val, oldval) {},
     isshow (val) {
-      this.mapShow = val
+      this.mapIsShow = val
       if (val) {
         this.init()
       }
@@ -86,10 +96,18 @@ export default {
       //this.init()
     }
   },
+  mounted () {
+    if (this.mapValue == 0) {
+      this.baiduMapShow = true
+      this.googleMapShow = false
+    } else if (this.mapValue == 1) {
+      this.baiduMapShow = false
+      this.googleMapShow = true
+    }
+  },
   methods: {
     init () {
       this.getTempByType(this.vtype)
-      this.getDefaultMoBan(this.vtype)
       this.GetUserInfo()
     },
     setDefaultMoban () {
@@ -141,7 +159,7 @@ export default {
       this.$store.dispatch('getEmptempByPost',newForm).then(res => {
         let { status, result } = res
         if (status === 0) {
-          this.defaultmoban = result
+          //this.defaultmoban = result
         }
       })
     },
@@ -164,12 +182,13 @@ export default {
       this.$store.dispatch('getUsertemplate',newForm).then(res => {
         let { status, result } = res
         if (status === 0) {
-          this.getResult = result
+          /*this.getResult = result
+          this.defaultmoban = result*/
           if (result != null && result != 'null') {
-            this.showDefault(type)
+            this.showDefault(type,result)
           } else {
             //showAlert('公司' + type + '模板未设置,请先设置模板', -1);
-            this.showDefault(type)
+            this.showDefault(type,result)
           }
         }
       })
@@ -183,9 +202,10 @@ export default {
       this.$store.dispatch('getSubAccountTemp',newForm).then(res => {
         let { status, result } = res
         if (status === 0) {
-          this.getResult = result
+          /*this.getResult = result
+          this.defaultmoban = result*/
           if (result != null && result != 'null') {
-            this.showDefault(type)
+            this.showDefault(type,result)
           } else {
             //showAlert('子公司' + type + '模板未设置,请先设置模板', -1);
             this.getUsertemplate(type)
@@ -201,9 +221,10 @@ export default {
       this.$store.dispatch('getEmptemplateByType',newForm).then(res => {
         let { status, result } = res
         if (status === 0) {
-          this.getResult = result
+          //this.getResult = result
+          //this.defaultmoban = result
           if(result) {
-            this.showDefault(type)
+            this.showDefault(type,result)
           } else {
             if (parseInt(getCache('subaccountId')) === 0) { //子公司id为0，联合办公模式关闭
               if (parseInt(getCache('tempEditSwitch')) === 0) {
@@ -218,18 +239,25 @@ export default {
       })
     },
     async htmlUnescape (val,type) {
-      this.$store.dispatch('htmlUnescape',
+      await this.$store.dispatch('htmlUnescape',
         {'inviteContent': val}).then(res => {
           this[type] = replaceRemoveReserveQuotation(res)
           //this.inviteContent = replaceRemoveReserveQuotation(res)
       })
     },
-    showDefault (type) {
-        let result = this.getResult
+    showDefault (type,result) {
+        //let result = this.getResult
         if (!result) {
-          result = this.defaultmoban
+          this.getDefaultMoBan(type)
+          //result = this.defaultmoban
+        } else {
+          this.showDefaultDom(result)
         }
-        if (!result.inviteContent) {
+        
+    },
+    showDefaultDom (result) {
+      //let result = this.getResult
+      if (!result.inviteContent) {
           this.setDefaultMoban() 
         }
         if (this.isChangeXSS) {
@@ -255,7 +283,7 @@ export default {
           this.pot.longitude = result.longitude 
           this.address = result.address
           this.$emit('initmoban',result)
-        } 
+        }
     },
     saveMoban () {
       let nform = {
@@ -285,6 +313,11 @@ export default {
         }
       }
       this.$store.dispatch('addEmptemplate',nform)
+    },
+    getGoogleAddress (point,address) {
+      this.pot.latitude = point.latitude
+      this.pot.longitude = point.longitude
+      this.address = address
     },
     getAddress (point,address) {
       this.pot.latitude = point.latitude

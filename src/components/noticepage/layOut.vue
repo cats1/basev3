@@ -6,21 +6,28 @@
       </el-row>
       <weixin class="bgwhite"></weixin>
       <email class="bgwhite"></email>
-      <sms-notice class="bgwhite"></sms-notice>
+      <template v-if="smsDetailShow">
+        <sms-notice-show class="bgwhite"></sms-notice-show>
+      </template>
+      <template v-else>
+        <sms-notice class="bgwhite"></sms-notice>
+      </template>      
       <yuyin class="bgwhite"></yuyin>
       <dd-notice :link-is-show="true"></dd-notice>
       <rtx :link-is-show="true"></rtx>
   </div>
 </template>
 <script>
-import {weixin,email,smsNotice,yuyin,ddNotice,rtx} from '@/components/noticepage'
+import {weixin,email,smsNotice,smsNoticeShow,yuyin,ddNotice,rtx} from '@/components/noticepage'
 import {getCache} from '@/utils/auth'
 export default {
   name: 'App',
   data () {
-    return {}
+    return {
+      smsDetailShow: process.env.smsDetailShow || false
+    }
   },
-  components: { weixin, email, smsNotice, yuyin, ddNotice, rtx }
+  components: { weixin, email, smsNotice, smsNoticeShow, yuyin, ddNotice, rtx }
 }
 </script>
 <style>
