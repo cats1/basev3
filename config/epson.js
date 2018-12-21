@@ -50,6 +50,7 @@ module.exports = {
   approveIsMore: true,
   empSendComRequired: true,
   empPointEpson: true,
+  expExcDepAndCnumber: true,//导出车牌和部门信息
   BASE_API: '"http://eslfk.epson.com.cn/qcvisit"',////
   BASE_LINK: '"http://visit.eastech.com/"',//
   BASE_VERSION: '"v2.3.0"',

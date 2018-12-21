@@ -23,6 +23,7 @@ export default {
     vset: '访客类型',
     signup: '注册'
   },
+  carNumber:'车牌',
   peopleSearch: '人员',
   Approve: '审批',
   ApproveSuccess: '审批发送成功',

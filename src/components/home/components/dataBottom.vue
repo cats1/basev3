@@ -2,7 +2,9 @@
 	<div class="boxshadow margintop20 paddinglr30 paddingtb20">
 		<h3 class="marginbom20 margintop20">{{$t('record')}}{{total}}{{$t('record1')}}{{$t('record2')}}
 		  <template v-show="data.length > 0">
-		  	<export-set :extend-show="extendShow" style="float:right;" :vtype="vtype" :nform="nform"></export-set>
+		  	<template v-if="this.nform.vType !== '文涛仓'">
+		  		<export-set :extend-show="extendShow" style="float:right;" :vtype="vtype" :nform="nform"></export-set>
+		  	</template>
 		  </template>
 		</h3>
 		<template v-if="!eslFlag" >

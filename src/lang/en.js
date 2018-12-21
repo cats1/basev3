@@ -23,6 +23,7 @@ export default {
     vset: 'Visittype',
     signup: 'Signup'
   },
+  carNumber:'Plate number',
   peopleSearch: 'Employee',
   Approve: 'Approve',
   ApproveSuccess: 'Send approve successfully!',

@@ -50,6 +50,12 @@
             	<el-checkbox v-model="exportTable[15]" @change="changeCheck"></el-checkbox></span>
             <span class="exsection">{{$t('form.time.text1')}}
             	<el-checkbox v-model="exportTable[16]" @change="changeCheck"></el-checkbox></span>
+            <template v-if="expExcDepAndCnumber">
+              <span class="exsection">{{$t('form.depart.text')}}
+                <el-checkbox v-model="exportTable[17]" @change="changeCheck"></el-checkbox></span>
+              <span class="exsection">{{$t('carNumber')}}
+                <el-checkbox v-model="exportTable[18]" @change="changeCheck"></el-checkbox></span>
+            </template>
 		  </div>
 		  <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="checkAll">
@@ -86,7 +92,8 @@ export default {
   	  type: this.vtype,
       isDoorShow: this.extendShow,
       dataErrorExport: process.env.dataErrorExport || false,
-      allCheckFlag: false
+      allCheckFlag: false,
+      expExcDepAndCnumber: process.env.expExcDepAndCnumber || false
   	}
   },
   computed: {},
@@ -101,6 +108,8 @@ export default {
   created () {
     if (this.dataErrorExport) {
       this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+    } else if (this.expExcDepAndCnumber) {
+      this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     } else {
       this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     }
@@ -121,12 +130,16 @@ export default {
       if (this.allCheckFlag) {
         if (this.dataErrorExport) {
           this.exportTable = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+        } else if (this.expExcDepAndCnumber) {
+          this.exportTable = [true, true, true, true, true, false, false, false, false, true, true, true, true, true, true, true, true, true, true]
         } else {
           this.exportTable = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
         }
       } else {
         if (this.dataErrorExport) {
           this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+        } else if (this.expExcDepAndCnumber) {
+          this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0]
         } else {
           this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         }
@@ -138,7 +151,9 @@ export default {
       this.exportTable.forEach(function(element, index) {
       	if (element) {
       	  _self.$set(_self.exportTable,index,1)
-      	}
+      	} else {
+          _self.$set(_self.exportTable,index,0)
+        }
       })
       let params
       if(this.type === 1) {
