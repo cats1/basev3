@@ -1,0 +1,32 @@
+// colors
+@main_color: #566ebb;
+@sub_color_1: #3c4d83;
+
+@link_1: #349cd1;
+
+@text_1: #333;
+@text_2: #666;
+@text_3: #999;
+
+@red_1: #f55567;
+@red_2: #d97f7f;
+@brown_1: #c19a23;
+@green_1: #67bf6b;
+@gray_1: #ccc;
+
+
+
+// styles
+.border-top-bottom-1 {
+	border-top: 1px solid @gray_1;
+	border-bottom: 1px solid @gray_1;
+}
+.border-top-1 {
+	border-top: 1px solid @gray_1;
+}
+.border-bottom-1 {
+	border-bottom: 1px solid @gray_1;
+}
+.border-1 {
+  border: 1px solid @gray_1;
+}

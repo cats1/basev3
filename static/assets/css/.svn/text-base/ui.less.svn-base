@@ -1,0 +1,519 @@
+@import (reference) 'reference.less';
+
+::selection {
+  background: rgba(47, 141, 246, .3);
+  color: @text_2;
+  text-shadow: none;
+}
+
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+}
+
+
+
+
+
+
+// ui element /////////////////////////////////////////////////////////////////////////
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+
+
+// check
+.check {
+  border-radius: 90px;
+  width: 72px;
+  height: 47px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  .switch {
+    height: 37px;
+    width: 37px;
+    background: #fff;
+    margin: 5px;
+    border-radius: 90px;
+    position: absolute;
+  }
+}
+.check.checked {
+  background: @green_1;
+  .switch {
+    left: 25px;
+  }
+}
+.check.unchecked {
+  background: @gray_1;
+  .switch {
+    left: 0px;
+  }
+}
+
+
+// error message
+.form-group {
+  position: relative;
+  .error-msg {
+    position: absolute;
+    right: 15px;
+    bottom: 14px;
+    color: @red_2;
+  }
+  .row {
+    .error-msg {
+      right: 30px;
+    }
+    .warning-msg {
+      right: 30px;
+    }
+  }
+  .warning-msg {
+    position: absolute;
+    right: 15px;
+    bottom: 14px;
+    color: @brown_1;
+  }
+  .form-control.error {
+    border-color: @red_2;
+  }
+  .form-control.warning {
+    border-color: @brown_1;
+  }
+}
+
+
+
+
+
+
+// bootstrap /////////////////////////////////////////////////////////////////////////
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+  opacity: 1;
+}
+
+
+// button
+.btn-default {
+  border-radius: 100px;
+  color: #fff;
+  background: @green_1;
+  // box-sizing: none;
+  border: none;
+  outline: none !important;
+  height: 47px;
+  line-height: 47px;
+  padding: 0 30px;
+  font-size: 18px;
+  &:hover,
+  &:focus {
+    color: #fff;
+    background: lighten(@green_1, 5%);
+  }
+  &:active {
+  }
+}
+.btn-bordered {
+  border: 1px solid @green_1;
+  color: @green_1;
+  background: none;
+  &:hover,
+  &:focus {
+    background: none;
+    color: lighten(@green_1, 20%);
+    border-color: lighten(@green_1, 20%);
+
+    // background: @green_1;
+    // border-color: @green_1;
+    // color: #fff;
+  }
+  &:active {
+  }
+}
+.btn-small {
+  height: 38px;
+  line-height: 38px;
+  padding: 0 18px;
+  font-size: 16px;
+}
+
+
+// form
+.form-control {
+  border-radius: 0;
+  height: 47px;
+  box-shadow: none;
+  font-size: 16px;
+  &:focus {
+    box-shadow: none;
+  }
+}
+.form-group label {
+  font-size: 16px;
+  font-weight: normal;
+  color: @text_3;
+}
+
+
+// tooltip
+.tooltip.bottom {
+  margin-top: 9px;
+  .tooltip-arrow {
+    width: 18px;
+    height: 9px;
+    background: url(../img/arrow.png) no-repeat center;
+    border: none;
+    margin-left: -9px;
+  }
+  .tooltip-inner {
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 0;
+    font-size: 14px;
+    margin-top: 4px;
+    padding: 10px 15px;
+  }
+}
+
+
+
+// modal 
+.modal {
+  .modal-backdrop.in {
+    opacity: .7;
+  }
+  .modal-dialog {
+    width: 700px;
+    margin: 130px auto;
+    .modal-content {
+      padding: 82px 128px 92px;
+      border-radius: 0;
+      p {
+        font-size: 16px;
+      }
+    }
+    .modal-header {
+      min-height: 0;
+      padding: 0;
+      border-bottom: none;
+      .close {
+        position: absolute;
+        background: url(../img/close_l.png) no-repeat center;
+        width: 40px;
+        height: 40px;
+        opacity: 1;
+        outline: 0;
+        right: 30px;
+        top: 30px;
+        span {
+          display: none;
+        }
+        &:hover {
+          opacity: .7;
+        }
+      }
+    }
+    .modal-body {
+      padding: 0;
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+}
+a[data-toggle='modal'] {
+  outline: 0;
+}
+
+
+// alert
+.alert {
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 20px;
+  border-radius: 0;
+  color: #fff;
+  border: none;
+  .close {
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 20px;
+    text-shadow: none;
+    background: url(../img/close_small_white.png) no-repeat center;
+    width: 20px;
+    height: 20px;
+    opacity: .8;
+    &:hover {
+      opacity: .6;
+    }
+    .glyphicon {
+      display: none;
+    }
+  }
+  .alert-link,
+  a {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    font-weight: normal;
+  }
+}
+.alert-danger {
+  background: @red_1;
+}
+.alert-success {
+  background: @green_1;
+}
+.alert-fixed {
+  position: fixed;
+  top: 0px;
+  width: 1050px;
+  z-index: 9999;
+  margin: 0;
+}
+
+
+
+
+// calendar /////////////////////////////////////////////////////////////////////////   
+#datepicker {
+  width: auto;
+  padding: 0;
+  width: 290px;
+  .ui-datepicker {
+    width: auto;
+    padding: 0;
+  }
+  .ui-widget-content {
+    background: transparent !important;
+    border: none !important;
+  }
+  .ui-widget-header {
+    border: none;
+    background: transparent;
+    color: @text_2;
+    border-radius: 0;
+    a.ui-corner-all {
+      top: 5px;
+      left: 0;
+      cursor: pointer;
+      &:hover {
+        border: none;
+        background: transparent;
+      }
+      .ui-icon {
+        background: url(../img/left2.png) no-repeat;
+        background-size: 10px !important;
+        background-position: left;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        &:hover {
+          background: url(../img/left2.png) no-repeat;
+          background-size: 10px !important;
+          background-position: left;
+          opacity: .7;
+          border: none;
+        }
+      }
+    }
+    a.ui-datepicker-next {
+      left: auto;
+      right: 0 !important;
+      .ui-icon {
+        background: url(../img/right2.png) no-repeat;
+        background-size: 10px !important;
+        background-position: right;
+        &:hover {
+          background: url(../img/right2.png) no-repeat;
+          background-size: 10px !important;
+          background-position: right;
+          opacity: .7;
+          border: none;
+        }
+      }
+    }
+  }
+  .ui-widget {
+    font-family: Arial, sans-serif;
+  }
+  .ui-datepicker-header {
+    padding-bottom: 15px;
+  }
+  .ui-datepicker .ui-datepicker-title {
+    font-weight: normal;
+    color: #566ebb;
+    font-size: 18px;
+    border-radius: 0;
+  }
+  .ui-datepicker th {
+    font-weight: normal;
+    font-size: 16px;
+    color: @text_3;
+  }
+
+  table tr {
+    border-top: 1px solid @gray_1;
+  }
+  .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: none;
+    background: transparent;
+    color: @text_3;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 5px 8px;
+    text-align: center;
+    margin: 5px 3px;
+    &:hover {
+      color: #fff;
+      background: #aabaef;
+    }
+  }
+  .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    color: @text_1;
+    font-weight: bold;
+  }
+  .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    color: #fff !important;
+    background: #566ebb !important;
+  }
+}
+
+
+
+body.search {
+.ui-datepicker {
+  z-index: 99999 !important;
+  font-family: Arial, sans-serif;
+  padding: 0;
+  width: 300px;
+  margin-left: -1px;
+  margin-top: 15px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  .ui-widget-header {
+    border: none;
+    background: transparent;
+    color: @text_2;
+    border-radius: 0;
+    a.ui-corner-all {
+      top: 5px;
+      left: 0;
+      cursor: pointer;
+      &:hover {
+        border: none;
+        background: transparent;
+      }
+      .ui-icon {
+        background: url(../img/left2.png) no-repeat;
+        background-size: 10px !important;
+        background-position: left;
+        width: 20px;
+        height: 32px !important;
+        cursor: pointer;
+        &:hover {
+          background: url(../img/left2.png) no-repeat;
+          background-size: 10px !important;
+          background-position: left;
+          opacity: .7;
+          border: none;
+        }
+      }
+    }
+    a.ui-datepicker-prev {
+      margin-left: 10px;
+    }
+    a.ui-datepicker-next {
+      margin-right: 10px;
+      left: auto;
+      right: 0 !important;
+      .ui-icon {
+        background: url(../img/right2.png) no-repeat;
+        background-size: 10px !important;
+        background-position: right;
+        &:hover {
+          background: url(../img/right2.png) no-repeat;
+          background-size: 10px !important;
+          background-position: right;
+          opacity: .7;
+          border: none;
+        }
+      }
+    }
+  }
+  .ui-datepicker-header {
+    padding: 10px 0;
+  }
+  .ui-datepicker-title {
+    font-weight: normal;
+    color: #566ebb;
+    font-size: 18px;
+    border-radius: 0;
+  }
+  th {
+    font-weight: normal;
+    font-size: 16px;
+    color: @text_3;
+  }
+  table tr {
+    // border-top: 1px solid @gray_1;
+  }
+  .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: none;
+    background: transparent;
+    color: @text_3;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 5px 8px;
+    text-align: center;
+    margin: 0 3px;
+    &:hover {
+      color: #fff;
+      background: #aabaef;
+    }
+  }
+  .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    color: @text_1;
+    font-weight: bold;
+  }
+  .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    color: #fff !important;
+    background: #566ebb !important;
+  }
+}
+}
+
+
+
+
+// colorpicker /////////////////////////////////////////////////////////////////////////
+.colorpicker-2x .colorpicker-saturation {
+    width: 150px;
+    height: 150px;
+}
+.colorpicker-2x .colorpicker-hue,
+.colorpicker-2x .colorpicker-alpha {
+    width: 30px;
+    height: 150px;
+}
+.colorpicker-2x .colorpicker-color,
+.colorpicker-2x .colorpicker-color div{
+    height: 30px;
+}
+.colorpicker:before, .colorpicker:after {
+  display: none !important;
+}
+
+
+
+

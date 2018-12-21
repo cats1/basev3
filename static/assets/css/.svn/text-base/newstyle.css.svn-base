@@ -1,0 +1,500 @@
+body {
+  font-family:'microsoft yahei',Arial, sans-serif;
+  background: #fff;
+  font-size: 16px;
+  color: #444;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  position: relative;
+/* -moz-user-focus: none; */
+/* -moz-user-select: none; */
+}
+/* 标签定义 */
+div,a,p,section,nav,h1,h2,h3,h4,ul,ul li{
+  margin: 0;
+  padding: 0;
+  font-family: 'Source Han Sans CN';
+}
+
+a {
+  text-decoration: none;
+}
+a:hover{
+  color: #fff
+}
+section {
+  height: auto;
+  overflow: hidden;
+}
+
+ul,ul li {
+  list-style: none;
+}
+/* common style Start */
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.point {
+  display: inline-block;
+  float: left;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9c9c9c
+}
+
+.container {
+  width: 1060px;
+  position: relative;
+}
+.signupbtn{
+  display: block;
+  border-radius: 26px;
+  background-color: rgb( 47, 142, 242 );
+  font-size: 24px;
+  color: rgb( 255, 255, 255 );
+  text-align: center;
+  line-height: 55px;
+  width: 199px;
+  height: 55px;
+}/* header Style */
+.branding {
+  position: static;
+  /* top: 0;
+  z-index: 999; */
+  background: rgba(255,255,255,0.9);
+  width: 100%;
+  height: auto;
+  border:1px solid #ccc;
+}
+.branding.position{
+  position: fixed;
+  top: 0;
+  z-index: 999;
+}
+.branding .container{
+  height: 104px;
+}
+.branding .logo {
+  margin: 26px 0;
+}
+
+.branding .logo a {
+  text-indent: -999em;
+  display: inline-block;
+  background: url(../img/fkt-logo2.png) left top no-repeat;
+  width: 140px;
+  height: 50px;
+}
+
+.branding .header-nav ul {
+  height: auto;
+  overflow: hidden;
+}
+
+.branding .header-nav ul li {
+  line-height: 99px;
+  float: left;
+}
+
+.branding .header-nav ul li a {
+  padding: 0 20px;
+  color: #1a1a1a;
+  font-size: 18px;
+  font-weight: 300
+}
+
+.branding .header-nav ul li a:hover {
+  color: #4399f3
+}
+
+.branding .header-nav ul li.active a {
+  color: #4399f3;
+  font-weight: bold;
+  opacity: 1;
+  fillter: alpha(opacity=100);
+}
+
+.branding .loginstatus {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 99
+}
+
+.branding .loginstatus .unlogin {
+  display: block;
+}
+
+.branding .loginstatus .unlogin a {
+  display: inline-block;
+  float: left;
+  margin: 30px 0 0 7px;
+  color: #4C4B4B;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  line-height: 38px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.branding .loginstatus .unlogin a.unloginbtn {
+  color: #c7c7c7;
+  line-height: 44px;
+}
+
+.branding .loginstatus .unlogin span.hline {
+  display: inline-block;
+  float: left;
+  margin: 30px 0 0 7px;
+  font-size: 18px;
+  height: 40px;
+  line-height: 40px;
+  color: #c7c7c7
+}
+
+.branding .loginstatus .unlogin a.unregbtn {
+  color: #4399f3;
+  background: none;
+  line-height: 44px;
+}
+/* footer */
+.colophon{
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  background: #2a2c34
+}
+.colophon .bottompro{
+  height: auto;
+  overflow: hidden;
+  border-bottom: 1px solid #404249;
+}
+.colophon .bottompro .bottompropic{
+  display: inline-block;
+  float: left;
+  margin:29px 29px 29px 0;
+  width: 176px;
+  height: 162px;
+  background: url(../img/btm_new.png) center center no-repeat;
+}
+.colophon .bottompro .pictextpro{
+  display: inline-block;
+  float: left;
+  padding-top: 64px;
+  color: #fff;
+  font-size: 24px;
+}
+.colophon .bottompro .pictextpro p{
+  margin-top: 20px;
+  color: #fff;
+  font-size: 16px;
+  line-height: 30px;
+}
+.colophon .bottompro a.testnow{
+  display: inline-block;
+    margin: 68px 0 68px 68px;
+    float: right;
+    width: 182px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 25px;
+    text-align: center;
+    background: #2f8ef2;
+    color: #fff;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -o-border-radius: 30px;
+    border-radius: 30px;
+}
+.colophon .bottomlist{
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+.colophon .bottomlist .info{
+  width: auto;
+  height:auto;
+  overflow: hidden;
+  font-size: 16px;
+  float: left;
+}
+.colophon .bottomlist .info p{
+  margin:0;
+  height: 60px;
+  line-height: 60px;
+  font-size: 16px;
+  color: rgba(255,255,255,0.4)
+}
+.colophon .bottomlist .info p a{
+  color: rgba(255,255,255,0.4)
+}
+.colophon .bottomlist .links{
+  width: auto;
+  float: right
+}
+.colophon .bottomlist .links a{
+  width: auto;
+  margin:10px;
+  color: #fff;
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+}
+.colophon .container .links a:last-child{
+  margin-right: 0;
+}
+body.user{
+  position: relative;
+}
+body.user .branding .logo a {
+  text-indent: -999em;
+  display: inline-block;
+  background: url(../img/fkt-logo2.png) left top no-repeat;
+  width: 140px;
+  height: 50px;
+}
+body.user .page-content{
+	margin: 92px 0;
+  min-height: 280px
+}
+body.user .page-content form{
+  width: 460px;
+  margin:0 auto;
+  position: relative;
+}
+body.user form h1{
+    margin: 5px 0;
+    font-size: 30px;
+    text-align: center
+}
+body.user form .form-header {
+    margin-bottom: 35px;
+}
+body.user form .select-wrap {
+    width: 100%;
+    height: 37px;
+    line-height: 37px;
+    margin-bottom: 20px
+}
+body.user form .select-wrap.select-2 {
+    display: none
+}
+body.user form .select-wrap.select-1{
+    width: 24%;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+body.user form .select-wrap .btn-group {
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+body.user form .select-wrap .btn {
+    border-radius: 0;
+    background: transparent;
+    color: #444;
+    width: 100%;
+    display: block;
+    outline: none !important;
+    height: 37px;
+    line-height: 37px;
+    font-size: 14px;
+    padding: 0;
+    padding-left: 13px;
+}
+body.user form .select-wrap .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    width: 100%;
+}
+body.user form .select-wrap div.dropdown-menu {
+    width: 151px;
+    border-radius: 0;
+    padding: 5px 0;
+    margin-top: 0;
+    margin-left: -1px;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+body.user form .select-wrap.select-1 div.dropdown-menu{
+  width: 110px;
+}
+body.user form .select-wrap .blue-button1{
+   border-radius: 5px;
+    background-image: -moz-linear-gradient( 90deg, rgb(34,116,230) 0%, rgb(48,145,242) 100%);
+    background-image: -webkit-linear-gradient( 90deg, rgb(34,116,230) 0%, rgb(48,145,242) 100%);
+    background-image: -ms-linear-gradient( 90deg, rgb(34,116,230) 0%, rgb(48,145,242) 100%);
+    text-shadow: 0.5px 0.866px 0px rgba( 8, 1, 3,.3);
+    width: auto;
+    height: 37px;
+    color: #fff;
+    padding: 0px 20px;
+    border: 1px solid #2984df;
+    margin:40px auto;
+}
+body.user form .select-wrap .person_phone_wrap{
+  display: none;
+  margin:10px auto;
+}
+body.user form .select-wrap .person_phone_wrap input{
+  
+}
+body.user form .commonuser {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: none
+}
+body.user form .commonuser.com {
+   display: block
+}
+body.user form .commonuser .super{
+  position: absolute;
+  right: -130px;
+  top: 14px;
+  cursor: pointer;
+}
+body.user form .commonuser .super label{
+  color: rgb(52, 129, 221);
+  font-size: 14px;
+  font-weight: lighter;
+  cursor: pointer;
+}
+body.user form .form-group {
+    margin-bottom: 10px;
+    position: relative;
+}
+body.user form .person_phone{
+  margin-bottom: 20px
+}
+body.user form .style_choice{
+  margin-bottom: 0px
+}
+body.user form .person_choice{
+  display: none
+}
+a.testnow{
+  display: inline-block;
+    margin: 68px 0 68px 68px;
+    float: right;
+    width: 182px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 25px;
+    text-align: center;
+    background: #ea6141;
+    color: #fff;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -o-border-radius: 30px;
+    border-radius: 30px;
+}
+body.user form .btn {
+    width: 100%;
+    border-radius: 0;
+}
+body.user form .forgot {
+  display: block;
+    line-height: 55px;
+    font-size: 16px;
+    z-index: 999;
+    color: #999999;
+    width: 100%;
+    margin:0 auto;
+    text-align: center
+}
+body.user form hr {
+    border-color: #cccccc;
+    margin: 15px 0 35px;
+}
+body.user form .or {
+    margin: 0 auto;
+    margin-top: -45px;
+    background: #fff;
+    width: 60px;
+    text-align: center
+}
+body.user form .alt {
+    display: block;
+    font-size: 16px;
+    margin-top: 20px;
+    color: #349cd1;
+    text-align: center;
+    cursor:pointer;
+}
+body.user .signuptexts {
+    font-size: 16px;
+    color: #999;
+    line-height: 40px;
+    text-align: center;
+}
+
+
+
+
+
+.container {
+  width: 1060px;
+  padding: 0;
+}
+@media (max-width: 992px) {
+  .container {
+    width: 1060px;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    width: 1060px;
+  }
+}
+@media (max-width: 992px) {
+  .col-md-1,
+  .col-md-2,
+  .col-md-3,
+  .col-md-4,
+  .col-md-5,
+  .col-md-6,
+  .col-md-7,
+  .col-md-8,
+  .col-md-9,
+  .col-md-10,
+  .col-md-11,
+  .col-md-12 {
+    float: left;
+  }
+}
+
+
+button.newbtn{
+	background: #3481dd
+}
+a.newalt{
+	color: #3481dd
+}
+#add_up .modal-dialog{
+  width:340px
+}
+#add_up .modal-dialog .modal-body{
+  padding:10px 0
+}
+#add_up .modal-dialog .add_text{
+  width: 100%;
+  text-align: center;
+  line-height: 36px
+}
+#add_up .modal-dialog .form-group.btngroup{
+  width: 100%;
+  text-align: center;
+  padding:20px 0
+}

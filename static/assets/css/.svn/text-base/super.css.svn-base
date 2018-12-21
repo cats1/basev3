@@ -1,0 +1,458 @@
+/* 超级账号 */
+body.superindex .navbar-header{
+  pointer-events: none
+}
+body.superindex .total_visit_section{
+  width: 66%;
+  height: auto;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0.5px 0.866px 4px 0px rgb( 183, 188, 193 );
+}
+body.superindex .total_visit_section .visit_chart_section{
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  padding:40px 20px 20px;
+  position: relative;
+}
+body.superindex .total_visit_section .visit_chart_section .visit_total_nums{
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  color: #21cc68;
+  font-size: 18px
+}
+body.superindex .total_emp_section{
+  width: 32%;
+  height: 506px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0.5px 0.866px 4px 0px rgb( 183, 188, 193 );
+  position: relative;
+}
+body.superindex .total_com_visit_section{
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  clear: both;
+  background: #fff;
+  box-shadow: 0.5px 0.866px 4px 0px rgb( 183, 188, 193 );
+  margin-top: 523px;
+  display: block
+}
+body.superindex .total_com_visit_section .com_visit_chart_section{
+  height: auto;
+  min-height: 400px;
+
+}
+body.superindex .stop{
+  width: 100%;
+  height: 46px;
+  background-image: -moz-linear-gradient( 90deg, rgb(238,238,238) 0%, rgb(247,247,247) 100%);
+  background-image: -webkit-linear-gradient( 90deg, rgb(238,238,238) 0%, rgb(247,247,247) 100%);
+  background-image: -ms-linear-gradient( 90deg, rgb(238,238,238) 0%, rgb(247,247,247) 100%);
+  box-shadow: 0.5px 0.866px 0px 0px rgb( 230, 230, 230 );
+  position: relative;
+}
+body.superindex .stop p{
+  width: 100%;
+  height: 46px;
+  line-height: 46px;
+  text-indent: 14px;
+  color: #444444;
+  font-size: 16px
+}
+body.superindex .stop .time_choice_section{
+  position: absolute;
+  right: 10px;
+  top: 6px;
+  border:1px solid rgb( 213, 213, 213 );
+  width: 216px;
+  height: 36px;
+  border-radius: 14px;
+  background-color: rgb( 255, 255, 255 );
+}
+body.superindex .stop .time_choice_section .time_input_show{
+  width: 100%;
+  position: absolute;
+  left: 10px;
+  top: 0;
+  height: 100%;
+  overflow: hidden;
+}
+body.superindex .stop .time_choice_section .time_input_show .start_date{
+  display: inline-block;
+  float: left;
+  width: 85px;
+  height: 34px;
+  text-align: center;
+  font-size: 14px;
+  padding:0;
+  line-height: 34px;
+  border:none;
+  color: #444
+}
+body.superindex .stop .time_choice_section .time_input_show .date_f{
+ display: inline-block;
+  float: left;
+  width: auto;
+  height: 34px;
+  color: #444;
+  line-height: 34px;
+}
+body.superindex .stop .time_choice_section .time_input_show .end_date{
+  display: inline-block;
+  float: left;
+  width: 85px;
+  padding:0;
+  text-align: center;
+  font-size: 14px;
+  height: 34px;
+  line-height: 34px;
+  border:none;
+  color: #444
+}
+body.superindex .stop .time_choice_section .d_arrows{
+  position: absolute;
+  display: block;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  background: url(../img/v1/super_darrow.png) center center no-repeat;
+}
+body.superindex .total_emp_section .emp_num .emo_total_nums{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #21cc68;
+  font-size: 18px;
+}
+body.superindex .total_emp_section .emp_num .emo_count_nums{
+  position: absolute;
+  top: 162px;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+  color: #999999;
+  font-size: 14px;
+}
+body.superindex .total_emp_section .emp_com_list{
+  width: 140px;
+  height: 140px;
+  background: #fff;
+  overflow: hidden;
+  border-radius: 50%;
+  position: absolute;
+  top: 140px;
+  left: 50%;
+  margin-left: -70px;
+  z-index: 1
+}
+body.superindex .total_emp_section .emp_com_list ul{
+  margin:5px auto;
+  display: block;
+  height: auto;
+  overflow: hidden;
+  
+}
+body.superindex .total_emp_section .emp_com_list ul li{
+  float: left;
+  width: auto;
+  padding:5px 8px;
+  color: #666666;
+  border:1px solid #dfe0e6;
+  border-radius: 2px;
+  margin-right: 5px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+body.superindex .total_emp_section .emp_com_list ul li.active{
+  color: #308ce8;
+  border:1px solid #308ce8
+}
+body.superindex .total_com_visit_section .com_visit_nums_title{
+  width: 90%;
+  margin:30px auto;
+  height: auto;
+  overflow: hidden;
+}
+body.superindex .total_com_visit_section .com_visit_nums_title ul{
+  width: 100%;
+  height: auto;
+  margin:10px 0;
+  border-left:1px solid #dfe0e6;
+  overflow: hidden;
+}
+body.superindex .total_com_visit_section .com_visit_nums_title ul li{
+  width: auto;
+  float: left;
+  color: #444444;
+  padding:5px 16px;
+  border:1px solid #dfe0e6;
+  border-left: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+body.superindex .total_com_visit_section .com_visit_nums_title ul li.active{
+border-top:2px solid #21cc68;
+border-bottom: none
+}
+body.accountsuper .total_visit_section{
+  width: 96%;
+  height: auto;
+  overflow: hidden;
+  background: #fff;
+  margin:23px auto;
+  box-shadow: 0.5px 0.866px 4px 0px rgb( 183, 188, 193 );
+}
+body.accountsuper .total_visit_section .visit_chart_section{
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  padding:40px 20px 20px;
+  position: relative;
+}
+body.accountsuper .total_visit_section .visit_chart_section .visit_total_nums{
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  color: #21cc68;
+  font-size: 18px
+}
+body.accountsuper .total_emp_section{
+  width: 96%;
+  height: 506px;
+  overflow: hidden;
+  background: #fff;
+  margin:0 auto 23px auto;
+  box-shadow: 0.5px 0.866px 4px 0px rgb( 183, 188, 193 );
+}
+body.accountsuper .total_com_visit_section{
+  width: 96%;
+  height: auto;
+  overflow: hidden;
+  clear: both;
+  margin:0px auto 23px auto ;
+  background: #fff;
+  box-shadow: 0.5px 0.866px 4px 0px rgb( 183, 188, 193 );
+  display: block
+}
+body.accountsuper .total_com_visit_section .com_visit_chart_section{
+  height: auto;
+  min-height: 400px;
+
+}
+body.accountsuper .stop{
+  width: 100%;
+  height: 46px;
+  background-image: -moz-linear-gradient( 90deg, rgb(238,238,238) 0%, rgb(247,247,247) 100%);
+  background-image: -webkit-linear-gradient( 90deg, rgb(238,238,238) 0%, rgb(247,247,247) 100%);
+  background-image: -ms-linear-gradient( 90deg, rgb(238,238,238) 0%, rgb(247,247,247) 100%);
+  box-shadow: 0.5px 0.866px 0px 0px rgb( 230, 230, 230 );
+  position: relative;
+}
+body.accountsuper .stop p{
+  width: 100%;
+  height: 46px;
+  line-height: 46px;
+  text-indent: 14px;
+  color: #444444;
+  font-size: 16px
+}
+body.accountsuper .stop .time_choice_section{
+  position: absolute;
+  right: 10px;
+  top: 6px;
+  border:1px solid rgb( 213, 213, 213 );
+  width: 216px;
+  height: 36px;
+  border-radius: 14px;
+  background-color: rgb( 255, 255, 255 );
+}
+body.accountsuper .stop .time_choice_section .time_input_show{
+  width: 100%;
+  position: absolute;
+  left: 10px;
+  top: 0;
+  height: 100%;
+  overflow: hidden;
+}
+body.accountsuper .stop .time_choice_section .time_input_show .start_date{
+  display: inline-block;
+  float: left;
+  width: 85px;
+  height: 34px;
+  text-align: center;
+  font-size: 14px;
+  padding:0;
+  line-height: 34px;
+  border:none;
+  color: #444
+}
+body.accountsuper .stop .time_choice_section .time_input_show .date_f{
+ display: inline-block;
+  float: left;
+  width: auto;
+  height: 34px;
+  color: #444;
+  line-height: 34px;
+}
+body.accountsuper .stop .time_choice_section .time_input_show .end_date{
+  display: inline-block;
+  float: left;
+  width: 85px;
+  padding:0;
+  text-align: center;
+  font-size: 14px;
+  height: 34px;
+  line-height: 34px;
+  border:none;
+  color: #444
+}
+body.accountsuper .stop .time_choice_section .d_arrows{
+  position: absolute;
+  display: block;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  background: url(../img/v1/super_darrow.png) center center no-repeat;
+}
+body.superindex .total_emp_section .emp_num{
+  height: auto;
+  padding:0px 0px;
+  overflow: hidden;
+  position: relative;
+}
+body.superindex .total_emp_section .emp_num .emo_total_nums{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #21cc68;
+  background: #21cc68;
+  padding:2px 5px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px
+}
+body.superindex .total_visit_section .visit_chart_section .visit_total_nums{
+  background: #21cc68;
+  padding:2px 5px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px
+}
+body.accountsuper .total_emp_section .emp_num .emo_count_nums{
+  position: absolute;
+  top: 162px;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+  color: #999999;
+  font-size: 14px;
+}
+body.accountsuper .total_emp_section .emp_com_list{
+  width: 90%;
+  height: auto;
+  margin:0 auto;
+  overflow: hidden;
+}
+body.accountsuper .total_emp_section .emp_com_list ul{
+  margin:5px 0;
+  display: block;
+  height: auto;
+  overflow: hidden;
+}
+body.accountsuper .total_emp_section .emp_com_list ul li{
+  float: left;
+  width: auto;
+  padding:5px 8px;
+  color: #666666;
+  border:1px solid #dfe0e6;
+  border-radius: 2px;
+  margin-right: 5px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  display: block
+}
+body.accountsuper .total_emp_section .emp_com_list ul li.active{
+  color: #308ce8;
+  border:1px solid #308ce8
+}
+body.accountsuper .total_com_visit_section .com_visit_nums_title{
+  width: 90%;
+  margin:30px auto;
+  height: auto;
+  overflow: hidden;
+}
+body.accountsuper .total_com_visit_section .com_visit_nums_title ul{
+  width: 100%;
+  height: auto;
+  margin:10px 0;
+  border-left:1px solid #dfe0e6;
+  overflow: hidden;
+}
+body.accountsuper .total_com_visit_section .com_visit_nums_title ul li{
+  width: auto;
+  float: left;
+  color: #444444;
+  padding:5px 16px;
+  border:1px solid #dfe0e6;
+  border-left: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: block
+}
+body.accountsuper .total_com_visit_section .com_visit_nums_title ul li.active{
+border-top:2px solid #21cc68;
+border-bottom: none
+}
+body.accountsuper .total_emp_section .emp_num .emo_total_nums{
+	
+}
+#update_pwd .modal-dialog{
+  width: 400px
+}
+#update_pwd .modal-dialog .modal-content .modal-body{
+  padding: 20px 40px;
+  border-radius: 0;
+}
+#update_pwd .modal-dialog .modal-content .form-group {
+  margin:5px 0
+}
+#update_pwd .modal-dialog .modal-content .form-group.last{
+  margin-top:15px
+}
+#update_pwd .modal-dialog .modal-content .form-group label{
+  height: 37px;
+  line-height: 37px
+}
+#update_pwd .modal-dialog .modal-content .form-group input {
+  height: 40px;
+}
+#update_pwd .modal-dialog .modal-content .form-group label .dot {
+  width: 20px;
+  height: 8px;
+  background: url(../img/dot.png) no-repeat center;
+  display: inline-block;
+  margin-bottom: 2px;
+  background-size: 5px;
+}
+#update_pwd .modal-dialog .modal-content .options-wrap .row {
+  margin-left: -6px;
+  margin-right: -6px;
+}
+#update_pwd .modal-dialog .modal-content .options-wrap .row .col-md-3,
+#update_pwd .modal-dialog .modal-content .options-wrap .row .col-md-9 {
+  padding: 0 6px;
+}
+#update_pwd .modal-dialog .modal-content .options-wrap .option {
+  border: 1px solid #cccccc;
+  color: #666;
+  text-align: center;
+  line-height: 40px;
+}

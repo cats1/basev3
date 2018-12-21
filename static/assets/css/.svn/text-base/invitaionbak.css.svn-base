@@ -1,0 +1,300 @@
+body {
+  background: url(https://www.coolvisit.com/assets/img/invibg.jpg) left top repeat;
+	color: #FFFFFF;
+  font: normal 100% "microsoft yahei",Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.s1 p {
+			width: inherit;
+			border-bottom: 1px dashed #acb3b9;
+		}
+		div#qrContent img {
+			border: 1px solid #EAEAEA;
+			padding: 15px;
+		}
+
+img{
+	border:0;
+}
+.container{
+	position: relative;
+	width:760px;
+	margin:0 auto;
+	border-radius: 5px;
+  	background-color: rgb( 255, 255, 255 );
+  	box-shadow: 2.5px 4.33px 15px 0px rgb( 36, 44, 53 );
+  	height:auto;
+  	overflow: hidden;
+}
+p.pdetail{
+	width:760px;
+	margin:0 auto;
+	text-align: center;
+	line-height: 2em;
+	color:#cccccc;
+}
+.container .header{
+	width:100%;
+	height:auto;
+  	overflow: hidden;
+}
+.container .header img{
+	width:100%;
+	height:auto;
+}
+.container .footer{
+	width:100%;
+	height:auto;
+  	overflow: hidden;
+}
+.container .footer img{
+	position: relative;
+	bottom: -4px;
+	width:100%;
+	border:0;
+}
+.container section{
+	height:auto;
+	overflow: hidden;
+}
+.container section.s1 p{
+	font-size: 0.875em;
+	color:#353d4c;
+	line-height: 2em;
+	text-align: justify;
+}
+.container section.s1 .con1 p:nth-child(3){
+	text-indent:24px
+}
+.container section h2{
+	height:auto;
+	overflow: hidden;
+	background: url(https://www.coolvisit.com/assets/img/inline.jpg) center center no-repeat;
+	background-size:80% ;
+	font-size: 1.2em;
+	color:#1872cd;
+	text-align: center
+}
+
+
+.container section p{
+	width:80%;
+	margin:0 auto;
+	text-align: justify;
+	font-size:0.875em;
+	line-height: 1.5em;
+	color:#353d4c;
+}
+.container section p#tips{
+	text-align: center
+}
+.container section.s2 .mapwrap{
+	width:80%;
+	height:26em;
+	background: #fff;
+	margin:0em auto;
+	position: relative;
+}
+.container section.s2 .mapwrap .mapcon{
+	position: relative;
+	top: 0;
+	left: 0;
+	width:80%;
+	height:20em;
+	margin:1em auto;
+	background: transparent;
+	border-radius: 2px;
+	z-index: 10;
+}
+.container section.s2 .mapwrap .mapmask{
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 11;
+	width: 100%;
+	height:24em;
+	margin:0em auto;
+}
+.container section.s2 .mapwrap .mapmask img{
+	display: block;
+	margin: 0 auto;
+	width:80%;
+}
+.container section.s2 .mapwrap .mapcon .map{
+	position: absolute; 
+    width: 98%; 
+    height: 98%;
+    top: 1%;
+    left:1%;
+    overflow:hidden;   
+}
+
+.container section.s2 .mapwrap .mapcon .map .anchorBL{
+	display: none
+}
+.container section.s2 .gohere{
+	display: block;
+	width:7em;
+	height:7em;
+	margin:0 auto;
+	color:#fff;
+	background: url(https://www.coolvisit.com/assets/img/gohere.png) center no-repeat;
+}
+
+.appointment {
+	width:7em;
+	height:7em;
+	margin:0 auto;
+	color:#fff;
+	background: url(https://www.coolvisit.com/assets/img/appointment.png) no-repeat;
+}
+
+.container section p.compro{
+	text-align: left
+}
+#upload_image{
+	padding-bottom: 0.8em!important
+}
+@media (max-width: 980px) {
+  .container {
+    width: 100%;
+  }
+  p.pdetail{
+  	width: 100%;
+  }
+  .container section h2{
+	height:auto;
+	overflow: hidden;
+	background: url(https://www.coolvisit.com/assets/img/inline.jpg) center center no-repeat;
+	background-size:100% ;
+	font-size: 1.2em;
+	color:#1872cd;
+	text-align: center
+}
+}
+
+/*#fixed-buttonGroup button {
+				width: 40px
+				height: 25px;
+				border-radius: 4px;
+				border: transparent;
+				color: white;
+				font-size: 16px;
+				letter-spacing: 3px;
+				display: block;
+}*/
+
+#fixed-buttonGroup button {
+					width: 47%;
+					height: 40px;
+					margin:15px 5px;
+					border-radius: 4px;
+					border: transparent;
+					color: white;
+					font-size: 16px;
+					letter-spacing: 3px;
+}
+
+#blueGradients {
+				background-color: #1872CD;
+				float: left;
+}
+
+#redGradients {
+				background-color: #E65234;
+				float: right;
+}
+
+.grayGradients {
+				background-color: #CCCCCC;
+}
+
+/*#blueGradients:hover {
+					opacity: 0.7;
+}
+
+#redGradients:hover {
+					opacity: 0.7;
+}*/
+
+section.s1 {
+				margin-top: 30px;
+}
+
+/*#fixed-buttonGroup {
+				position: fixed;
+				border-radius: 4px;
+				background-image: url("https://www.coolvisit.com/assets/img/invitation.fixed.bg.png");
+				z-index: 99;
+				background-size: cover;
+				box-shadow: 3px 3px 3px #CCCCCC;
+				opacity: 0.9;
+}*/
+
+#fixed-buttonGroup {
+				position: fixed;
+				width: 100%;
+				height: 70px;
+				background-color: rgba(0,0,0,0.5);
+				z-index: 99;
+				bottom: 30px;
+}
+
+
+.con1 p span:nth-child(3) {
+	display: inline-block;
+	text-indent: 24px;
+}
+
+.con1 p span:nth-child(5) {
+	display: inline-block;
+	text-indent: 24px;
+}
+
+#add_person {
+				width: 80%;
+				margin: 3em auto 0px;
+				padding-top: 1em;
+				background: #FFFFFF;
+}
+
+#add_person h2 {
+				height:auto;
+				overflow: hidden;
+				background: url(https://www.coolvisit.com/assets/img/inline.jpg) center center no-repeat;
+				background-size:80% ;
+				font-size: 1.2em;
+				color:#1872cd;
+				text-align: center
+}
+
+#add_person p.compro {
+					width:80%;
+					margin:0 auto;
+					text-align: justify;
+					font-size:0.875em;
+					line-height: 1.5em;
+					color:#353d4c;
+}
+
+#img_head {
+					margin-top: 0;
+					width: 80%;
+					height: auto;
+}
+
+.groupTip {
+				text-align: center;
+				margin-top: 25px;
+				font-size: 18px;
+}
+
+#tips {
+					text-align: center;
+					width:80%;
+					margin:0 auto;
+					font-size:0.875em;
+					line-height: 1.5em;
+					color:#353d4c;
+}
