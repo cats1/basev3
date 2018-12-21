@@ -23,9 +23,21 @@
             </template>
           </div>
         </el-form-item>
+        <template v-if="defaultInterviewSet">
+          <el-form-item :label="$t('defaultInterviewPerson')">
+            <div class="last_inner" @click="setInterviewShow">
+              <template v-for="item in vlist">
+                <span>{{item.empName}}</span>
+              </template>
+            </div>
+          </el-form-item>
+        </template>
         <template v-if="deptNoShow">
           <el-form-item :label="$t('departNo')" >
             <el-input v-model="departform.deptNo" disabled></el-input>
+          </el-form-item>
+          <el-form-item :label="$t('visitCount')" prop="vMaxCount" >
+            <el-input v-model.number="departform.vMaxCount"></el-input>
           </el-form-item>
         </template>
       </el-form>
@@ -63,11 +75,27 @@
 import {getCache} from '@/utils/auth'
 import departMenu from '@/components/menu/departMenu'
 import empMenu from '@/components/menu/empMenu'
-import {stringToArray,arrayToString} from '@/utils/common'
+import {stringToArray,arrayToString,replaceQuotation} from '@/utils/common'
 export default {
   props: ['parentNode','parent','empList','dlist'],
   components: { departMenu,empMenu },
   data () {
+    var checkCount = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('不能为空'));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('请输入数字值'));
+          } else {
+            if (parseInt(value) > 50) {
+              callback(new Error('最多50人'));
+            } else {
+              callback();
+            }
+          }
+        }, 1000);
+    };
   	return {
   	  dialogVisible: false,
       innerVisible: false,
@@ -78,21 +106,30 @@ export default {
         deptNo: this.parent.dpno,
         deptid: this.parent.pid,
         deptManagerEmpid: this.parent.dp,
+        vMaxCount: this.parent.count,
+        defaultReceiver: '',
   	  	userid: getCache('userid')
   	  },
   	  rules: {
   	  	deptName: [
-  	  	  { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }]
+  	  	  { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
+        vMaxCount: [
+          { required: true, validator: checkCount }
+        ]
   	  },
       parentObj: this.parent,
       mlist: [],
+      vlist: [],
       departArray: [],
       menuList: [],
       cobj: [],
       parentNodeObj: [],
       managerObj: [],
       btnType: 3,
-      deptNoShow: process.env.deptNoShow || false
+      deptNoShow: process.env.deptNoShow || false,
+      deptidToString: process.env.deptidToString || false,
+      defaultInterviewSet: process.env.defaultInterviewSet || false,
+      editType: 'depart'
   	}
   },
   computed: {
@@ -123,9 +160,15 @@ export default {
     },
     parent (val) {
       this.parentObj = val
-      this.departform.deptid = val.pid      
+      if (this.deptidToString) {
+        this.departform.deptid = val.strdid  
+      } else {
+        this.departform.deptid = val.pid  
+      }
+      this.vlist = []
       this.departform.deptName = val.name
       this.departform.deptNo = val.dpno
+      this.departform.vMaxCount = val.count
     },
     empList (val) {
       let earray = []
@@ -153,19 +196,44 @@ export default {
       this.innerVisible = false
     },
     saveSelectManer (val) {
-      this.mlist = this.managerObj
-      this.innerVisible1 = false
+      if (this.defaultInterviewSet) {
+        if(this.editType == 'depart') {
+          this.mlist = this.managerObj
+          this.innerVisible1 = false
+        } else {
+          this.vlist = this.managerObj
+          this.innerVisible1 = false
+        }
+      } else {
+        this.mlist = this.managerObj
+        this.innerVisible1 = false
+      }
     },
     setdepart (val) {
+      console.log(val)
       this.parentNodeObj = val
     },
     setemp (val) {
+      console.log(val)
       this.managerObj = val
     },
     setDepShow () {
       this.innerVisible = true
     },
     setManerShow () {
+      this.editType = 'depart'
+      if (this.empList.length > 0) {
+        this.innerVisible1 = true
+      } else {
+        this.$message({
+          showClose: true,
+          type: 'warning',
+          message: this.$t('depart.noemp')
+        })
+      }      
+    },
+    setInterviewShow () {
+      this.editType = 'interview'
       if (this.empList.length > 0) {
         this.innerVisible1 = true
       } else {
@@ -175,7 +243,6 @@ export default {
           message: this.$t('depart.noemp')
         })
       }
-      
     },
     setMlist () {
       let marray = []
@@ -188,6 +255,18 @@ export default {
         })
       })
       this.mlist = marray
+    },
+    setVlist () {
+      let marray = []
+      let _self = this
+      this.empList.forEach(function(element, index) {
+        _self.dp.forEach(function(delement, dindex) {
+          if (delement === element.pid) {
+            marray.push(element)
+          }
+        })
+      })
+      this.vlist = marray
     },
     doEdit () {
       if (this.parent.dp === 'root') {
@@ -207,22 +286,55 @@ export default {
             this.departform.parentId = this.parentNodeObj[0].pid
             //this.departform.deptManagerEmpid = this.parentNodeObj[0].pid
             let eids = []
+            let varray = []
             this.mlist.forEach(function(element, index) {
               eids.push(element.empid)
             })
+            this.vlist.forEach(function(element, index) {
+              let obj = {
+                name: element.empName,
+                empid: element.empid,
+                phone: element.empPhone
+              }
+              varray.push(obj)
+            })
             this.departform.deptManagerEmpid = arrayToString(eids)
-            this.$store.dispatch('updateDepartment',this.departform).then(res => {
-		   	  	let {status} = res
-		   	  	if (status === 0) {
-		          this.dialogVisible = false
-              this.$refs['departform'].resetFields()
-		          this.$emit('addkit')
-		   	  	}
-		   	})
+            let nform = {
+              deptName: this.departform.deptName,
+              parentId: this.departform.parentId,
+              deptNo: this.parent.dpno,
+              deptid: this.parent.pid,
+              deptManagerEmpid: this.parent.dp,
+              vMaxCount: this.departform.vMaxCount,
+              userid: getCache('userid')
+            }
+            if (this.defaultInterviewSet) {
+              nform = {
+                deptName: this.departform.deptName,
+                parentId: this.departform.parentId,
+                deptNo: this.parent.dpno,
+                deptid: this.parent.pid,
+                deptManagerEmpid: this.parent.dp,
+                vMaxCount: this.departform.vMaxCount,
+                defaultReceiver: replaceQuotation(JSON.stringify(varray)),
+                userid: getCache('userid')
+              }
+            }
+            this.updateDepartment(nform)
           } else {
             return false;
           }
         })
+    },
+    updateDepartment (nform) {
+      this.$store.dispatch('updateDepartment',nform).then(res => {
+        let {status} = res
+        if (status === 0) {
+          this.dialogVisible = false
+          this.$refs['departform'].resetFields()
+          this.$emit('addkit')
+        }
+      })
     },
     deleteProject () {
       this.$confirm(this.$t('deleteTip.desc'), this.$t('deleteTip.title'), {

@@ -7,10 +7,7 @@
 import lineChart from '@/components/charts/lineChart'
 export default {
   props: {
-    ldata: {
-      type: Array,
-      default: []
-    }
+    ldata: null
   },
   components: {lineChart},
   data () {
@@ -20,11 +17,19 @@ export default {
   },
   watch: {
     ldata (val) {
-      this.typeArray = val
+      if (val.constructor == Array) {
+        this.typeArray = val
+      } else {
+        this.typeArray = val.list
+      }
     } 
   },
   mounted () {
-  	this.typeArray = this.ldata
+  	if (this.ldata.constructor == Array) {
+        this.typeArray = this.ldata
+      } else {
+        this.typeArray = this.ldata.list
+      }
   }
 }
 </script>

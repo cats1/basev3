@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <!-- <template v-if="!isMobile"> -->
-      <empnav></empnav>
+    <empnav></empnav>
     <!-- </template> -->
     <div :class="{'mobile-container': isMobile,'page-container': !isMobile}">
       <transition name="fade" mode="out-in">

@@ -61,6 +61,10 @@ export default {
     checkNum: {
       type: Number,
       default: 0
+    },
+    menuType: {
+      type: Number,
+      default: 0 //0公司添加部门1员工调整部门
     }
   },
   data () {
@@ -71,7 +75,8 @@ export default {
       rightItem: this.rightData,
       headItem: [],
       checkArray: [],
-  	  logo: require('@/assets/img/spot.png')
+  	  logo: require('@/assets/img/spot.png'),
+      comAddEmpShow: process.env.comAddEmpShow || false
   	}
   },
   watch: {
@@ -80,14 +85,12 @@ export default {
       this.leftItem = this.checkIsSelect(val)
     },
     rightData (val) {
-      console.log(val)
       this.clist = val
       this.rightItem = val
     },
-    checkValue (val) {
-      console.log(val)
-    },
-    checkNum (val) {
+    checkValue (val) {},
+    checkNum (val) {},
+    menuType (val) {
       console.log(val)
     }
   },

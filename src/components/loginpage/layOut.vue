@@ -43,14 +43,15 @@
 <script>
 import { ImgCode, MangerLogin, SuperLogin, CompanyLogin, EmpLogin, StageLogin, LoginSelect } from '@/components/loginpage'
 import loginNav from '@/components/headnav/loginnav'
-import {getBaseStageLink} from '@/utils/common'
+import {getBaseStageLink,getBaseEmpPointLink} from '@/utils/common'
 export default {
   components: { ImgCode, MangerLogin, SuperLogin, CompanyLogin, EmpLogin, StageLogin, LoginSelect,loginNav },
   name: 'App',
   data () {
     return {
       loginType: 0,
-      empLoginShow: process.env.empLogin
+      empLoginShow: process.env.empLogin || false,
+      empPointLogin: process.env.empPointLogin || false
     }
   },
   watch: {
@@ -66,7 +67,12 @@ export default {
           this.loginType = type
         }
       } else {
-        this.loginType = type
+        if (this.empPointLogin) {
+          window.location.href = getBaseEmpPointLink()
+        } else {
+          this.loginType = type
+        }
+        
       }
     }
   }

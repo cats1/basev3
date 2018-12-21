@@ -71,3 +71,10 @@ export function updateDefaultNotify(data) {
     data
   })
 }
+export function getVisitorByVid(data) {
+  return request({
+    url: '/GetVisitorByVid',
+    method: 'post',
+    data
+  })
+}

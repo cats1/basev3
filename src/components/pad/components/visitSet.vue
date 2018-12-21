@@ -78,9 +78,14 @@ export default {
             }
         },
         saveEdit(item, index) {
-            this.g_config_arr[index].inputValue = item.inputValue
-            this.g_config_arr[index].addtion = false
-            this.form[item.fieldName] = item.displayName
+            if (item.displayName != '') {
+                this.g_config_arr[index].inputValue = item.inputValue
+                this.g_config_arr[index].addtion = false
+                this.form[item.fieldName] = item.displayName
+            } else {
+                this.g_config_arr.splice(index,1)
+            }
+            
         },
         cancelEdit(item, index) {
             if (item.itemType !== 3) {

@@ -12,7 +12,9 @@
 @import './countrynumber.scss';
 @import './thumb.scss';
 @import './font.scss';
+@import './tree.scss';
 @import './element-ui.scss';
+
 #app {
   width: 100%;
   height: auto;
@@ -139,15 +141,18 @@ label {
 .comwraptitle {
   padding: 20px 0;
   overflow: hidden;
+
   .comwraplogo {
     width: auto;
     display: inline-block;
     float: left;
     text-align: center;
+
     p {
       line-height: 36px;
     }
   }
+
   .emplist {
     margin-top: 10px;
   }
@@ -164,8 +169,131 @@ label {
 
 .vflist {
   padding: 10px 0 0 20px;
+
   li {
     line-height: 18px;
+  }
+}
+
+.lft-box-wrap {
+  display: block;
+  overflow: hidden;
+}
+
+.ctitletip {
+  margin-top: 46px;
+  margin-bottom: 20px;
+}
+
+.lft-box {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  background: #fff;
+  position: relative;
+  padding: 33px 33px;
+
+  &.paddingnone {
+    padding: 0;
+
+    .el-textarea__inner {
+      border: none;
+    }
+  }
+
+  .el-textarea__inner {
+    border: none;
+  }
+
+  .el-radio {
+    line-height: 5;
+  }
+
+  .lft-box-point {
+    width: 5px;
+    height: 25px;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    &.red {
+      background: #ff6a6a;
+    }
+
+    &.yellow {
+      background: #fff100;
+    }
+
+    &.blue {
+      background: #00ffff
+    }
+
+    &.pink {
+      background: #ff91c3
+    }
+  }
+
+  .lft-box-cell {
+    float: left;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
+    .cell-item {
+      label {
+        display: block;
+        height: 36px;
+        line-height: 36px;
+      }
+
+      input {}
+
+    }
+
+    .el-input__inner {
+      border: none;
+      border-bottom: 1px solid #dcdfe6;
+    }
+
+    &.cell-item-1 {
+      width: 25%;
+    }
+
+    &.cell-item-2 {
+      width: 8.33333%;
+    }
+
+    &.cell-item-3 {
+      width: 12.5%;
+    }
+
+    &.cell-item-4 {
+      width: 16.66667%;
+    }
+
+    &.cell-item-5 {
+      width: 20.83333%;
+    }
+
+    &.cell-item-6 {
+      width: 25%;
+    }
+
+    &.cell-item-7 {
+      width: 29.16667%;
+    }
+
+    &.cell-item-8 {
+      width: 33.33333%;
+    }
+
+    &.cell-item-9 {
+      width: 37.5%;
+    }
+
+    &.cell-item-10 {
+      width: 41.66667%;
+    }
   }
 }
 
@@ -185,6 +313,7 @@ label {
     white-space: nowrap;
     overflow: hidden;
   }
+
   .empsectionwrap {
     .pitem {
       position: relative;
@@ -196,6 +325,87 @@ label {
   }
 }
 
+.esltable {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  text-align: center;
+
+  tr,
+  td {
+    border: 1px solid #ccc;
+  }
+
+  td {
+    height: 38px;
+
+    .el-date-editor.el-input,
+    .el-date-editor.el-input__inner {
+      width: 100%;
+    }
+
+    .el-input__inner,
+    .el-textarea__inner {
+      border: none;
+    }
+  }
+
+  .is-circle {
+    padding: 4px;
+    margin: 0 4px;
+  }
+
+  .eslinnertable {
+    border: none;
+    border-collapse: collapse;
+    text-align: center;
+
+    tr {
+      border-left: none;
+      border-right: none;
+
+      td {
+        border-bottom: none;
+
+        &:first-child {
+          border-left: none;
+        }
+      }
+
+      &:first-child {
+        border-top: none;
+
+        td {
+          border-top: none;
+        }
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+  }
+
+  .eslinneritem {
+    width: 20%;
+    display: inline-block;
+    float: left;
+
+    p {
+      width: 100%;
+      display: block;
+      height: 38px;
+
+      label,
+      input {
+        width: 50%;
+        display: inline-block;
+        float: left;
+      }
+    }
+  }
+}
+
 .bottomwins {
   position: fixed;
   bottom: 0;
@@ -203,6 +413,55 @@ label {
   background: #fff;
   padding: 20px 30px;
   z-index: 99;
+}
+
+.borderstyle {
+  height: 38px;
+  line-height: 38px;
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: inherit;
+  outline: 0;
+  padding: 0;
+  -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  width: 100%;
+
+  &:focus {
+    border-color: #67c23a;
+  }
+}
+
+.inputnoborder {
+  height: 36px;
+  line-height: 36px;
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border: none;
+  //border-radius: 4px;
+  //border: 1px solid #dcdfe6;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: inherit;
+  outline: 0;
+  padding: 0 15px;
+  -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  width: 100%;
+
+  &:focus {
+    //border-color: #67c23a;
+  }
 }
 
 .inputstyle {
@@ -223,9 +482,14 @@ label {
   -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
   transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
   width: 100%;
+
   &:focus {
     border-color: #67c23a;
   }
+}
+
+.selectinput .el-input__inner {
+  border: none !important;
 }
 
 .empform {
@@ -238,17 +502,22 @@ label {
       width: 100%;
     } */
   }
+
   .el-input__inner {
     text-indent: 10px;
   }
+
   .empborder {
     position: relative;
+
     .el-select {
       width: 100%;
+
       .el-input__inner {
         padding-left: 40px;
       }
     }
+
     .defaulticon {
       margin-top: 6px;
       display: inline-block;
@@ -273,6 +542,7 @@ label {
 
 .processlist {
   margin: 10px 0;
+
   li {
     line-height: 40px;
     background: #d1d1d1;
@@ -282,6 +552,7 @@ label {
     /*margin-right: 20px;
         padding: 0px 20px;*/
     text-align: center;
+
     &:after {
       content: '';
       display: block;
@@ -292,6 +563,7 @@ label {
       right: -20px;
       top: 0;
     }
+
     &:before {
       content: '';
       display: block;
@@ -303,8 +575,10 @@ label {
       top: 0;
     }
   }
+
   li.active {
     background: #50abe4;
+
     &:after {
       content: '';
       display: block;
@@ -315,6 +589,7 @@ label {
       right: -20px;
       top: 0;
     }
+
     &:before {
       content: '';
       display: block;
@@ -326,26 +601,31 @@ label {
       top: 0;
     }
   }
+
   li:first-child {
     border-radius: 4px 0 0 4px;
     z-index: 3;
     width: 32%;
+
     &:before {
       display: none;
     }
   }
+
   li:nth-child(2) {
     z-index: 2;
     /*left: -20px;*/
     left: 0;
     width: 33%;
   }
+
   li:last-child {
     border-radius: 0px 4px 4px 0px;
     z-index: 1;
     /*left: -40px;*/
     left: 0;
     width: 33%;
+
     &:after {
       display: none;
     }
@@ -358,6 +638,7 @@ label {
   border: 1px solid #dcdfe6;
   text-align: center;
   position: relative;
+
   .el-input__icon {
     margin-top: 0;
     position: absolute;
@@ -373,6 +654,7 @@ label {
   border-radius: 3px;
   overflow: hidden;
   float: right;
+
   li {
     width: 29px;
     height: 22px;
@@ -381,6 +663,7 @@ label {
     background: #fff;
     float: left;
     cursor: pointer;
+
     &.active {
       color: #fff;
       background: #868686;
@@ -392,6 +675,7 @@ label {
   width: 100%;
   height: auto;
   overflow: hidden;
+
   dt {
     height: 48px;
     line-height: 48px;
@@ -401,6 +685,7 @@ label {
     color: #444;
     border-bottom: 1px solid #e7e8e9;
   }
+
   dd {
     height: 48px;
     line-height: 48px;
@@ -409,6 +694,7 @@ label {
     text-indent: 20px;
     color: #333;
     position: relative;
+
     .bluelines {
       width: 4px;
       height: 100%;
@@ -418,8 +704,10 @@ label {
       top: 0;
       left: 0;
     }
+
     &.active {
       background: #f2f3f4;
+
       .bluelines {
         display: block;
       }
@@ -431,6 +719,7 @@ label {
   width: auto;
   position: relative;
   display: inline-block;
+
   .uploadinput {
     position: absolute;
     width: 100%;
@@ -444,16 +733,19 @@ label {
 
 .emptreewrap {
   padding: 20px 0;
+
   .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
     background: #409EFF;
     color: #fff;
   }
+
   .is-checked,
   .is-current {
     .el-tree-node__content {
       background: #409EFF;
       color: #fff;
     }
+
     .el-tree-node__children {
       .el-tree-node__content {
         background: #fff;
@@ -461,12 +753,14 @@ label {
       }
     }
   }
+
   .el-tree-node__content {
     .el-tree-node__label {
       background: url('../assets/img/root.png') left center no-repeat;
       text-indent: 24px;
     }
   }
+
   .el-tree-node__children {
     .el-tree-node__label {
       background: url('../assets/img/spot.png') left center no-repeat;
@@ -475,11 +769,22 @@ label {
   }
 }
 
+.el-table.emptable {
+  .off-row {
+    color: #ec2c2c;
+  }
+  .on-row {
+    //color: #fff;
+  }
+}
+
 .approvewrap {
   border: 1px solid #ccc; //
+
   .regions-top {
     border-bottom: 1px #b5b5b5 solid;
     background-color: #f6f6f6;
+
     h3 {
       line-height: 36px;
       color: #444;
@@ -487,18 +792,22 @@ label {
       position: relative;
     }
   }
+
   .regions-body {
     background-color: #fff;
     padding: 18px 18px 10px;
   }
+
   .region-logo {
     display: inline-block;
     overflow: hidden;
     padding: 10px 20px;
+
     img {
       float: left;
       margin: 10px 0;
     }
+
     strong {
       float: left;
       color: #444;
@@ -506,10 +815,38 @@ label {
       line-height: 80px;
       font-weight: lighter;
     }
+
     .el-button {
       margin: 24px 0 0 20px;
     }
   }
+}
+
+.approvearrowitemwrap {
+  border: 1px dashed #dcdcdc;
+  display: inline-block;
+  overflow: hidden;
+  float: left;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+.approveitemwrap {
+  border: 1px dashed #dcdcdc;
+  display: inline-block;
+  overflow: hidden;
+  float: left;
+  margin-bottom: 10px;
+}
+
+.approveitemarrowwrap {
+  display: inline-block;
+  overflow: hidden;
+  float: left;
+  padding: 17px 0;
+  margin-bottom: 10px;
 }
 
 .approveitem {
@@ -518,6 +855,7 @@ label {
   position: relative;
   text-align: center;
   margin: 10px;
+
   .closeicon {
     cursor: pointer;
     display: inline-block;
@@ -525,6 +863,7 @@ label {
     top: 4px;
     right: 8px;
   }
+
   .approveitemtext {
     border-radius: 2px;
     font-size: 14px;
@@ -535,11 +874,20 @@ label {
     cursor: pointer;
     background-color: #8bb9e7;
     color: #fff;
+
+    &.spec {
+      background-color: orange;
+    }
+
+    &.person {
+      background-color: green;
+    }
   }
 }
 
 .rolemenuwrap {
   overflow: hidden;
+
   .roleleft,
   .roleright {
     width: 50%;
@@ -568,6 +916,7 @@ label {
   margin-bottom: 10px;
   padding: 0 26px;
   cursor: pointer;
+
   &.selected {
     background-color: #8bb9e7;
     color: #fff;
@@ -576,14 +925,17 @@ label {
 
 .exportwrap {
   overflow: hidden;
+
   .exportwrap-left,
   .exportwrap-right {
     display: inline-block;
     float: left
   }
+
   .exportwrap-left {
     padding: 20px 30px 0 20px;
   }
+
   .exportwrap-right {
     padding: 20px 30px 0 20px;
   }
@@ -597,13 +949,16 @@ label {
   border-radius: 10px;
   position: relative;
   cursor: pointer;
+
   &.cbg {
     background: #c5c5c5;
   }
+
   .dphoto-img {
     width: 100%;
     height: 100%;
   }
+
   .dphotomask {
     position: absolute;
     width: 100%;
@@ -613,6 +968,7 @@ label {
     background: rgba(0, 0, 0, .5);
     text-align: center;
     color: #d00509;
+
     i {
       margin-top: 30px;
     }
@@ -635,6 +991,7 @@ label {
   .hstitle {
     height: 50px;
     border-bottom: 1px solid #ccc;
+
     .version {
       display: inline-block;
       float: left;
@@ -643,6 +1000,7 @@ label {
       color: #333;
       border-bottom: 2px solid #333;
     }
+
     .newlogo {
       display: inline-block;
       float: left;
@@ -661,6 +1019,7 @@ label {
       -o-border-radius: 4px;
       border-radius: 4px;
     }
+
     .hsdate {
       display: inline-block;
       float: right;
@@ -669,6 +1028,7 @@ label {
       color: #999;
     }
   }
+
   .hbody {
     p {
       line-height: 36px;
@@ -688,13 +1048,16 @@ label {
   margin-bottom: 20px;
   margin-right: 10px;
   border: 1px solid transparent;
+
   .photo-item-img {
     width: 162px;
     height: 162px;
+
     img {
       max-width: 100%;
     }
   }
+
   .photo-edit {
     cursor: pointer;
     position: absolute;
@@ -709,6 +1072,7 @@ label {
     font-size: 16px;
     z-index: 999;
   }
+
   .photo-item-mask {
     width: 162px;
     height: 162px;
@@ -719,6 +1083,7 @@ label {
     z-index: 990;
     color: #f13333;
     text-align: center;
+
     i {
       margin-top: 40px;
     }
@@ -731,6 +1096,7 @@ label {
 
 .links {
   color: #428bca;
+
   &:hover,
   &:focus {
     color: #428bca;
@@ -762,6 +1128,7 @@ label {
   position: relative;
   padding-top: 10px;
   top: 0;
+
   .self-card-show {
     width: 1860px;
     height: 1180px;
@@ -774,6 +1141,7 @@ label {
     -moz-transform: scale(.25, .25) translate(-2700px, -1780px);
     transform: scale(.25, .25) translate(-2700px, -1780px);
   }
+
   #cardiframe {
     width: 1860px;
     height: 1180px; //box-shadow: 0.5px 0.87px 4px 0 #b7bcc1;
@@ -801,6 +1169,7 @@ label {
   -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
   transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
   width: 100%;
+
   span {
     position: relative;
     padding: 5px 5px;
@@ -848,6 +1217,7 @@ label {
   font-size: 14px;
   font-weight: 700;
   color: #333;
+
   span {
     width: auto;
     float: left;
@@ -877,8 +1247,10 @@ label {
   margin: 30px auto;
   font-size: 14px;
   color: #666;
+
   span {
     color: #666;
+
     strong {
       font-size: 16px;
       font-weight: 400;
@@ -893,14 +1265,17 @@ label {
 
 .baseversion {
   text-align: center;
+
   h3 {
     font-size: 20px;
     color: #2c7de5;
     margin-top: 10px;
   }
+
   img {
     margin: 40px auto 40px auto;
   }
+
   p {
     font-size: 14px;
     color: #333;
@@ -915,6 +1290,7 @@ label {
 
 .mdetailwrap {
   position: relative;
+
   .goback {
     position: absolute;
     top: 10px;
@@ -949,6 +1325,7 @@ label {
   .messtop {
     width: 100%;
   }
+
   .messmid {
     width: 243px;
     margin-left: 4px;
@@ -956,6 +1333,7 @@ label {
     background: #e5e5ea;
     border-radius: 20px;
   }
+
   .messbom {
     width: 100%;
   }
@@ -973,6 +1351,7 @@ label {
   .el-radio {
     margin: 10px 0;
   }
+
   .el-radio+.el-radio {
     margin-left: 0;
   }
@@ -995,6 +1374,7 @@ label {
   height: auto;
   min-height: 52px;
   float: left;
+
   img {
     width: auto;
     height: auto;
@@ -1003,9 +1383,11 @@ label {
 
 .color-set-wrap {
   position: relative;
+
   .colortext {
     margin: 0 20px;
   }
+
   .colorbtn.el-button {
     width: 120px;
     height: 40px;
@@ -1015,6 +1397,7 @@ label {
     color: #fff;
     font-size: 16px;
   }
+
   .color-item {
     width: 32px;
     height: 32px;
@@ -1023,6 +1406,7 @@ label {
     border-radius: 50%;
     margin: -10px 8px -10px 0;
   }
+
   .el-color-picker {
     position: absolute;
     top: 0;
@@ -1030,15 +1414,18 @@ label {
     opacity: 0;
     filter: alpha(opacity=0);
   }
+
   .el-color-picker__trigger {
     width: 120px;
     height: 40px;
     border: none;
+
     .el-color-picker__color {
       border: none;
       border-radius: 24px;
       overflow: hidden;
     }
+
     .el-color-picker__icon {
       display: none;
     }
@@ -1052,9 +1439,11 @@ label {
 .comitemwrap {
   padding: 10px 0;
   border-bottom: 1px solid #ccc;
+
   &:last-child {
     border: none;
   }
+
   .comlogo {
     width: 46px;
     height: 46px;
@@ -1062,10 +1451,12 @@ label {
     float: left;
     border: 1px solid #e7e8e9;
     overflow: hidden;
+
     img {
       width: 100%;
     }
   }
+
   .comname {
     width: auto;
     height: 46px;
@@ -1076,6 +1467,7 @@ label {
     display: inline-block;
     float: left;
   }
+
   .el-button {
     padding: 12px 10px;
   }
@@ -1091,11 +1483,13 @@ label {
 
 .roletreewrap {
   padding: 20px 0;
+
   .el-tree--highlight-current {
     .el-tree-node.is-current>.el-tree-node__content {
       background: #409EFF;
       color: #fff;
     }
+
     /* .el-tree-node.is-expanded.is-focusable.is-checked{
       .el-tree-node__content {
         background: #409EFF;
@@ -1103,11 +1497,13 @@ label {
       }
     } */
   }
+
   .is-expanded .is-current {
     .el-tree-node__content {
       background: #409EFF;
       color: #fff;
     }
+
     .el-tree-node__children {
       .el-tree-node__content {
         background: #fff;
@@ -1115,10 +1511,12 @@ label {
       }
     }
   }
+
   .el-tree-node__label {
     background: url('../assets/img/roleroot.png') left center no-repeat;
     text-indent: 24px;
   }
+
   .el-tree-node__children {
     .el-tree-node__label {
       background: url('../assets/img/role.png') left center no-repeat;
@@ -1130,6 +1528,7 @@ label {
 .arrowitem {
   display: inline-block;
   float: left;
+
   &.arrows {
     padding: 25px 0 0 20px;
   }
@@ -1138,26 +1537,32 @@ label {
 .visitsetwrap {
   border: 1px solid #ccc;
   padding: 20px;
+
   .visitsetitem {
     padding: 20px 0;
     border-bottom: 1px solid #ccc;
     position: relative;
+
     &:last-child {
       border: none;
     }
   }
+
   .setitembom {
     color: #000;
     cursor: pointer;
     margin-right: 10px;
+
     i {
       color: #56aad5;
       margin-right: 10px;
     }
+
     img {
       margin: 5px 10px -3px 0;
     }
   }
+
   .arrange {
     position: absolute;
     right: 0;
@@ -1165,6 +1570,7 @@ label {
     width: 24px;
     height: auto;
     overflow: hidden;
+
     span {
       width: 24px;
       height: 14px;
@@ -1172,14 +1578,17 @@ label {
       cursor: pointer;
       margin: 0;
       color: #56aad5;
+
       &.disabled {
         opacity: .3;
       }
     }
+
     .up {
       margin-bottom: 3px;
       background: url('../assets/img/up.png') center center no-repeat;
     }
+
     .down {
       background: url('../assets/img/down.png') center center no-repeat;
     }
@@ -1191,6 +1600,12 @@ label {
   display: block;
 }
 
+.lf-el-tabs {
+  .el-tabs__new-tab {
+    color: #2196F3;
+    border-color: #2196F3;
+  }
+}
 
 /* div.mce-edit-area {
   iframe {
@@ -1221,16 +1636,19 @@ label {
   margin: 14px 24px 0 20px;
   position: relative;
   cursor: pointer;
+
   .versionleft {
     height: 22px;
     width: auto;
     background: url('../assets/img/versionl.png') left center no-repeat;
     padding-left: 10px;
+
     .versionright {
       height: 22px;
       width: auto;
       background: url('../assets/img/versionr.png') right center no-repeat;
       padding-right: 10px;
+
       .versionmiddle {
         height: 22px;
         line-height: 22px;
@@ -1251,15 +1669,19 @@ label {
   max-height: 120px;
   border: 1px solid #ccc;
   overflow: auto;
+
   li {
     padding: 0 10px;
     line-height: 37px;
+
     .el-checkbox {
       margin-right: 6px;
     }
+
     &:nth-child(2n) {
       background: #fff;
     }
+
     &:nth-child(2n+1) {
       background: #d5e8fc;
     }
@@ -1269,12 +1691,14 @@ label {
 .exportwap {
   border: 1px solid #c1c1c1;
   padding: 0 30px;
+
   .exsection {
     border-bottom: 1px solid #c1c1c1;
     position: relative;
     display: block;
     padding: 20px 0;
     color: #333;
+
     label {
       width: 18px;
       height: 18px;
@@ -1282,12 +1706,14 @@ label {
       position: absolute;
       right: 0;
       top: 20px; //background: url(../img/choice/c1_off.png) left center no-repeat;
+
       input {
         opacity: 0;
         width: 100%;
         height: 100%;
         margin: 0;
       }
+
       &.on {
         //background: url(../img/choice/c1_on.png) left center no-repeat;
       }
@@ -1360,6 +1786,7 @@ label {
   overflow: hidden;
   padding: 0;
   list-style: none;
+
   li {
     cursor: pointer;
     width: 222px;
@@ -1372,20 +1799,25 @@ label {
     margin-bottom: 10px;
     color: #666;
     position: relative;
+
     span {
       display: block;
     }
+
     .v {
       font-size: 20px;
     }
+
     .d {
       font-size: 16px;
       font-weight: 400;
     }
+
     &.active {
       color: #67bf6b;
       font-weight: 700;
       border-color: #67bf6b;
+
       .arrow {
         width: 26px;
         height: 26px;
@@ -1444,11 +1876,13 @@ label {
     overflow: hidden;
     float: left;
     display: inline-block;
+
     img {
       width: 100%;
       height: 100%;
     }
   }
+
   .vname {
     height: 28px;
     line-height: 28px;
@@ -1525,6 +1959,7 @@ label {
 
 .box-card {
   text-align: left;
+
   .el-card__header {
     padding: 5px 20px;
     background: rgb(238, 238, 238);
@@ -1553,12 +1988,15 @@ label {
 
 .visitwrap {
   overflow: hidden;
+
   &:nth-child(2n+1) {
     background: #fff;
   }
+
   &:nth-child(2n) {
     background: #f9f9f9;
   }
+
   .vavatar {
     width: 144px;
     height: 144px;
@@ -1567,9 +2005,11 @@ label {
     margin-right: -100%;
     position: relative;
     z-index: 99;
+
     img {
       width: 100%;
     }
+
     .vstatus {
       position: absolute;
       top: 4px;
@@ -1586,6 +2026,7 @@ label {
       color: #fff;
       font-size: 12px;
     }
+
     .vavatar-mask {
       width: 100%;
       height: 100%;
@@ -1596,26 +2037,32 @@ label {
       z-index: 990;
       color: #f13333;
       text-align: center;
+
       .el-button,
       i {
         margin-top: 40px;
       }
     }
   }
+
   .vcontent {
     float: left;
     width: 100%;
     text-align: left;
     position: relative;
+
     .vcontentheader {
       padding: 0 0 10px 0;
       margin-left: 160px;
       border-bottom: 1px solid #ccc;
+
       .vdatewrap {
         float: right;
+
         p {
           line-height: 18px;
         }
+
         &.singledate {
           p {
             line-height: 36px;
@@ -1623,9 +2070,11 @@ label {
         }
       }
     }
+
     .vcontentfooter {
       margin-left: 150px;
     }
+
     .itemcheck {
       position: absolute;
       bottom: 20px;
@@ -1634,9 +2083,9 @@ label {
   }
 }
 
-.showPhotoPic{
+.showPhotoPic {
   width: 42px;
-  height:42px;
+  height: 42px;
   display: inline-block;
   float: left;
   margin: 2px;
@@ -1694,26 +2143,31 @@ label {
     margin: 0;
     color: rgba(255, 255, 255, .4);
     color: #ccc\9;
+
     a {
       color: rgba(255, 255, 255, .4);
       color: #ccc\9;
     }
   }
+
   &.whiteheader {
     background: $baseWhiteBgColor;
     color: #2a2c2f;
+
     p {
       text-align: center;
       line-height: 28px;
       margin: 0;
       color: rgba(0, 0, 0, .4);
       color: #000\9;
+
       a {
         color: rgba(0, 0, 0, .4);
         color: #000\9;
       }
     }
   }
+
   &.posfooter {
     position: relative;
     bottom: 0;
@@ -1732,6 +2186,7 @@ label {
     width: 100%;
     height: 238px;
     background-size: 100% 100%;
+
     .mobanwinstop {
       text-align: center;
       padding: 60px 0;
@@ -1740,8 +2195,10 @@ label {
       line-height: 36px;
     }
   }
+
   .el-dialog__body {
     padding: 0;
+
     .mobanwins {
       text-align: center;
       padding: 30px 0;
@@ -1754,6 +2211,7 @@ label {
   width: 100%;
   overflow: hidden;
   text-align: left;
+
   .lrmenu-left,
   .lrmenu-right {
     width: 50%;
@@ -1763,6 +2221,7 @@ label {
     overflow-y: auto;
     float: left;
   }
+
   .lrmenu-check-wrap {
     height: auto;
     max-height: 200px;
@@ -1772,12 +2231,15 @@ label {
 
 .lrmenu-item {
   line-height: 36px;
+
   &.nopointer {
     pointer-events: none;
   }
+
   img {
     margin: 0 5px;
   }
+
   .lrmenu-item-close {
     float: right;
   }
@@ -1788,6 +2250,7 @@ label {
   overflow: hidden;
   font-size: 12px;
   cursor: pointer;
+
   .c_selector_navbar_item {
     max-width: 33%;
     overflow: hidden;
@@ -1799,6 +2262,7 @@ label {
     cursor: pointer;
     font-size: 14px;
     padding-left: 22px;
+
     .iconfont {
       position: absolute;
       left: 2px;
@@ -1810,6 +2274,7 @@ label {
 
 .lrmenu-check-item {
   position: relative;
+
   .lrmenu-check-next {
     position: absolute;
     right: 0;
@@ -1826,6 +2291,7 @@ label {
     border-left: 1px solid #eee;
     -webkit-text-stroke-width: inherit;
     text-stroke-width: inherit;
+
     &.itemgray {
       pointer-events: none;
       color: gray;
@@ -1834,19 +2300,20 @@ label {
 }
 
 .canvascode {
-  width: 96px!important;
-  height: 96px!important;
+  width: 96px !important;
+  height: 96px !important;
 }
 
 .downcode {
-  width: 126px!important;
-  height: 126px!important;
+  width: 126px !important;
+  height: 126px !important;
 }
 
 @media (max-width: 460px) {
   .headerwrap {
     width: 1200px;
   }
+
   .login-container .login-form {
     width: 100%;
     -webkit-box-shadow: none;
@@ -1858,6 +2325,7 @@ label {
   .headerwrap {
     width: 1200px;
   }
+
   .login-container .login-form {
     width: 100%;
     -webkit-box-shadow: none;
@@ -1869,6 +2337,7 @@ label {
   .headerwrap {
     width: 1200px;
   }
+
   .login-container .login-form {
     width: 100%;
     -webkit-box-shadow: none;
@@ -1880,6 +2349,7 @@ label {
   .headerwrap {
     width: 1200px;
   }
+
   .login-container .login-form {
     width: 100%;
     -webkit-box-shadow: none;
@@ -1891,6 +2361,7 @@ label {
   .headerwrap {
     width: 1200px;
   }
+
   .login-container .login-form {
     width: 100%;
     -webkit-box-shadow: none;
@@ -1904,6 +2375,7 @@ label {
     margin: 0 auto;
     padding: 0;
   }
+
   .login-container .login-form {
     width: 420px;
   }

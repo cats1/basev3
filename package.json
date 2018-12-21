@@ -14,7 +14,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "fastclick": "^1.0.6",
     "html2canvas": "^1.0.0-alpha.12",
+    "js-md5": "^0.7.3",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "lrz": "^4.9.40",
@@ -23,6 +25,7 @@
     "vue": "^2.5.2",
     "vue-event-calendar": "^1.5.2",
     "vue-i18n": "^7.3.2",
+    "vue-print-nb": "^1.0.3",
     "vue-qart": "^2.1.1",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^2.6.0",

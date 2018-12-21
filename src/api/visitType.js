@@ -7,6 +7,21 @@ export function getVisitorType(data) {
     data
   })
 }
+export function GetAllTemplateType(data) {
+  return request({
+    url: '/GetAllTemplateType',
+    method: 'post',
+    data
+  })
+}
+//delUsertemplate
+export function delUsertemplate(data) {
+  return request({
+    url: '/delUsertemplate',
+    method: 'post',
+    data
+  })
+}
 //addVisitorType
 export function addVisitorType(data) {
   return request({

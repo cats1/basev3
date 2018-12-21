@@ -9,7 +9,7 @@ module.exports = {
   stageLink: true,
   signPdf: true,
   empLogin: true,
-  empPwdShow: false,
+  empPwdShow: true,
   empActiveShow: true,
   empPhoneCheck: true,
   empWorkNoCheck: false,

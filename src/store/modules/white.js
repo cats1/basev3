@@ -1,4 +1,4 @@
-import { setEmpWlist,getEmpWlist,getOverTimeList,getDeptByEmpid } from '@/api/white'
+import { setEmpWlist,getEmpWlist,getOverTimeList,getDeptByEmpid,updateVisitorManager } from '@/api/white'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
@@ -45,6 +45,24 @@ const user = {
                   	  message: i18n.messages[local]['updateSuccess'],
                   	  type: 'success'
                 	})
+		          }
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		updateVisitorManager({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        updateVisitorManager(info).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	let local = this.state.app.language
+                    Message({
+                  	  message: i18n.messages[local]['updateSuccess'],
+                  	  type: 'success'
+                	})
+                	setCache('visitorManager',info.visitorManager)
 		          }
 		          resolve(response)
 		        }).catch(error => {

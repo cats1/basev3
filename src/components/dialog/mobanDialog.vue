@@ -1,10 +1,15 @@
 <template>
     <el-dialog class="mobandialog"
-	  :visible.sync="isShow"
+	  :visible.sync="isShow" :modal="false"
 	  width="40%" @close="getKnow">
 	   <div slot="title" class="mobanwinstop">
 	   	<img :src="iconsrc" alt="">
-	   	<p>{{$t('moban.tip')}}</p>
+	   	<template v-if="inviteMoreShow">
+        <p>{{$t('ApproveSuccess')}}</p>
+      </template>
+      <template v-else>
+        <p>{{$t('moban.tip')}}</p>
+      </template>
 	   </div>
 	   <div class="mobanwins">
 	   	 <p>{{pdesc}}</p>
@@ -32,7 +37,8 @@ export default {
   	return {
   	  isShow: this.mobanFlag,
   	  iconsrc: require('@/assets/img/plane1.png'),
-  	  pdesc: ''
+  	  pdesc: '',
+      inviteMoreShow: process.env.inviteMoreShow || false,
   	}
   },
   watch: {

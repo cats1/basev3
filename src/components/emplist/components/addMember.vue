@@ -5,7 +5,8 @@
 		  :title="$t('btn.addMember')"
 		  :visible.sync="dialogVisible"
 		  width="50%" @close="handleClose">
-      <vemp-menu :search-flag="dialogVisible" :left-data="list" :right-data="vemp" @menukit="getSEmp"></vemp-menu>
+      <!-- <vemp-menu :search-flag="dialogVisible" :left-data="list" :right-data="vemp" @menukit="getSEmp"></vemp-menu> -->
+      <vemp-menu-search :s-show="dialogVisible" :left-data="list" :right-data="vemp" @menukit="getSEmp"></vemp-menu-search>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
 		    <el-button type="primary" @click="saveProject">{{$t('btn.confirmBtn')}}</el-button>
@@ -17,10 +18,11 @@
 import {getCache} from '@/utils/auth'
 import {formatDate} from '@/utils/index'
 import vempMenu from '@/components/menu/vempMenu'
+import vempMenuSearch from '@/components/menu/vempMenuSearch'
 import {stringToArray,arrayToString} from '@/utils/common'
 export default {
   props: ['parent','dlist','vemp'],
-  components: {vempMenu},
+  components: {vempMenu,vempMenuSearch},
   data () {
   	return {
   	  dialogVisible: false,
@@ -47,7 +49,8 @@ export default {
           type: 'error'
         })
       } else {
-        this.getEmpList()
+        this.dialogVisible = true
+        //this.getEmpList()
       }
     },
     getSEmp (val) {
@@ -70,6 +73,14 @@ export default {
       })
     },
     saveProject () {
+      if (this.form.empids.length == 0) {
+        this.$message({
+          showClose: true,
+          message: this.$t('selectEmpTip'),
+          type: 'warning'
+        })
+        return false
+      }
       this.$store.dispatch('addEmpRole',this.form).then(res => {
         let {status} = res
         if (status === 0) {

@@ -29,7 +29,6 @@ export default {
   },
   methods: {
     showDown () {
-      console.log(888)
       this.isShow = !this.isShow
     },
     getSwitchValue (value) {

@@ -93,7 +93,6 @@ export default {
   		this.dialogVisible  = true
     },
     update (value,item,k) {
-      console.log(k)
       this.updateKey = k
       this.form = {
         hid: item.hid,
@@ -104,7 +103,12 @@ export default {
       }
       this.dialogVisible  = true
     },
-    selectMonth(month, year) {},
+    selectMonth(month, year,day) {
+      let date = new Date()
+      let nYear = date.getFullYear()
+      this.calendar1.value = [year,month,day]
+      this.getHoliday(new Date(year + '-01-01'))
+    },
     selectYear(year) {
       this.getHoliday(new Date(year + '-01-01'))
     },

@@ -56,7 +56,7 @@ export default {
     return {
       hasChange: false,
       hasInit: false,
-      tinymceId: this.id || 'vue-tinymce-' + +new Date()
+      tinymceId: this.id || 'vue-tinymce-' + new Date()
     }
   },
   computed: {

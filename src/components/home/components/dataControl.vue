@@ -2,14 +2,14 @@
 	<div>
 		<el-row :gutter="20">
 			<el-col :span="8">
-				<data-left class="bgwhite" @getvlist="getList"></data-left>
+				<data-left :sindex="startIndex" :scount="requestedCount" class="bgwhite" @getvlist="getList" @getesl="getEsl"></data-left>
 			</el-col>
 			<el-col :span="16">
 				<data-right class="bgwhite" :ldata="vlist"></data-right>
 			</el-col>
 		</el-row>
 		<el-row>
-			<data-bottom class="bgwhite" :vdata="vlist" :vtype="vtype" :nform="nform"></data-bottom>
+			<data-bottom class="bgwhite" :vdata="vlist" :vtype="vtype" :nform="nform" @eslpage="setEslPage" @eslcurrent="setEslCurrent"></data-bottom>
 		</el-row>
 	</div>
 </template>
@@ -24,7 +24,10 @@ export default {
   	  vlist: [],
   	  dataArray: [],
   	  vtype: 0,
-  	  nform: {}
+  	  nform: {},
+      eslform: [],
+      startIndex: 1,
+      requestedCount: 10
   	}
   },
   watch: {
@@ -35,7 +38,18 @@ export default {
       this.vlist = val
       this.vtype = type
       this.nform = nform
-  	}
+  	},
+    getEsl (val,type,nform) {
+      this.vlist = val
+      this.vtype = type
+      this.nform = nform
+    },
+    setEslPage (val) {
+      this.requestedCount = val
+    },
+    setEslCurrent (val) {
+      this.startIndex = val
+    }
   }
 }
 </script>

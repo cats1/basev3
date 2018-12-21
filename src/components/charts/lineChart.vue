@@ -28,10 +28,7 @@ export default {
       type: String,
       default: '590px'
     },
-    piedata: {
-      type: Array,
-      default: []
-    }
+    piedata: null
   },
   data () {
     return {
@@ -58,11 +55,16 @@ export default {
   },
   created () {},
   mounted() {
-    if (this.piedata.length>0) {
-      this.lineTitle = this.ptitle === '' ? this.$t('visitData') : this.ptitle
-      this.setdata()
-      this.pieShow = true
+    if (typeof this.piedata == 'object') {
+      
+    } else {
+      if (this.piedata.length>0) {
+        this.lineTitle = this.ptitle === '' ? this.$t('visitData') : this.ptitle
+        this.setdata()
+        this.pieShow = true
+      }
     }
+    
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -77,9 +79,15 @@ export default {
       let xData = []
       let yData = []
       let datas = []
-      this.piedata.forEach(function(element, index) {
+      let pieArray = []
+      if (this.piedata.constructor == Array) {
+        pieArray = this.piedata
+      } else {
+        pieArray = this.piedata.list
+      }
+      pieArray.forEach(function(element, index) {
         let hit = 0
-        let dates = element.appointmentDate ? new Date(element.appointmentDate) : new Date(element.visitdate)
+        let dates = element.appointmentDate ? new Date(element.appointmentDate) : new Date(element.appEntryDate)
         datas.forEach(function(ele,eindex){
           if (ele.x === formatDate(dates,'yyyy-MM-dd')) {
             ele.y++

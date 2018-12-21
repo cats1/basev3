@@ -23,16 +23,18 @@ export default {
   },
   methods: {
   	regPhoto () {
-  	  let nform = {
-  	  	userid: getCache('userid'),
-  	  	rids: [this.rform.rid]
-  	  }
-  	  this.$store.dispatch('updateResidentFace',nform).then(res => {
-  	  	let {status,result} = res
-  	  	if (status === 0) {
-  	  	  this.rform.face = 0
-  	  	} else {}
-  	  })
+      if (this.rform.rid) {
+        let nform = {
+          userid: getCache('userid'),
+          rids: [this.rform.rid]
+        }
+        this.$store.dispatch('updateResidentFace',nform).then(res => {
+          let {status,result} = res
+          if (status === 0) {
+            this.rform.face = 0
+          } else {}
+        })
+      }
   	}
   }
 }

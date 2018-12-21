@@ -25,6 +25,9 @@
           <el-form-item :label="$t('departNo')" prop="deptNo" >
             <el-input maxlength="2" v-model="departform.deptNo"></el-input>
           </el-form-item>
+          <el-form-item :label="$t('visitCount')" prop="vMaxCount" >
+            <el-input v-model.number="departform.vMaxCount"></el-input>
+          </el-form-item>
         </template>
       </el-form>
       <el-dialog
@@ -53,6 +56,22 @@ export default {
   props: ['parent','dlist'],
   components: { departMenu },
   data () {
+    var checkCount = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('不能为空'));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('请输入数字值'));
+          } else {
+            if (parseInt(value) > 50) {
+              callback(new Error('最多50人'));
+            } else {
+              callback();
+            }
+          }
+        }, 1000);
+    };
   	return {
   	  dialogVisible: false,
       innerVisible: false,
@@ -61,6 +80,7 @@ export default {
         deptNo: '',
   	  	parentId: '',
         deptManagerEmpid: '',
+        vMaxCount: '',
   	  	userid: getCache('userid')
   	  },
   	  rules: {
@@ -69,6 +89,9 @@ export default {
         ],
         deptNo: [
           { required: true, message: this.$t('formCheck.validName.tip8')}
+        ],
+        vMaxCount: [
+          { required: true, validator: checkCount }
         ]
   	  },
       parentObj: this.parent,
@@ -127,6 +150,7 @@ export default {
                 deptNo: this.departform.deptNo,
                 parentId: this.departform.parentId,
                 deptManagerEmpid: this.departform.deptManagerEmpid,
+                vMaxCount: this.departform.vMaxCount,
                 userid: getCache('userid')
               }
             }
@@ -158,6 +182,7 @@ export default {
                 deptNo: this.departform.deptNo,
                 parentId: this.departform.parentId,
                 deptManagerEmpid: this.departform.deptManagerEmpid,
+                vMaxCount: this.departform.vMaxCount,
                 userid: getCache('userid')
               }
             }

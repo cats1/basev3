@@ -1,6 +1,6 @@
 <template>
   <el-collapse-transition>
-        <div v-show="pieShow" :class="className" :id="id" :style="{height:height,width:width}"></div>
+    <div v-show="pieShow" :class="className" :id="id" :style="{height:height,width:width}"></div>
   </el-collapse-transition>	
 </template>
 <script>
@@ -51,7 +51,6 @@ export default {
       }
     } 
   },
-  created () {},
   mounted() {
     if (this.piedata.length>0) {
       this.pieShow = true

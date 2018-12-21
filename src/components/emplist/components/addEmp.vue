@@ -31,6 +31,9 @@
           <template v-if="!onwork">
             <el-form-item>
               <el-checkbox v-model="checked" @change="setEmptype">{{$t('emplist.pad')}}</el-checkbox>
+              <template v-if="onworkManager">
+                <el-checkbox v-model="defaultnotify" @change="setDefaultnotify">{{$t('onWorkManager')}}</el-checkbox>
+              </template>              
             </el-form-item>
           </template>
           <el-row>
@@ -166,7 +169,7 @@
           <el-tab-pane :label="$t('Proxysettings')" name="second" >
           <el-form :model="proxy" :rules="rules" ref="porxyform" label-width="100px" class="demo-ruleForm">
             <el-form-item :label="$t('agentName')" prop="proxyId">
-              <el-select v-model="proxy.proxyId" @change="setEmpProxy">
+              <el-select v-model="proxy.proxyId" filterable @change="setEmpProxy">
                 <el-option
                   v-for="item in emplist"
                   :key="item.empid"
@@ -213,7 +216,7 @@
       :title="$t('depart.selectDepart')"
       :visible.sync="innerVisible"
       append-to-body>
-        <depart-menu :left-data="dlist" :check-num="10" :right-data="departArray" @menukit="setdepart"></depart-menu>
+        <depart-menu :menu-type="1" :left-data="dlist" :check-num="10" :right-data="departArray" @menukit="setdepart"></depart-menu>
         <span slot="footer" class="dialog-footer">
           <el-button @click="innerVisible = false">{{$t('btn.cancelBtn')}}</el-button>
           <el-button type="primary" @click="saveSelect">{{$t('btn.confirmBtn')}}</el-button>
@@ -367,7 +370,12 @@ export default {
       workbay: [],
       agentShow: process.env.agentShow || false,
       faceTextShow: false,
-      workbayCheck: process.env.workbayCheck || false
+      workbayCheck: process.env.workbayCheck || false,
+      deptidToString: process.env.deptidToString || false,
+      comAddEmpShow: process.env.comAddEmpShow || false,
+      defaultnotify: false,
+      onworkManager: process.env.onworkManager || false,
+      defaultInterviewSet: process.env.defaultInterviewSet || false
   	}
   },
   watch: {
@@ -410,7 +418,11 @@ export default {
       }
       if (!isEmptyObject(val)) {
         this.form = val
+        if (val.empPhone.length) {}
         this.getDeptByEmpid()
+        if (val.defaultNotify == 2) {
+          this.defaultnotify = true
+        }
         if (val.egids) {
           this.egids = stringToArray(val.egids)
         }
@@ -496,9 +508,24 @@ export default {
     },
     handleClick () {
       if (this.activeName2 == 'second') {
+        this.proxy = {
+          proxyId: '',
+          proxyName: '',
+          proxyStatus: 0,
+          startDate: '',
+          endDate: ''
+        }
+        this.pdateRange = []        
         this.GetEmpList()
       } else if (this.activeName2 == 'third') {
-
+        this.iproxy = {
+          proxyId: '',
+          proxyName: '',
+          proxyStatus: 0,
+          startDate: '',
+          endDate: ''
+        }
+        this.getVisitProxyForProxy()
       }
     },
     getDeptByEmpid () {
@@ -522,7 +549,8 @@ export default {
                 children: [],
                 id: element['deptid'],
                 dpno: element['deptNo'],
-                dpRole: 'parent'
+                dpRole: 'parent',
+                strdid: element['strDeptid']
               }
               darray.push(nobj)
             })
@@ -551,28 +579,48 @@ export default {
     },
     editBtn () {
       if (this.parentObj.dpRole == 'root') {
-        if (this.empWorkNoCheck) {
-          if (this.editType == 1) {
+        if (this.comAddEmpShow) {
+          if (this.empWorkNoCheck) {
+            if (this.editType == 1) {
+              this.$emit('clickit',this.btnType)
+              this.dialogVisible = true
+              this.empnoread = true
+            } else {
+              this.$message({
+                showClose: true,
+                message: this.$t('pleaseDepart'),
+                type: 'warning'
+              })
+            }
+          } else {
             this.$emit('clickit',this.btnType)
             this.dialogVisible = true
             this.empnoread = true
-          } else {
-            this.$message({
-              showClose: true,
-              message: this.$t('pleaseDepart'),
-              type: 'warning'
-            })
+            if (this.editType == 1) {
+              this.empnoread = true
+            } else {
+              this.empnoread = false
+            }
           }
         } else {
-          this.$emit('clickit',this.btnType)
-          this.dialogVisible = true
-          this.empnoread = true
-          if (this.editType == 1) {
-            this.empnoread = true
+          if (!this.curEmp.empid) {
+            this.$message({
+              showClose: true,
+              message: this.$t('comAddEmpShowText'),
+              type: 'warning'
+            })
+            this.$emit('clickit',0)
           } else {
-            this.empnoread = false
-          }
-        }             
+            this.$emit('clickit',this.btnType)
+            this.dialogVisible = true
+            this.empnoread = true
+            if (this.editType == 1) {
+              this.empnoread = true
+            } else {
+              this.empnoread = false
+            }
+          }         
+        }
       } else {
         this.$emit('clickit',this.btnType)
         this.dialogVisible = true
@@ -606,6 +654,7 @@ export default {
           }
         }
       }
+      this.activeName2 = 'first'
     },
     getTakePhoto (url) {
       this.form.avatar = url
@@ -673,7 +722,15 @@ export default {
         if (status === 0) {
           if (result.length > 0) {
             this.iproxy.proxyId = result[0].empid
-            this.iproxyList = result
+            this.iproxyList = []
+            let _self = this
+            if (result.length > 0) {
+              result.forEach(function(element,index){
+                if (element.proxyStatus == 1) {
+                  _self.iproxyList.push(element)
+                }
+              })
+            }
           }
         }
       })
@@ -723,11 +780,23 @@ export default {
         this.$refs['empform'].validate((valid) => {
           if (valid) {
             let darray = []
+            let _self = this
             this.departArray.forEach(function(element,index){
-              if (element.pid !=='') {
-                darray.push(element.pid)
+              if (!_self.deptidToString) {
+                if (element.pid !=='') {
+                  darray.push(element.pid)
+                }
+              } else {
+                if (element.strdid !=='') {
+                  darray.push(element.strdid)
+                }
               }
             })
+            /*if (darray[0] == 0) {
+              this.form.deptIds = [-1]
+            } else {
+              this.form.deptIds = darray
+            }*/
             this.form.deptIds = darray
             if (this.editType === 0) {
               this.addEmployee()
@@ -855,9 +924,16 @@ export default {
     },
     useOnEmp () {
       let darray = []
+      let _self = this
       this.departArray.forEach(function(element,index){
-        if (element.pid !=='') {
-          darray.push(element.pid)
+        if (!_self.deptidToString) {
+          if (element.pid !=='') {
+            darray.push(element.pid)
+          }
+        } else {
+          if (element.strdid !=='') {
+            darray.push(element.strdid)
+          }
         }
       })
       this.form.deptIds = darray
@@ -897,9 +973,16 @@ export default {
     },
     doStopEmp () {
       let darray = []
+      let _self = this
       this.departArray.forEach(function(element,index){
-        if (element.pid !=='') {
-          darray.push(element.pid)
+        if (!_self.deptidToString) {
+          if (element.pid !=='') {
+            darray.push(element.pid)
+          }
+        } else {
+          if (element.strdid !=='') {
+            darray.push(element.strdid)
+          }
         }
       })
       this.form.deptIds = darray
@@ -977,9 +1060,16 @@ export default {
     saveSelect () {
       this.departArray = this.menuList
       let arr = []
+      let _self = this
       this.departArray.forEach(function(element, index) {
-        if (element.pid !=='') {
-          arr.push(element.pid)
+        if(!_self.deptidToString){
+          if (element.pid !=='') {
+            arr.push(element.pid)
+          }
+        } else {
+          if (element.strdid !=='') {
+            arr.push(element.strdid)
+          }
         }
       })
       this.form.deptIds = arr
@@ -993,6 +1083,7 @@ export default {
       this.empnoread = false
       this.dateRange = []
       this.egids = []
+      this.defaultnotify = false
       this.form = {
         userid: getCache('userid'),
         avatar: '',
@@ -1018,6 +1109,17 @@ export default {
       this.$refs['empform'].clearValidate()
       this.$emit('closeempkit',this.form)
       
+    },
+    setDefaultnotify (val) {
+      let defaultnotify = 0
+      if (val) {
+        defaultnotify = 2
+      }
+      let nform = [{
+        'employeeid': this.form.empid,
+        'defaultnotify': defaultnotify
+      }]
+      this.$store.dispatch('updateDefaultNotify',nform)
     }
   }
 }

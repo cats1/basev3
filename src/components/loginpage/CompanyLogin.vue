@@ -1,7 +1,7 @@
 <template>
   <el-form class="login-form" auto-complete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
         <el-row>
-      <el-form-item prop="username">
+      <el-form-item prop="email">
           <span class="svg-container svg-container_login">
             <i class="fa fa-user"></i>
           </span>
@@ -108,7 +108,7 @@ export default {
               }
               this.$store.dispatch('subAccountLogin', newForm).then((resp) => {
                   this.loading = false
-                  window.location.href = 'company.html'
+                  //window.location.href = 'company.html'
               }).catch(() => {
                 this.loading = false
               })

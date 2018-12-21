@@ -2,7 +2,12 @@
 	<div class="marginbom20">
       <notice-show >
         <div slot="header" class="clearfix">
-          <one-notice :is-box="false" :is-no-padding="false" :n-icon="imgSrc" :n-title="$t('approve.title')" :n-desc="$t('approve.desc')" :btn-flag="true" @btn-click="showDown"></one-notice>
+          <template v-if="approveIsMore">
+            <one-notice :is-box="false" :is-no-padding="false" :n-icon="imgSrc" :n-title="$t('approve.title')" :n-desc="$t('approve.desc1')" :btn-flag="true" @btn-click="showDown"></one-notice>
+          </template>
+          <template v-else>
+            <one-notice :is-box="false" :is-no-padding="false" :n-icon="imgSrc" :n-title="$t('approve.title')" :n-desc="$t('approve.desc')" :btn-flag="true" @btn-click="showDown"></one-notice>
+          </template>          
         </div>        
       </notice-show>
 	</div>
@@ -16,7 +21,8 @@ export default {
   data () {
   	return {
       imgSrc: require('@/assets/img/approve.png'),
-      isShow: false
+      isShow: false,
+      approveIsMore: process.env.approveIsMore || false
   	}
   },
   methods: {

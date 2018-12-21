@@ -23,6 +23,23 @@ export default {
     vset: '访客类型',
     signup: '注册'
   },
+  peopleSearch: '人员',
+  Approve: '审批',
+  ApproveSuccess: '审批发送成功',
+  newApprove: '新增审批流',
+  level: '层级',
+  defaultInterviewPerson: '默认接待人',
+  onWorkManager: '加班管理人',
+  operator: '经办人',
+  operatorSet: '设置经办人',
+  oneleast: '至少添加一个',
+  mostFive: '最多5个',
+  tempNameNotNull: '模板名称不能为空',
+  roleNameNotNull: '角色名不能为空',
+  roleGroupNameNotNull: '角色组名不能为空',
+  loading: '正在加载',
+  tempName: '模板名称',
+  comAddEmpShowText: '请选择部门添加员工',
   passRecord: '通行记录',
   idcard: '身份证',
   carId: '驾驶证',
@@ -202,7 +219,7 @@ export default {
   visittype: '拜访类型',
   visitcause: '拜访事由',
   visitData: '访客数据',
-  visitCount: '访客数量',
+  visitCount: '访客人数',
   recepaccount: '接待账号',
   contactvtype: '选择关联拜访事由',
   contactvtype1: '关联拜访事由',
@@ -1001,6 +1018,7 @@ export default {
   approve: {
     title: '设置审批流程',
     desc: '根据拜访区域设置审批人，预约需经过审批人审批后方可通过。',
+    desc1: '根据访客类型设置审批人，预约需经过审批人审批后方可通过。',
     atitle: '审批流程开关',
     adesc: '审批功能打开后，访问申请需要根据审批条件进行多级审批',
     astitle: '设置审批条件',
@@ -1201,7 +1219,7 @@ export default {
     619: '所选订单中包含正在开票或者已开票的订单',
     731: '读头编号已存在',
     1117: '无效的访客',//20181009改无效的员工为无效的访客
-    1119: '无效的员工'//20181009改无效的员工该员工不存在为无效的员工
+    1119: '登录失败'//20181009改无效的员工该员工不存在为无效的员工
   },
   homepage: {
     name: '官网首页',

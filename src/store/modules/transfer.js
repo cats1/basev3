@@ -26,9 +26,9 @@ const user = {
                 }
               }
             }
+            setToken(result.token)
+            resolve(response)
           }
-          setToken(result.token)
-          resolve(response)
         }).catch(error => {
           reject(error)
         })

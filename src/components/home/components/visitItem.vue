@@ -204,10 +204,13 @@ export default {
             this.statusText = this.$t('endedStatus')
             this.color = '#996b33'
           } else {
-            if (this.vdata.permission == 0) {
+            if (parseInt(this.permissionSwitch) == 0) {
               this.statusText = this.$t('waitApprove')
               this.color = '#db231c'
-            } else if (this.vdata.permission == 1) {
+            } else if (parseInt(this.vdata.permission) == 0) {
+              this.statusText = this.$t('waitApprove')
+              this.color = '#db231c'
+            } else if (parseInt(this.vdata.permission) == 1) {
               let status = parseInt(this.vdata.status)
               switch (status) {
                 case 0:
@@ -238,6 +241,9 @@ export default {
             } else if (this.vdata.permission == 2) {
               this.statusText = this.$t('vstatus[4]')
               this.color = '#db231c'
+            } else if (this.vdata.permission == 3) {
+              this.statusText = this.$t('vstatus[3]')
+              this.color = '#2c9ffd'
             }
             if (this.vdata.visitdate && !this.vdata.signOutDate && this.vdata.appointmentDate) {
               this.statusText = this.$t('vstatus[1]')

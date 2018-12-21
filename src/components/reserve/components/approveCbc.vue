@@ -2,7 +2,7 @@
 	<el-row :gutter="20">
 		<el-col :span="6">
 			<div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
-			  <div class="emptreewrap">
+			  <div class="emptreewrap lft-tree-wrap">
 			    <el-tree :data="list" :highlight-current="true" node-key="id" :default-expanded-keys="[0]" :props="defaultProps" @getNode="getNode" @node-click="handleNodeClick"></el-tree>
 			  </div>
 			</div>

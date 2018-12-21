@@ -2,7 +2,9 @@
   <div>
   	<common-set></common-set>
     <pad-set></pad-set>
-    <!-- <pc-set></pc-set> -->
+    <template v-if="pcSet">
+      <pc-set></pc-set>
+    </template>
   </div>
 </template>
 <script>
@@ -11,7 +13,9 @@ import { commonSet, padSet, pcSet } from '@/components/pad'
 export default {
   name: 'App',
   data () {
-    return {}
+    return {
+      pcSet: process.env.pcSet || false
+    }
   },
   components: { commonSet, padSet, pcSet }
 }

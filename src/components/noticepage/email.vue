@@ -94,8 +94,8 @@ export default {
   	return {
       imgSrc: require('@/assets/img/mailv1.png'),
       dialogVisible: false,
-      emailType: parseInt(getCache('emailType')),
-      oldemailType: parseInt(getCache('emailType')),
+      emailType: parseInt(getCache('emailType')) || 3,
+      oldemailType: parseInt(getCache('emailType')) || 3,
       isShow: false,
       form: {
         userid: getCache('userid'),

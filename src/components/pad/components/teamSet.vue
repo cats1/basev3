@@ -227,6 +227,14 @@ export default {
       }
       var order = req_obj.length + 1
       for (let key in this.form) {
+        if (this.form[key] == '') {
+          this.$message({
+            showClose: true,
+            message: this.$t('exporttype.isNull'),
+            type: 'warning'
+          })
+          return false
+        }
         let tobj = {
           userid: getCache('userid'),
           displayName: this.form[key],

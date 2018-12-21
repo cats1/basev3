@@ -20,20 +20,10 @@ export default {
   	return {
       imgSrc: require('@/assets/img/messv1.png'),
       isShow: false,
+      switchOn: numberToBoolean(getCache('smsNotify'))
   	}
   },
   computed: {
-    switchOn: {
-      get () {
-        if (parseInt(getCache('smsNotify')) !== 0) {
-          this.isShow = true
-          return true
-        } else {
-          return false
-        }
-      },
-      set () {}
-    },
     smsCount: {
       get () {
         return parseInt(getCache('smsCount')) || 0
@@ -74,6 +64,11 @@ export default {
   watch: {
     switchOn (val,old) {
       this.isShow = val
+    }
+  },
+  created () {
+    if (this.switchOn) {
+      this.isShow = true
     }
   },
   methods: {

@@ -23,7 +23,8 @@ export default {
   data () {
   	return {
   	  dialogVisible: false,
-  	  photoUrl: ''
+  	  photoUrl: '',
+      checkFace: process.env.checkFace || false
   	}
   },
   methods: {
@@ -74,7 +75,12 @@ export default {
     },
     doConfirm () {
       if (this.photoUrl !== '') {
-      	this.checkUser(this.photoUrl)
+        if (this.checkFace) {
+          this.checkUser(this.photoUrl)
+        } else {
+          this.$emit('updateurl',this.photoUrl)
+          this.dialogVisible = false
+        }      	
       } else {
       	this.$message({
       	  showClose: true,

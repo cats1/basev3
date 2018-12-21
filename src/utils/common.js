@@ -5,10 +5,11 @@ const statusMessages = i18n.messages[i18n.locale].status
 let Base64 = require('js-base64').Base64
 const LocationHost = window.location.host
 const LocationProtocol = window.location.protocol
-const IpReg = LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.63') > -1
+const IpReg = LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.77') > -1
 let baseURL = process.env.BASE_API
 let baseLink = process.env.BASE_LINK
 let idCardNum = process.env.idCardNum || 0
+let photoShow = process.env.photoShow || false
 let stageUrl = ''
 export function getBaseUrl() {
   if (IpReg) {
@@ -35,7 +36,12 @@ export function getBaseLink() {
 }
 export function getBaseCardLink() {
   if (IpReg) {
-    baseLink = process.env.BASE_LINK + 'base'
+    if (process.env.BASE_ISTRUE) {
+      baseLink = process.env.BASE_LINK + 'base'
+    } else {
+      baseLink = process.env.BASE_LINK
+    }
+    
   } else {
     let url = window.location.href    
     if (url.indexOf('/#/') > -1) {
@@ -50,11 +56,27 @@ export function getBaseCardLink() {
   }
   return baseLink
 }
+export function getBaseEmpPointLink() {
+  let PointUrl = 'https://login.sogou-inc.com/?appid=1524&sso_redirect=http%3A%2F%2Ffangke.sogou-inc.com%2Felogin.html'
+  return PointUrl
+}
 export function getBaseStageLink() {
+  let base = ''
+  if (process.env.BASE_ISTRUE) {
+    base = '/base'
+  }
   if (IpReg) {
-    stageUrl = 'http://' + process.env.HOST + '/stage/index.html?idcard='+idCardNum+'&photo=0'
+    if (photoShow) {
+      stageUrl = 'http://' + process.env.HOST + base +'/stage/index.html?idcard='+idCardNum+'&photo=0'
+    } else {
+      stageUrl = 'http://' + process.env.HOST + base + '/stage/index.html?idcard='+idCardNum
+    }
   } else {
-    stageUrl = LocationProtocol + '//' + LocationHost + '/stage/index.html?idcard='+idCardNum+'&photo=0'
+    if (photoShow) {
+      stageUrl = LocationProtocol + '//' + LocationHost + base + '/stage/index.html?idcard='+idCardNum+'&photo=0'
+    } else {
+      stageUrl = LocationProtocol + '//' + LocationHost + base + '/stage/index.html?idcard='+idCardNum
+    }
   }
   return stageUrl
 }
@@ -95,8 +117,30 @@ export function randomString(len) {
   }　　
   return pwd;
 }
+export function getPdfLink() {
+  if (IpReg) {
+    if (process.env.BASE_ISTRUE) {
+      baseLink = process.env.BASE_LINK
+    } else {
+      baseLink = process.env.BASE_LINK
+    }
+    
+  } else {
+    let url = window.location.href    
+    if (url.indexOf('/#/') > -1) {
+      let hurl = url.split('.html')[0]
+      let durl = hurl.substring(0, hurl.lastIndexOf("/"))
+      baseLink = durl.split('/#')[0]
+    } else {
+      let hurl = url.split('.html')[0]
+      let durl = hurl.substring(0, hurl.lastIndexOf("/"))
+      baseLink = durl
+    }
+  }
+  return baseLink
+}
 export function downloadPDF(item) {
-  var links = getBaseCardLink() + '/pdf/' + judgeDate(item.visitdate, 1) + '_' + item.vid + '.pdf'
+  var links = getPdfLink() + '/pdf/' + judgeDate(item.visitdate, 1) + '_' + item.vid + '.pdf'
   window.open(links)
 }
 //加密
@@ -160,7 +204,8 @@ export function checkIsNull(str) {
 }
 export function replaceRemoveQuotation(value) {
   if (value) {
-    return value.replace(/\\\"/g, '"')
+    let reg = /(\\\")|(\\&quot;)/g
+    return value.replace(reg, '"')
   } else {
     return ''
   }
@@ -561,16 +606,26 @@ export function getCgBarAllChildList(array, name, did, count, dp, child) {
   })
   return cList
 }
-export function getCgBarList(array, name, did, count, dp, child,dpno) {
+export function getCgBarList(array, name, did, count, dp, child,dpno,strdid,vMaxCount,defaultNotify,defaultReceiver) {
+  let comLabel = getCache('company')
+  if (process.env.empTotal) {
+    if (parseInt(getCache('empTotal')) > 0) {
+      comLabel = getCache('company') + '('+ getCache('empTotal') +'人)'
+    }
+  }
   let list = [{
-    label: getCache('company'),
+    label: comLabel,
     name: getCache('company'),
     pid: '',
     pcount: 0,
     dp: 'root',
     children: [],
     id: 0,
-    dpRole: 'root'
+    dpRole: 'root',
+    strdid: 0,
+    count: 0,
+    notify: 0,
+    receiver: ''
   }]
   let cList = []
   array.forEach(function(element, index) {
@@ -583,13 +638,17 @@ export function getCgBarList(array, name, did, count, dp, child,dpno) {
       children: [],
       id: element[did],
       dpno: element[dpno],
-      dpRole: 'parent'
+      dpRole: 'parent',
+      strdid: element[strdid],
+      count: element[vMaxCount],
+      notify: element[defaultNotify],
+      receiver: element[defaultReceiver]
     }
     if (parseInt(element[count]) === 0) {
       obj.label = element[name]
     }
     if (element[child] && element[child].length > 0) {
-      let citem = getCgBarChildList(element[child], name, did, count, dp, child,dpno,element[did],element[dpno])
+      let citem = getCgBarChildList(element[child], name, did, count, dp, child,dpno,element[did],element[dpno],strdid,vMaxCount,defaultNotify,defaultReceiver)
       obj.children = citem
     }
     cList.push(obj)
@@ -597,7 +656,7 @@ export function getCgBarList(array, name, did, count, dp, child,dpno) {
   list[0].children = cList
   return list
 }
-export function getCgBarChildList(array, name, did, count, dp, child,dpno,parentid,parentno) {
+export function getCgBarChildList(array, name, did, count, dp, child,dpno,parentid,parentno,strdid,vMaxCount,defaultNotify,defaultReceiver) {
   let cList = []
   array.forEach(function(element, index) {
     let obj = {
@@ -611,13 +670,17 @@ export function getCgBarChildList(array, name, did, count, dp, child,dpno,parent
       dpno: element[dpno],
       dpRole: 'child',
       parentid: parentid,
-      parentno: parentno
+      parentno: parentno,
+      strdid: element[strdid],
+      count: element[vMaxCount],
+      notify: element[defaultNotify],
+      receiver: element[defaultReceiver]
     }
     if (parseInt(element[count]) === 0) {
       obj.label = element[name]
     }
     if (element[child] && element[child].length > 0) {
-      let citem = getCgBarChildList(element[child], name, did, count, dp,child,dpno,parentid,parentno)
+      let citem = getCgBarChildList(element[child],name,did,count,dp,child,dpno,parentid,parentno,strdid,vMaxCount,defaultNotify,defaultReceiver)
       obj.children = citem
     }
     cList.push(obj)
@@ -1199,4 +1262,40 @@ export function mobile_device_detect() {
       if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = true; break; }    
   }    
   return flag
+}
+//文档高度
+export function getDocumentTop() {
+    var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+    if (document.body) {
+        bodyScrollTop = document.body.scrollTop;
+    }
+    if (document.documentElement) {
+        documentScrollTop = document.documentElement.scrollTop;
+    }
+    scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;    return scrollTop;
+    return scrollTop
+}
+
+//可视窗口高度
+export function getWindowHeight() {
+    var windowHeight = 0;
+    if (document.compatMode == "CSS1Compat") {
+        windowHeight = document.documentElement.clientHeight;
+    } else {
+        windowHeight = document.body.clientHeight;
+    }
+    return windowHeight
+}
+
+//滚动条滚动高度
+export function getScrollHeight() {
+    var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+    if (document.body) {
+        bodyScrollHeight = document.body.scrollHeight;
+    }
+    if (document.documentElement) {
+        documentScrollHeight = document.documentElement.scrollHeight;
+    }
+    scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;    return scrollHeight;
+    return scrollHeight
 }

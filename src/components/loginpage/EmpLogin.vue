@@ -1,70 +1,86 @@
 <template>
   <el-form class="login-form" auto-complete="off" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-        <el-row>
-      <el-form-item prop="username">
-          <span class="svg-container svg-container_login">
-            <i class="fa fa-user"></i>
-          </span>
-         <el-input type="text" auto-complete="off" v-model="loginForm.phone" :placeholder="$t('login.username')" />
-      </el-form-item>
-      <el-form-item prop="password">
-          <span class="svg-container">
-            <i class="fa fa-lock fa-lg"></i>
-          </span>
-         <el-input :type="passwordType" autocomplete="off" v-model="loginForm.empPwd" :placeholder="$t('login.password')"></el-input>
-         <span class="show-pwd" >
-            <i class="fa fa-eye" v-if="passwordType === ''" @click="showPwd"></i>
-            <i class="fa fa-eye-slash" v-else @click="showPwd"></i>
-         </span>
-       </el-form-item>
-       <el-form-item prop="vcode">
-        <el-col :span="12">
-          <el-input name="code" type="text" v-model="loginForm.vcode" auto-complete="on" :placeholder="$t('smsCode')" />
-        </el-col>
-        <el-col :span="12" class="codewrap">
-          <img-code :get-show="getCode" @clickit="setCode"></img-code>
-        </el-col>
-       </el-form-item>
-       <template v-if="stepTwo">
-          <transition name="el-fade-in-linear">
-          <el-form-item v-show="comShow">       
-            <el-select v-model="loginForm.userid" clearable :placeholder="$t('comSelectHolder')">
-              <template v-if="comlist.length == 1">
-                <el-option
-                  v-for="item in comlist"
-                  :key="item.userid"
-                  :label="item.empName"
-                  :value="item.userid">
-                </el-option>
-              </template>
-              <template v-else>
-                <el-option
-                  v-for="item in comlist"
-                  :key="item.userid"
-                  :label="item.company"
-                  :value="item.userid">
-                </el-option>
-              </template>              
-            </el-select>      
+    <el-row>
+      <template v-if="empPointEpson">
+          <el-form-item prop="username">
+              <span class="svg-container svg-container_login">
+                <i class="fa fa-user"></i>
+              </span>
+             <el-input type="text" auto-complete="off" v-model="loginForm.phone" :placeholder="$t('login.username')" />
           </el-form-item>
-          </transition>
-        </template>
-       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="goLogin">{{$t('login.logIn')}}</el-button>
-       <template v-if="empPwdShow">
-          <el-button type="text" style="width:100%;" @click.native.prevent="goForgot">{{$t('login.forgot.title')}}</el-button>
-          <or-line :value="$t('login.or')"></or-line>
-       </template>
-         <template v-if="empActiveShow">
-          <el-button type="text" style="width:100%;" @click.native.prevent="goActive">{{$t('login.active')}}</el-button>
-         </template>
-       </el-row>
-      </el-form>
+          <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="goEpsonLogin">{{$t('login.logIn')}}</el-button>
+          <el-alert
+            title="员工请在IE浏览器中登录，请启用ActiveX，具体配置步骤：工具>Internet选项>安全>Internet>自定义级别>ActiveX控件和插件>对没有标记为安全的ActiveX控件进行初始化和脚本运行>选择启用"
+            type="error" :center="false" :closable="false" v-show="tips">
+          </el-alert>
+      </template>
+      <template v-else>
+          <el-form-item prop="username">
+              <span class="svg-container svg-container_login">
+                <i class="fa fa-user"></i>
+              </span>
+             <el-input type="text" auto-complete="off" v-model="loginForm.phone" :placeholder="$t('login.username')" />
+          </el-form-item>
+          <el-form-item prop="password">
+              <span class="svg-container">
+                <i class="fa fa-lock fa-lg"></i>
+              </span>
+             <el-input :type="passwordType" autocomplete="off" v-model="loginForm.empPwd" :placeholder="$t('login.password')"></el-input>
+             <span class="show-pwd" >
+                <i class="fa fa-eye" v-if="passwordType === ''" @click="showPwd"></i>
+                <i class="fa fa-eye-slash" v-else @click="showPwd"></i>
+             </span>
+          </el-form-item>
+          <el-form-item prop="vcode">
+            <el-col :span="12">
+              <el-input name="code" type="text" v-model="loginForm.vcode" auto-complete="on" :placeholder="$t('smsCode')" />
+            </el-col>
+            <el-col :span="12" class="codewrap">
+              <img-code :get-show="getCode" @clickit="setCode"></img-code>
+            </el-col>
+          </el-form-item>
+          <template v-if="stepTwo">
+            <transition name="el-fade-in-linear">
+              <el-form-item v-show="comShow">       
+                <el-select v-model="loginForm.userid" clearable :placeholder="$t('comSelectHolder')">
+                  <template v-if="comlist.length == 1">
+                    <el-option
+                      v-for="item in comlist"
+                      :key="item.userid"
+                      :label="item.empName"
+                      :value="item.userid">
+                    </el-option>
+                  </template>
+                  <template v-else>
+                    <el-option
+                      v-for="item in comlist"
+                      :key="item.userid"
+                      :label="item.company"
+                      :value="item.userid">
+                    </el-option>
+                  </template>              
+                </el-select>      
+              </el-form-item>
+            </transition>
+          </template>
+          <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="goLogin">{{$t('login.logIn')}}</el-button>
+          <template v-if="empPwdShow">
+            <el-button type="text" style="width:100%;" @click.native.prevent="goForgot">{{$t('login.forgot.title')}}</el-button>
+            <or-line :value="$t('login.or')"></or-line>
+          </template>
+          <template v-if="empActiveShow">
+            <el-button type="text" style="width:100%;" @click.native.prevent="goActive">{{$t('login.active')}}</el-button>
+          </template>
+      </template>
+    </el-row>
+  </el-form>
 </template>
 <script>
 import { isvalidatPhone, validatePSD } from '@/utils/validate'
 import { lftPwdRule, lftDePwdRule } from '@/utils/common'
 import ImgCode from './ImgCode'
 import OrLine from '@/components/or/OrLine'
+import { getCache } from '@/utils/auth'
 export default {
   name: 'CompanyLogin',
   components: { ImgCode, OrLine },
@@ -111,16 +127,39 @@ export default {
       loading: false,
       passwordType: 'password',
       vcode: '',
-      comShow: process.env.empComShow,
+      comShow: process.env.empComShow || false,
       comlist: [],
       stepTwo: false,
       getCode: false,
-      empWorkNoCheck: process.env.empWorkNoCheck,
-      empActiveShow: process.env.empActiveShow,
-      empPwdShow: process.env.empPwdShow,
+      empWorkNoCheck: process.env.empWorkNoCheck || false,
+      empActiveShow: process.env.empActiveShow || false,
+      empPwdShow: process.env.empPwdShow || false,
+      empPointEpson: process.env.empPointEpson || false,
+      empUserName: '',
+      tips: false
+    }
+  },
+  created () {
+    if (this.empPointEpson) {
+      this.loginForm.phone = ''
+      if (!!window.ActiveXObject || "ActiveXObject" in window) {
+        this.getComputerName()
+      } else {
+        this.tips = true
+      }
     }
   },
   methods: {
+    getComputerName () {
+      try{
+        let wshNetwork = new ActiveXObject("WScript.Network")
+        this.loginForm.phone = wshNetwork.UserName
+      } catch (e) {
+        if (e.name == 'Error') {
+          this.tips = true
+        }
+      }
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -164,7 +203,7 @@ export default {
                 }
                 this.$store.dispatch('empLogin', newForm).then((resp) => {
                     this.loading = false
-                    window.location.href = 'emporder.html'
+                    this.GetUserInfo()
                 }).catch(() => {
                   this.loading = false
                 })
@@ -174,7 +213,6 @@ export default {
               }
             })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -264,9 +302,32 @@ export default {
     empLogin (nform) {
       this.$store.dispatch('empLogin', nform).then((resp) => {
         this.loading = false
-        window.location.href = 'emporder.html'
+        this.GetUserInfo()
       }).catch(() => {
         this.loading = false
+      })
+    },
+    GetUserInfo () {
+      let gnform = {
+        email: getCache('pemail'),
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('GetUserInfo',gnform).then(res => {
+        let {status,result} = res
+        if (status == 0) {
+          window.location.href = 'emporder.html'
+        }
+      })
+    },
+    goEpsonLogin () {
+      let nform = {
+        digest: this.loginForm.phone
+      }
+      this.$store.dispatch('epsonLogin',nform).then(res => {
+        let {status,result} = res
+        if (status == 0) {
+          window.location.href = 'emporder.html'
+        }
       })
     }
   }

@@ -67,7 +67,8 @@ export default {
           { required: true, trigger: 'blur',validator: validatePass2 }
         ]
   	  },
-  	  dialogVisible: false
+  	  dialogVisible: false,
+      empChangeNo: process.env.empChangeNo || false
   	}
   },
   watch: {
@@ -107,10 +108,16 @@ export default {
             })
           } else if (this.ptype === 2) {
             let nform = {
-              //phone: getCache('phone') || getCache('empPhone'),
-              empNo: getCache('empNo'),
+              phone: getCache('empPhone'),
               empPwd: this.form.password,
               oldEmpPwd: this.form.oldPwd
+            }
+            if (this.empChangeNo) {
+              nform = {
+                empNo: getCache('empNo'),
+                empPwd: this.form.password,
+                oldEmpPwd: this.form.oldPwd
+              }
             }
             this.$store.dispatch('updateEmpPwd',nform).then(res => {
               let {status} = res

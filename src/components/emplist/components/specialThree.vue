@@ -67,10 +67,12 @@ export default {
           egtype = 1
         }
         let nform = {
-          userid: getCache('userid'),
+          /*userid: getCache('userid'),
           employeeid: element.empid,
           emptype: egtype,
-          visitType: _self.visitType
+          visitType: _self.visitType*/
+          'employeeid': element.empid,
+          'defaultnotify': egtype
         }
         err.push(nform)
       })

@@ -1,12 +1,27 @@
 <template>
 	<el-dialog :title="winTitle" :visible.sync="dialogVisible" width="600px" @close="handClose">
 		<el-form :model="proform" :rules="rules" ref="proform" label-width="100px" class="demo-ruleForm" >
-			<el-form-item :label="$t('portrait')" class="center" prop="avatar">
-			    <upload-user-photo :photourl="proform.avatar" @sendkit="getUserPhoto"></upload-user-photo>
+      <template v-if="visitAvatarRequired">
+        <el-form-item :label="$t('portrait')" class="center" prop="avatar">
+          <upload-user-photo :photourl="proform.avatar" @sendkit="getUserPhoto"></upload-user-photo>
           <template v-if="!empWorkNoCheck">
             <reg-photo :rform="proform" v-show="faceTextShow"></reg-photo>
           </template>
-			</el-form-item>
+        </el-form-item>
+      </template>
+			<template v-else>
+        <el-form-item :label="$t('portrait')" class="center" >
+          <upload-user-photo :photourl="proform.avatar" @sendkit="getUserPhoto"></upload-user-photo>
+          <template v-if="!empWorkNoCheck">
+            <reg-photo :rform="proform" v-show="faceTextShow"></reg-photo>
+          </template>
+        </el-form-item>
+      </template>
+      <template v-if="takeVPhotoShow">
+            <el-form-item class="center">
+              <user-photo @updateurl="getTakePhoto"></user-photo>
+            </el-form-item>
+          </template>
       <el-row>
         <el-col :span="12">
           <el-form-item :label="$t('form.name.text')" prop="name">
@@ -14,9 +29,16 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="$t('form.idnum.text')" prop="cardid">
-            <el-input maxlength="18" v-model="proform.cardid" :readonly="empnoread"></el-input>
-          </el-form-item>
+          <template v-if="idRequired">
+            <el-form-item :label="$t('form.idnum.text')" prop="cardid">
+              <el-input maxlength="18" v-model="proform.cardid" :readonly="empnoread"></el-input>
+            </el-form-item>
+          </template>
+          <template v-else>
+            <el-form-item :label="$t('form.idnum.text')" >
+              <el-input maxlength="18" v-model="proform.cardid" :readonly="empnoread"></el-input>
+            </el-form-item>
+          </template>
         </el-col>        
       </el-row>
 			<el-row>  
@@ -48,9 +70,16 @@
       </el-row>
 	    <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('chargePersonPhone')" prop="phone">
-            <el-input v-model="proform.phone"></el-input>
-          </el-form-item>
+          <template v-if="vpositionShow">
+            <el-form-item :label="$t('visitor.vphone')" prop="phone">
+              <el-input v-model="proform.phone"></el-input>
+            </el-form-item>
+          </template>
+          <template v-else>
+            <el-form-item :label="$t('chargePersonPhone')" prop="phone">
+              <el-input v-model="proform.phone"></el-input>
+            </el-form-item>
+          </template>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="$t('form.company.text')" prop="company">
@@ -96,7 +125,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          
+          <template v-if="vpositionShow">
+            <el-form-item :label="$t('form.position.text')" prop="vposition">
+              <el-input v-model="proform.vposition"></el-input>
+            </el-form-item>
+          </template>
         </el-col>
       </el-row>    
         <el-form-item :label="$t('form.time.text4')" prop="startDate">
@@ -123,8 +156,9 @@ import {uploadUserPhoto} from '@/components/upload'
 import {getCache} from '@/utils/auth'
 import {formatDate} from '@/utils/index'
 import regPhoto from './regPhoto'
+import userPhoto from '@/components/photo/userPhoto'
 export default {
-  components: {uploadUserPhoto,regPhoto},
+  components: {uploadUserPhoto,regPhoto,userPhoto},
   props: {
     isShow: {
       type: Boolean,
@@ -170,6 +204,7 @@ export default {
         department: '',
         pid: '',
         rid: '',
+        vposition: '',
   	  	userid: getCache('userid'),
         curDefaultRid: this.curDefaultRid
   	  },
@@ -178,13 +213,15 @@ export default {
         avatar: [
           { required: true, message: this.$t('form.photo.tip'), trigger: 'blur' }],
   	  	name: [
-  	  	  { required: true, message: this.$t('pronameIsBlank'), trigger: 'blur' }],
+  	  	  { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
         company: [
           { required: true, message: this.$t('comnameIsBlank'), trigger: 'blur' }],
         leader: [
           { required: true, message: this.$t('chargeIsBlank'), trigger: 'blur' }],
         phone: [
-          { required: true, message: this.$t('chargePhoneIsBlank'), trigger: 'blur' }],
+          { required: true, message: this.$t('validphone.tip2'), trigger: 'blur' }],
+        vposition:[
+          { required: true, message: this.$t('exporttype.isNull'), trigger: 'blur' }],
         startDate: [
           { required: true, message: this.$t('dateIsBlank'), trigger: 'blur' }],
         cardid: [
@@ -195,8 +232,12 @@ export default {
   	  },
       list: this.proList,
       faceTextShow: false,
-      empPhoneCheck: process.env.empPhoneCheck,
-      empWorkNoCheck: process.env.empWorkNoCheck,
+      empPhoneCheck: process.env.empPhoneCheck || false,
+      empWorkNoCheck: process.env.empWorkNoCheck || false,
+      takeVPhotoShow: process.env.takeVPhotoShow || false,
+      idRequired: process.env.idRequired || false,
+      vpositionShow: process.env.vpositionShow || false,
+      visitAvatarRequired: process.env.visitAvatarRequired || false
   	}
   },
   computed: {
@@ -238,10 +279,12 @@ export default {
         this.dateRange = [val.startDate,val.endDate]
         if (val.avatar && val.face !== 0) {
           this.faceTextShow = true
+          this.empnoread = false
         } else {
           this.faceTextShow = false
+          this.empnoread = false
         }
-        this.empnoread = true
+        
       } else {
         this.faceTextShow = false
         this.empnoread = false
@@ -263,6 +306,23 @@ export default {
     }
   },
   methods: {
+    getTakePhoto (url) {
+      this.proform.avatar = url
+      this.regPhoto()
+    },
+    regPhoto () {
+      let nform = {
+        userid: getCache('userid'),
+        rids: [this.proform.rid]
+      }
+      console.log(nform)
+      /*this.$store.dispatch('updateResidentFace',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.proform.face = 0
+        }
+      })*/
+    },
   	getProname (val) {
   	  let _self = this
   	  let pid
@@ -341,10 +401,33 @@ export default {
         pid: this.proform.pid,
         userid: getCache('userid')
       }
+      if (this.vpositionShow) {
+        nform = {
+          pName: this.proform.pName,
+          remark: this.proform.remark,
+          avatar: this.proform.avatar,
+          company: this.proform.company,
+          name: this.proform.name,
+          age: this.proform.age,
+          sex: this.proform.sex,
+          leader: this.proform.leader,
+          phone: this.proform.phone,
+          area: this.proform.area,
+          startDate: this.proform.startDate,
+          endDate: this.proform.endDate,
+          job: this.proform.job,
+          cardid: this.proform.cardid,
+          department: this.proform.department,
+          pid: this.proform.pid,
+          vposition: this.proform.vposition,
+          userid: getCache('userid')
+        }
+      }
       this.$store.dispatch('addResidentVisitor', nform).then(res => {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
+          this.faceTextShow = false
           this.$emit('sendav',this.editType,this.proform)
           this.dateRange = []
           this.$refs.proform.resetFields()
@@ -373,10 +456,34 @@ export default {
         cardid: this.proform.cardid,
         department: this.proform.department
       }
+      if (this.vpositionShow) {
+        nform = {
+          rid: this.proform.rid,
+          userid: getCache('userid'),
+          pid: this.proform.pid,
+          company: this.proform.company,
+          name: this.proform.name,
+          age: this.proform.age,
+          sex: this.proform.sex,
+          pName: this.proform.pName,
+          leader: this.proform.leader,
+          phone: this.proform.phone,
+          area: this.proform.area,
+          startDate: this.proform.startDate,
+          endDate: this.proform.endDate,
+          remark: this.proform.remark,
+          avatar: this.proform.avatar,
+          job: this.proform.job,
+          cardid: this.proform.cardid,
+          department: this.proform.department,
+          vposition: this.proform.vposition,
+        }
+      }
       this.$store.dispatch('updateResidentVisitor',nform).then(res => {
         let {status} = res
         if (status === 0) {
           this.dialogVisible = false
+          this.faceTextShow = false
           this.$emit('updatesendav',this.editType,this.proform)
           /*this.dateRange = []
           this.$refs.proform.resetFields()
@@ -408,6 +515,7 @@ export default {
       this.dialogVisible = false
       this.empnoread = false
       this.curDefaultRid = ''
+      this.faceTextShow = false
       this.$emit('closesendav',this.editType,this.proform)
       this.dateRange = []
       this.$refs.proform.resetFields()

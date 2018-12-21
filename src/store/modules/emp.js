@@ -1,4 +1,4 @@
-import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
+import { checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	delBlacklist,getProject,getResidentVisitor,getAllResidentCompany,
 	getResidentVisitorByCompany,delResidentVisitor,updateAllResidentFace,
 	getRARG,getEmpRoleList,getDeptList,getEmpDeptList,getEmpListPages,
@@ -7,7 +7,7 @@ import { empLogin, checkEmpInfo, GetEmpList,getBlacklist,addBlacklist,
 	getEmpByName,updateEmpPwd,addEmptemplate,SynchronCardNo,addUserTemplate,
 	updateEmpSubAccount,resetEmpPwd,webActivateAccount,updateFace,getMeetingByPhone,
 	getVisitProxyForEmp,getVisitProxyForProxy,setVisitProxy,
-	SearchRecordsByEmpNo,getMaxEmpNo } from '@/api/emp'
+	SearchRecordsByEmpNo,getMaxEmpNo,getEmployeeCount } from '@/api/emp'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
@@ -44,26 +44,6 @@ const user = {
 		}
 	},
 	actions: {
-		empLogin({ commit }, userInfo) {
-			return new Promise((resolve, reject) => {
-		        empLogin(userInfo).then(response => {
-		          let { status, result } = response
-		          if (status === 0) {
-		          	for (let key in result) {
-		          		if (key !== 'token') {
-		          	      setCache(key, result[key])
-		          		} else {
-		          		  setCache('token', result.empid + '-' + result.token)
-		          		}
-		          	}
-		          }
-		          setToken(result.token)
-		          resolve(response)
-		        }).catch(error => {
-		          reject(error)
-		        })
-		    })
-		},
 		checkEmpInfo({ commit }, userInfo) {
 			return new Promise((resolve, reject) => {
 		        checkEmpInfo(userInfo).then(response => {
@@ -121,6 +101,15 @@ const user = {
 		getAllResidentCompany({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        getAllResidentCompany(info).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getEmployeeCount({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getEmployeeCount(info).then(response => {
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)
@@ -355,7 +344,10 @@ const user = {
 		SearchRecordsByPhone({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        SearchRecordsByPhone(info).then(response => {
-		          resolve(response)
+		          let { status } = response
+		          if (status === 0) {
+		          	resolve(response)
+		          }
 		        }).catch(error => {
 		          reject(error)
 		        })
@@ -364,7 +356,10 @@ const user = {
 		addAppointment({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        addAppointment(info).then(response => {
-		          resolve(response)
+		          let { status } = response
+		          if (status === 0) {
+		          	resolve(response)
+		          }
 		        }).catch(error => {
 		          reject(error)
 		        })
@@ -373,18 +368,17 @@ const user = {
 		getEmptempByPost({ commit }, info) {
 			return new Promise((resolve, reject) => {
 		        getEmptempByPost(info).then(response => {
-		          resolve(response)
+		          let { status } = response
+		          if (status === 0) {
+		          	resolve(response)
+		          }
 		        }).catch(error => {
 		          reject(error)
 		        })
 		    })
 		},
-		GetUserInfo({ commit }) {
+		GetUserInfo({ commit },info) {
 			return new Promise((resolve, reject) => {
-				let info = {
-				  email: getCache('email') || getCache('pemail'),
-				  userid: getCache('userid')
-				}
 		        GetUserInfo(info).then(response => {
 		          let { status, result } = response
 		          if (status === 0) {
@@ -410,8 +404,9 @@ const user = {
 		          	      setCache(key, result[key])
 		          		}
 		          	}
+		          	resolve(response)
 		          }
-		          resolve(response)
+		          
 		        }).catch(error => {
 		          reject(error)
 		        })
@@ -420,7 +415,10 @@ const user = {
 		getEmptemplateByType({ commit },info) {
 			return new Promise((resolve, reject) => {
 		        getEmptemplateByType(info).then(response => {
-		          resolve(response)
+		          let { status } = response
+		          if (status === 0) {
+		          	resolve(response)
+		          }
 		        }).catch(error => {
 		          reject(error)
 		        })
@@ -429,7 +427,10 @@ const user = {
 		getUsertemplate({ commit },info) {
 			return new Promise((resolve, reject) => {
 		        getUsertemplate(info).then(response => {
-		          resolve(response)
+		          let { status } = response
+		          if (status === 0) {
+		          	resolve(response)
+		          }
 		        }).catch(error => {
 		          reject(error)
 		        })
@@ -438,7 +439,10 @@ const user = {
 		getSubAccountTemp({ commit },info) {
 			return new Promise((resolve, reject) => {
 		        getSubAccountTemp(info).then(response => {
-		          resolve(response)
+		          let { status } = response
+		          if (status === 0) {
+		          	resolve(response)
+		          }
 		        }).catch(error => {
 		          reject(error)
 		        })

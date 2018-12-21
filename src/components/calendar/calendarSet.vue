@@ -488,8 +488,8 @@ export default {
                 this.month = parseInt(this.month) - 1
             }
             this.render(this.year, this.month)
-            this.$emit('selectMonth',this.month+1,this.year)
-            this.$emit('prev',this.month+1,this.year)
+            this.$emit('selectMonth',this.month+1,this.year,1)
+            this.$emit('prev',this.month+1,this.year,1)
         },
         //  下月
         next(e) {
@@ -501,8 +501,8 @@ export default {
                 this.month = parseInt(this.month) + 1
             }
             this.render(this.year, this.month)
-            this.$emit('selectMonth',this.month+1,this.year)
-            this.$emit('next',this.month+1,this.year)
+            this.$emit('selectMonth',this.month+1,this.year,1)
+            this.$emit('next',this.month+1,this.year,1)
         },
         // 选中日期
         select(k1, k2, e) {
@@ -640,7 +640,6 @@ export default {
                 //this.today = [k1, k2]
                 this.$emit('update',[this.year,this.zero?this.zeroPad(this.month + 1):this.month + 1,this.zero?this.zeroPad(this.days[k1][k2].day):this.days[k1][k2].day],item,k)
             }
-          console.log(item)
         },
         changeYear(){
             /*if(this.yearsShow){

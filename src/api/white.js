@@ -27,3 +27,11 @@ export function getDeptByEmpid (data) {
     data
   })
 }
+//updateVisitorManager
+export function updateVisitorManager (data) {
+  return request({
+    url: '/updateVisitorManager',
+    method: 'post',
+    data
+  })
+}

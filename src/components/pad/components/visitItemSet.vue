@@ -155,9 +155,9 @@ export default {
   	  this.inputArray.push('')
   	},
   	saveEdit () {
-  	  this.isShow = false
-  	  this.item.inputValue = arrayToString(this.inputArray)
-  	  this.$emit('savekit',this.item,this.index)
+      this.isShow = false
+      this.item.inputValue = arrayToString(this.inputArray)
+      this.$emit('savekit',this.item,this.index)
   	},
   	cancelEdit () {
   	  this.isShow = false

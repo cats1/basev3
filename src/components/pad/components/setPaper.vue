@@ -60,7 +60,7 @@ export default {
   components: { noticeShow, oneNotice, newBlackPaper, blackPaper, colorPaper,uploadPicBtn,overviewDialog },
   data () {
   	return {
-      papernew: true,
+      papernew: process.env.papernew || false,
       imgSrc: require('@/assets/img/cards.png'),
       isShow: false,
       printType: 1,

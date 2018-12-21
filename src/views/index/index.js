@@ -8,6 +8,8 @@ import App from './App'
 import router from '@/router'
 import store from '@/store'
 import i18n from '@/lang'
+import Print from 'vue-print-nb'
+
 //import 'babel-polyfill'
 //import promise from 'es6-promise'
 //promise.polyfill()
@@ -17,6 +19,7 @@ Vue.use(ElementUI, {
   size: 'medium',
   i18n: (key, value) => i18n.t(key, value)
 })
+Vue.use(Print)
 Vue.config.productionTip = false
 /*router.beforeEach((to, from, next) => {
   NProgress.start()

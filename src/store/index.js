@@ -22,6 +22,8 @@ import white from './modules/white'
 import visitType from './modules/visitType'
 import e from './modules/e'
 import transfer from './modules/transfer'
+import sogo from './modules/sogo'
+import epson from './modules/epson'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -47,6 +49,8 @@ const store = new Vuex.Store({
     upload,
     calendar,
     transfer,
+    sogo,
+    epson,
     visitType,
     white
   },

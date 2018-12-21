@@ -111,12 +111,22 @@
 				        </el-table-column>
 		        </template> -->
 	            <template v-if="!empWorkNoCheck">
-	            	<el-table-column :label="$t('status.text')" width="100">
-		        	<template slot-scope="scope">
-		        		{{scope.row.status | judgeRecordStatus}}
-		        	</template>
-		        </el-table-column>
+	            	<template v-if="deptidToString">
+	            	    <el-table-column :label="$t('status.text')" width="100">
+			        	   <template slot-scope="scope">
+			        		{{scope.row.openStatus | judgeRecordStatus}}
+			        	   </template>
+		                </el-table-column>
+	                </template>
+	                <template v-else>
+	            	    <el-table-column :label="$t('status.text')" width="100">
+			        	   <template slot-scope="scope">
+			        		{{scope.row.status | judgeRecordStatus}}
+			        	   </template>
+		                </el-table-column>
+	                </template>
 	            </template>
+	            
 			</template>
 			<template v-else>
 				<el-table-column prop="deviceName"
@@ -187,7 +197,8 @@ export default {
   	  },
   	  empWorkNoCheck: process.env.empWorkNoCheck,
   	  date: [formatDate(new Date(),'yyyy-MM-dd'),formatDate(new Date(),'yyyy-MM-dd')],
-  	  areaEquipShow: process.env.areaEquipShow || false
+  	  areaEquipShow: process.env.areaEquipShow || false,
+  	  deptidToString: process.env.deptidToString || false
   	}
   },
   filters: {

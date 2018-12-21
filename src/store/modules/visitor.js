@@ -1,6 +1,7 @@
 import { SearchVisitByCondition,SearchAppointmentByCondition,searchInviteByCondition,
 	SearchRVisitorByCondition,GetVisitType,batchSignOut,
-	VisitorSignOutByVid,updateDefaultNotify,updateEmpVisitType } from '@/api/visitor'
+	VisitorSignOutByVid,updateDefaultNotify,updateEmpVisitType,
+	getVisitorByVid } from '@/api/visitor'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
@@ -50,6 +51,15 @@ const user = {
 		GetVisitType({ commit }, userInfo) {
 			return new Promise((resolve, reject) => {
 		        GetVisitType(userInfo).then(response => {
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		getVisitorByVid({ commit }, userInfo) {
+			return new Promise((resolve, reject) => {
+		        getVisitorByVid(userInfo).then(response => {
 		          resolve(response)
 		        }).catch(error => {
 		          reject(error)

@@ -106,7 +106,7 @@ export default {
       	brandPosition: parseInt(getCache('brandPosition')) || 0,
       	brandText: getCache('cardText'),
       	showAvatar: numberToBoolean(parseInt(getCache('showAvatar'))),
-      	avatarType: parseInt(getCache('avatarType')),
+      	avatarType: parseInt(getCache('avatarType')) || 0,
       	fixAvatarUrl: getCache('qrcode').split('#')[1],
       	qrcodeText: getCache('qrcode').split('#')[0],
       	customText: getCache('customText'),

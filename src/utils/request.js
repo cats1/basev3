@@ -1,10 +1,12 @@
 import axios from 'axios'
+const mobileLocation = process.env.mobileLocation || false
 import { Message } from 'element-ui'
 import i18n from '@/lang'
 import { getLanguage } from '@/utils/i18n'
 import store from '@/store'
 import { getCache, clearCookie } from '@/utils/auth'
 import { getBaseUrl } from '@/utils/common'
+
 require("babel-polyfill")
 require('es6-promise').polyfill()
 var baseURL = getBaseUrl()
@@ -13,7 +15,6 @@ const service = axios.create({
   baseURL: baseURL, // api的base_url
   timeout: 10000 // request timeout
 })
-
 // request interceptor
 service.interceptors.request.use(config => {
   // Do something before request is sent
@@ -24,7 +25,7 @@ service.interceptors.request.use(config => {
   return config
 }, error => {
   // Do something with request error
-  console.log(error) // for debug
+  //console.log(error) // for debug
   Promise.reject(error)
 })
 
@@ -47,16 +48,18 @@ service.interceptors.response.use(
         } else {
           messages = response.data.reason
         }
-        Message({
-          showClose: true,
-          message: messages,
-          type: 'error',
-          duration: 4 * 1000,
-          onClose: function() {
-            clearCookie()
-            window.location.href = 'signin.html'
-          }
-        })
+        if (!mobileLocation) {
+          Message({
+            showClose: true,
+            message: messages,
+            type: 'error',
+            duration: 4 * 1000,
+            onClose: function() {
+              //clearCookie()
+              window.location.href = 'signin.html'
+            }
+          })
+        }
       } else {
         if (status) {
           const noticeMessages = i18n.messages[getLanguage()].responseNote
@@ -68,27 +71,31 @@ service.interceptors.response.use(
           } else {
             messages = response.data.reason
           }
-          Message({
-            showClose: true,
-            message: messages,
-            type: 'error',
-            duration: 5 * 1000
-          })
+          if (!mobileLocation) {
+            Message({
+              showClose: true,
+              message: messages,
+              type: 'error',
+              duration: 5 * 1000
+            })
+          }
         }
         //window.location.href = 'signin.html'
         return response.data
       }
     } else {
-      console.log(response.status)
+      //console.log(response.status)
     }
   },
   error => {
-    Message({
-      showClose: true,
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    if (!mobileLocation) {
+      Message({
+        showClose: true,
+        message: error.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    }
     // window.location.href = 'signin.html'
     return Promise.reject(error)
   })

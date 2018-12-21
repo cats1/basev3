@@ -38,9 +38,11 @@
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="form.startIndex"
+          @prev-click="handleCurrentChange"
+          @next-click="handleCurrentChange"
+          :current-page="currentPage"
           :page-sizes="sizes"
-          :page-size="form.requestedCount"
+          :page-size="requestedCount"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total">
         </el-pagination>
@@ -49,9 +51,11 @@
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="form.startIndex"
+          @prev-click="handleCurrentChange"
+          @next-click="handleCurrentChange"
+          :current-page="currentPage"
           :page-sizes="sizes"
-          :page-size="form.requestedCount"
+          :page-size="requestedCount"
           layout="total,prev, pager, next, jumper"
           :total="total">
         </el-pagination>
@@ -79,9 +83,12 @@ export default {
   	  sizes: [10, 20, 30, 40],
   	  data: [],
   	  total: 0,
+      currentPage: 1,
+      requestedCount: 10,
       empWorkNoCheck: process.env.empWorkNoCheck,
       empPhoneCheck: process.env.empPhoneCheck,
-      isMobile: false
+      isMobile: false,
+      permissionSwitch: getCache('permissionSwitch')
   	}
   },
   filters:{
@@ -114,7 +121,7 @@ export default {
       }
     },
   	checkStatus (row) {
-      if (row.permission == 0) {
+        if (row.permission == 0) {
           return this.$t('waitApprove')
         } else if (row.permission == 1) {
           let status = parseInt(row.status)
@@ -134,7 +141,9 @@ export default {
           }
         } else if (row.permission == 2) {
           return this.$t('vstatus[4]')
-        } 
+        } else if (this.vdata.permission == 3) {
+          return this.$t('vstatus[3]')
+        }
         if (row.visitdate && !row.signOutDate && row.appointmentDate) {
           return this.$t('vstatus[1]')
         } else if ((row.signOutDate && row.visitdate && row.appointmentDate) || (row.signOutDate)) {
@@ -168,12 +177,15 @@ export default {
       })
     },
   	handleSizeChange(val) {
-       this.form.requestedCount = val
-       this.getList()
+      this.currentPage = 1
+      this.requestedCount = val
+      this.form.startIndex = 1
+      this.form.requestedCount = val
+      this.getList()
     },
     handleCurrentChange(val) {
-       this.form.startIndex = (val - 1) * this.form.requestedCount + 1
-       this.getList()
+      this.form.startIndex = (val - 1) * this.requestedCount + 1
+      this.getList()
     }
   }
 }

@@ -28,10 +28,9 @@
 	     <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="doLogin">{{$t('login.logIn')}}</el-button>
        <el-button type="text" style="width:100%;" @click.native.prevent="goForgot">{{$t('login.forgot.title')}}</el-button>
         <or-line :value="$t('login.or')" v-show="signupShow"></or-line>
-        <el-button type="text" style="width:100%;" @click.native.prevent="goSignUp" v-show="signupShow">{{$t('login.signup')}}</el-button>
-       
+        <el-button type="text" style="width:100%;" @click.native.prevent="goSignUp" v-show="signupShow">{{$t('login.signup')}}</el-button>       
 	     </el-row>
-      </el-form>
+    </el-form>
 </template>
 <script>
 import { isvalidEmail, validatePSD } from '@/utils/validate'
@@ -119,8 +118,13 @@ export default {
                 digest: this.loginForm.digest
               }
           		this.$store.dispatch('managerLogin', newForm).then((resp) => {
+                let {status,result} = resp
+                if (status == 0) {
                   this.loading = false
                   window.location.href = 'index.html'
+                } else if (status == 42){
+
+                }
 	          	}).catch(() => {
 	              this.loading = false
 	            })

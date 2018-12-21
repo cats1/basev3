@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="lft-tree-wrap">
 		<el-tree :data="list" :props="defaultProps" :highlight-current="true" :check-on-click-node="true" :node-key="nodeKey" accordion :default-expanded-keys="defaultGet" :default-checked-keys="defaultGet"  @getNode="getNode" @node-click="handleNodeClick"></el-tree><!-- :default-expanded-keys="defaultGet" :default-checked-keys="defaultChecked" -->
 	</div>
 </template>

@@ -6,9 +6,9 @@
     <template v-if="baiduMapShow">
       <map-component :isshow="mapIsShow" class="marginbom20" :address="address" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getAddress"></map-component>
     </template>
-    <template v-else-if="googleMapShow">
+    <!-- <template v-else-if="googleMapShow">
       <google-map :isshow="mapIsShow" class="marginbom20" :address="address" :latitude="pot.latitude" :longitude="pot.longitude" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getGoogleAddress"></google-map>
-    </template>
+    </template> -->
     <h3 class="margintop20 marginbom20" >{{$t('moban.traffic')}}</h3>
     <tinymce :height=100 :toolbar-show="false" :menubar-show="false" :img-show="false" :id="trafficId" ref="teditor" v-model="traffic" @input="gettraffic"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.compro')}}</h3>
@@ -68,7 +68,7 @@ export default {
       mapShow: false,
       getResult: {},
       isChangeXSS: process.env.isChangeXSS || false,
-      empWorkNoCheck: process.env.empWorkNoCheck,
+      empWorkNoCheck: process.env.empWorkNoCheck || false,
       mapValue: process.env.mapValue || 0,
       baiduMapShow: false,
       googleMapShow: false,
@@ -108,7 +108,7 @@ export default {
   methods: {
     init () {
       this.getTempByType(this.vtype)
-      this.GetUserInfo()
+      this.GetUserInfoMes()
     },
     setDefaultMoban () {
       let vhtml = '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">这里是{company}，感谢您对我公司的信任和选择。通过对您简历的认真审核，我们认为您已具备进入下一轮筛选的资格。为了进一步了解，现邀请您参加面试，具体安排如下：</p><br/>'
@@ -141,7 +141,7 @@ export default {
         this.$emit('getbcompro',val)
       }
     },
-    GetUserInfo () {
+    GetUserInfoMes () {
       if(parseInt(getCache('subaccountId')) !== 0) {
         this.getSubAccountById()
       }
@@ -152,14 +152,16 @@ export default {
       }
       this.$store.dispatch('getSubAccountById',nform)
     },
-    getDefaultMoBan () {
+    getDefaultMoBan (type) {
       let newForm = {
         empid: getCache('empid')
       }
       this.$store.dispatch('getEmptempByPost',newForm).then(res => {
         let { status, result } = res
         if (status === 0) {
-          //this.defaultmoban = result
+          if (result != null && result != 'null') {
+            this.showDefault(type,result)
+          }
         }
       })
     },
@@ -188,7 +190,7 @@ export default {
             this.showDefault(type,result)
           } else {
             //showAlert('公司' + type + '模板未设置,请先设置模板', -1);
-            this.showDefault(type,result)
+            this.getDefaultMoBan(type)
           }
         }
       })
@@ -271,6 +273,8 @@ export default {
                 sendObj.inviteContent = this.inviteContent
                 sendObj.traffic = this.traffic
                 sendObj.companyProfile = this.companyProfile
+                console.log(sendObj)
+                console.log(this.vtype)
                 this.$emit('initmoban',sendObj)
               })
             })

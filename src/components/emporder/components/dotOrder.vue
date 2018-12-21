@@ -38,21 +38,37 @@
 				      <el-input v-model="scope.row.phone" :placeholder="$t('visitor.vphone')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
 				    </template>
 				</el-table-column>
-        <el-table-column prop="vemail" :label="$t('form.email.text')" width="180">
-          <template slot-scope="scope">
-              <el-input v-model="scope.row.vemail" :placeholder="$t('form.email.text')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
-            </template>
-        </el-table-column>
+        <template v-if="!empEmailSendClose">
+          <el-table-column prop="vemail" :label="$t('form.email.text')" width="180">
+            <template slot-scope="scope">
+                <el-input v-model="scope.row.vemail" :placeholder="$t('form.email.text')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+              </template>
+          </el-table-column>
+        </template>
+        
 				<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="180">
 					<template slot-scope="scope">
-				      <el-select v-model="scope.row.visitType" class="block" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)">
-    						<el-option style="width:180px"
-    						    v-for="item in $t('itype')"
-    						    :key="item.value"
-      							:label="item.label"
-      							:value="item.value">
-    						</el-option>
-					    </el-select>
+            <template v-if="customTemplateShow">
+              <el-select v-model="scope.row.visitType" class="block" @change="updateType(scope.$index)">
+                <el-option
+                  v-for="item in visitList"
+                  :key="item.title"
+                  :label="item.title"
+                  :value="item.title">
+                </el-option>
+              </el-select>
+            </template>
+            <template v-else>
+              <el-select v-model="scope.row.visitType" class="block" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)">
+                <el-option style="width:180px"
+                    v-for="item in $t('itype')"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
+            </template>
+				      
 				    </template>
 				</el-table-column>
 				<el-table-column prop="appointmentDate" :label="$t('form.time.text6')" width="220">
@@ -119,8 +135,13 @@
 		    		</el-row>
 		    	</el-form-item>
 		    </el-form>
-		    <bom-moban :is-all="true" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"
-		    @getbcon="getbinv" @getbtraffic="getbtraffic" @getbcompro="getbcompro" @getinitface="getinitface" @getinitbus="getinitbus"></bom-moban>
+        <template v-if="customTemplateShow">
+          <bom-moban :list="visitList" :default-type="visitType" @getmoban="getEmpCon" ></bom-moban>
+        </template>
+        <template v-else>
+          <bom-moban :is-all="true" @getcon="getinv" @gettraffic="gettraffic" @getcompro="getcompro"
+          @getbcon="getbinv" @getbtraffic="getbtraffic" @getbcompro="getbcompro" @getinitface="getinitface" @getinitbus="getinitbus"></bom-moban>
+        </template>
 	    </div>
 	    <div class="margintop20">
 	    	<el-button type="success" @click="sendOrder">{{$t('btn.sendInvite')}}</el-button>
@@ -142,6 +163,7 @@ export default {
   components: { bomMoban,downInviteMoban,uploadInvite,mobanDialog,previewDialog },
   data () {
   	return {
+      empEmailSendClose: process.env.empEmailSendClose || false,
       vTypeShow: process.env.vTypeShow || false,
       typelist: [],
       timetypeShow: 0,
@@ -245,16 +267,20 @@ export default {
         disabledDate(time) {
           return time.getTime() < Date.now() - 8.64e7
         }
-      }
+      },
+      visitList: [],
+      customTemplateShow: process.env.customTemplateShow || false,
+      mobanObj: {},
+      inviteMoreShow: process.env.inviteMoreShow || false
   	}
   },
   computed: {
     qrcodePlace: {
       get () {
         if (this.timetype === 0) {
-          return this.$t('daysRange') + '：1-' + getCache('qrMaxDuration')
+          return this.$t('daysRange') + '：1-' + getCache('qrMaxDuration') || '1'
         } else {
-          return this.$t('timesRange') + '：1-' + getCache('qrMaxCount')
+          return this.$t('timesRange') + '：1-' + getCache('qrMaxCount') || '1'
         }
       },
       set () {}
@@ -264,9 +290,55 @@ export default {
     if (this.vTypeShow) {
       this.getTypeList()
     }
+    if (this.customTemplateShow) {
+      this.GetAllTemplateType()
+    }
   },
   methods: {
     numberToBoolean:numberToBoolean,
+    getEmpCon (val) {
+      this.mobanObj = val
+    },
+    GetAllTemplateType () {
+      let newForm = {
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('GetAllTemplateType',newForm).then(res => {
+        let { status, result } = res
+        if (status === 0) {
+          this.visitList = []
+          let _self = this
+          result.forEach(function(element, index) {
+            let idName = ''
+            let showValue = false
+            let closable = true
+            if (element.templateType == '面试') {
+              idName = 'face'
+              showValue = true
+              closable = false
+              _self.initShowValue = element.name
+              _self.editableTabsValue = index.toString()
+              _self.tabIndex = index
+            } else if (element.templateType == '商务') {
+              idName = 'bus'
+              closable = false
+              showValue = false
+            } else {
+              idName = 'new' + index
+              showValue = false
+            }
+            let obj = {
+              title: element.templateType,
+              name: index.toString(),
+              id: idName,
+              showValue: showValue,
+              closable: closable
+            }
+            _self.visitList.push(obj)
+          })
+        }
+      })
+    },
     getTypeList () {
       let nform = {
         userid: getCache('userid')
@@ -397,38 +469,70 @@ export default {
       		let _self = this
 		  	  let nform = []
 		  	  this.data.forEach(function(element,index){
-  		  	  let demoban 
-            if (parseInt(element.visitType) === 0 || element.visitType === '面试') {
-    			    demoban = _self.facemoban
-    			  } else if (parseInt(element.visitType) === 1 || element.visitType === '商务') {
-    			  	demoban = _self.busmoban
-    			  }
-
-            if (element.name !== '' && element.phone !== '' && element.visitType !== '' && element.appointmentDate !== '') {
-                let date = new Date(element.appointmentDate)
-                let obj = {
-                  address: demoban.address,
-                  appointmentDate: date,
-                  companyProfile: replaceQuotation(demoban.companyProfile),
-                  empid: getCache('empid'),
-                  inviteContent: replaceQuotation(demoban.inviteContent),
-                  latitude: demoban.latitude,
-                  longitude: demoban.longitude,
-                  name: element.name,
-                  phone: element.phone,
-                  vemail: element.vemail,
-                  qrcodeConf: _self.form.qrcodeType,
-                  qrcodeType: _self.timetype === 0 ? '0' : '1',
-                  remark: element.remark,
-                  traffic: replaceQuotation(demoban.traffic),
-                  userid: getCache('userid'),
-                  vcompany: element.vcompany,
-                  visitType: parseInt(element.visitType) === 0 ? '面试' : '商务',
-                  vType: element.vType
+            if (element.etype) {
+    		  	  let demoban
+              if (_self.customTemplateShow) {
+                demoban = _self.mobanObj[element.visitType]
+              } else {
+                if (parseInt(element.visitType) === 0 || element.visitType === '面试') {
+                  demoban = _self.facemoban
+                } else if (parseInt(element.visitType) === 1 || element.visitType === '商务') {
+                  demoban = _self.busmoban
                 }
-                nform.push(obj)
-          }    
-      	})
+              }
+              let visitType
+              if (_self.customTemplateShow) {
+                visitType = demoban.templateType
+              } else {
+                visitType = parseInt(element.visitType) === 0 ? '面试' : '商务'
+              }
+              if (element.name !== '' && element.phone !== '' && element.visitType !== '' && element.appointmentDate !== '') {
+                  let date = new Date(element.appointmentDate)
+                  let obj = {
+                    address: demoban.address,
+                    appointmentDate: date,
+                    companyProfile: replaceQuotation(demoban.companyProfile),
+                    empid: getCache('empid'),
+                    inviteContent: replaceQuotation(demoban.inviteContent),
+                    latitude: demoban.latitude,
+                    longitude: demoban.longitude,
+                    name: element.name,
+                    phone: element.phone,
+                    vemail: element.vemail,
+                    qrcodeConf: _self.form.qrcodeType,
+                    qrcodeType: _self.timetype === 0 ? '0' : '1',
+                    remark: element.remark,
+                    traffic: replaceQuotation(demoban.traffic),
+                    userid: getCache('userid'),
+                    vcompany: element.vcompany,
+                    visitType: visitType
+                  }
+                  if (_self.vTypeShow) {
+                    obj = {
+                      address: demoban.address,
+                      appointmentDate: date,
+                      companyProfile: replaceQuotation(demoban.companyProfile),
+                      empid: getCache('empid'),
+                      inviteContent: replaceQuotation(demoban.inviteContent),
+                      latitude: demoban.latitude,
+                      longitude: demoban.longitude,
+                      name: element.name,
+                      phone: element.phone,
+                      vemail: element.vemail,
+                      qrcodeConf: _self.form.qrcodeType,
+                      qrcodeType: _self.timetype === 0 ? '0' : '1',
+                      remark: element.remark,
+                      traffic: replaceQuotation(demoban.traffic),
+                      userid: getCache('userid'),
+                      vcompany: element.vcompany,
+                      visitType: visitType,
+                      vType: element.vType
+                    }
+                  }
+                  nform.push(obj)
+              }
+            }    
+      	  })
           let MaxCount = _self.timetype === 0 ? parseInt(getCache('qrMaxDuration')) : parseInt(getCache('qrMaxCount'))
           if (parseInt(_self.form.qrcodeType) > MaxCount) {
             _self.$message({
@@ -450,7 +554,15 @@ export default {
       })
   	},
     doaddAppointment (nform) {
-      this.$store.dispatch('addAppointment',nform).then(res => {
+      let formObj
+      if (this.inviteMoreShow) {
+        formObj = {
+          atlist: nform
+        }
+      } else {
+        formObj = nform
+      }
+      this.$store.dispatch('addAppointment',formObj).then(res => {
         let {status} = res
         if (status === 0) {
           this.mobanFlag = true

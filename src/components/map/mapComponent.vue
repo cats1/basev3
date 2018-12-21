@@ -20,7 +20,10 @@ export default {
     },
     sendpot: {
       type: Object,
-      default: {}
+      default: {
+      	latitude: '39.92',
+        longitude: '116.46'
+      }
     },
     isshow: {
       type: Boolean,
@@ -39,19 +42,27 @@ export default {
       maddress: this.address,
       bmap: '',
       lft_cur_city_name: '',
-      local: null
+      local: null,
+      customTemplateShow: process.env.customTemplateShow || false
     }
   },
   watch: {
     mapid (val) {
-      this.inputid = 'search_address_' + this.mapid
-      this.panelid = 'searchResultPanel_' + this.mapid
+      this.inputid = 'search_address_' + val
+      this.panelid = 'searchResultPanel_' + val
     },
     sendpot (val) {
       this.init()
     },
     isshow (val) {
-      this.init()
+      if (!this.customTemplateShow) {
+      	this.init()
+      } else {
+      	if (val) {
+      	  this.init()
+      	}
+      }
+
     },
     address (val) {
       this.maddress = val
@@ -59,7 +70,7 @@ export default {
     },
   },
   mounted () {
-    this.init()
+    //this.init()
   },
   beforeDestroy () {
     //console.log('before destory')
@@ -72,7 +83,7 @@ export default {
   },
   methods: {
     init () {
-    	if (this.isshow) {
+    	if (this.isshow && this.mapid) {
     	    if (this.sendpot.longitude) {
 	          this.createMapPoint()
 	        } else {
@@ -93,6 +104,7 @@ export default {
     	this.addMarker(point)
     	this.addSearch()
 	    this.addMoveControl()
+	    this.getAddress()
     },
     createMapCity (city) {
     	let map = new BMap.Map(this.mapid, { minZoom: 14, maxZoom: 30 })
@@ -103,6 +115,7 @@ export default {
         this.addClickGeocoder()
         this.addSearch()
         this.addMoveControl()
+        this.getAddress()
     },
     createMap () {
     	let map = new BMap.Map(this.mapid, { minZoom: 14, maxZoom: 30 })

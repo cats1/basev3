@@ -1,19 +1,19 @@
 <template>
   <div>
     <m-header :title="$t('moban.interview.title')" :desc="$t('moban.interview.desc')"></m-header>
-    <tinymce class="margintop20" :height=400 ref="ceditor" v-model="defaultmoban.inviteContent" @input="getcon"></tinymce>
+    <tinymce class="margintop20" :id="contentId" :height=400 ref="ceditor" v-model="defaultmoban.inviteContent" @input="getcon"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.address')}}</h3>
-    <!-- <baidu-map class="marginbom20" :isshow="isshow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;"></baidu-map> -->
+    <!-- <baidu-map class="marginbom20" :isshow="isshow" :address="defaultmoban.address" :sendpot="pot" :mapid="showMapId" style="width:80%;"></baidu-map> -->
     <template v-if="baiduMapShow">
-      <map-component class="marginbom20" :isshow="mapIsShow" :address="defaultmoban.address" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getAddress"></map-component>
+      <map-component class="marginbom20" :isshow="mapIsShow" :address="defaultmoban.address" :sendpot="pot" :mapid="showMapId" style="width:80%;" @getpoint="getAddress"></map-component>
     </template>
     <!-- <template v-else-if="googleMapShow">
-      <google-map class="marginbom20" :isshow="mapIsShow" :address="defaultmoban.address" :latitude="pot.latitude" :longitude="pot.longitude" :sendpot="pot" :mapid="mapid" style="width:80%;" @getpoint="getGoogleAddress"></google-map>
+      <google-map class="marginbom20" :isshow="mapIsShow" :address="defaultmoban.address" :latitude="pot.latitude" :longitude="pot.longitude" :sendpot="pot" :mapid="showMapId" style="width:80%;" @getpoint="getGoogleAddress"></google-map>
     </template> -->
     <h3 class="margintop20 marginbom20">{{$t('moban.traffic')}}</h3>
-    <tinymce :height=100 :toolbarShow="false" :menubarShow="false" ref="teditor" v-model="defaultmoban.traffic" @input="getTraffic"></tinymce>
+    <tinymce :height=100 :id="trafficId" :toolbarShow="false" :menubarShow="false" ref="teditor" v-model="defaultmoban.traffic" @input="getTraffic"></tinymce>
     <h3 class="margintop20 marginbom20">{{$t('moban.compro')}}</h3>
-    <tinymce :height=100 :toolbarShow="false" :menubarShow="false" ref="comeditor" v-model="defaultmoban.companyProfile" @input="getCom"></tinymce>
+    <tinymce :height=100 :id="comproId" :toolbarShow="false" :menubarShow="false" ref="comeditor" v-model="defaultmoban.companyProfile" @input="getCom"></tinymce>
     <div class="margintop20">
       <el-button type="primary" @click="saveMoban">{{$t('btn.saveMobanBtn')}}</el-button>
       <el-button type="success" @click="sendMoban">{{$t('btn.overview')}}</el-button>
@@ -28,10 +28,13 @@ import { getCache } from '@/utils/auth'
 import Tinymce from '@/components/tinymce/tiny'
 import { valueToString, replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation,checkIsNull } from '@/utils/common'
 export default {
-  props: ['mtype','isshow','mapid'],
+  props: ['mtype','isshow','mapid','newadd'],
   components: { mHeader, MapComponent, Tinymce}, //googleMap },
   data () {
   	return {
+      contentId: 'vue-tinymce-content-' + this.mapid,
+      trafficId: 'vue-tinymce-traffic-' + this.mapid,
+      comproId: 'vue-tinymce-compro-' + this.mapid,
   	  traffic: '',
   	  companyProfile: '',
   	  inviteContent: this.$t('moban.interview.defaultMoban'),
@@ -54,7 +57,9 @@ export default {
       mapValue: process.env.mapValue || 0,
       baiduMapShow: false,
       googleMapShow: false,
-      mapIsShow: this.isshow
+      mapIsShow: this.isshow,
+      showMapId: this.mapid,
+      customTemplateShow: process.env.customTemplateShow || false
   	}
   },
   computed: {},
@@ -65,6 +70,12 @@ export default {
       if (val) {
         this.init()
       }
+    },
+    mapid (val) {
+      this.showMapId = val
+    },
+    newadd (val) {
+      console.log(val)
     }
   },
   mounted () {
@@ -75,13 +86,16 @@ export default {
       this.baiduMapShow = false
       this.googleMapShow = true
     }
+    if (this.customTemplateShow && this.mtype) {
+      this.init()
+    }
   },
   methods: {
     getcon () {},
     getTraffic () {},
     getCom () {},
   	init () {
-  		this.getInterViewMoBan()
+  		this.getInterViewMoBan(this.mtype)
   	},
     setDefaultMoban () {
       let vhtml = '<p>尊敬的{visitor}：</p><p style="text-indent:24px">您好！</p><p style="text-indent:24px">这里是{company}，感谢您对我公司的信任和选择。通过对您简历的认真审核，我们认为您已具备进入下一轮筛选的资格。为了进一步了解，现邀请您参加面试，具体安排如下：</p><br/>'
@@ -99,10 +113,10 @@ export default {
           //this.inviteContent = replaceRemoveReserveQuotation(res)
       })
     },
-  	getInterViewMoBan () {
+  	getInterViewMoBan (mtype) {
   		let newForm = {
   			userid: getCache('userid'),
-  			templateType: this.mtype
+  			templateType: mtype
   		}
   		this.$store.dispatch('getUsertemplate',newForm).then(res => {
   			let { status, result } = res
@@ -127,7 +141,12 @@ export default {
             this.defaultmoban.latitude = result.latitude
             this.defaultmoban.longitude = result.longitude
           } else {
-            this.setDefaultMoban() 
+
+            if (this.customTemplateShow && this.mtype != '面试' && this.mtype != '商务') {
+              this.getInterViewMoBan('商务')
+            } else {
+              this.setDefaultMoban()
+            }
           }
   			}
   		})
@@ -152,7 +171,7 @@ export default {
           message: '请填写地址信息',
           type: 'warning'
         })
-      } else if (checkIsNull(this.defaultmoban.traffic) == '') {
+      } /*else if (checkIsNull(this.defaultmoban.traffic) == '') {
         this.$message({
           showClose: true,
           message: '请填写停车信息',
@@ -164,7 +183,8 @@ export default {
           message: '请填写公司简介',
           type: 'warning'
         })
-      } else {
+      }*/ else {
+        this.defaultmoban.templateType = this.mtype
         this.$store.dispatch('addUserTemplate',this.defaultmoban)
       }
     },

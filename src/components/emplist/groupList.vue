@@ -14,6 +14,9 @@
         <template v-if="empWorkNoCheck">
           <export-emp-list></export-emp-list>
         </template>
+        <template v-if="operatorSet">
+          <operator-set></operator-set>
+        </template>
   	  </div>
     </template>
     <template v-else>
@@ -25,9 +28,36 @@
           <!-- <el-autocomplete v-model="sform.name" :fetch-suggestions="querySearchAsync" value-key="empName" :trigger-on-focus="false" @select="handleSelect" :placeholder="$t('sempholder1')">
             <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-autocomplete> -->
-          <el-input v-model="sform.name" @change="searchEmp">
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-          </el-input>
+          <template v-if="empNoSearchShow">
+            <div class="borderstyle">
+              <el-col :span="8" style="padding-left:0;padding-right:0;">
+                <el-select class="selectinput" v-model="searchType">
+                  <el-option key="0"
+                    :label="$t('form.name.text')"
+                    value="0">
+                  </el-option>
+                  <el-option key="1"
+                    :label="$t('form.position.text1')"
+                    value="1">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="16" style="padding-left:0;padding-right:0;">
+                <input type="text" class="inputnoborder" v-model="sform.name" @keydown="searchEmpNo($event)">
+                <!-- <el-input v-model="sform.name" suffix-icon="el-icon-search" @change="searchEmp">
+                </el-input> -->
+              </el-col> 
+            </div>      
+          </template>
+          <template v-else>
+            <div class="borderstyle" style="position:relative;">
+              <input type="text" class="inputnoborder" :placeholder="$t('form.name.text')" v-model="sform.name" @keydown="searchEmpNo($event)">
+              <i slot="prefix" class="el-input__icon el-icon-search" style="position:absolute;top:0;right:0;"></i>
+            </div>
+            <!-- <el-input v-model="sform.name" @change="searchEmp" >
+              <i slot="prefix" class="el-input__icon el-icon-search"></i>
+            </el-input> -->
+          </template>          
 	  			<el-radio-group class="margintop20" v-model="vtype" @change="changeVtype">
 			      <el-radio-button label="emplist">{{$t('emplist.pro')}}</el-radio-button>
 			      <el-radio-button label="role">{{$t('emplist.com')}}</el-radio-button>
@@ -41,9 +71,9 @@
         <div class="" v-if="rightType === 2">
           <export-address-book :utype="exportType"></export-address-book>
         </div>
-        <div class="" v-else>
-          <div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite">
-            <el-table :data="dataList" border @selection-change="handleSelectionChange" @row-click="editEmp" :row-class-name="tableRowClassName">
+        <div class="" v-else >
+          <div class="boxshadow margintop20 paddinglr30 paddingtb20 bgwhite" style="height:617px;">
+            <el-table class="emptable" :data="dataList" max-height="485" border @selection-change="handleSelectionChange" @row-click="editEmp" :row-class-name="tableRowClassName">
               <el-table-column
                 type="selection"
                 width="55">
@@ -53,7 +83,11 @@
                 width="120">
                 <template slot-scope="scope" >
                   {{ scope.row.empName }}
-                    <span class="mangericon" v-show="checkIsManager(scope.row.empid)" >{{$t('visitor.manager')}}</span>
+                  <span class="mangericon" v-show="checkIsManager(scope.row.empid)" >{{$t('visitor.manager')}}</span>
+                  <template v-if="defaultInterviewSet">
+                    <span class="mangericon" v-show="checkIsReciver(scope.row.empid)" >{{$t('defaultInterviewPerson')}}</span>
+                  </template>
+                  
                 </template>
               </el-table-column>
               <el-table-column
@@ -95,16 +129,17 @@
 </template>
 <script>
 import $ from 'jquery'
-import {getCache} from '@/utils/auth'
+import {getCache,setCache} from '@/utils/auth'
 import {getCgBarList} from '@/utils/common'
-import {addDepart,addEmp,editDepart,moveDepart,deleteEmp,sendAllFace,empDetail,exportAddressBook,exportEmpList,showEmpDetail} from './components'
+import {addDepart,addEmp,editDepart,moveDepart,deleteEmp,sendAllFace,empDetail,exportAddressBook,exportEmpList,showEmpDetail,operatorSet} from './components'
 import {exportAddressList,useExcel,useRtx,useDing,changeUploadType} from '@/components/upload'
 import lTree from '@/components/tree/lTree'
-import {stringToArray,arrayToString} from '@/utils/common'
+import {stringToArray,arrayToString,replaceRemoveReserveQuotation,replaceRemoveQuotation} from '@/utils/common'
 export default {
-  components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace,empDetail,exportAddressBook,lTree,exportEmpList,showEmpDetail},
+  components: {addDepart,addEmp,editDepart,deleteEmp,exportAddressList,useExcel,useRtx,useDing,changeUploadType,moveDepart,sendAllFace,empDetail,exportAddressBook,lTree,exportEmpList,showEmpDetail,operatorSet},
   data () {
   	return {
+      empTotal: 0,
       defaultOpen: [0],
       defaultGet: [0],
       expandedid: 0,
@@ -116,8 +151,11 @@ export default {
       dialogVisible: false,
       btnType: 0,
       editType: 0,
+      searchType: '0',
       sform: {
         name: '',
+        //empNo: '',
+        //empName: '',
         userid: getCache('userid')
       },
       defaultProps: {
@@ -128,11 +166,14 @@ export default {
   	  	deptid:'',
   	  	requestedCount: 10,
   	  	startIndex:0,
-  	  	userid: getCache('userid')
+  	  	userid: getCache('userid'),
+        strDeptid: ''
   	  },
       rform:{
         requestedCount: 10,
         startIndex:0,
+        //name: '',
+        //empNo: '',
         userid: getCache('userid')
       },
       deform: {
@@ -155,7 +196,14 @@ export default {
       whiteListShow: process.env.whiteListShow || false,
       empWorkNoCheck: process.env.empWorkNoCheck || false,
       searchFlag: false,
-      empAddMenuShow: process.env.empAddMenuClose || false
+      empAddMenuShow: process.env.empAddMenuClose || false,
+      deptidToString: process.env.deptidToString || false,
+      comAddEmpShow: process.env.comAddEmpShow || false,
+      empNoSearchShow: process.env.empNoSearchShow || false,
+      getEmpByEmpName: process.env.getEmpByEmpName || false,
+      operatorSet: process.env.operatorSet || false,
+      departVnoSet: process.env.departVnoSet || false,
+      defaultInterviewSet: process.env.defaultInterviewSet || false
   	}
   },
   computed: {
@@ -177,10 +225,40 @@ export default {
       set: function () {} 
     }
   },
-  mounted () {
+  watch: {
+    empTotal (val) {
+      setCache('empTotal',val)
+    }
+  },
+  created () {
+    this.getEmployeeCount()
+  },
+  mounted () {    
     this.getProjectList()
   },
   methods: {
+    getEmployeeCount () {
+      let nform = {
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getEmployeeCount',nform).then(res => {
+        let {status,result} = res
+        if (status == 0) {
+          this.empTotal = result.empcount
+        }
+      })
+    },
+    GetEmpList () {
+      let nform = {
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('GetEmpList',nform).then(res => {
+        let {status,result} = res
+        if (status == 0) {
+          this.empTotal = result.length
+        }
+      })
+    },
     tableRowClassName({row, rowIndex}) {
       if (row.empType === 4) {
         return 'off-row'
@@ -190,6 +268,8 @@ export default {
     },
     changeRightType (val) {
       this.rightType = val
+      this.getProjectList()
+      this.getEmpList()
     },
     getUpdateEmp () {
       this.dialogVisible = false
@@ -260,6 +340,23 @@ export default {
       })
       return flag
     },
+    checkIsReciver (eid) {
+      let receiver = replaceRemoveQuotation(this.parent.receiver)
+      let sreceiver = JSON.stringify(receiver)
+      let areceiver = JSON.parse(sreceiver)
+      let aempid = ''
+      if (areceiver.indexOf('name') > 0 && areceiver.indexOf('empid') > 0) {
+        let array = areceiver.split(/name|}]/g)[1]
+        let objArray = array.split(/\"|\:|\,/g)
+        let aname = objArray[3]
+        aempid = objArray[8]
+      }     
+      let flag = false
+      if (aempid == eid) {
+        flag = true
+      }
+      return flag
+    },
     confirmBack (type) {
       this.rightType = type
     },
@@ -294,7 +391,7 @@ export default {
   	  this.$store.dispatch('getDeptList',nform).then(res => {
   	  	let {status,result} = res
   	  	if (status === 0) {
-  	  	  this.list = getCgBarList(result,'deptName','deptid','empCount','deptManagerEmpid','childDeptList','deptNo')
+  	  	  this.list = getCgBarList(result,'deptName','deptid','empCount','deptManagerEmpid','childDeptList','deptNo','strDeptid','vMaxCount','defaultNotify','defaultReceiver')
           this.getEmpList()
           if (JSON.stringify(this.parent) == "{}") {
             this.parent = this.list[0]
@@ -303,7 +400,22 @@ export default {
   	  })
   	},
   	getResidentVisitor () {
-  	  this.$store.dispatch('getEmpDeptList',this.nform).then(res => {
+      let nform = {
+        deptid:this.nform.deptid,
+        requestedCount: this.nform.requestedCount,
+        startIndex: this.nform.startIndex,
+        userid: getCache('userid')
+      }
+      //-8817945845315714000
+      if (this.deptidToString) {
+        nform = {
+          deptid: this.nform.strDeptid,//this.nform.deptid.toString(),
+          requestedCount: this.nform.requestedCount,
+          startIndex: this.nform.startIndex,
+          userid: getCache('userid')
+        }
+      }
+  	  this.$store.dispatch('getEmpDeptList',nform).then(res => {
   	  	let {status,result} = res
   	  	if (status === 0) {
   	  	  this.dataList = result.list
@@ -335,6 +447,7 @@ export default {
       } else {
         this.dtype = 1
         this.nform.deptid = data.pid
+        this.nform.strDeptid = data.strdid
         this.nform.startIndex = 1
         this.getResidentVisitor()
       }        
@@ -369,9 +482,44 @@ export default {
         _self.deform.empids.push(ele.empid)
   	  })
   	},
+    searchEmpNo (event) {
+      if(event.keyCode == 13) {
+        if (this.searchType == 0) {
+          this.searchEmp(this.sform.name)
+        } else {
+          this.searchEmpByNo()
+        }        
+      }
+    },
+    searchEmpByNo (val) {
+      if (val !== '') {
+        let nform = {
+          empName: '',
+          empNo: this.sform.name,
+          userid: getCache('userid')
+        }
+        this.$store.dispatch('getEmpByName',nform).then(res => {
+          let {status,result} = res
+          if (status === 0) {
+            this.dataList = result
+            this.total = 0
+          }
+        })
+      }
+    },
     searchEmp (val) {
       if (val !== '') {
-        this.$store.dispatch('getEmpByName',this.sform).then(res => {
+        let nform = {
+          name: val,
+          userid: this.sform.userid
+        }
+        if (this.getEmpByEmpName) {
+          nform = {
+            empName: val,
+            userid: this.sform.userid
+          }
+        }
+        this.$store.dispatch('getEmpByName',nform).then(res => {
           let {status,result} = res
           if (status === 0) {
             this.dataList = result
@@ -409,14 +557,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-  .el-table .off-row {
-    /*background: #dcdcdc;*/
-    color:#9e9e9e;
-  }
-
-  .el-table .on-row {
-    /*background: #f0f9eb;*/
-    color: #409EFF;
-  }
-</style>

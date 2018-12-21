@@ -11,7 +11,7 @@
             <el-form-item :label="$t('key.equipMark')" prop="deviceCode">
               <el-input v-model="form.deviceCode"></el-input>
             </el-form-item>
-            <el-form-item :label="$t('key.extendMark')" prop="extendCode">
+            <el-form-item :label="$t('key.extendMark')" >
               <el-input v-model="form.extendCode"></el-input>
             </el-form-item>
             <el-form-item :label="$t('key.doorNumber')">
@@ -23,7 +23,7 @@
             <el-form-item :label="$t('key.equipPort')">
               <el-input v-model="form.devicePort"></el-input>
             </el-form-item>
-            <el-form-item :label="$t('key.headNumber')" prop="deviceQrcode">
+            <el-form-item :label="$t('key.headNumber')" >
               <el-input v-model="form.deviceQrcode"></el-input>
             </el-form-item>
             <el-form-item :label="$t('key.equipDist')">

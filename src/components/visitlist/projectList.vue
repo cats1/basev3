@@ -256,7 +256,6 @@ export default {
   	  })
   	},
     checkRow (val) {
-      console.log(val)
       this.nform.pid = this.probj.pid
       this.editType = 1
       this.btnType = 1

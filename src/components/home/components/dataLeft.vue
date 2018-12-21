@@ -70,7 +70,7 @@
 				<el-button class="width100" type="primary" @click="search">{{$t('btn.searchBtn')}}</el-button>
 			</el-form-item>
 		</el-form>
-		<data-pie :piedata="typeArray" id="leftpie"></data-pie>
+		<data-pie :piedata="typeArray" id="leftpie" :ptitle="ptitle"></data-pie>
 	</div>
 </template>
 <script>
@@ -79,6 +79,16 @@ import {formatDate} from '@/utils/index'
 import {stringToArray} from '@/utils/common'
 import dataPie from '@/components/charts/dataPie'
 export default {
+  props: {
+    sindex: {
+      type: Number,
+      default: 1
+    },
+    scount: {
+      type: Number,
+      default: 1
+    }
+  },
   components: {dataPie},
   data () {
   	return {
@@ -110,8 +120,23 @@ export default {
           return time.getTime() > Date.now();
         }
       },
-      vtypelist: []
+      vtypelist: [],
+      inviteMoreShow: process.env.inviteMoreShow || false,
+      startIndex:this.sindex,
+      requestedCount: this.scount,
+      eslForm: [],
+      ptitle: ''
   	}
+  },
+  watch: {
+    sindex (val) {
+      this.startIndex = val
+      this.getDepotFormList()
+    },
+    scount (val) {
+      this.requestedCount = val
+      this.getDepotFormList()
+    }
   },
   mounted () {
     this.getVisitor()
@@ -272,32 +297,97 @@ export default {
           'vType': this.vType
         }
       }
-  	  this.$store.dispatch('SearchVisitByCondition',nform).then(res => {
+  	  if (this.inviteMoreShow) {
+        if (this.vType == '文涛仓') {          
+          this.getDepotFormList()
+        } else {
+          this.SearchVisitByCondition(nform)
+        }
+      } else {
+        this.SearchVisitByCondition(nform)
+      }
+  	},
+    SearchVisitByCondition (nform) {
+      this.$store.dispatch('SearchVisitByCondition',nform).then(res => {
         let {status,result} = res
         if (status === 0) {
           this.vlist = result
+          this.ptitle = ''
           this.setPieData()
           this.$emit('getvlist',result,this.svalue,nform)
         }
       })
-  	},
+    },
+    getDepotFormList () {
+      let nform = {
+        'endDate': this.form.endDate,
+        'startDate': this.form.date,
+        'startIndex': (this.startIndex - 1) * this.requestedCount + 1,
+        'requestedCount': this.requestedCount
+      }
+      this.$store.dispatch('getDepotFormList',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.eslForm = result
+          this.vlist = result.list
+          this.ptitle = '一般文书业务类别'
+          this.setPieData()
+          let form = {
+            'userid': getCache('userid'),
+            'name': this.form.name,
+            'empName': this.form.empName,
+            'visitType': this.vvalue,
+            'phone': this.form.phone,
+            'date': this.form.date,
+            'endDate': this.form.endDate,
+            'vcompany': this.form.vcompany,
+            'signInGate': this.gvalue,
+            'vType': this.vType
+          }
+          this.$emit('getesl',result,this.svalue,form)
+        }
+      })
+    },
   	setPieData () {
   	  let _self = this
   	  let typeArray = []
-      this.vlist.forEach(function(element, index) {
+      let vListArray = []
+      if (this.vlist.constructor == Array) {
+        vListArray = this.vlist
+      } else {
+        vListArray = this.vlist.list
+      }
+      vListArray.forEach(function(element, index) {
       	let isFlag = false
       	let hit = 0
         typeArray.forEach(function(ele, eindex) {
-          	if(ele.name === element.visitType) {
+          if (_self.vType == '文涛仓') {
+            if(ele.name === element.opType) {
               ele.value++
               hit = 1
-          	}
+            }
+          } else {
+            if(ele.name === element.visitType) {
+              ele.value++
+              hit = 1
+            }
+          }
+          	
         })
         if (hit === 0) {
-            let obj = {
-              name: element.visitType == null ? '团队': element.visitType,
+          let obj
+          if (_self.vType == '文涛仓') {
+            obj = {
+              name: element.opType ? element.opType : '其他',
               value: 1
             }
+          } else {
+            obj = {
+              name: element.visitType ? element.visitType : '其他',
+              value: 1
+            }
+          }
+            
             typeArray.push(obj)
         }
       })

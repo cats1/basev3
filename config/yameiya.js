@@ -9,7 +9,7 @@ module.exports = {
   stageLink: true,
   signPdf: true,
   empLogin: true,
-  empPwdShow: false,
+  empPwdShow: true,
   empActiveShow: true,
   empPhoneCheck: true,
   empWorkNoCheck: false,
@@ -29,7 +29,7 @@ module.exports = {
   sendSmsType: 2, //0手机号1邮箱2手机号和邮箱二选一
   smsDetailShow: true,
   footerEmpClose: false,
-  mapValue: 1,//0百度1谷歌
+  mapValue: 0,//0百度1谷歌
   internalPhoneShow: true,
   BASE_API: '"http://avaya.coolvisit.top/qcvisit"',//'"http://visit.eastech.com/qcvisit"',//
   BASE_LINK: '"http://avaya.coolvisit.top/"',//'"http://visit.eastech.com/"',//

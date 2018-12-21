@@ -35,8 +35,9 @@ module.exports = {
   footerEmpClose: true,
   mapValue: 0,//0百度1谷歌
   //internalPhoneShow: true,
-  BASE_API: '"http://www.coolvisit.top/qcvisitBase"',//'"http://visitor.leanloop.net/qcvisit"',//
-  BASE_LINK: '"http://www.coolvisit.top/"',//'"http://visitor.leanloop.net/"',//
+  mobileLocation: false,
+  BASE_API: '"http://visitor.leanloop.net/qcvisit"',//
+  BASE_LINK: '"http://visitor.leanloop.net/"',//
   BASE_VERSION: '"v2.2.3"',
-  HOST: '"www.coolvisit.top"'//'"visitor.leanloop.net"'
+  HOST: '"visitor.leanloop.net"'
 }

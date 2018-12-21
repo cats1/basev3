@@ -333,6 +333,14 @@ export function getMaxEmpNo(data) {
     data
   })
 }
+//getEmployeeCount
+export function getEmployeeCount(data) {
+  return request({
+    url: '/getEmployeeCount',
+    method: 'post',
+    data
+  })
+}
 //getDeptByEmpid
 /*export function getDeptByEmpid(data) {
   return request({

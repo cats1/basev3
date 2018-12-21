@@ -13,7 +13,12 @@
 		    </template>
 			<div class="menuleft">			
 				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :background-color="backgroundColor" :text-color="textColor" :active-text-color="activeTextColor">
-		            <el-menu-item index="order"><router-link to="/">{{$t('empnav[0].name')}}</router-link></el-menu-item>
+					<template v-if="inviteMoreShow">
+						<el-menu-item index="order"><router-link to="/">{{$t('Approve')}}</router-link></el-menu-item>
+					</template>
+					<template v-else>
+						<el-menu-item index="order"><router-link to="/">{{$t('empnav[0].name')}}</router-link></el-menu-item>
+					</template>
 		            <el-menu-item index="list"><router-link to="/list">{{$t('empnav[1].name')}}</router-link></el-menu-item>
 		            <el-menu-item index="empmeeting" v-show="meetshow"><router-link to="/empmeeting">{{$t('navlist[4].name')}}</router-link></el-menu-item>
 				</el-menu>
@@ -63,7 +68,8 @@ export default {
 	  	logoShow: process.env.logoClose || false,
 	  	whiteheader: process.env.whiteHeaderClass || false,
 	  	accountMessClose: process.env.accountMessClose || false,
-	  	isMobile: false
+	  	isMobile: false,
+	  	inviteMoreShow:process.env.inviteMoreShow || false
       }
     },
     computed: {
@@ -86,7 +92,11 @@ export default {
     components: { LangSelect, vHistory, changePwd },
     methods: {
     	GetUserInfo () {
-	      this.$store.dispatch('GetUserInfo').then(res => {
+    		let info = {
+					email: getCache('pemail') || getCache('email'),
+					userid: getCache('userid')
+				}
+	      this.$store.dispatch('GetUserInfo',info).then(res => {
 	      	let {status,result} = res
 	      	if (status === 0) {
               //this.username = result.username
@@ -131,9 +141,7 @@ export default {
       } else {
       	this.activeIndex = 'empmeeting'
       }
-    },
-    mounted () {
-    	this.GetUserInfo()
+      this.GetUserInfo()
     }
   }
 </script>

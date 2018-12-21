@@ -4,7 +4,9 @@
     <template v-if="doorGate">
       <door-set class="bgwhite"></door-set>
     </template>
-    <!-- <work-time class="bgwhite"></work-time> -->
+    <template v-if="pcSetWorkTime">
+      <work-time class="bgwhite"></work-time>
+    </template>
   </div>
 </template>
 <script>
@@ -15,7 +17,8 @@ export default {
   name: 'App',
   data () {
     return {
-      doorGate: process.env.doorGate || false
+      doorGate: process.env.doorGate || false,
+      pcSetWorkTime: process.env.pcSetWorkTime || false
     }
   },
   components: { hTitle,doorSet,workTime }

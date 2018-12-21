@@ -7,7 +7,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="saveProject">{{$t('btn.saveBtn')}}</el-button>
-        <el-button type="redline" @click="deleteProject" v-show="etype === 1">{{$t('btn.deleteBtn')}}</el-button>
+        <el-button type="redline" @click="deleteProject" v-show="deleShow">{{$t('btn.deleteBtn')}}</el-button>
         <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>       
       </span>
     </el-dialog>
@@ -34,13 +34,14 @@ export default {
             },
             rules: {
                 rgName: [
-                    { required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }
+                    { required: true, message: this.$t('roleGroupNameNotNull'), trigger: 'blur' }
                 ]
             },
             dform: {
                 rid: '',
                 userid: getCache('userid')
-            }
+            },
+            deleShow: false
         }
     },
     watch: {
@@ -50,6 +51,15 @@ export default {
             this.dform.rid = val.pid
         },
         isShow(val) {
+            if (this.etype == 1) {
+              if (this.parent.pid < 0) {
+                this.deleShow = false
+              } else {
+                this.deleShow = true 
+              }
+            } else {
+              this.deleShow = false 
+            }
             this.dialogVisible = val
         },
         etype (val) {

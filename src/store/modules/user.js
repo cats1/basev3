@@ -1,4 +1,5 @@
 import { managerLogin, getCode, isCodeTrue, RetrievePassword, Register, ModifyPassword } from '@/api/login'
+import { empLogin } from '@/api/emp'
 import { getToken, setToken, removeToken, setCache, getCache,clearCookie,clearSession,clearLocal } from '@/utils/auth'
 import 'babel-polyfill'
 import promise from 'es6-promise'
@@ -26,9 +27,31 @@ const user = {
 		          		if (key !== 'token') {
 		          		  setCache(key, result[key] || '')
 		          		} else {
+		          		  commit('SET_TOKEN', result.userid + '-' + result.token)
 		          		  setCache('token', result.userid + '-' + result.token)
 		          		}
 		            }
+		          }
+		          setToken(result.token)
+		          resolve(response)
+		        }).catch(error => {
+		          reject(error)
+		        })
+		    })
+		},
+		empLogin({ commit }, userInfo) {
+			return new Promise((resolve, reject) => {
+		        empLogin(userInfo).then(response => {
+		          let { status, result } = response
+		          if (status === 0) {
+		          	for (let key in result) {
+		          		if (key !== 'token') {
+		          	      setCache(key, result[key])
+		          		} else {
+		          		  commit('SET_TOKEN', result.userid + '-' + result.token)
+		          		  setCache('token', result.empid + '-' + result.token)
+		          		}
+		          	}
 		          }
 		          setToken(result.token)
 		          resolve(response)
