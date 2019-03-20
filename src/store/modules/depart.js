@@ -1,5 +1,5 @@
 import { addDepartment,addEmployee,getEmployeeFromRtx,UpdateRtxRefresh,
-	updateDepartment,updateDeptEmpRelation,delDepartment,updateEmployee } from '@/api/depart'
+	updateDepartment,updateDeptEmpRelation,delDepartment,updateEmployee,getDepartment } from '@/api/depart'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import { Message } from 'element-ui'
 import i18n from '@/lang'
@@ -166,6 +166,15 @@ const user = {
 			        resolve(response)
 			    }).catch(error => {
 			          reject(error)
+			    })
+		    })
+		},
+		getDepartment({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getDepartment(info).then(response => {
+			        resolve(response)
+			    }).catch(error => {
+			        reject(error)
 			    })
 		    })
 		},

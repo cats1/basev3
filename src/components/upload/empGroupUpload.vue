@@ -41,6 +41,7 @@ export default {
       	let _self = this
         if (parseInt(getCache('subAccount')) === 1) {
           UploadAB(files,function(result){
+            _self.$refs[_self.inputId].value = ''
             _self.$message({
               message: _self.$t('uploadFileSuccess'),
               type: 'success'
@@ -49,6 +50,7 @@ export default {
           })
         } else {
           NewUploadAB(files,function(result){
+            _self.$refs[_self.inputId].value = ''
             _self.$message({
               message: _self.$t('uploadFileSuccess'),
               type: 'success'

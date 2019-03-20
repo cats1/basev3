@@ -4,12 +4,22 @@
 			<el-form-item>
 				<el-select class="width100" v-model="svalue" @change="settype">
           <template v-if="vTypeShow">
-            <el-option
-              v-for="(item,index) in $t('checkVtype')"
-              :key="index"
-              :label="item"
-              :value="index" >
-            </el-option>
+            <template v-if="doorGate">
+              <el-option
+                v-for="(item,index) in $t('checkVtype')"
+                :key="index"
+                :label="item"
+                :value="index" >
+              </el-option>
+            </template>
+            <template v-else>
+              <el-option
+                v-for="(item,index) in $t('checkVtype')"
+                :key="index"
+                :label="item"
+                :value="index" v-show="index !== 6">
+              </el-option>
+            </template>
           </template>
 				  <template v-else>
             <el-option
@@ -57,14 +67,26 @@
 				</template>
 			</el-form-item>
 			<el-form-item>
-				<el-date-picker
-			      v-model="dvalue"
-			      type="daterange"
-			      range-separator="-"
+        <template v-if="jhConfig">
+          <el-date-picker
+            v-model="dvalue"
+            type="daterange"
+            range-separator="-"
+            :picker-options="pickerOptions2"
+            :start-placeholder="$t('vdate[0]')"
+            :end-placeholder="$t('vdate[1]')" @change="setDate" style="width: 100%;">
+          </el-date-picker>
+        </template>
+        <template v-else>
+          <el-date-picker
+            v-model="dvalue"
+            type="daterange"
+            range-separator="-"
             :picker-options="pickerOptions1"
-			      :start-placeholder="$t('vdate[0]')"
-			      :end-placeholder="$t('vdate[1]')" @change="setDate" style="width: 100%;">
-			    </el-date-picker>
+            :start-placeholder="$t('vdate[0]')"
+            :end-placeholder="$t('vdate[1]')" @change="setDate" style="width: 100%;">
+          </el-date-picker>
+        </template>				
 			</el-form-item>
 			<el-form-item>
 				<el-button class="width100" type="primary" @click="search">{{$t('btn.searchBtn')}}</el-button>
@@ -120,12 +142,22 @@ export default {
           return time.getTime() > Date.now();
         }
       },
+      pickerOptions2: {
+        disabledDate(time) {//curDate.getTime() - 24*60*60*1000
+          let curDate = (new Date()).getTime();
+          let days = 2 * 24 * 3600 * 1000;
+          let twodays = curDate - days;
+          return time.getTime() > Date.now() || time.getTime() < twodays;
+        }
+      },
       vtypelist: [],
       inviteMoreShow: process.env.inviteMoreShow || false,
       startIndex:this.sindex,
       requestedCount: this.scount,
       eslForm: [],
-      ptitle: ''
+      ptitle: '',
+      doorGate: process.env.doorGate || false,
+      jhConfig: process.env.jhConfig || false
   	}
   },
   watch: {
@@ -189,7 +221,6 @@ export default {
         this.gvalue = ''
         this.vType = ''
   	  } else if (val === 3) {
-  	  	this.vvalue = '面试'
   	  	this.getVType()
         this.form.name = ''
         this.form.empName = ''
@@ -365,14 +396,23 @@ export default {
             if(ele.name === element.opType) {
               ele.value++
               hit = 1
+            } else {
+              if (element.opType == ''&& ele.name == '其他') {
+                ele.value++
+                hit = 1
+              }
             }
           } else {
             if(ele.name === element.visitType) {
               ele.value++
               hit = 1
+            } else {
+              if (element.visitType == ''&& ele.name == '其他') {
+                ele.value++
+                hit = 1
+              }
             }
           }
-          	
         })
         if (hit === 0) {
           let obj
@@ -387,8 +427,7 @@ export default {
               value: 1
             }
           }
-            
-            typeArray.push(obj)
+          typeArray.push(obj)
         }
       })
       this.typeArray = typeArray

@@ -5,8 +5,8 @@
         <add-depart :btn-type="btnType" :parent="parent" :dlist="list" @addkit="getAddkit" @clickit="changeRightType"></add-depart>
         <add-emp :btn-type="btnType" :parent="parent" :edit-type="editType" :cur-emp="curEmp" :dlist="list" @addempkit="getAddEmpkit" @updateempkit="getUpdatekit" @closeempkit="getClosekit" @clickit="changeRightType"></add-emp>
         <export-address-list @exportkit="changeExport"></export-address-list>
-        <edit-depart :parent-node="parentNode" :parent="parent" :dlist="list" @addkit="getAddkit" :emp-list="dataList" @clickit="changeRightType"></edit-depart>
-        <move-depart :parent="parent" :dlist="list" :semp="sempArray" @movekit="getmove" @clickit="changeRightType"></move-depart>
+        <edit-depart :parent-node="parentNode" :parent="parent" :dlist="list" @addkit="getAddkit" :emp-list="dataList" @clickit="changeRightType" ></edit-depart>
+        <move-depart :parent="parent" :dlist="list" :semp="sempArray" @movekit="getmove" @clickit="changeDepart" ></move-depart>
         <template v-if="!empWorkNoCheck">
           <delete-emp :semp="sempArray" @delekit="getDelete" @clickit="changeRightType"></delete-emp>
         </template>
@@ -265,6 +265,9 @@ export default {
       } else {
         return 'on-row'
       }
+    },
+    changeDepart (val) {
+      this.rightType = val
     },
     changeRightType (val) {
       this.rightType = val

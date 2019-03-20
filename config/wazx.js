@@ -26,12 +26,15 @@ module.exports = {
   dataError: false,
   deptNoShow: false,
   takePhotoShow: false,
-  vTypeShow: false,
+  vTypeShow: true,
   sendSmsType: 2, //0手机号1邮箱2手机号和邮箱二选一
   areaEquipShow: true,//网安中心区域设备配置
   wazxFlag: true,
-  BASE_API: '"http://www.coolvisit.top/qcvisit"',//'"http://120.79.239.109/qcvisit"',//
-  BASE_LINK: '"http://www.coolvisit.top/wazx/"',//'"http://120.79.239.109/"',//
+  firstAndLastRoomTime: true,
+  keyListExport: true,
+  checkPassword: true,
+  BASE_API: '"http://visit.jscert.org.cn/qcvisit"',//'"http://120.79.239.109/qcvisit"',//
+  BASE_LINK: '"http://visit.jscert.org.cn/"',//'"http://120.79.239.109/"',//
   BASE_VERSION: '"v2.2.3"',
-  HOST: '"www.coolvisit.top"'//'"120.79.239.109"'
+  HOST: '"visit.jscert.org.cn"'//'"120.79.239.109"'
 }

@@ -5,7 +5,7 @@ const statusMessages = i18n.messages[i18n.locale].status
 let Base64 = require('js-base64').Base64
 const LocationHost = window.location.host
 const LocationProtocol = window.location.protocol
-const IpReg = LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('172.16.109.77') > -1
+const IpReg = LocationHost.indexOf('localhost') > -1 || LocationHost.indexOf('192.168.0.21') > -1
 let baseURL = process.env.BASE_API
 let baseLink = process.env.BASE_LINK
 let idCardNum = process.env.idCardNum || 0
@@ -249,6 +249,14 @@ function judgeModel(array) {
   }
   return modalArray
 }
+export function codePhoneNum(phone){
+  if (phone.length == 11) {
+    return phone.substr(0,3)+"****"+phone.substr(9);
+  } else if (phone.length == 13) {
+    return phone.substr(0,5)+"****"+phone.substr(9);
+  }
+  
+}
 export function getVStatus(item) {
   //扩展字段
   var extendCol = '';
@@ -419,6 +427,21 @@ function compareTime(time1, time2) {
   } else {
     return false
   }
+}
+ export function changeURLArg(url,arg,arg_val){
+    let pattern = arg + '=([^&]*)'
+    let replaceText = arg + '=' + arg_val
+    if(url.match(pattern)){
+        let tmp = '/('+ arg+'=)([^&]*)/gi'
+        tmp = url.replace(eval(tmp),replaceText)
+        return tmp
+    }else{ 
+      if(url.match('[\?]')){ 
+        return url + '&' + replaceText
+      }else{ 
+        return url + '?' + replaceText
+      } 
+    }
 }
 /* 获取链接中某一字符串赋值 */
 export function getParameter(name) {
@@ -930,6 +953,17 @@ export function downMoban(url) {
 }
 export function downloadDoc(params) {
   let url = getBaseUrl() + '/ExportVisitorList' + params
+  var browser = isIE()
+  if (browser == true) {
+    window.location.href = url
+  }
+  if (navigator.userAgent.indexOf("Firefox") > 0) {
+    window.location.href = url
+  }
+  window.open(url)
+}
+export function downloadKeyListDoc(params) {
+  let url = getBaseUrl() + '/ExportRfidRecordsList' + params
   var browser = isIE()
   if (browser == true) {
     window.location.href = url

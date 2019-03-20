@@ -1,8 +1,12 @@
 <template>
 	<div>
 	  <div class="boxshadow bgwhite paddinglr30 paddingtb20 marginbom20">
-		<el-button type="default" @click="addWhite"><i class="fa fa-user-circle"></i>{{$t('addWhiteBtn')}}</el-button>
-		<el-button type="redline" @click="deleEmpWlist()"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
+  		<el-button type="default" @click="addWhite"><i class="fa fa-user-circle"></i>{{$t('addWhiteBtn')}}</el-button>
+  		<el-button type="redline" @click="deleEmpWlist()"><i class="fa fa-trash-o"></i>{{$t('btn.dotDeleteBtn')}}</el-button>
+      <div class="paddingtb20">
+        <el-input v-model="form.empName" style="width:200px" clearable @clear="doSearch"></el-input>
+        <el-button type="primary" @click="doSearch">{{$t('btn.searchBtn')}}</el-button>
+      </div>      
 	  </div>
 	  <div class="boxshadow bgwhite paddinglr30 paddingtb20">
 	  	<el-table :data="list" border  @selection-change="handleSelectionChange" @row-click="showEmp">
@@ -12,6 +16,7 @@
 		    </el-table-column>
 	  		<el-table-column prop="empName" :label="$t('form.name.text')"></el-table-column>
 	  		<el-table-column prop="empNo" :label="$t('form.position.text1')"></el-table-column>
+        
 	  	</el-table>
 	  	<div class="page-footer">
 	  		<el-pagination
@@ -91,10 +96,13 @@ export default {
         empName: '',
         empid: ''
       },
+      checkValue: [],
       dialogShow: false,
   	  form: {
   	  	'userid': getCache('userid'),
         'empid': '',
+        'empName': '',
+        'empNo': '',
         'startIndex': 1,
         'requestedCount': 10
   	  },
@@ -161,11 +169,16 @@ export default {
         }
       })
     },
+    doSearch () {
+      this.form.startIndex = 1
+      this.form.requestedCount = 10
+      this.getList()
+    },
   	getList () {
       let nform = {
         'startIndex': this.form.startIndex,
         'requestedCount': this.form.requestedCount,
-        'empName': '',
+        'empName': this.form.empName,
         'empNo': '',
         'userid': getCache('userid')
       }

@@ -103,6 +103,10 @@ export default {
     extendCol:{
       type: Array,
       default: []
+    },
+    selectVType: {
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -122,7 +126,8 @@ export default {
       peopleCount: 0,
       extendColSet: this.extendCol,
       extendColArray: [],
-      vlist: ''
+      vlist: '',
+      vType: this.selectVType
     }
   },
   watch: {
@@ -135,6 +140,9 @@ export default {
     },
     extendCol (val) {
       this.extendColSet = val
+    },
+    selectVType (val) {
+      this.vType = val
     }
   },
   filters:{
@@ -155,7 +163,7 @@ export default {
   methods: {
     doHover () {
       if (!this.vdata.signOutDate) {
-        if (parseInt(this.vdata.signinType) === 0) {
+        if (this.vdata.visitdate) {
           this.maskShow = true
         }
       }

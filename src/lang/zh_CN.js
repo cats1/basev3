@@ -23,6 +23,15 @@ export default {
     vset: '访客类型',
     signup: '注册'
   },
+  pwdStrong: '强',
+  pwdMedium: '中',
+  pwdWeak: '弱',
+  plateNum: '车牌号',
+  belongings: '携带物品',
+  onUse: '可用',
+  tagText: '标签',
+  tagTitle: '自定义标签',
+  tagDesc: '用户自定义的标签',
   carNumber:'车牌',
   peopleSearch: '人员',
   Approve: '审批',
@@ -584,7 +593,7 @@ export default {
     tip6: '至少添加一条来访者信息',
     visitMess: '来访者信息',
     address: '公司地址',
-    traffic: '停车信息及周边交通',
+    traffic: '停车信息',
     compro: '公司简介',
     inviteLink: '邀请函链接',
     single: '单独邀请',
@@ -798,7 +807,9 @@ export default {
     forbid: '禁用',
     off: '停用',
     text: '状态',
-    startText: '开启状态'
+    startText: '开启状态',
+    approveStatus: '审批状态',
+    cardStatus: '打卡状态'
   },
   key: {
     htitle: '设备管理',

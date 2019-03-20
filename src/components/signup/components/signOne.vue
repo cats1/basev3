@@ -21,7 +21,12 @@
         <el-input name="company" type="text" v-model="form.company" autoComplete="on" :placeholder="$t('yourCompany')" />
       </el-form-item>
       <el-form-item prop="password">
-        <el-input name="password" type="password" v-model="form.password" autoComplete="on" :placeholder="$t('passText')" />
+        <template v-if='checkPassword'>
+          <check-password :p-value="form.password" @sendv="getNewpwd"></check-password>
+        </template>
+        <template v-else>
+          <el-input name="password" type="password" v-model="form.password" autoComplete="on" :placeholder="$t('passText')" />
+        </template> 
       </el-form-item>
       <el-form-item prop="repassword">
         <el-input name="repassword" type="password" v-model="form.repassword" autoComplete="on" :placeholder="$t('comfirmPassText')" />
@@ -106,20 +111,35 @@ export default {
         repassword: [{ required: true, trigger: 'blur', validator: validatePassword }],
         smscode: [{ required: true, trigger: 'blur', validator: validateCode }]
       },
-      loading: false
+      loading: false,
+      pwdStrong: 0,
+      checkPassword: process.env.checkPassword || false
     }
   },
   methods: {
+    getNewpwd (val,num) {
+      this.form.password = val
+      this.pwdStrong = num
+    },
     goLogin () {
       window.location.href = 'signin.html'
     },
     getSmsCode (code) {
       this.form.smscode = code
     },
-    doRegister () {
-      
+    doRegister () {      
       this.$refs.signupForm.validate(valid => {
         if (valid) {
+          if (this.checkPassword) {
+            if (this.pwdStrong == 1) {
+              this.$message({
+                showClose: true,
+                message: '密码强度太弱',
+                type: 'warning'
+              })
+              return false
+            }
+          }
           let newForm = {
             email: this.form.email,
             name: this.form.name,

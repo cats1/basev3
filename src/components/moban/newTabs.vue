@@ -120,7 +120,7 @@ export default {
       })
       if (action === 'add') {
         this.editType = 'add'
-        if (this.editableTabs.length < 5) {
+        if (this.editableTabs.length < 10) {
           this.tabForm.title = ''
           this.dialogVisible = true     
         } else {

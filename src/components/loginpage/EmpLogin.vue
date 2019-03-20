@@ -8,11 +8,20 @@
               </span>
              <el-input type="text" auto-complete="off" v-model="loginForm.phone" :placeholder="$t('login.username')" />
           </el-form-item>
-          <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="goEpsonLogin">{{$t('login.logIn')}}</el-button>
-          <el-alert
-            title="员工请在IE浏览器中登录，请启用ActiveX，具体配置步骤：工具>Internet选项>安全>Internet>自定义级别>ActiveX控件和插件>对没有标记为安全的ActiveX控件进行初始化和脚本运行>选择启用"
-            type="error" :center="false" :closable="false" v-show="tips">
-          </el-alert>
+          <template v-if="autoLogin">
+            <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="goEpsonLogin">{{$t('login.logIn')}}</el-button>
+            <div class="warningwrap">
+              <p>自动登陆失败，请按照以下步骤进行操作。</p>
+              <p style="word-break:break-all;
+　　 word-wrap:break-word;">1、点击“开始-运行”copy共享文件“\\eslf002\oversizemail\ISD\首次登陆访客系统执行文件\访客系统首次执行文件.bat”,运行执行文件。</p>
+              <p>2、关闭IE浏览器，重新打开IE登录系统。</p>
+            </div>
+            <!-- <el-alert
+              title=""
+              type="error" :center="false" :closable="false" v-show="tips">
+            </el-alert> -->
+          </template>
+          
       </template>
       <template v-else>
           <el-form-item prop="username">
@@ -77,7 +86,7 @@
 </template>
 <script>
 import { isvalidatPhone, validatePSD } from '@/utils/validate'
-import { lftPwdRule, lftDePwdRule } from '@/utils/common'
+import { lftPwdRule, lftDePwdRule,downMoban,getBaseLink } from '@/utils/common'
 import ImgCode from './ImgCode'
 import OrLine from '@/components/or/OrLine'
 import { getCache } from '@/utils/auth'
@@ -136,7 +145,8 @@ export default {
       empPwdShow: process.env.empPwdShow || false,
       empPointEpson: process.env.empPointEpson || false,
       empUserName: '',
-      tips: false
+      tips: false,
+      autoLogin: true
     }
   },
   created () {
@@ -150,10 +160,17 @@ export default {
     }
   },
   methods: {
+    download() {
+      // let link = getBaseLink() + '/credence.bat'
+      // downMoban(link)
+      // \\eslf002\oversizemail\ISD\首次登陆访客系统执行文件\访客系统首次执行文件.bat
+    },
     getComputerName () {
       try{
         let wshNetwork = new ActiveXObject("WScript.Network")
         this.loginForm.phone = wshNetwork.UserName
+        this.autoLogin = false
+        this.goEpsonLogin()
       } catch (e) {
         if (e.name == 'Error') {
           this.tips = true

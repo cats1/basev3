@@ -9,7 +9,7 @@
         <div class="vlist-wrap boxshadow margintop20 paddingtb20 bgwhite">
           <template v-if="vlist.length > 0">
             <template v-for="(vitem,index) in vlist">
-              <visit-item :extend-col="extendCol" :vdata="vitem" :index="index" :item-check="vCheck[index]" @checkkit="changeCheck" @outkit="getSignout"></visit-item>
+              <visit-item :select-type="selectVType" :extend-col="extendCol" :vdata="vitem" :index="index" :item-check="vCheck[index]" @checkkit="changeCheck" @outkit="getSignout"></visit-item>
             </template>
           </template>
           <template v-else>
@@ -74,6 +74,7 @@ export default {
       this.getList(this.selectVType)
     },
     changekit (type) {
+      console.log(type)
       this.selectVType = type
       this.getList(this.selectVType)
     },

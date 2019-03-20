@@ -41,7 +41,7 @@
 		<el-table :data="list" border @row-click="showEmp">
 	  		<el-table-column prop="empName" width="100" :label="$t('form.name.text')"></el-table-column>
 	  		<el-table-column prop="empNo" width="100" :label="$t('form.position.text1')"></el-table-column>
-	  		<el-table-column prop="status" width="100" :label="$t('status.text')">
+	  		<el-table-column prop="status" width="100" :label="$t('status.approveStatus')">
 	  			<template slot-scope="scope">
 	  				<span v-if="scope.row.status == 0">{{$t('unresolve')}}</span>
 	  				<span v-else-if="scope.row.status == 1">{{$t('agree')}}</span>
@@ -53,6 +53,11 @@
 	  				<span>{{scope.row.oDates}}</span>
 	  			</template>
 	  		</el-table-column>
+        <el-table-column prop="checkIn" :label="$t('status.cardStatus')">
+          <template slot-scope="scope">
+            {{filterCheckIn(scope.row.checkIn)}}
+          </template>
+        </el-table-column>
 	  	</el-table>
 	  	<div class="page-footer">
 	  		<el-pagination background
@@ -108,6 +113,13 @@ export default {
   	this.doSearch()
   },
   methods: {
+    filterCheckIn: function (val) {
+      if (val) {
+        return '已打卡'
+      } else {
+        return '未打卡'
+      }
+    },
   	showEmp (val) {
       this.parent = {}
       this.getDeptByEmpid(val.empid)

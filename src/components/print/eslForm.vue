@@ -6,8 +6,10 @@
 		  @close="handleClose">
 		  <!--startprint-->
 		  <div id="printcontent">
+        <p style="font-size:32px;line-height:76px;color: rgb(51, 51, 51);text-align:center;">一般文书仓库依赖票</p>
 		<table id="printtable" width="1000px" border="1" cellpadding="0" cellspacing="0" style="font-size:16px;color:#333;text-align:center;border-collapse: collapse;zoom:0.9;" align="center">
-			<caption style="font-size:36px;line-height:76px;">一般文书仓库依赖票</caption>
+			<!-- <caption style="font-size:36px;line-height:76px;">一般文书仓库依赖票</caption> -->
+      <caption style="font-size:18px;line-height:76px;text-align:left;">日期：{{form.submitDate}}</caption>
 			<colgroup>
 		      <col width="10%" />
 		      <col width="10%" />
@@ -243,18 +245,19 @@ export default {
   	  dialogVisible: this.vShow,
   	  form: {
         empid:'',
-    	empName:'',
-    	empPhone:'',
-    	deptid:'',
-    	deptName:'',
-    	floor:'',
-    	pCount:0,
-    	appEntryDate:'',
-    	personInfo:'',
-    	opType:'',
-    	dataInfo:'',
-    	checkName:'',
-    	checkOutputName:''
+      	empName:'',
+      	empPhone:'',
+      	deptid:'',
+      	deptName:'',
+      	floor:'',
+      	pCount:0,
+      	appEntryDate:'',
+        submitDate: '',
+      	personInfo:'',
+      	opType:'',
+      	dataInfo:'',
+      	checkName:'',
+      	checkOutputName:''
   	  },
   	  record: this.eRecord,
   	  infoList: [],
@@ -275,6 +278,7 @@ export default {
   	eForm (val) {
       this.form = val
       this.form.appEntryDate = formatDate(new Date(val.appEntryDate),'yyyy-MM-dd hh:mm')
+      this.form.submitDate = val.submitDate !='' ? formatDate(new Date(val.submitDate),'yyyy-MM-dd hh:mm') : ''
       this.getInfoList(val)
       this.getDataInfoList(val)
       this.getCheckList(val)

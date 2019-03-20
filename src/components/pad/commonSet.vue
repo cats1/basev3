@@ -7,21 +7,25 @@
     <template v-if="vTypeShow">
       <visit-type class="bgwhite"></visit-type>
     </template>
+    <template v-if="tagShow">
+      <tag-visit class="bgwhite"></tag-visit>
+    </template>
     <safe class="bgwhite"></safe>
   </div>
 </template>
 <script>
 import {getCache} from '@/utils/auth'
 import hTitle from '@/components/headnav/hTitle'
-import {safe,vSign,cardPaper,comLogo,visitType} from './components'
+import {safe,vSign,cardPaper,comLogo,visitType,tagVisit} from './components'
 export default {
   name: 'App',
   data () {
     return {
-      vTypeShow: process.env.vTypeShow || false
+      vTypeShow: process.env.vTypeShow || false,
+      tagShow: process.env.tagShow || false
     }
   },
-  components: { hTitle,safe,vSign,cardPaper,comLogo,visitType }
+  components: { hTitle,safe,vSign,cardPaper,comLogo,visitType,tagVisit }
 }
 </script>
 <style>

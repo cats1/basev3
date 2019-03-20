@@ -6,9 +6,7 @@
       :visible.sync="isShow"
       width="50%" >
       <div >
-        <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 14}" v-model="form.secureProtocol">
-        </el-input>
-        <!-- <tinymce :height=400 ref="comeditor" v-model="form.secureProtocol" :img-show="false" :toolbar="profileToolbar" menubar="" @input="getcon"></tinymce> -->
+        <textarea class="borderstyleauto" rows="10" v-model="form.secureProtocol" ></textarea>
       </div>
       <div class="margintop20" style="text-align:left;">
         <el-button type="primary" @click="saveSetting">{{$t('btn.saveBtn')}}</el-button>
@@ -20,7 +18,7 @@
 import Tinymce from '@/components/tinymce'
 import { oneNotice } from '@/components/notice'
 import { getCache } from '@/utils/auth'
-import {booleanToNumber,numberToBoolean,replaceRemoveReserveQuotation} from '@/utils/common'
+import {booleanToNumber,numberToBoolean,replaceRemoveQuotation,replaceRemoveReserveQuotation} from '@/utils/common'
 import vueQuillEditor from '@/components/quill/quillEditor'
 export default {
   components: { oneNotice, Tinymce },
@@ -32,11 +30,14 @@ export default {
       form: {
         secureProtocol: getCache('secureProtocol'),
         userid: getCache('userid')
-      }
+      },
+      onFocusFlag: false
     }
   },
-  created () {
-    //this.htmlUnescape()
+  mounted () {
+    this.$nextTick(function(){
+      this.htmlUnescape(this.form.secureProtocol)
+    })
   },
   methods: {
     showDown () {
@@ -45,16 +46,21 @@ export default {
     getsp (con) {
       this.form.secureProtocol = con
     },
-    htmlUnescape () {
-      this.$store.dispatch('htmlUnescape',
-        {'inviteContent': getCache('secureProtocol')}).then(res => {
+    getSecureProtocol (val) {
+      this.onFocusFlag = true
+    },
+    async htmlUnescape (val,type) {
+      await this.$store.dispatch('htmlUnescape',
+        {'inviteContent': val}).then(res => {
           this.form.secureProtocol = replaceRemoveReserveQuotation(res)
-          //this.inviteContent = replaceRemoveReserveQuotation(res)
       })
     },
-    getcon () {},
     saveSetting () {
-      this.$store.dispatch('updateSecureProtocol',this.form).then(res => {
+      let nform = {
+        secureProtocol: this.form.secureProtocol,
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('updateSecureProtocol',nform).then(res => {
         let {status} = res
         if (status === 0) {
           this.isShow = false

@@ -14,94 +14,134 @@
 	    	</h3>
 	    	<p>{{$t('moban.tip7')}}</p>
 	    	<el-table class="margintop20" :data="data" border>
-				<el-table-column
+				  <el-table-column
 			      type="index"
 			      width="30">
 			    </el-table-column>
-				<el-table-column prop="vname" :label="$t('form.name.text')" width="180">
-					<template slot-scope="scope">
-				      <el-input v-model="scope.row.name" :placeholder="$t('visitor.vname')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
-				    </template>
-				</el-table-column>
-        <template v-if="vTypeShow">
-          <el-table-column prop="vType" :label="$t('visitTypeText')" width="180">
-            <template slot-scope="scope">
-                <el-select v-model="scope.row.vType" :disabled="!numberToBoolean(scope.row.etype)">
-                    <el-option v-for="item in typelist" :key="item.vType" :label="item.vType" :value="item.vType"></el-option>
-                  </el-select>
-                </el-form-item>
+  				<el-table-column prop="vname" :label="$t('form.name.text')" width="180">
+  					<template slot-scope="scope">
+  				      <el-input v-model="scope.row.name" :placeholder="$t('visitor.vname')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+  				    </template>
+  				</el-table-column>
+          <template v-if="vTypeShow">
+            <el-table-column prop="vType" :label="$t('visitTypeText')" width="180">
+              <template slot-scope="scope">
+                  <el-select v-model="scope.row.vType" :disabled="!numberToBoolean(scope.row.etype)">
+                      <el-option v-for="item in typelist" :key="item.vType" :label="item.vType" :value="item.vType"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </template>
+            </el-table-column>
+          </template>        
+  				<el-table-column prop="vphone" :label="$t('form.phone.text')" width="180">
+  					<template slot-scope="scope">
+  				      <el-input v-model="scope.row.phone" :placeholder="$t('visitor.vphone')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+  				    </template>
+  				</el-table-column>
+          <template v-if="!empEmailSendClose">
+            <el-table-column prop="vemail" :label="$t('form.email.text')" width="180">
+              <template slot-scope="scope">
+                  <el-input v-model="scope.row.vemail" :placeholder="$t('form.email.text')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+                </template>
+            </el-table-column>
+          </template>        
+  				<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="180">
+  					<template slot-scope="scope">
+              <template v-if="customTemplateShow">
+                <el-select v-model="scope.row.visitType" class="block" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)">
+                  <el-option
+                    v-for="item in visitList"
+                    :key="item.title"
+                    :label="item.title"
+                    :value="item.title">
+                  </el-option>
+                </el-select>
               </template>
-          </el-table-column>
-        </template>        
-				<el-table-column prop="vphone" :label="$t('form.phone.text')" width="180">
-					<template slot-scope="scope">
-				      <el-input v-model="scope.row.phone" :placeholder="$t('visitor.vphone')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
-				    </template>
-				</el-table-column>
-        <template v-if="!empEmailSendClose">
-          <el-table-column prop="vemail" :label="$t('form.email.text')" width="180">
-            <template slot-scope="scope">
-                <el-input v-model="scope.row.vemail" :placeholder="$t('form.email.text')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+              <template v-else>
+                <el-select v-model="scope.row.visitType" class="block" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)">
+                  <el-option style="width:180px"
+                      v-for="item in $t('itype')"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                  </el-option>
+                </el-select>
+              </template>				      
+  				  </template>
+  				</el-table-column>
+          <template v-if="tagShow">
+            <el-table-column label="标签" width="220">
+              <template slot-scope="scope">
+                <el-select class="block" v-model="scope.row.tag" multiple placeholder="请选择" :disabled="!numberToBoolean(scope.row.etype)">
+                  <el-option
+                    v-for="item in tagList"
+                    :key="item.tagName"
+                    :label="item.tagName"
+                    :value="item.tagName">
+                  </el-option>
+                </el-select>
               </template>
-          </el-table-column>
-        </template>
-        
-				<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="180">
-					<template slot-scope="scope">
-            <template v-if="customTemplateShow">
-              <el-select v-model="scope.row.visitType" class="block" @change="updateType(scope.$index)">
-                <el-option
-                  v-for="item in visitList"
-                  :key="item.title"
-                  :label="item.title"
-                  :value="item.title">
-                </el-option>
-              </el-select>
-            </template>
-            <template v-else>
-              <el-select v-model="scope.row.visitType" class="block" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)">
-                <el-option style="width:180px"
-                    v-for="item in $t('itype')"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                </el-option>
-              </el-select>
-            </template>
-				      
-				    </template>
-				</el-table-column>
-				<el-table-column prop="appointmentDate" :label="$t('form.time.text6')" width="220">
-					<template slot-scope="scope">
-					    <el-date-picker :disabled="!numberToBoolean(scope.row.etype)"
-					      v-model="scope.row.appointmentDate"
-					      type="datetime" :picker-options="options" @change="updateType(scope.$index)"
-					      :placeholder="$t('formCheck.time.tip1')">
-					    </el-date-picker>
-				    </template>
-				</el-table-column>
-				<el-table-column prop="company" :label="$t('form.company.text2')">
-					<template slot-scope="scope">
-						<el-input v-model="scope.row.vcompany" :placeholder="$t('visitor.vcom')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
-				    </template>
-				</el-table-column>
-				<el-table-column prop="remark" :label="$t('form.remark.text')">
-					<template slot-scope="scope">
-						<el-input v-model="scope.row.remark" :placeholder="$t('form.remark.text')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
-				    </template>
-				</el-table-column>
-				<el-table-column prop="status" :label="$t('btn.edit1')" width="100">
-					<template slot-scope="scope">
-					  <el-button type="danger" size="small" v-if="numberToBoolean(scope.row.etype)" @click="delettype" icon="el-icon-delete">{{$t('btn.deleteBtn')}}</el-button>
-				    <el-button type="primary" size="small" v-else @click="edittype(scope.$index)" icon="el-icon-edit">{{$t('btn.addBtn')}}</el-button>
-				    </template>
-				</el-table-column>
-			</el-table>
-			<div class="margintop20">
+            </el-table-column>
+          </template>
+  				<el-table-column prop="appointmentDate" :label="$t('form.time.text6')" width="220">
+  					<template slot-scope="scope">
+  					    <el-date-picker :disabled="!numberToBoolean(scope.row.etype)"
+  					      v-model="scope.row.appointmentDate"
+  					      type="datetime" :picker-options="options" @change="updateType(scope.$index)"
+  					      :placeholder="$t('formCheck.time.tip1')">
+  					    </el-date-picker>
+  				    </template>
+  				</el-table-column>
+  				<el-table-column prop="company" :label="$t('form.company.text2')" width="220">
+  					<template slot-scope="scope">
+  						<el-input v-model="scope.row.vcompany" :placeholder="$t('visitor.vcom')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+  				    </template>
+  				</el-table-column>
+  				<el-table-column prop="remark" :label="$t('form.remark.text')" width="220">
+  					<template slot-scope="scope">
+  						<el-input v-model="scope.row.remark" :placeholder="$t('form.remark.text')" @change="updateType(scope.$index)" :disabled="!numberToBoolean(scope.row.etype)"></el-input>
+  				    </template>
+  				</el-table-column>
+  				<el-table-column prop="status" :label="$t('btn.edit1')" width="100">
+  					<template slot-scope="scope">
+  					  <el-button type="danger" size="small" v-if="numberToBoolean(scope.row.etype)" @click="delettype(scope.$index)" icon="el-icon-delete">{{$t('btn.deleteBtn')}}</el-button>
+  				    <el-button type="primary" size="small" v-else @click="edittype(scope.$index)" icon="el-icon-edit">{{$t('btn.addBtn')}}</el-button>
+  				    </template>
+  				</el-table-column>
+			  </el-table>
+			  <div class="margintop20">
 		      <el-button @click="addVisit" type="primary"><i class="fa fa-plus"></i>{{$t('btn.addVisitorBtn')}}</el-button>
 		    </div>
-	    	<el-form class="margintop20" :model="form" :rules="rules" ref="danform" style="width:70%;">	   
-          <el-form-item label-position="left" :label="$t('form.time.text7')" prop="qrcodeType">
+	    	<el-form class="margintop20" :model="form" :rules="rules" ref="danform" style="width:70%;">
+          <template v-if="tagShow">
+            <template v-show="ccShow">
+              <el-form-item label="抄送人员">
+                <el-select class="block" v-model="empValue"
+                    multiple
+                    filterable
+                    remote
+                    reserve-keyword
+                    placeholder="请输入抄送人员姓名"
+                    :remote-method="remoteMethod"
+                    :loading="loading" @change="getSearchEmp">
+                    <el-option
+                      v-for="item in empList"
+                      :key="item.empid"
+                      :label="item.empName"
+                      :value="item.empid">
+                    </el-option>
+                  </el-select>
+              </el-form-item>
+              <el-form-item label="接待事项">
+                  <el-input type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4}"
+                    placeholder="请输入内容"
+                    v-model="form.ccRemark">
+                  </el-input>
+              </el-form-item>
+            </template>
+          </template>	   
+          <el-form-item label-position="left" :label="$t('form.time.text7')" prop="qrcodeType">            
 		    		<el-row>
 		    			<el-col :span="8">
 			    			<el-select v-model="timetype" >
@@ -186,7 +226,8 @@ export default {
       	vcompany: '',
       	visitType: '',
       	etype: 0,
-        vType: ''
+        vType: '',
+        tag: []
       },{
       	address: '',
       	appointmentDate: '',
@@ -206,7 +247,8 @@ export default {
       	vcompany: '',
       	visitType: '',
       	etype: 0,
-        vType: ''
+        vType: '',
+        tag: []
       },{
       	address: '',
       	appointmentDate: '',
@@ -226,7 +268,8 @@ export default {
       	vcompany: '',
       	visitType: '',
       	etype: 0,
-        vType: ''
+        vType: '',
+        tag: []
       }],
       form: {
       	address: '',
@@ -246,7 +289,9 @@ export default {
       	userid: '',
       	vcompany: '',
       	visitType: '',
-        vType: ''
+        vType: '',
+        ccNotify: '',
+        ccRemark: ''
       },
       rules: {
       	name: [{ required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
@@ -271,16 +316,28 @@ export default {
       visitList: [],
       customTemplateShow: process.env.customTemplateShow || false,
       mobanObj: {},
-      inviteMoreShow: process.env.inviteMoreShow || false
+      inviteMoreShow: process.env.inviteMoreShow || false,
+      tagShow: process.env.tagShow || false,
+      tagList: [],
+      tagValue: [],
+      empValue: [],
+      empList: [],
+      ccShow: true,
+      loading: false
   	}
   },
   computed: {
     qrcodePlace: {
       get () {
         if (this.timetype === 0) {
-          return this.$t('daysRange') + '：1-' + getCache('qrMaxDuration') || '1'
+          if (getCache('qrMaxDuration') == 1) {
+            this.form.qrcodeType = 1
+            return ''
+          } else {
+            return this.$t('daysRange') + '：1-' + (getCache('qrMaxDuration') || '1')
+          }
         } else {
-          return this.$t('timesRange') + '：1-' + getCache('qrMaxCount') || '1'
+          return this.$t('timesRange') + '：1-' + (getCache('qrMaxCount') || '1')
         }
       },
       set () {}
@@ -292,6 +349,9 @@ export default {
     }
     if (this.customTemplateShow) {
       this.GetAllTemplateType()
+    }
+    if (this.tagShow) {
+      this.getTags()
     }
   },
   methods: {
@@ -350,6 +410,17 @@ export default {
         }
       })
     },
+    getTags () {
+      let nform = {
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getTags',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.tagList = result
+        }
+      })
+    },
     setQrcodeType (val) {
       if (this.timetype === 0) {
         if (val > getCache('qrMaxDuration')) {
@@ -366,6 +437,32 @@ export default {
           })
         }
       }
+    },
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.searchEmp(query)
+        }, 200);
+      } else {
+        this.empList = []
+      }
+    },
+    getSearchEmp (val) {
+      this.form.ccNotify = val.join(',')
+    },
+    searchEmp (val) {
+      let nform = {
+        name: val,
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getEmpByName',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.empList = result
+        }
+      })
     },
     updateType (val) {
       this.data[val].etype = 1
@@ -399,10 +496,10 @@ export default {
     },
     getUpload (result) {
       this.data = result
-      this.data = result
       let _self = this
       this.data.forEach(function(ele,index){
         _self.$set(ele,'etype',1)
+        _self.$set(ele,'tag', [])
       })
     },
     edittype (index) {
@@ -528,7 +625,39 @@ export default {
                       visitType: visitType,
                       vType: element.vType
                     }
+                    if (_self.tagShow) {
+                      let ccNotify = ''
+                      let ccRemark = ''
+                      if (element.vType == 'VVIP') {
+                        ccNotify = _self.form.ccNotify
+                        ccRemark = _self.form.ccRemark
+                      }
+                      obj = {
+                        address: demoban.address,
+                        appointmentDate: date,
+                        companyProfile: replaceQuotation(demoban.companyProfile),
+                        empid: getCache('empid'),
+                        inviteContent: replaceQuotation(demoban.inviteContent),
+                        latitude: demoban.latitude,
+                        longitude: demoban.longitude,
+                        name: element.name,
+                        phone: element.phone,
+                        vemail: element.vemail,
+                        qrcodeConf: _self.form.qrcodeType,
+                        qrcodeType: _self.timetype === 0 ? '0' : '1',
+                        remark: element.remark,
+                        traffic: replaceQuotation(demoban.traffic),
+                        userid: getCache('userid'),
+                        vcompany: element.vcompany,
+                        visitType: visitType,
+                        vType: element.vType,
+                        tag: element.tag.join(','),
+                        ccNotify: ccNotify,
+                        ccRemark: ccRemark
+                      }
+                    }
                   }
+
                   nform.push(obj)
               }
             }    
@@ -606,7 +735,8 @@ export default {
                     vcompany: '',
                     visitType: '',
                     etype: 0,
-                    vType: ''
+                    vType: '',
+                    tag: []
                   },{
                     address: '',
                     appointmentDate: '',
@@ -626,7 +756,8 @@ export default {
                     vcompany: '',
                     visitType: '',
                     etype: 0,
-                    vType: ''
+                    vType: '',
+                    tag: []
                   },{
                     address: '',
                     appointmentDate: '',
@@ -646,8 +777,12 @@ export default {
                     vcompany: '',
                     visitType: '',
                     etype: 0,
-                    vType: ''
+                    vType: '',
+                    tag: []
                   }]
+                  this.empValue = []
+                  this.form.ccNotify = ''
+                  this.form.ccRemark = ''
                   this.$refs.danform.resetFields()
                   this.$refs.danform.clearValidate()
         }

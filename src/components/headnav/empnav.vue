@@ -14,7 +14,7 @@
 			<div class="menuleft">			
 				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :background-color="backgroundColor" :text-color="textColor" :active-text-color="activeTextColor">
 					<template v-if="inviteMoreShow">
-						<el-menu-item index="order"><router-link to="/">{{$t('Approve')}}</router-link></el-menu-item>
+						<el-menu-item index="order"><router-link to="/">来访预约</router-link></el-menu-item>
 					</template>
 					<template v-else>
 						<el-menu-item index="order"><router-link to="/">{{$t('empnav[0].name')}}</router-link></el-menu-item>

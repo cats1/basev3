@@ -71,3 +71,11 @@ export function UpdateRtxRefresh(data) {
     data
   })
 }
+//getDepartment
+export function getDepartment(data) {
+  return request({
+    url: '/getDepartment',
+    method: 'post',
+    data
+  })
+}

@@ -83,6 +83,7 @@ export default {
     leftData (val) {
       this.leftList = val
       this.leftItem = this.checkIsSelect(val)
+      this.setHead()
     },
     rightData (val) {
       this.clist = val
@@ -90,9 +91,7 @@ export default {
     },
     checkValue (val) {},
     checkNum (val) {},
-    menuType (val) {
-      console.log(val)
-    }
+    menuType (val) {}
   },
   mounted () {
     this.rightItem = this.rightData
@@ -101,6 +100,7 @@ export default {
   },
   methods: {
     setHead (){
+      this.headItem = []
       let hobj = {
         name: this.$t('depart.dlist'),
         item: this.checkIsSelect(this.leftData)
@@ -188,7 +188,9 @@ export default {
     checkIsSelect (item) {
       let _self = this
       if (item instanceof Array) {
-        item.forEach(function(element, index) {    
+        item.forEach(function(element, index) {
+          element.isChecked = false
+          _self.checkArray[index] = false  
           _self.rightItem.forEach(function(rele, rindex) {
             if (element.label === rele.label && element.pid === rele.pid) {
               element.isChecked = true
@@ -197,6 +199,7 @@ export default {
           })
         })
       } else {
+        item.isChecked = false
         _self.rightItem.forEach(function(rele, rindex) {
           if (item.label === rele.label && item.pid === rele.pid) {
             item.isChecked = true

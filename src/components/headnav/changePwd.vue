@@ -7,10 +7,15 @@
   		  <el-input v-model="form.oldPwd"></el-input>
   		</el-form-item>
   		<el-form-item :label="$t('form.password.newtext')" prop="password">
-  		  <el-input v-model="form.password"></el-input>
+  		  <template v-if='checkPassword'>
+          <check-password :p-value="form.password" @sendv="getNewpwd"></check-password>
+        </template>
+        <template v-else>
+          <el-input name="password" type="password" v-model="form.password" autoComplete="on" placeholder="password" />
+        </template>
   		</el-form-item>
   		<el-form-item :label="$t('form.password.retext')" prop="repassword">
-  		  <el-input v-model="form.repassword"></el-input>
+  		  <el-input type="password" v-model="form.repassword"></el-input>
   		</el-form-item>
   	</el-form>
   	<el-button type="primary" @click="saveChange">{{$t('btn.saveBtn')}}</el-button>
@@ -19,7 +24,9 @@
 <script>
 import { getCache } from '@/utils/auth'
 import {validatePass,validatePass2} from '@/utils/validates'
+import checkPassword from '@/components/checkpwd/checkPassword'
 export default {
+  components: {checkPassword},
   props: {
   	isShow: {
   	  type: Boolean,
@@ -68,7 +75,9 @@ export default {
         ]
   	  },
   	  dialogVisible: false,
-      empChangeNo: process.env.empChangeNo || false
+      empChangeNo: process.env.empChangeNo || false,
+      pwdStrong: 0,
+      checkPassword: process.env.checkPassword || false
   	}
   },
   watch: {
@@ -77,9 +86,23 @@ export default {
   	}
   },
   methods: {
+    getNewpwd (val,num) {
+      this.form.password = val
+      this.pwdStrong = num
+    },
   	saveChange () {
   	  this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          if (this.checkPassword) {
+            if (this.pwdStrong == 1) {
+              this.$message({
+                showClose: true,
+                message: '密码强度太弱',
+                type: 'warning'
+              })
+              return false
+            }
+          }
           if (this.ptype === 0) {
             let nform = {
               id: getCache('subaccountId'),

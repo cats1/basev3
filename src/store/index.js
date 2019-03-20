@@ -24,6 +24,7 @@ import e from './modules/e'
 import transfer from './modules/transfer'
 import sogo from './modules/sogo'
 import epson from './modules/epson'
+import tag from './modules/tag'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -52,7 +53,8 @@ const store = new Vuex.Store({
     sogo,
     epson,
     visitType,
-    white
+    white,
+    tag
   },
   getters
 })

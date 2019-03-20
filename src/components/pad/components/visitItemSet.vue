@@ -26,17 +26,47 @@
           <div class="paddingtb20" v-show="isShow">
         	<div>
               <el-input class="marginbom20 inputwidth220" v-model="item.displayName" :disabled="readonly" :readonly="readonly"></el-input>
-              <span v-show="item.itemType !== 0">
-              	<el-checkbox v-if="item.itemType === 2" v-model="item.checked" @change="setItemChecked">{{$t('btn.visible')}}</el-checkbox>
-              	<el-checkbox v-else-if="item.itemType === 3" v-model="item.checked" @change="setItemChecked">{{$t('btn.visible')}}</el-checkbox>
-              	<el-checkbox v-else v-model="item.checked" @change="setItemChecked">{{$t('btn.insetBtn')}}</el-checkbox>
-              </span>              
+              <span v-if="item.itemType !== 0">
+                <template v-if="item.itemType === 2">
+                  <template v-if="defaultVsetIsDisplayPointShow">
+                    <el-checkbox v-model="item.checked" @change="setItemChecked">{{$t('btn.insetBtn')}}</el-checkbox>
+                    <el-checkbox v-model="isDisplay" @change="setItemIsDisplay">{{$t('btn.visible')}}</el-checkbox>
+                  </template>
+                  <template v-else>
+                    <el-checkbox v-model="item.checked" @change="setItemChecked">{{$t('btn.visible')}}</el-checkbox>
+                  </template>
+                </template>
+                <template v-else-if="item.itemType === 3">
+                  <template v-if="defaultVsetIsDisplayPointShow">
+                    <el-checkbox v-model="item.checked" @change="setItemChecked">{{$t('btn.insetBtn')}}</el-checkbox>
+                    <el-checkbox v-model="isDisplay" @change="setItemIsDisplay">{{$t('btn.visible')}}</el-checkbox>
+                  </template>
+                  <template v-else>
+                    <el-checkbox v-model="item.checked" @change="setItemChecked">{{$t('btn.visible')}}</el-checkbox>
+                  </template>
+                </template>
+                <template v-else>
+                  <template v-if="defaultVsetIsDisplayPointShow">
+                    <el-checkbox v-model="item.checked" @change="setItemChecked">{{$t('btn.insetBtn')}}</el-checkbox>
+                    <el-checkbox v-model="isDisplay" @change="setItemIsDisplay">{{$t('btn.visible')}}</el-checkbox>
+                  </template>
+                  <template v-else>
+                    <el-checkbox v-model="item.checked" @change="setItemChecked">{{$t('btn.visible')}}</el-checkbox>
+                  </template>
+                </template>
+              </span>
+              <!-- <span v-else>
+                <template v-if="defaultVsetIsDisplayPointShow">
+                  <el-checkbox v-model="isDisplay" @change="setItemIsDisplay">{{$t('btn.visible')}}</el-checkbox>
+                </template>                
+              </span> -->            
             </div>
             <div v-show="item.inputType === 'button'">
             	<template v-for="(citem,cindex) in inputArray" >
                     <input-one :value="citem" :index="cindex" @getv="setValueItem" @delekit="deleteValueItem"></input-one>
                 </template>
-                <el-button class="block margintb20" @click="addInputValue" v-show="inputArray.length < 4">{{$t('btn.addSelectBtn')}}</el-button>
+                <!-- v-show="inputArray.length < 4" -->
+                <el-button class="block margintb20" @click="addInputValue" >{{$t('btn.addSelectBtn')}}</el-button>
             </div>
             <div class="block">
 	          <el-button type='success' @click="saveEdit">{{$t('btn.saveBtn')}}</el-button>
@@ -44,8 +74,7 @@
 	          <el-button v-show="item.itemType === 1" class="right" type='redfont' @click="deleteEdit">{{$t('btn.deleteBtn')}}</el-button>
 	        </div>
           </div>
-        </el-collapse-transition>
-        
+        </el-collapse-transition>        
 	</div>
 </template>
 <script>
@@ -90,12 +119,20 @@ export default {
   	  inputArray: [],
   	  readonly: false,
   	  first: this.vindex === 0 ? true : false,
-  	  last: false
+  	  last: false,
+      isDisplay: false,
+      defaultVsetIsDisplayPointShow: process.env.defaultVsetIsDisplayPointShow || false
   	}
   },
   watch: {
   	vitem (val,old) {
   	  this.item = val
+      if (val.isDisplay != 0) {
+        this.isDisplay = true
+      } else {
+        this.isDisplay = false
+      }
+      
   	  this.init()
   	},
   	vtype (val) {
@@ -112,6 +149,11 @@ export default {
   	}
   },
   mounted () {
+    if (this.vitem.isDisplay != 0) {
+      this.isDisplay = true
+    } else {
+      this.isDisplay = false
+    }
   	this.init()
   },
   methods: {
@@ -120,10 +162,10 @@ export default {
   	init () {
   	  if (this.vindex + 1 === this.vlength) {
 	  	 this.last = true
-	  }
-	  this.readonly = this.vitem.itemType === 3 ? true : false
-	  this.inputArray = stringToArray(this.vitem.inputValue)
-	  this.isShow = this.vitem.vshow
+	    }
+  	  this.readonly = this.vitem.itemType === 3 ? true : false
+  	  this.inputArray = stringToArray(this.vitem.inputValue)
+  	  this.isShow = this.vitem.vshow
   	},
   	doEdit () {
       this.isShow = true
@@ -134,7 +176,19 @@ export default {
   	doDown () {
   	  this.$emit('downkit',this.vindex)
   	},
+    setItemIsDisplay (val) {
+      if (!val) {
+        this.item.checked = false
+        this.$emit('checkkit',this.vindex,false)
+      }
+      this.$emit('displaykit',this.vindex,val,this.item.isDisplay)
+    },
   	setItemChecked (val) {
+      this.item.isDisplay = val
+      if (val) {
+        this.isDisplay = true
+        this.$emit('displaykit',this.vindex,true,this.item.isDisplay)
+      }
   	  this.$emit('checkkit',this.vindex,val)
   	},
   	setValueItem (index,value) {

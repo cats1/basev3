@@ -120,6 +120,7 @@ export default {
       this.$emit('searchkit',val)
     },
     setVtype (type) {
+      console.log(type)
       this.clickType = 0
       this.ctype = type
       this.signOutShow = false

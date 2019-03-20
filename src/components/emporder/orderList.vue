@@ -13,11 +13,14 @@
         <el-table-column prop="vemail" :label="$t('form.email.text')"></el-table-column>
   			<el-table-column prop="visitType" :label="$t('tablehead[7]')" width="100"></el-table-column>
       </template>
-  			<el-table-column prop="appointmentDate" :label="$t('tablehead[2]')" width="160">
-  				<template slot-scope="scope">
-  			      {{scope.row.appointmentDate | formatDate}}
-  			    </template>
-  			</el-table-column>
+  		<el-table-column prop="appointmentDate" :label="$t('tablehead[2]')" width="160">
+  			<template slot-scope="scope">
+  			  {{scope.row.appointmentDate | formatDate}}
+  			</template>
+  		</el-table-column>
+      <template v-if="tagShow">
+        <el-table-column prop="tag" label="标签" width="160"></el-table-column>
+      </template>
       <template v-if="!isMobile">
   			<el-table-column prop="vcompany" :label="$t('checkVtype[5]')"></el-table-column>
   			<el-table-column prop="vphone" :label="$t('moban.inviteLink')" width="300">
@@ -88,7 +91,8 @@ export default {
       empWorkNoCheck: process.env.empWorkNoCheck,
       empPhoneCheck: process.env.empPhoneCheck,
       isMobile: false,
-      permissionSwitch: getCache('permissionSwitch')
+      permissionSwitch: getCache('permissionSwitch'),
+      tagShow: process.env.tagShow || false
   	}
   },
   filters:{
@@ -141,7 +145,7 @@ export default {
           }
         } else if (row.permission == 2) {
           return this.$t('vstatus[4]')
-        } else if (this.vdata.permission == 3) {
+        } else if (row.permission == 3) {
           return this.$t('vstatus[3]')
         }
         if (row.visitdate && !row.signOutDate && row.appointmentDate) {

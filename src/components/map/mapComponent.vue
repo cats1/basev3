@@ -3,7 +3,7 @@
 		<div class="searchmapwrap">
 			<input type="text" v-model="maddress" class="form-control address_name inputstyle" :id="inputid" @keydown.13="getAddress">
 	        <el-button type="text" class="cancel_bt marginlr20" id="searchBtn" @click="getAddress">{{$t('btn.editBtn')}}</el-button>
-	        <div class="searchResultPanel" :id="panelid" ></div>
+	        <!-- <div class="searchResultPanel" :id="panelid" ></div> -->
         </div>
 		<div class="mapwrap">
 			<div :id="mapid" class="baidumap" style="display:block;"></div>
@@ -90,7 +90,7 @@ export default {
 	          this.createMap()
 	        }
 	        this.$emit('getpoint',this.sendpot,this.maddress)
-	        document.getElementById(this.inputid).value = this.maddress
+	        //document.getElementById(this.inputid).value = this.maddress
     	}
     },
     createMapPoint () {
@@ -124,7 +124,7 @@ export default {
     	this.addLocation()
     	this.addClickGeocoder()
     	this.addMoveControl()
-    	this.addSearch()
+    	//this.addSearch()
     	this.addCityList()
     },
     changePointToAddress(point, callback) {

@@ -16,7 +16,7 @@
 			<tr>
 				<td colspan="2">入库申请</td>
 				<td >依赖部门</td>
-				<td ><el-input class="noedit" v-model="eslForm.deptName"></el-input></td>
+				<td ><el-input type="textarea" class="noedit" :autosize="{ minRows: 1, maxRows: 4}" v-model="eslForm.deptName" ></el-input></td>
 				<td>部门联络人</td>
 				<td ><el-input class="noedit" v-model="eslForm.empName"></el-input></td>
 				<td colspan="2">联络电话</td>
@@ -185,6 +185,26 @@ export default {
     eslShow: {
       type: Boolean,
       default: false
+    },
+    eform:{
+      type: Object,
+      default: function () {
+        return {
+          empid:getCache('empid'),
+          empName:getCache('empName'),
+          empPhone:getCache('empPhone'),
+          deptid:'',
+          deptName:'',
+          floor:'',
+          pCount:0,
+          appEntryDate:'',
+          personInfo:'',
+          opType:'',
+          dataInfo:'',
+          checkName:'',
+          checkOutputName:''
+        }
+      }
     }
   },
   data () {
@@ -310,6 +330,7 @@ export default {
   watch: {
     clearForm (val) {
       if(val){
+        this.eslForm = this.eform
         this.init()
       }
     },
@@ -422,6 +443,7 @@ export default {
         number: '',
         abay: ''
       }]
+      this.appEntryDate = ''
       this.checkOutList = ['','','','','','','','','','','','']
       this.checkList = ['','','','']
     },
@@ -435,9 +457,25 @@ export default {
         if (status == 0) {
           this.deptList = result
           if (result.length == 1) {
-          	this.eslForm.deptName = result[0].deptName
-          	this.eslForm.deptid = result[0].deptid
+          	//this.eslForm.deptName = result[0].deptName
+          	//this.eslForm.deptid = result[0].deptid
+            if (result[0].deptid != 0) {
+              this.getParentDeptList(result[0].parentId)
+            }
           }
+        }
+      })
+    },
+    getParentDeptList (deptid) {
+      let nform = {
+        deptid: deptid,
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getDepartment',nform).then(res => {
+        let {status,result} = res
+        if (status == 0) {
+          this.eslForm.deptName = result.deptName
+          this.eslForm.deptid = result.deptid
         }
       })
     },

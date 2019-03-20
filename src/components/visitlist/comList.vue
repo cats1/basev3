@@ -152,12 +152,12 @@ export default {
     handleSizeChange (val) {
       this.requestedCount = val
       this.currentPage = 1
-      this.form.startIndex = 1
-  	  this.form.requestedCount = val
+      this.nform.startIndex = 1
+  	  this.nform.requestedCount = val
   	  this.getResidentVisitor()
   	},
   	handleCurrentChange (val) {
-  	  this.form.startIndex = (val - 1) * this.form.requestedCount + 1
+  	  this.nform.startIndex = (val - 1) * this.nform.requestedCount + 1
   	  this.getResidentVisitor()
   	},
   	handleSelectionChange (val) {

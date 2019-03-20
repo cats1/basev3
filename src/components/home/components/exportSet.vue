@@ -50,11 +50,33 @@
             	<el-checkbox v-model="exportTable[15]" @change="changeCheck"></el-checkbox></span>
             <span class="exsection">{{$t('form.time.text1')}}
             	<el-checkbox v-model="exportTable[16]" @change="changeCheck"></el-checkbox></span>
+            <template v-if="firstAndLastRoomTime">
+              <span class="exsection">第一次经过机房时间
+                <el-checkbox v-model="exportTable[17]" @change="changeCheck"></el-checkbox></span>
+              <span class="exsection">最后一次经过机房时间
+                <el-checkbox v-model="exportTable[18]" @change="changeCheck"></el-checkbox></span>
+            </template>
+            <template v-if="tagShow">
+              <span class="exsection">{{$t('tagText')}}
+                <el-checkbox v-model="exportTable[17]" @change="changeCheck"></el-checkbox></span>
+                <span class="exsection">{{$t('visitTypeText')}}
+                <el-checkbox v-model="exportTable[18]" @change="changeCheck"></el-checkbox></span>
+            </template>
             <template v-if="expExcDepAndCnumber">
               <span class="exsection">{{$t('form.depart.text')}}
                 <el-checkbox v-model="exportTable[17]" @change="changeCheck"></el-checkbox></span>
               <span class="exsection">{{$t('carNumber')}}
                 <el-checkbox v-model="exportTable[18]" @change="changeCheck"></el-checkbox></span>
+              <span class="exsection">申请人
+                <el-checkbox v-model="exportTable[19]" @change="changeCheck"></el-checkbox></span>
+              <span class="exsection">工号
+                <el-checkbox v-model="exportTable[20]" @change="changeCheck"></el-checkbox></span>
+            </template>
+            <template v-if="extendExportShow">
+              <template v-for="(item,index) in extendArray">
+                <span class="exsection">{{item.displayName}}
+                <el-checkbox v-model="extendExportTable[index]" @change="changeCheck"></el-checkbox></span>
+              </template>
             </template>
 		  </div>
 		  <span slot="footer" class="dialog-footer">
@@ -83,6 +105,12 @@ export default {
     extendShow: {
       type: Boolean,
       default: true
+    },
+    extendList: {
+      type: Array,
+      default: function () {
+        return []
+      }
     }
   },
   data () {
@@ -93,7 +121,13 @@ export default {
       isDoorShow: this.extendShow,
       dataErrorExport: process.env.dataErrorExport || false,
       allCheckFlag: false,
-      expExcDepAndCnumber: process.env.expExcDepAndCnumber || false
+      expExcDepAndCnumber: process.env.expExcDepAndCnumber || false,
+      extendExportShow: process.env.extendExportShow || false,
+      extendArray: this.extendList,
+      extendExportTable: [],
+      tagShow: process.env.tagShow || false,
+      firstAndLastRoomTime: process.env.firstAndLastRoomTime || false,
+      applicantShow: process.env.applicantShow || false
   	}
   },
   computed: {},
@@ -103,15 +137,29 @@ export default {
   	},
     extendShow (val) {
       this.isDoorShow = val
+    },
+    extendList (val) {
+      this.extendArray = val
+      let _self = this
+      this.extendExportTable = Array(val.length).fill(0)
     }
   },
   created () {
     if (this.dataErrorExport) {
       this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+      this.extendExportTable = Array(this.extendList.length).fill(0)
     } else if (this.expExcDepAndCnumber) {
-      this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      this.exportTable = [true, 0, true, 0, true, 0, 0, 0, 0, true, true, 0, 0, 0, true, true, true, true, true,0,0]
+      this.extendExportTable = Array(this.extendList.length).fill(0)
+    } else if (this.tagShow) {
+      this.exportTable = Array(19).fill(0)
+      this.extendExportTable = Array(this.extendList.length).fill(0)
+    } else if (this.firstAndLastRoomTime) {
+      this.exportTable = Array(19).fill(0)
+      this.extendExportTable = Array(this.extendList.length).fill(0)
     } else {
       this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      this.extendExportTable = Array(this.extendList.length).fill(0)
     }
   },
   methods: {
@@ -130,18 +178,41 @@ export default {
       if (this.allCheckFlag) {
         if (this.dataErrorExport) {
           this.exportTable = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+          this.extendExportTable = Array(this.extendList.length).fill(true)
         } else if (this.expExcDepAndCnumber) {
-          this.exportTable = [true, true, true, true, true, false, false, false, false, true, true, true, true, true, true, true, true, true, true]
+          this.exportTable = Array(21).fill(true)
+          this.extendExportTable = Array(this.extendList.length).fill(true)
+        } else if (this.tagShow) {
+          this.exportTable = Array(19).fill(true)
+          this.exportTable[5] = 0
+          this.exportTable[6] = 0
+          this.exportTable[7] = 0
+          this.exportTable[8] = 0
+          this.extendExportTable = Array(this.extendList.length).fill(true)
+        }  else if (this.firstAndLastRoomTime) {
+          this.exportTable = Array(19).fill(true)
+          //this.extendExportTable = Array(this.extendList.length).fill(true)
         } else {
           this.exportTable = [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+          //this.extendExportTable = Array(this.extendList.length).fill(true)
         }
       } else {
         if (this.dataErrorExport) {
           this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+          this.extendExportTable = Array(this.extendList.length).fill(0)
         } else if (this.expExcDepAndCnumber) {
-          this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0]
+          this.exportTable = Array(21).fill(false)
+          //this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0]
+          this.extendExportTable = Array(this.extendList.length).fill(0)
+        } else if (this.tagShow) {
+          this.exportTable = Array(19).fill(false)
+          this.extendExportTable = Array(this.extendList.length).fill(0)
+        } else if (this.firstAndLastRoomTime) {
+          this.exportTable = Array(19).fill(false)
+          this.extendExportTable = Array(this.extendList.length).fill(0)
         } else {
           this.exportTable = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          this.extendExportTable = Array(this.extendList.length).fill(0)
         }
       }
     },
@@ -194,6 +265,19 @@ export default {
         }
       } else {
       	params = '?userid=' + getCache('userid') + '&date=' + this.nform.date + '&endDate=' + this.nform.endDate + '&subaccountId=0'
+      }
+      if (this.extendExportShow) {
+        let eString = ''
+        let _self = this
+        let sArray = []
+        this.extendList.forEach(function(element, index) {
+          let eValue = _self.extendExportTable[index] ? 1 : 0
+          if (_self.extendExportTable[index]) {
+            sArray.push(element.fieldName)
+          }
+        })
+        eString = sArray.join(',')
+        params += '&expExtCols=' + eString
       }
       params += '&exportCols=' + this.exportTable.join('') + '&token=' + getCache('token')
       downloadDoc(params)

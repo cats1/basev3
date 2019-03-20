@@ -1,11 +1,13 @@
 <template>
 	<div class="boxshadow margintop20 paddinglr30 paddingtb20">
 		<h3 class="marginbom20 margintop20">{{$t('record')}}{{total}}{{$t('record1')}}{{$t('record2')}}
-		  <template v-show="data.length > 0">
-		  	<template v-if="this.nform.vType !== '文涛仓'">
-		  		<export-set :extend-show="extendShow" style="float:right;" :vtype="vtype" :nform="nform"></export-set>
-		  	</template>
-		  </template>
+		<template v-if="!jhConfig">
+			<template v-show="data.length > 0">
+			  	<template v-if="this.nform.vType !== '文涛仓'">
+			  		<export-set :extend-show="extendShow" style="float:right;" :vtype="vtype" :nform="nform" :extend-list="extendArray"></export-set>
+			  	</template>
+			  </template>
+		</template>		  
 		</h3>
 		<template v-if="!eslFlag" >
 			<el-table key="common" :data="list" border>
@@ -25,7 +27,7 @@
 			    	<template v-if="tableFormShow">
 			    		<el-table-column align="center"
 					        prop="vType"
-					        :label="$t('visitTypeText')" width="160">
+					        :label="$t('visitTypeText')" width="120">
 					        <template slot-scope="scope">
 					        	<div class="vphotowrap">
 						            <span class="vname">{{scope.row.vType}}</span>
@@ -39,6 +41,20 @@
 					        :label="$t('visitTypeText')" width="120">
 					    </el-table-column>
 			    	</template>
+			    </template>
+			    <template v-if="applicantShow">
+			    	<el-table-column align="center"
+				        prop="applicant"
+				        label="申请人" width="120">
+				    </el-table-column>
+				    <el-table-column align="center"
+				        prop="empNo"
+				        label="工号" width="120">
+				    </el-table-column>
+				    <el-table-column align="center"
+				        prop="deptName"
+				        label="部门" width="120">
+				    </el-table-column>
 			    </template>
 			    <el-table-column align="center"
 			        prop="vphone"
@@ -124,11 +140,13 @@
 			        :label="$t('form.companypro.text2')"
 			        width="180">
 			    </el-table-column>
-			    <el-table-column align="center"
-			        prop="cardId"
-			        :label="$t('form.idnum.text1')"
-			        width="180">
-			    </el-table-column>
+			    <template v-if="!jhConfig">
+			    	<el-table-column align="center"
+				        prop="cardId"
+				        :label="$t('form.idnum.text1')"
+				        width="180">
+				    </el-table-column>
+			    </template>
 		        <template v-if="!dataError">
 			    	<template v-if="!areaEquipShow">
 			    		<el-table-column align="center"
@@ -158,6 +176,24 @@
 			        :label="$t('form.remark.text')"
 			        width="180">
 			    </el-table-column>
+			    <template v-if="firstAndLastRoomTime">
+			    	<el-table-column align="center"
+				        prop="minTime"
+				        label="第一次经过机房时间"
+				        width="180">
+				        <template slot-scope="scope">
+					        {{scope.row.minTime | formatDate}}
+					    </template>
+				    </el-table-column>
+				    <el-table-column align="center"
+				        prop="maxTime"
+				        label="最后一次经过机房时间"
+				        width="180">
+				        <template slot-scope="scope">
+					        {{scope.row.maxTime | formatDate}}
+					    </template>
+				    </el-table-column>
+			    </template>
 			    <template v-if="!dataError">
 				    <el-table-column align="center"
 				        prop="visitdate"
@@ -288,8 +324,7 @@
 			      :total="total">
 			    </el-pagination>
 			</div>
-		</template>
-		
+		</template>		
 		<lightbox :img-src="showUrl" :box-show="show" @closekit="show = false"></lightbox>
 		<esl-form :v-show="eslShow" :e-form="eslFrom" :e-record="eslRecord" @eslform="getEslFormChange"></esl-form>
 	</div>
@@ -336,7 +371,11 @@ export default {
   	  eslShow: false,
   	  eslFlag: false,
   	  eslList: [],
-  	  ieWidth: '100%'
+  	  ieWidth: '100%',
+  	  firstAndLastRoomTime: process.env.firstAndLastRoomTime || false,
+  	  defaultVsetIsDisplayShow: process.env.defaultVsetIsDisplayShow || false,
+  	  applicantShow: process.env.applicantShow || false,
+  	  jhConfig: process.env.jhConfig || false
   	}
   },
   filters:{
@@ -501,8 +540,12 @@ export default {
           let extendArray = []
           for (let i=0;i<result.length;i++) {
           	if ($.inArray(result[i].fieldName, local_fieldname_arr) == -1) {
-                if ($.inArray(result[i].fieldName, local_add_arr) == -1) {
+                if (!this.defaultVsetIsDisplayShow) {
+                  if ($.inArray(result[i].fieldName, local_add_arr) == -1) {
                     extendArray.push(result[i])
+                  }
+                } else {
+                  extendArray.push(result[i])
                 }
             }
           }
@@ -510,7 +553,6 @@ export default {
         }
       })
     },
-    exportSet () {},
     getEslFormChange (val) {
       this.eslShow = val
     },

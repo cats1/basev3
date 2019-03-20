@@ -1,7 +1,7 @@
 <template>
 <div class="vipwrap" >
     <div class="viptop">      
-      <p><span>爱普森</span>VIP贵宾单 <clock :vshow="clockFlag" style="float:right"></clock></p>
+      <p><span>爱普生</span>VIP贵宾单 <!-- <clock :vshow="clockFlag" style="float:right"></clock> --></p>
     </div>
 		<!-- <h3>贵宾接待依赖票</h3> -->
 	<div class="lft-box-wrap">
@@ -40,7 +40,9 @@
 					<div class="lft-box-cell">
 						<div class="cell-item">
 							<label for="">申请日期</label>
-							<el-input class="noedit" v-model="vipForm.submitDate"></el-input>
+              <el-date-picker v-model="vipForm.submitDate" style="width:100%"
+                type="datetime" class="block noedit" value-format="yyyy-MM-dd HH:mm" :placeholder="$t('form.time.text3')">
+              </el-date-picker>
 						</div>
 					</div>
 				</el-col>
@@ -51,8 +53,7 @@
 						<div class="cell-item ">
 							<label for="">接待日期</label>
 							<el-date-picker v-model="vipForm.receptionDate" style="width:100%"
-			          type="datetime" class="block" value-format="yyyy-MM-dd HH:mm" :placeholder="$t('form.time.text3')" 
-			          :picker-options="options" :default-time="['14:00', '18:00']">
+			          type="datetime" class="block" value-format="yyyy-MM-dd HH:mm" :placeholder="$t('form.time.text3')" :picker-options="options" :default-time="['14:00', '18:00']" @change="getReceptionDate">
 			        </el-date-picker>
 						</div>
 					</div>
@@ -69,11 +70,37 @@
 					<div class="lft-box-cell">
 						<div class="cell-item ">
 							<label for="">访客人数</label>
-							<el-input v-model="vipForm.vCount"></el-input>
+							<el-input v-model="vipForm.vCount" @change="getReceptionPlace"></el-input>
 						</div>
 					</div>
 				</el-col>
 			</el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <div class="lft-box-cell">
+            <div class="cell-item ">
+              <label for="">车牌号</label>
+              <el-input v-model="plateNums" @change="getReceptionPlace"></el-input>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="lft-box-cell">
+            <div class="cell-item ">
+              <label for="">被访者姓名</label>
+              <el-input v-model="vipForm.interviewee" @change="getReceptionPlace"></el-input>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="lft-box-cell">
+            <div class="cell-item ">
+              <label for="">访客单位</label>
+              <el-input v-model="vcompany" @change="getReceptionPlace"></el-input>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
 		</div>
     <h3 class="ctitletip">申请理由</h3>
     <div class="lft-box paddingnone">
@@ -142,6 +169,31 @@ export default {
     clockShow: {
       type: Boolean,
       default: false
+    },
+    plateNum: {
+      type: String,
+      default: ''
+    },
+    vform: {
+      type: Object,
+      default: function () {
+        return {
+          empid: getCache('empid'),
+          empName: getCache('empName'),
+          deptid: '',
+          deptName: '',
+          submitDate: new Date(),
+          receptionDate: new Date(),
+          receptionPlace: '',
+          vCount: '',
+          subReason: '',
+          typeA: '',
+          typeB: '',
+          typeC: '',
+          dependenceItem: '',
+          interviewee: ''
+        }
+      }
     }
   },
   data () {
@@ -155,15 +207,16 @@ export default {
   	  	empName: getCache('empName'),
   	  	deptid: '',
   	  	deptName: '',
-  	  	submitDate: formatDate(new Date(),'yyyy-MM-dd hh:mm'),
-  	  	receptionDate: new Date(),
+  	  	submitDate: new Date(),
+  	  	receptionDate: '',
   	  	receptionPlace: '',
-  	  	vCount: 1,
+  	  	vCount: '',
   	  	subReason: '',
   	  	typeA: '',
   	  	typeB: '',
   	  	typeC: '',
-  	  	dependenceItem: ''
+  	  	dependenceItem: '',
+        interviewee: ''
   	  },
   	  deptList: [],
   	  options: {
@@ -175,7 +228,9 @@ export default {
       disabledB: false,
       disabledC: false,
       curTime: '',
-      clockFlag: this.clockShow
+      clockFlag: this.clockShow,
+      plateNums: '',
+      vcompany: ''
   	}
   },
   watch: {
@@ -185,8 +240,8 @@ export default {
   	  	empName: getCache('empName'),
   	  	deptid: '',
   	  	deptName: '',
-  	  	submitDate: this.formatDate(new Date(),'yyyy-MM-dd hh:mm'),
-  	  	receptionDate: new Date(),
+  	  	submitDate: new Date(),
+  	  	receptionDate: '',
   	  	receptionPlace: '',
   	  	vCount: 1,
   	  	subReason: '',
@@ -194,7 +249,8 @@ export default {
   	  	typeB: '',
   	  	typeC: '',
   	  	dependenceItem: '',
-        interval: null
+        interval: null,
+        interviewee: ''
   	  }
   	  this.aList = []
   	  this.bList = []
@@ -203,10 +259,25 @@ export default {
   	  this.disabledA = false
       this.disabledB = false
       this.disabledC = false
+      this.plateNums = ''
+      this.vcompany = ''
     },
     clockShow (val) {
       this.clockFlag = val
+      if (val) {
+        this.vipForm = this.vform
+        this.getDeptList()
+        this.plateNums = ''
+        this.vcompany = ''
+      }
+    }
+  },
+  created () {
+    if (this.clockShow) {
+      this.vipForm = this.vform
       this.getDeptList()
+      this.plateNums = ''
+      this.vcompany = ''
     }
   },
   methods: {
@@ -240,7 +311,7 @@ export default {
       this.vipForm.typeA = val.join(',')
       this.vipForm.typeB = ''
       this.vipForm.typeC = ''
-      this.$emit('getf',this.vipForm)
+      this.$emit('getf',this.vipForm,this.plateNums,this.vcompany)
     },
     getTypeB (val) {
       this.radio = 'B'
@@ -250,7 +321,7 @@ export default {
       this.vipForm.typeB = val.join(',')
       this.vipForm.typeA = ''
       this.vipForm.typeC = ''
-      this.$emit('getf',this.vipForm)
+      this.$emit('getf',this.vipForm,this.plateNums,this.vcompany)
     },
     getTypeC (val) {
       this.radio = 'C'
@@ -260,19 +331,20 @@ export default {
       this.vipForm.typeC = val.join(',')
       this.vipForm.typeA = ''
       this.vipForm.typeB = ''
-      this.$emit('getf',this.vipForm)
+      this.$emit('getf',this.vipForm,this.plateNums,this.vcompany)
     },
     getReceptionDate (val) {
-      this.$emit('getf',this.vipForm)
+      this.vipForm.receptionDate = new Date(Date.parse(val.replace(/-/g, '/')))//new Date(val)
+      this.$emit('getf',this.vipForm,this.plateNums,this.vcompany)
     },
     getReceptionPlace (val) {
-      this.$emit('getf',this.vipForm)
+      this.$emit('getf',this.vipForm,this.plateNums,this.vcompany)
     },
     getReason (val) {
-      this.$emit('getf',this.vipForm)
+      this.$emit('getf',this.vipForm,this.plateNums,this.vcompany)
     },
     getDependenceItem (val) {
-      this.$emit('getf',this.vipForm)
+      this.$emit('getf',this.vipForm,this.plateNums,this.vcompany)
     },
     getDept (val) {},
     getDeptList () {
@@ -285,9 +357,25 @@ export default {
         if (status == 0) {
           this.deptList = result
           if (result.length == 1) {
-          	this.vipForm.deptName = result[0].deptName
-          	this.vipForm.deptid = result[0].deptid
+          	//this.vipForm.deptName = result[0].deptName
+          	//this.vipForm.deptid = result[0].deptid
+            if (result[0].deptid != 0) {
+              this.getParentDeptList(result[0].parentId)
+            }
           }
+        }
+      })
+    },
+    getParentDeptList (deptid) {
+      let nform = {
+        deptid: deptid,
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getDepartment',nform).then(res => {
+        let {status,result} = res
+        if (status == 0) {
+          this.vipForm.deptName = result.deptName
+          this.vipForm.deptid = result.deptid
         }
       })
     }

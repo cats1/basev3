@@ -23,6 +23,15 @@ export default {
     vset: 'Visittype',
     signup: 'Signup'
   },
+  pwdStrong: 'Strong',
+  pwdMedium: 'Medium',
+  pwdWeak: 'Weak',
+  plateNum: 'Plate number',
+  belongings: 'Belongings',
+  onUse: 'Available',
+  tagText: 'Tag',
+  tagTitle: 'Custom labels',
+  tagDesc: 'User-defined labels',
   carNumber:'Plate number',
   peopleSearch: 'Employee',
   Approve: 'Approve',
@@ -583,7 +592,7 @@ export default {
     tip6: 'Add at least one visitor information',
     visitMess: 'visitor’s information',
     address: 'Company address',
-    traffic: 'Parking information and surrounding traffic',
+    traffic: 'Parking information',
     compro: 'Company profile',
     inviteLink: 'Invitation link',
     single: 'Individual invitation',
@@ -797,7 +806,9 @@ export default {
     forbid: 'Forbidden',
     off: 'Disabled',
     text: 'Status',
-    startText: 'Open state'
+    startText: 'Open state',
+    approveStatus: 'Approval status',
+    cardStatus: 'ClockStatus'
   },
   key: {
     htitle: 'Equipment Management',

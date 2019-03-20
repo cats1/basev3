@@ -19,7 +19,7 @@ module.exports = {
   isChangeXSS: true,
   empComShow: true,
   addAreaIsShow: false,
-  addAreaCloseIsShow: false,
+  addAreaCloseIsShow: true,
   whiteListShow: false,
   doorGate: false,
   dataError: false,
@@ -42,19 +42,16 @@ module.exports = {
   empTotal: true,
   operatorSet: false,
   departVnoSet: false,
-  onworkManager: false,
-  defaultInterviewSet: true,//默认接待人
-  tableFormShow: true,
-  empEmailSendClose: false,
-  inviteMoreShow: true,
-  approveIsMore: true,
-  empSendComRequired: true,
-  empPointEpson: true,
-  expExcDepAndCnumber: true,//导出车牌和部门信息
-  qrcodeTypeShow: false,//有效期显示
-  applicantShow: true,
-  BASE_API: '"http://eslfk.epson.com.cn/qcvisit"',////
-  BASE_LINK: '"http://eslfk.epson.com.cn/"',//
+  onworkManager: false,//加班管理人
+  defaultInterviewSet: false,//加班管理人
+  tableFormShow: false,
+  approveIsMore: false,
+  tagShow: true,
+  extendExportShow: true,
+  defaultVsetIsDisplayShow: false,
+  defaultVsetIsDisplayPointShow: true, 
+  BASE_API: '"http://visitor.yesic.com/qcvisit"',//'"http://visit.eastech.com/qcvisit"',//
+  BASE_LINK: '"http://visitor.yesic.com/"',//
   BASE_VERSION: '"v2.3.0"',
-  HOST: '"eslfk.epson.com.cn"'
+  HOST: '"visitor.yesic.com"'//'"visit.eastech.com"'
 }

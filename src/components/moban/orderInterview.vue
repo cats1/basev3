@@ -273,8 +273,6 @@ export default {
                 sendObj.inviteContent = this.inviteContent
                 sendObj.traffic = this.traffic
                 sendObj.companyProfile = this.companyProfile
-                console.log(sendObj)
-                console.log(this.vtype)
                 this.$emit('initmoban',sendObj)
               })
             })

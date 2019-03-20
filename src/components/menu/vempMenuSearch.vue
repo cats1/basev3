@@ -1,7 +1,7 @@
 <template>
 	<div class="lrmenuwrap">
 		<div class="lrmenu-left">
-		  <h3>{{$t('depart.smember')}}</h3>
+		  <h3>{{$t('sempholder1')}}</h3>
       <div class="borderstyle" style="position:relative;">
         <input type="text" class="inputnoborder" :placeholder="$t('form.name.text')" v-model="sname" @keydown="searchItem($event)">
         <i slot="prefix" class="el-input__icon el-icon-search" style="position:absolute;top:0;right:0;" ></i>
@@ -11,9 +11,14 @@
         <div class="c_selector_navbar_item" @click="getAllItem"><span>{{$t('peopleSearch')}}</span></div>
       </div>
       <div class="lrmenu-check-wrap">
-  		  <template v-for="(item,index) in leftItem">
-          <check-item :index="index" :emp-obj="item" :check-value="checkValue" :check-array="rightItem" @click="getItem"></check-item>
-  		  </template>
+        <template v-if="leftItem.length>0">
+          <template v-for="(item,index) in leftItem">
+            <check-item :index="index" :emp-obj="item" :check-value="checkValue" :check-array="rightItem" @click="getItem"></check-item>
+          </template>
+        </template>
+  		  <template v-else>
+          <p>无数据</p>  
+        </template>
       </div>
 		</div>
 		<div class="lrmenu-right">
@@ -148,7 +153,7 @@ export default {
           let {status,result} = res
           if (status === 0) {
             let _self = this
-            let sArray = result
+            let sArray = result.filter(item => item.empType != 4)
             this.checkIsSelect(sArray)
             this.leftItem = sArray
           }

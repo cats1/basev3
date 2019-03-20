@@ -34,10 +34,12 @@ module.exports = {
   operatorSet: true,
   departVnoSet: true,
   onworkManager: true,//加班管理人
-  defaultInterviewSet: true,
+  defaultInterviewSet: false,
   empChangeNo: false,
-  BASE_API: '"https://jhds.coolvisit.top/qcvisit"',//'"https://jhds.coolvisit.top/qcvisit"',
-  BASE_LINK: '"https://jhds.coolvisit.top/"',//'"https://jhds.coolvisit.top/"',
+  jhConfig: true,
+  visitTimeIsShow: true,
+  BASE_API: '"https://jhds.coolvisit.top/qcvisit"',
+  BASE_LINK: '"https://jhds.coolvisit.top/"',
   BASE_VERSION: '"v2.2.0"',
-  HOST: '"jhds.coolvisit.top"',//'"jhds.coolvisit.top"'
+  HOST: '"jhds.coolvisit.top"'
 }

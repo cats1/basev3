@@ -46,6 +46,8 @@ module.exports = {
   defaultInterviewSet: false,//加班管理人
   tableFormShow: true,
   approveIsMore: true,
+  defaultVsetIsDisplayShow: false,
+  checkPassword: false,
   BASE_API: '"http://www.coolvisit.top/qcvisitBase"',//'"http://visit.eastech.com/qcvisit"',//
   BASE_LINK: '"http://www.coolvisit.top/"',//'"http://visit.eastech.com/"',//
   BASE_VERSION: '"v2.3.0"',
