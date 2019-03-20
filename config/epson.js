@@ -19,7 +19,7 @@ module.exports = {
   isChangeXSS: true,
   empComShow: true,
   addAreaIsShow: false,
-  addAreaCloseIsShow: true,
+  addAreaCloseIsShow: false,
   whiteListShow: false,
   doorGate: false,
   dataError: false,

@@ -31,7 +31,12 @@
             <sms-code :phone="loginForm.phone" @comit="getSmsCode"></sms-code>
           </el-form-item>
           <el-form-item prop="empPwd">
-            <el-input name="password" type="password" v-model="loginForm.empPwd" autoComplete="on" placeholder="password" />
+            <template v-if='checkPassword'>
+              <check-password :p-value="loginForm.empPwd" @sendv="getNewpwd"></check-password>
+            </template>
+            <template v-else>
+              <el-input name="password" type="password" v-model="loginForm.empPwd" autoComplete="on" placeholder="password" />
+            </template>
           </el-form-item>
           <el-form-item prop="repassword">
             <el-input name="password" type="password" v-model="loginForm.repassword" autoComplete="on" placeholder="password" />
@@ -52,9 +57,10 @@ import { smsCode } from '@/components/SendCode'
 import { isvalidatPhone,validatePSD } from '@/utils/validate'
 import { lftPwdRule, lftDePwdRule } from '@/utils/common'
 import ImgCode from '@/components/loginpage/ImgCode'
+import checkPassword from '@/components/checkpwd/checkPassword'
 export default {
   name: 'ManagerForgot',
-  components: { ImgCode,smsCode },
+  components: { ImgCode,smsCode,checkPassword },
   data () {
   	const validatePhone = (rule, value, callback) => {
       if (!value) {
@@ -113,10 +119,16 @@ export default {
       step: 0,
       passwordType: 'password',
       success: false,
-      getCode: false
+      getCode: false,
+      pwdStrong: 0,
+      checkPassword: process.env.checkPassword || false
     }
   },
   methods: {
+    getNewpwd (val,num) {
+      this.loginForm.empPwd = val
+      this.pwdStrong = num
+    },
     getSmsCode (code) {
       this.loginForm.verifyCode = code
     },
@@ -152,6 +164,16 @@ export default {
     checkConfirm() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          if (this.checkPassword) {
+            if (this.pwdStrong == 1) {
+              this.$message({
+                showClose: true,
+                message: '密码强度太弱',
+                type: 'warning'
+              })
+              return false
+            }
+          }
           let codeData = {
             'phone': this.loginForm.phone,
             'empPwd': this.loginForm.empPwd,

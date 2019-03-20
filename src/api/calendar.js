@@ -31,3 +31,11 @@ export function getHoliday(data) {
     data
   })
 }
+//getHolidayFromTP
+export function getHolidayFromTP(data) {
+  return request({
+    url: '/getHolidayFromTP',
+    method: 'post',
+    data
+  })
+}

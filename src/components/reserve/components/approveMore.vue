@@ -4,7 +4,7 @@
 		<template v-for="item in list">
 			<approve-more-item :aitem="item" class="margintop20" @deletekit="deleteArea" @updatekit="updateArea" @savekit="updateArea"></approve-more-item>
 		</template>
-    <template v-if="!addAreaIsShow">
+    <template v-if="addAreaCloseIsShow">
       <add-item-more class="margintop20" @addkit="getAdd" ></add-item-more>
     </template>
 	</div>
@@ -19,7 +19,8 @@ export default {
   data () {
   	return {
   	  list: [],
-      addAreaIsShow: process.env.addAreaIsShow
+      addAreaIsShow: process.env.addAreaIsShow || false,
+      addAreaCloseIsShow: process.env.addAreaCloseIsShow || false,
   	}
   },
   mounted () {

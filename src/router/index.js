@@ -254,9 +254,9 @@ export default new Router({
       title: '404'
     }
   },{
-    path: '/map',
-    name: 'map',
-    component: _import('map/googleMap')
+    path: '/txt',
+    name: 'txt',
+    component: _import('upload/uploadTxt')
   }/*, {
     path: '/takephoto',
     name: 'takephoto',

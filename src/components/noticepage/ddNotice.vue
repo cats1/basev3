@@ -94,7 +94,7 @@ export default {
     updateSetting () {
       let newForm = {
         userid: getCache('userid'),
-        ddnotify: this.switchOn,
+        ddnotify: booleanToNumber(this.switchOn),
         ddautosync:this.form.ddautosync,
         ddcorpid: this.form.ddcorpid,
         ddcorpsecret: this.form.ddcorpsecret,

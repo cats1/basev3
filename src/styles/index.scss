@@ -111,7 +111,12 @@ dd {
 label {
   font-weight: 700;
 }
-
+.calist{
+  margin-top: 20px;
+  li{
+    margin:5px 0;
+  }
+}
 .block {
   display: block;
   overflow: hidden;
@@ -157,7 +162,37 @@ label {
     margin-top: 10px;
   }
 }
-
+.taglist{
+  width: 100%;
+  li{
+    position:relative;
+    float: left;
+    width: auto;
+    padding: 2px 8px;
+    margin: 0 20px 20px 0;
+    color: #78AEF9;
+    border:1px solid #78AEF9;
+    border-radius: 5px;
+    .liclose{
+      position: absolute;
+      background: #FB7272;
+      width:16px;
+      height:16px;
+      line-height: 16px;
+      font-size: 8px;
+      font-weight: lighter;
+      top: -10px;
+      right: -10px;
+      color: #fff;
+      border-radius: 50%;
+      text-align: center;
+      i{
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
+}
 .isActive {
   color: #409EFF;
 }
@@ -184,7 +219,14 @@ label {
   margin-top: 46px;
   margin-bottom: 20px;
 }
-
+.holidaytag{
+  border:1px solid #ff5722;
+  padding:3px;
+  margin:5px 2px;
+  display: inline-block;
+  float: left;
+  text-align: center;
+}
 .lft-box {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -438,7 +480,29 @@ label {
     border-color: #67c23a;
   }
 }
+.borderstyleauto {
+  height: auto;
+  line-height: 38px;
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: inherit;
+  outline: 0;
+  padding: 0;
+  -webkit-transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+  width: 100%;
 
+  &:focus {
+    border-color: #67c23a;
+  }
+}
 .inputnoborder {
   height: 36px;
   line-height: 36px;
@@ -1691,14 +1755,15 @@ label {
 .exportwap {
   border: 1px solid #c1c1c1;
   padding: 0 30px;
-
   .exsection {
     border-bottom: 1px solid #c1c1c1;
     position: relative;
     display: block;
     padding: 20px 0;
     color: #333;
-
+    &:last-child{
+      border-bottom: none;
+    }
     label {
       width: 18px;
       height: 18px;
@@ -1718,6 +1783,7 @@ label {
         //background: url(../img/choice/c1_on.png) left center no-repeat;
       }
     }
+
   }
 }
 

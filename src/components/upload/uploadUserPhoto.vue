@@ -85,7 +85,8 @@ export default {
             })
           })
         } else { ////小于等于0.8M 原图上传
-          uploadCommon(files,function(result){      
+          uploadCommon(files,function(result){
+            _self.$refs[_self.inputId].value = ''      
             _self.checkFace(result.url)
           })
         }

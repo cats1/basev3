@@ -1,18 +1,50 @@
 <template>
 	<div class="bgwhite">
     <el-row :gutter="20">
-      <el-col :span="18" :offset="3">
-        <calendar-set
-          ref="calendar1"
-          :lunar="calendar1.lunar" 
-          :value="calendar1.value"
-          :zero="true"
-          :setdates="setdates"
-          @select="select"
-          @update="update"
-          @selectMonth="selectMonth"
-          @selectYear="selectYear" ></calendar-set>
-      </el-col>
+      <template v-if="calendarLRShow">
+        <el-col :span="3" :offset="1">
+          <ul class="calist">
+            <li>
+              <el-button @click="checkAllHoliday"><i class="fa fa-calendar-check-o"></i>查看节假日</el-button>
+            </li>
+            <li>
+              <download-txt txt-url="http://danaher.jototech.cn/txt/calendar.txt"></download-txt>
+            </li>
+            <li>
+              <upload-txt txt-value="导入节假日" @utxt="getTxtValue" class="qeBtnInput"></upload-txt>
+            </li>
+            <li>
+              <el-button @click="refreshCalendar"><i class="fa fa-refresh"></i>同步节假日</el-button>
+            </li>
+          </ul>
+        </el-col>
+        <el-col :span="18">
+          <calendar-set
+            ref="calendar1"
+            :lunar="calendar1.lunar" 
+            :value="calendar1.value"
+            :zero="true"
+            :setdates="setdates"
+            @select="select"
+            @update="update"
+            @selectMonth="selectMonth"
+            @selectYear="selectYear" ></calendar-set>
+        </el-col>
+      </template>
+      <template v-else>
+        <el-col :span="18" :offset="3">
+          <calendar-set
+            ref="calendar1"
+            :lunar="calendar1.lunar" 
+            :value="calendar1.value"
+            :zero="true"
+            :setdates="setdates"
+            @select="select"
+            @update="update"
+            @selectMonth="selectMonth"
+            @selectYear="selectYear" ></calendar-set>
+        </el-col>
+      </template>          
     </el-row>         
         <el-dialog
           :title="$t('dateSet')"
@@ -41,14 +73,25 @@
             <el-button @click="dialogVisible = false">{{$t('btn.cancelBtn')}}</el-button>
           </span>
         </el-dialog>
+      <el-dialog :visible.sync="showdialogVisible"
+          width="60%" >
+          <div>
+            <span v-for="citem in setdates" class="holidaytag">
+              <p>{{citem.year}}-{{citem.month}}-{{citem.day}}</p>
+              <p>{{citem.remark}}</p>
+            </span>
+          </div>
+      </el-dialog>
 	</div>
 </template>
 <script>
-import calendarSet from '@/components/calendar/calendarSet.vue'
+import downloadTxt from '@/components/download/downloadTxt'
+import calendarSet from '@/components/calendar/calendarSet'
+import uploadTxt from '@/components/upload/uploadTxt'
 import {formatDate,getYearFormat,getMonthFormat,getDayFormat} from '@/utils/index'
 import { getCache } from '@/utils/auth'
 export default {
-  components: {calendarSet},
+  components: {calendarSet,uploadTxt,downloadTxt},
   data () {
   	return {
   	  dialogVisible: false,
@@ -69,7 +112,10 @@ export default {
         userid: getCache('userid')
       },
       setdates: [],
-      updateKey: ''
+      updateKey: '',
+      showdialogVisible: false,
+      calendarLRShow: process.env.calendarLRShow || false,
+      qeInputValue: ''
   	}
   },
   created () {
@@ -81,6 +127,22 @@ export default {
       let month = this.value.getMonth() + 1
       let day = this.value.getDate()
       this.calendar1.value = [year,month,day]
+    },
+    getTxtValue (value) {
+      let _self = this
+      value.forEach(function(element, index) {
+        if (element&&element!='') {
+          let eArray = element.split(',')
+          let form = {
+            hid: '',
+            hdate: new Date(eArray[1]),
+            remark: '',
+            passFlag: eArray[0],
+            userid: getCache('userid')
+          }
+          _self.addHoliday(form)
+        }        
+      })
     },
   	select(value) {
       this.form = {
@@ -112,18 +174,34 @@ export default {
     selectYear(year) {
       this.getHoliday(new Date(year + '-01-01'))
     },
+    checkAllHoliday () {
+      this.getHoliday(new Date())
+      this.showdialogVisible = true
+    },
     saveHoliday () {
       if (this.form.hid !== '') {
         this.updateHoliday()
       } else {
-        this.addHoliday()
+        let fdata = this.form
+        this.addHoliday(this.form)
       }
     },
-    addHoliday () {
+    refreshCalendar () {
       let nform = {
-        hdate: this.form.hdate,
-        remark: this.form.remark,
-        passFlag: this.form.passFlag,
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getHolidayFromTP',nform).then(res => {
+        let { status,result } = res
+        if (status == 0) {
+          this.getHoliday(new Date())
+        }
+      })
+    },
+    addHoliday (fdata) {
+      let nform = {
+        hdate: fdata.hdate,
+        remark: fdata.remark,
+        passFlag: fdata.passFlag,
         userid: getCache('userid')
       }
       this.$store.dispatch('addHoliday', nform).then(res => {

@@ -1,6 +1,8 @@
 import { addDepartment,addEmployee,getEmployeeFromRtx,UpdateRtxRefresh,
-	updateDepartment,updateDeptEmpRelation,delDepartment,updateEmployee } from '@/api/depart'
+	updateDepartment,updateDeptEmpRelation,delDepartment,updateEmployee,getDepartment,
+	getEmployeeFromDD } from '@/api/depart'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
+
 import { Message } from 'element-ui'
 import i18n from '@/lang'
 import 'babel-polyfill'
@@ -111,13 +113,13 @@ const user = {
 		},
 		getEmployeeFromDD({ commit }, info) {
 			return new Promise((resolve, reject) => {
-		        if (getCache('ddnotify') === 0) {
+		        if (getCache('ddnotify') == 0) {
 		        	let local = this.state.app.language
                     Message({
                   	  message: i18n.messages[local]['exporttype'].tip8,
                   	  type: 'warning'
                 	})
-		        } else if (getCache('ddnotify') === 1) {
+		        } else if (getCache('ddnotify') == 1) {
                     getEmployeeFromDD(info).then(response => {
 			          let { status, result } = response
 			          if (status === 0) {
@@ -166,6 +168,15 @@ const user = {
 			        resolve(response)
 			    }).catch(error => {
 			          reject(error)
+			    })
+		    })
+		},
+		getDepartment({ commit }, info) {
+			return new Promise((resolve, reject) => {
+		        getDepartment(info).then(response => {
+			        resolve(response)
+			    }).catch(error => {
+			        reject(error)
 			    })
 		    })
 		},

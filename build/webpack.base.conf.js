@@ -44,7 +44,8 @@ const Webpackconfig = {
     }
   },
   externals: {
-    'BMap': 'BMap'
+    'BMap': 'BMap',
+    'BMap_Symbol_SHAPE_POINT': 'BMap_Symbol_SHAPE_POINT'
   },
   plugins: [
    new webpack.ProvidePlugin({

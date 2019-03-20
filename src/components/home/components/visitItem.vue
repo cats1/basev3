@@ -121,7 +121,7 @@ export default {
       teamShow: false,
       peopleCount: 0,
       extendColSet: this.extendCol,
-      extendColArray: [],
+      extendColArray: null,
       vlist: ''
     }
   },
@@ -155,7 +155,7 @@ export default {
   methods: {
     doHover () {
       if (!this.vdata.signOutDate) {
-        if (parseInt(this.vdata.signinType) === 0) {
+        if (this.vdata.visitdate) {
           this.maskShow = true
         }
       }
@@ -186,11 +186,6 @@ export default {
       })
     },
     doCheck (val) {
-      if (val) {
-
-      } else {
-
-      }
       this.$emit('checkkit',val,this.index)
     },
   	checkStatus () {
@@ -347,36 +342,34 @@ export default {
         }
       }
     },
-    getextendCol () {      
-      if (this.vdata.extendCol != null) {
-        let extendCol = splitArray(this.vdata.extendCol)
-        let modaltype = judgeModel(extendCol)
-        if (modaltype[0] == 0 || modaltype[0] == undefined) { //普通未添加自定义
-
-        } else if (modaltype[0] == 1) { //添加自定义
-          let extendColSet = this.extendColSet
-          let patt1 = new RegExp("input_")
+    async htmlUnescape (val,type) {
+      await this.$store.dispatch('htmlUnescape',
+        {'inviteContent': val}).then(res => {
           let extendColArray = []
-          for (let i = 0; i < extendCol.length; i++) {
-            if (patt1.test(moveBlank(extendCol[i])) > 0) {
-              for (let j = 0; j < extendColSet.length; j++) {
-                let fieldName = extendColSet[j].fieldName
-                if (fieldName === moveBlank(extendCol[i])) {
-                  let exObj = {
-                    name: extendColSet[j].displayName,
-                    value: checkIsNull(extendCol[i+1])
-                  }
-                  extendColArray.push(exObj)
-                }
+          let extendColSet = this.extendColSet
+          for(let ex in res) {
+            let eFlag = false
+            let obj = {
+              name: '',
+              value: res[ex]
+            }
+            for(let i = 0;i<extendColSet.length;i++){
+              if (extendColSet[i].fieldName == ex && ex!='empid'&&ex!='phone'&&ex!='visitType'&&ex!='name') {
+                eFlag = true
+                obj.name = extendColSet[i].displayName
+                continue
               }
+            }
+            if (eFlag) {
+              extendColArray.push(obj)
             }
           }
           this.extendColArray = extendColArray
-        } else if (modaltype[0] == 2) {//团队
-          this.vtext = this.$t('teamText')
-          this.teamShow = true
-          this.peopleCount = extendCol[modaltype[1]]
-        }
+      })
+    },
+    getextendCol () {      
+      if (this.vdata.extendCol != null) {
+        this.htmlUnescape(this.vdata.extendCol)
       } else {
         this.vtext = ''
         this.teamShow = false

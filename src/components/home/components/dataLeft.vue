@@ -4,12 +4,22 @@
 			<el-form-item>
 				<el-select class="width100" v-model="svalue" @change="settype">
           <template v-if="vTypeShow">
-            <el-option
-              v-for="(item,index) in $t('checkVtype')"
-              :key="index"
-              :label="item"
-              :value="index" >
-            </el-option>
+            <template v-if="doorGate">
+              <el-option
+                v-for="(item,index) in $t('checkVtype')"
+                :key="index"
+                :label="item"
+                :value="index" >
+              </el-option>
+            </template>
+            <template v-else>
+              <el-option
+                v-for="(item,index) in $t('checkVtype')"
+                :key="index"
+                :label="item"
+                :value="index" v-show="index !== 6">
+              </el-option>
+            </template>
           </template>
 				  <template v-else>
             <el-option
@@ -125,7 +135,11 @@ export default {
       startIndex:this.sindex,
       requestedCount: this.scount,
       eslForm: [],
-      ptitle: ''
+      ptitle: '',
+      doorGate: process.env.doorGate || false,
+      extendColItemArray: [],
+      extendArray: [],
+      extendShow: process.env.extendShow || false,
   	}
   },
   watch: {
@@ -140,6 +154,7 @@ export default {
   },
   mounted () {
     this.getVisitor()
+    this.GetExtendVisitor()
     if (this.vTypeShow) {
       this.getTypeList()
     }
@@ -189,7 +204,6 @@ export default {
         this.gvalue = ''
         this.vType = ''
   	  } else if (val === 3) {
-  	  	this.vvalue = '面试'
   	  	this.getVType()
         this.form.name = ''
         this.form.empName = ''
@@ -307,6 +321,97 @@ export default {
         this.SearchVisitByCondition(nform)
       }
   	},
+    GetExtendVisitor () {
+      let nform = {
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('GetExtendVisitor',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          let local_fieldname_arr = ['name', 'visitType', 'empid', 'phone']
+          let local_add_arr = ['vcompany']
+          let extendArray = []
+          this.extendArray = []
+          let _self = this
+          for (let i=0;i<result.length;i++) {
+            if ($.inArray(result[i].fieldName, local_fieldname_arr) == -1) {
+                if (!this.defaultVsetIsDisplayShow) {
+                  if ($.inArray(result[i].fieldName, local_add_arr) == -1) {
+                    extendArray.push(result[i])
+                    _self.extendArray.push(result[i])
+                  }
+                } else {
+                  if ($.inArray(result[i].fieldName, local_add_arr) == -1) {
+                    extendArray.push(result[i])
+                    _self.extendArray.push(result[i])
+                  }
+                }
+            }
+          }
+          this.$emit('getextend',extendArray)
+        }
+      })
+    },
+    initData (val) {
+      let _self = this
+      this.extendColItemArray = Array(val.length).fill({})
+      val.forEach(function(element, index) {
+        let extendCol = element.extendCol ? element.extendCol : ''
+        let viFlag = false
+        if (index == val.length - 1) {
+          viFlag = true
+        }
+        _self.htmlUnescape(extendCol,index,viFlag,val,element)
+      })
+    },
+    async htmlUnescape (val,vindex,vflag,vArray,element) {
+      await this.$store.dispatch('htmlUnescape',
+        {'inviteContent': val}).then(res => {
+          let extendColObj = res
+          let extendColSet = this.extendArray
+          let exArray = []
+          let extendColArray = []
+          let extendColItemObj = {}
+          let _self = this
+          for(let i = 0;i<extendColSet.length;i++){
+            let eFlag = false  
+            for (let ex in res) {
+               if (extendColSet[i].fieldName == ex && ex!='empid'&&ex!='phone'&&ex!='visitType'&&ex!='name'&&ex!='vcompany') {
+                let obj = {
+                  'extendValue': ''
+                }
+                obj.extendValue = res[ex]
+                eFlag = true
+                extendColItemObj[ex] = $.extend({},extendColSet[i],obj)
+                continue
+              }
+            }
+            if (!eFlag) {
+              let obj = {
+                'extendValue': ''
+              }
+              extendColItemObj[extendColSet[i].fieldName] = $.extend({},extendColSet[i],obj)
+            }
+          }
+          this.extendColItemArray[vindex] = extendColItemObj
+          //this.extendColItemArray.push(extendColItemObj)
+          if (vflag) {
+            let nform = {
+              'userid': getCache('userid'),
+              'name': this.form.name,
+              'empName': this.form.empName,
+              'visitType': this.vvalue,
+              'phone': this.form.phone,
+              'date': this.form.date,
+              'endDate': this.form.endDate,
+              'vcompany': this.form.vcompany,
+              'signInGate': this.gvalue,
+              'vType': this.vType
+            }
+            this.$emit('getvlist',vArray,this.svalue,nform,this.extendColItemArray)
+          }
+      })
+    },
     SearchVisitByCondition (nform) {
       this.$store.dispatch('SearchVisitByCondition',nform).then(res => {
         let {status,result} = res
@@ -314,7 +419,12 @@ export default {
           this.vlist = result
           this.ptitle = ''
           this.setPieData()
-          this.$emit('getvlist',result,this.svalue,nform)
+          if (!this.extendShow) {
+            this.$emit('getvlist',result,this.svalue,nform)
+          } else {
+            this.initData(result,nform)
+            //this.$emit('getvlist',result,this.svalue,nform)
+          }          
         }
       })
     },
@@ -365,14 +475,23 @@ export default {
             if(ele.name === element.opType) {
               ele.value++
               hit = 1
+            } else {
+              if (element.opType == ''&& ele.name == '其他') {
+                ele.value++
+                hit = 1
+              }
             }
           } else {
             if(ele.name === element.visitType) {
               ele.value++
               hit = 1
+            } else {
+              if (element.visitType == ''&& ele.name == '其他') {
+                ele.value++
+                hit = 1
+              }
             }
-          }
-          	
+          }	
         })
         if (hit === 0) {
           let obj
@@ -387,8 +506,7 @@ export default {
               value: 1
             }
           }
-            
-            typeArray.push(obj)
+          typeArray.push(obj)
         }
       })
       this.typeArray = typeArray

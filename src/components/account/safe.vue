@@ -1,5 +1,5 @@
 <template>
-	<div class="boxshadow bgwhite">
+  <div class="boxshadow bgwhite">
     <h2 class="set-title borderbom">{{$t('account.safe.title')}}</h2>
     <el-row class="paddingtb20 paddinglr30">
       <el-col :span="12">
@@ -8,7 +8,12 @@
             <el-input type="password" v-model="form.oldpwd"></el-input>
           </el-form-item>
           <el-form-item :label="$t('form.password.newtext')" prop="newpwd">
-            <el-input type="password" v-model="form.newpwd"></el-input>
+            <template v-if='checkPassword'>
+              <check-password :p-value="form.newpwd" @sendv="getNewpwd"></check-password>
+            </template>
+            <template v-else>
+              <el-input type="password" v-model="form.newpwd"></el-input>
+            </template>
           </el-form-item>
           <el-form-item :label="$t('form.password.retext')" prop="renewpwd">
             <el-input type="password" v-model="form.renewpwd"></el-input>
@@ -23,7 +28,9 @@
 </template>
 <script>
 import {getCache} from '@/utils/auth'
+import checkPassword from '@/components/checkpwd/checkPassword'
 export default {
+  components: {checkPassword},
   data () {
     var validatePass = (rule, value, callback) => {
         if (value === '') {
@@ -51,7 +58,7 @@ export default {
           callback();
         }
     }
-  	return {
+    return {
       form: {
         userid: getCache('userid'),
         oldpwd: '',
@@ -71,16 +78,32 @@ export default {
           { required: true,validator: validatePass2, trigger: 'blur' },
           { min: 6, max: 20, message: this.$t('validPassword.tip2'), trigger: 'blur' }
         ]
-      }
+      },
+      pwdStrong: 0,
+      checkPassword: process.env.checkPassword || false
     }
   },
   methods: {
+    getNewpwd (val,num) {
+      this.form.newpwd = val
+      this.pwdStrong = num
+    },
     saveBase () {
       this.updateOldPwd()
     },
     updateOldPwd () {
       this.$refs.baseform.validate(valid => {
         if (valid) {
+          if (this.checkPassword) {
+            if (this.pwdStrong == 1) {
+              this.$message({
+                showClose: true,
+                message: '密码强度太弱',
+                type: 'warning'
+              })
+              return false
+            }
+          }
           let nform = {
             userid: getCache('userid'),
             oldpwd: this.form.oldpwd,

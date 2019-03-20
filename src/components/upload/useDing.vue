@@ -87,31 +87,30 @@ export default {
   	editRtx () {
   	  this.dialogVisible = true
   	},
-    syncSet () {      
-      if (getCache('ddnotify') !== 1) {
+    syncSet () { 
+        if (getCache('ddnotify') != 1) {
             this.$message({
               message: this.$t('exporttype.tip5'),
               type: 'error'
             })
-        } else if (getCache('rtxip')&&getCache('rtxport')) {
-            this.$message({
-              message: this.$t('exporttype.tip6'),
-              type: 'error'
-            })
+          return false
         } else {
+          this.getEmployeeFromDD()
+        } 
+    },
+    getEmployeeFromDD () {
           let nform = {
             userid: getCache('userid')
           }
           this.$store.dispatch('getEmployeeFromDD',nform).then(res => {
             let {status} = res
-            if (status === 0) {
+            if (status == 0) {
                 this.$emit('syncdd')
             }
           })
-        } 
     },
     autoSyncSet (val) {
-        if (getCache('ddnotify') !== 1) {
+        if (getCache('ddnotify') != 1) {
             this.$message({
               message: this.$t('exporttype.tip5'),
               type: 'error'

@@ -41,6 +41,7 @@ export default {
         let files = this.$refs[this.inputId].files[0]
         let _self = this
         UploadApponintment(files,function(result){
+          _self.$refs[_self.inputId].value = ''
           _self.$emit('sendkit',result)
         })
       }

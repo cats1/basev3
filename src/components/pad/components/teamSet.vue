@@ -54,7 +54,7 @@ export default {
     }
   },
   created () {
-    this.getExtendVisitor()
+    this.getExtendVisitor('init')
   },
   methods: {
     showDown () {
@@ -63,7 +63,7 @@ export default {
     getsp (con) {
       this.form.secureProtocol = con
     },
-    getExtendVisitor () {
+    getExtendVisitor (vtype,vflag) {
       let nform = {
         userid: getCache('userid')
       }
@@ -81,7 +81,8 @@ export default {
               inputValue: result[i].inputValue,
               inputOrder: result[i].inputOrder,
               required: result[i].required,
-              placeholder: result[i].placeholder
+              placeholder: result[i].placeholder,
+              isDisplay:  result[i].isDisplay
             }      
             this.g_team_config_arr.push(conf_item)
             if (result[i].placeholder !== null && result[i].placeholder !== '') {
@@ -93,21 +94,25 @@ export default {
               }
             }
           }
-          if (team_setting_fg === 0) {
-            this.isShow = false
-          } else {
-            this.isShow = true
+          if (vtype == 'init') {
+            if (team_setting_fg === 0) {
+              this.isShow = false
+            } else {
+              this.isShow = true
+            }
+          } else if (vtype == 'update') {
+            this.isShow = vflag
+            if (vflag) {
+              this.submitDefault()
+            } else {
+              this.cleanTeamSetting()
+            }
           }
         }
       })
     },
     getSwitchValue (value) {
-      this.isShow = value
-      if (value) {
-        this.submitDefault()
-      } else {
-        this.cleanTeamSetting()
-      }
+      this.getExtendVisitor('update',value)      
     },
     cleanTeamSetting () {
       if (this.g_team_config_arr.length === 0) {
@@ -125,7 +130,8 @@ export default {
             "inputValue": g_team_config_arr[i].inputValue,
             "inputOrder": g_team_config_arr[i].inputOrder,
             "required": g_team_config_arr[i].required,
-            "placeholder": g_team_config_arr[i].placeholder
+            "placeholder": g_team_config_arr[i].placeholder,
+            "isDisplay":  g_team_config_arr[i].isDisplay
           }
           req_obj.push(conf_item)
         }
@@ -148,7 +154,8 @@ export default {
             "inputValue": g_team_config_arr[i].inputValue,
             "inputOrder": g_team_config_arr[i].inputOrder,
             "required": g_team_config_arr[i].required,
-            "placeholder": g_team_config_arr[i].placeholder
+            "placeholder": g_team_config_arr[i].placeholder,
+            "isDisplay":  g_team_config_arr[i].isDisplay
           }
           req_obj.push(conf_item)
         }
@@ -162,7 +169,8 @@ export default {
         inputValue: '',
         inputOrder: order,
         required: 1,
-        placeholder: '1'
+        placeholder: '1',
+        isDisplay: 7
       }
       req_obj.push(item_name)
       // 拜访的人  empid
@@ -175,7 +183,8 @@ export default {
         inputValue: '',
         inputOrder: order,
         required: 1,
-        placeholder: '1'
+        placeholder: '1',
+        isDisplay: 7
       }
       req_obj.push(item_emp)
       order = order + 1
@@ -187,7 +196,8 @@ export default {
         inputValue: '',
         inputOrder: order,
         required: 1,
-        placeholder: '1'
+        placeholder: '1',
+        isDisplay: 7
       }
       req_obj.push(item_phone)
       order = order + 1
@@ -199,7 +209,8 @@ export default {
         inputValue: '',
         inputOrder: order,
         required: 1,
-        placeholder: '1'
+        placeholder: '1',
+        isDisplay: 7
       }
       req_obj.push(item_count)
       this.saveTeam(req_obj,1)
@@ -220,7 +231,8 @@ export default {
             "inputValue": g_team_config_arr[i].inputValue,
             "inputOrder": g_team_config_arr[i].inputOrder,
             "required": g_team_config_arr[i].required,
-            "placeholder": g_team_config_arr[i].placeholder
+            "placeholder": g_team_config_arr[i].placeholder,
+            "isDisplay":g_team_config_arr[i].isDisplay,
           }
           req_obj.push(conf_item)
         }
@@ -243,6 +255,7 @@ export default {
           inputValue: '',
           inputOrder: order,
           required: 1,
+          isDisplay: 7,
           placeholder: '1'
         }
         req_obj.push(tobj)

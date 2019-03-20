@@ -1,5 +1,5 @@
 <template>
-	<el-form class="login-form noboxshadow" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
+  <el-form class="login-form noboxshadow" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
       <el-row v-if="!success">
         <template v-if="step === 0">
           <div class="title-container">
@@ -29,20 +29,25 @@
             <sms-code :phone="loginForm.phone" @comit="getSmsCode"></sms-code>
           </el-form-item>
           <el-form-item prop="empPwd">
-            <el-input name="password" type="password" v-model="loginForm.empPwd" autoComplete="on" placeholder="password" />
+            <template v-if='checkPassword'>
+              <check-password :p-value="loginForm.empPwd" @sendv="getNewpwd"></check-password>
+            </template>
+            <template v-else>
+              <el-input name="password" type="password" v-model="loginForm.empPwd" autoComplete="on" placeholder="password" />
+            </template>
           </el-form-item>
           <el-form-item prop="repassword">
             <el-input name="password" type="password" v-model="loginForm.repassword" autoComplete="on" placeholder="password" />
           </el-form-item>
           <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading1" @click.native.prevent="checkConfirm">{{$t('btn.confirmBtn')}}</el-button>
         </template>
-	     </el-row>
-	     <el-row v-else>
-	     	<div class="title-container">
-		       <img :src="successIcon" alt="">
-		       <p class="title lh60">{{$t('login.forgot.page.desc4')}}</p>
-		    </div>
-	     </el-row>
+       </el-row>
+       <el-row v-else>
+        <div class="title-container">
+           <img :src="successIcon" alt="">
+           <p class="title lh60">{{$t('login.forgot.page.desc4')}}</p>
+        </div>
+       </el-row>
     </el-form>
 </template>
 <script>
@@ -50,11 +55,12 @@ import { smsCode } from '@/components/SendCode'
 import { isvalidatPhone,validatePSD } from '@/utils/validate'
 import { lftPwdRule, lftDePwdRule } from '@/utils/common'
 import ImgCode from '@/components/loginpage/ImgCode'
+import checkPassword from '@/components/checkpwd/checkPassword'
 export default {
   name: 'ManagerForgot',
-  components: { ImgCode,smsCode },
+  components: { ImgCode,smsCode,checkPassword },
   data () {
-  	const validatePhone = (rule, value, callback) => {
+    const validatePhone = (rule, value, callback) => {
       if (this.internalPhoneShow) {
         if (!value) {
           callback(new Error(this.$t('formCheck.validphone.tip2')))
@@ -120,31 +126,38 @@ export default {
       passwordType: 'password',
       success: false,
       getCode: false,
-      internalPhoneShow: process.env.internalPhoneShow || false
+      internalPhoneShow: process.env.internalPhoneShow || false,
+      pwdStrong: 0,
+      checkPassword: process.env.checkPassword || false
     }
   },
   methods: {
+    getNewpwd (val,num) {
+      this.loginForm.empPwd = val
+      this.pwdStrong = num
+    },
     getSmsCode (code) {
       this.loginForm.verifyCode = code
     },
-  	setCode (result) {
+    setCode (result) {
       this.loginForm.digest = result.digest
-  	},
-  	sendEmail () {
+    },
+    sendEmail () {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+
           let codeData = {
-          	'email': '',
-          	'phone': this.loginForm.phone,
-          	'digest': this.loginForm.digest,
-          	'vcode': this.loginForm.vcode
+            'email': '',
+            'phone': this.loginForm.phone,
+            'digest': this.loginForm.digest,
+            'vcode': this.loginForm.vcode
           }
           this.$store.dispatch('isCodeTrue',codeData).then((res) => {
-          	if (res.status == 0) {
-          		this.loading = true
+            if (res.status == 0) {
+              this.loading = true
               this.step = 1
 
-          	} else if (res.status === 119) {
+            } else if (res.status === 119) {
               this.getCode = true
               this.loginForm.vcode = ''
             }
@@ -155,10 +168,20 @@ export default {
           return false
         }
       })
-  	},
+    },
     checkConfirm() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          if (this.checkPassword) {
+            if (this.pwdStrong == 1) {
+              this.$message({
+                showClose: true,
+                message: '密码强度太弱',
+                type: 'warning'
+              })
+              return false
+            }
+          }
           let codeData = {
             'phone': this.loginForm.phone,
             'empPwd': this.loginForm.empPwd,

@@ -1,7 +1,7 @@
 <template>
-	<div class="lrmenuwrap">
-		<div class="lrmenu-left">
-		  <h3>{{$t('depart.selectDepart')}}</h3>
+  <div class="lrmenuwrap">
+    <div class="lrmenu-left">
+      <h3>{{$t('depart.selectDepart')}}</h3>
       <div class="leadheadwrap">
         <template v-for="(citem,index) in headItem">
           <template v-if="index === 0">
@@ -12,7 +12,7 @@
           </template>  
         </template>
       </div>
-		  <template v-for="(item,index) in leftItem">
+      <template v-for="(item,index) in leftItem">
         <div class="lrmenu-check-item">
           <template v-if="checkValue">
             <p class="lrmenu-item" >    
@@ -32,16 +32,16 @@
             <!-- <span>8888</span> -->
           </template>
         </div>
-		  </template>
-		</div>
-		<div class="lrmenu-right">
+      </template>
+    </div>
+    <div class="lrmenu-right">
       <h3>{{$t('depart.hasDepart')}}</h3>
-		  <template v-for="(item,index) in rightItem">
-		  	<p class="lrmenu-item"><img :src="logo" alt="">{{item.name}}
-		  		<span class="lrmenu-item-close" @click="removeItem(item,index)"><i class="fa fa-close"></i></span></p>
-		  </template>
-		</div>
-	</div>
+      <template v-for="(item,index) in rightItem">
+        <p class="lrmenu-item"><img :src="logo" alt="">{{item.name}}
+          <span class="lrmenu-item-close" @click="removeItem(item,index)"><i class="fa fa-close"></i></span></p>
+      </template>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -68,21 +68,22 @@ export default {
     }
   },
   data () {
-  	return {
-  	  leftList: this.leftData,
-  	  clist: this.rightData,
+    return {
+      leftList: this.leftData,
+      clist: this.rightData,
       leftItem: [],
       rightItem: this.rightData,
       headItem: [],
       checkArray: [],
-  	  logo: require('@/assets/img/spot.png'),
+      logo: require('@/assets/img/spot.png'),
       comAddEmpShow: process.env.comAddEmpShow || false
-  	}
+    }
   },
   watch: {
     leftData (val) {
       this.leftList = val
       this.leftItem = this.checkIsSelect(val)
+      this.setHead()
     },
     rightData (val) {
       this.clist = val
@@ -90,9 +91,7 @@ export default {
     },
     checkValue (val) {},
     checkNum (val) {},
-    menuType (val) {
-      console.log(val)
-    }
+    menuType (val) {}
   },
   mounted () {
     this.rightItem = this.rightData
@@ -101,6 +100,7 @@ export default {
   },
   methods: {
     setHead (){
+      this.headItem = []
       let hobj = {
         name: this.$t('depart.dlist'),
         item: this.checkIsSelect(this.leftData)
@@ -118,7 +118,7 @@ export default {
         }
       })
     },
-  	selectItem (item,index) {
+    selectItem (item,index) {
       if (this.checkValue) {
         if (this.checkArray[index]) {
           if (this.checkNum > 0) {
@@ -161,8 +161,8 @@ export default {
           this.rightItem = obj
         }
       }
-  	  this.$emit('menukit',this.rightItem)
-  	},
+      this.$emit('menukit',this.rightItem)
+    },
     goitem (item,index) {
       this.leftItem = this.checkIsSelect(this.headItem[index].item)
       this.headItem = this.headItem.slice(0,index+1)
@@ -188,7 +188,9 @@ export default {
     checkIsSelect (item) {
       let _self = this
       if (item instanceof Array) {
-        item.forEach(function(element, index) {    
+        item.forEach(function(element, index) {
+          element.isChecked = false
+          _self.checkArray[index] = false  
           _self.rightItem.forEach(function(rele, rindex) {
             if (element.label === rele.label && element.pid === rele.pid) {
               element.isChecked = true
@@ -197,6 +199,7 @@ export default {
           })
         })
       } else {
+        item.isChecked = false
         _self.rightItem.forEach(function(rele, rindex) {
           if (item.label === rele.label && item.pid === rele.pid) {
             item.isChecked = true
@@ -214,24 +217,24 @@ export default {
         }
       })
     },
-  	removeItem (item,index) {
+    removeItem (item,index) {
       this.rightItem.splice(index,1)
       this.$emit('menukit',this.rightItem)
       this.selectItemFalse(item,index)
-  	}
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
 .lrmenuwrap{
-	width:100%;
-	overflow:hidden;
+  width:100%;
+  overflow:hidden;
   text-align:left;
-	.lrmenu-left,.lrmenu-right{
-		width:50%;
-		display:inline-block;
-		float:left;
-	}
+  .lrmenu-left,.lrmenu-right{
+    width:50%;
+    display:inline-block;
+    float:left;
+  }
 }
 .lrmenu-item{
   line-height:36px;
@@ -239,10 +242,10 @@ export default {
     pointer-events:none;
   }
   img{
-  	margin:0 5px;
+    margin:0 5px;
   }
   .lrmenu-item-close{
-  	float:right;
+    float:right;
   }
 }
 .leadheadwrap {

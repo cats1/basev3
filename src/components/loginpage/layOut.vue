@@ -43,7 +43,7 @@
 <script>
 import { ImgCode, MangerLogin, SuperLogin, CompanyLogin, EmpLogin, StageLogin, LoginSelect } from '@/components/loginpage'
 import loginNav from '@/components/headnav/loginnav'
-import {getBaseStageLink,getBaseEmpPointLink} from '@/utils/common'
+import {getBaseStageLink,getBaseEmpPointLink,getParameter,changeURLArg} from '@/utils/common'
 export default {
   components: { ImgCode, MangerLogin, SuperLogin, CompanyLogin, EmpLogin, StageLogin, LoginSelect,loginNav },
   name: 'App',
@@ -51,28 +51,38 @@ export default {
     return {
       loginType: 0,
       empLoginShow: process.env.empLogin || false,
-      empPointLogin: process.env.empPointLogin || false
+      empPointLogin: process.env.empPointLogin || false,
+      empPointEpson: process.env.empPointEpson || false
     }
   },
   watch: {
   	loginType (val) {}
   },
+  created () {
+    this.loginType = parseInt(getParameter('v')) || 0
+  },
   methods: {
     changeLogin (type) {
+      
       if (type === 4) {
         if (process.env.stageLink) {
           //window.location.href = getBaseStageLink()
           window.open(getBaseStageLink())
         } else {
           this.loginType = type
+          if (this.empPointEpson) {
+            window.location.href = changeURLArg(window.location.href,'v',this.loginType)
+          }
         }
       } else {
         if (this.empPointLogin) {
           window.location.href = getBaseEmpPointLink()
         } else {
           this.loginType = type
-        }
-        
+          if (this.empPointEpson) {
+            window.location.href = changeURLArg(window.location.href,'v',this.loginType)
+          }
+        }        
       }
     }
   }

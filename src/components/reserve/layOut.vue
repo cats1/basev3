@@ -6,7 +6,9 @@
     <template v-if="!pcSetWorkTime">
       <stage-signout class="bgwhite"></stage-signout>    
       <work-time class="bgwhite"></work-time>
-      <visit-time class="bgwhite"></visit-time>
+      <template v-if="visitTimeShow">
+        <visit-time class="bgwhite"></visit-time>
+      </template>      
     </template>
     <template v-if="stageOffTimeShow">
       <stage-signout class="bgwhite"></stage-signout>
@@ -14,7 +16,7 @@
     <code-time class="bgwhite"></code-time>
     <code-sign class="bgwhite"></code-sign>
     <approve-set class="bgwhite"></approve-set>
-    <template v-if="calendarShow">
+    <template v-show="calendarShow">
       <set-calendar class="bgwhite"></set-calendar>
     </template>
   </div>
@@ -28,7 +30,8 @@ export default {
     return {
       pcSetWorkTime: process.env.pcSetWorkTime || false,
       calendarShow: process.env.calendarShow || false,
-      stageOffTimeShow: process.env.stageOffTimeShow || false
+      stageOffTimeShow: process.env.stageOffTimeShow || false,
+      visitTimeShow: process.env.visitTimeShow || false
     }
   },
   components: { order, codeTime, codeSign, stageSignout, stageTime, inviteMoban,approveSet,setCalendar,workTime,visitTime}

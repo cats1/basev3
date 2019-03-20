@@ -1,4 +1,4 @@
-import { addHoliday,updateHoliday,delHoliday,getHoliday } from '@/api/calendar'
+import { addHoliday,updateHoliday,delHoliday,getHoliday,getHolidayFromTP } from '@/api/calendar'
 import { Message } from 'element-ui'
 import Cookies from 'js-cookie'
 import i18n from '@/lang'
@@ -63,6 +63,15 @@ const user = {
     getHoliday({ commit }, info) {
       return new Promise((resolve, reject) => {
         getHoliday(info).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    getHolidayFromTP({ commit }, info) {
+      return new Promise((resolve, reject) => {
+        getHolidayFromTP(info).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)

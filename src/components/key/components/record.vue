@@ -47,8 +47,20 @@
 			      :end-placeholder="$t('vdate[1]')" @change="setDate">
 			    </el-date-picker>
 			</el-form-item>
+			<template v-if="empWorkNoCheck">
+				<el-form-item :label="$t('direction')">
+					<el-select v-model="form.company" >
+						<el-option label="全部" value=""></el-option>
+						<el-option label="进门" value="进门"></el-option>
+						<el-option label="出门" value="出门"></el-option>
+				    </el-select>
+			    </el-form-item>
+			</template>			
 			<el-form-item >
 			  <el-button type="primary" @click="searchList">{{$t('btn.searchBtn')}}</el-button>
+			  <template v-if="keyListExport">
+			  	<el-button type="success" @click="getExport">{{$t('btn.export')}}</el-button>
+			  </template>
 			</el-form-item>
 		</el-form>
 		<el-table :data="list" border :row-class-name="tableRowClassName">
@@ -102,16 +114,15 @@
 		        		{{scope.row.openDate | formatDate}}
 		        	</template>
 		        </el-table-column>
-		        <!-- <template v-if="empWorkNoCheck">
-		        	<el-table-column
-				        :label="$t('status.text')" width="80">
-				        	<template slot-scope="scope">
-				        		{{scope.row.openStatus}}
-				        	</template>
-				        </el-table-column>
-		        </template> -->
 	            <template v-if="!empWorkNoCheck">
 	            	<template v-if="deptidToString">
+	            	    <el-table-column :label="$t('status.text')" width="100">
+			        	   <template slot-scope="scope">
+			        		{{scope.row.openStatus | judgeRecordStatus}}
+			        	   </template>
+		                </el-table-column>
+	                </template>
+	                <template v-else-if="openStatusShow">
 	            	    <el-table-column :label="$t('status.text')" width="100">
 			        	   <template slot-scope="scope">
 			        		{{scope.row.openStatus | judgeRecordStatus}}
@@ -126,7 +137,13 @@
 		                </el-table-column>
 	                </template>
 	            </template>
-	            
+	            <template v-else>
+	            	<el-table-column :label="$t('status.text')" width="100">
+			        	<template slot-scope="scope">
+			        		{{scope.row.openStatus | judgeRecordStatus}}
+			        	</template>
+		            </el-table-column>
+	            </template>
 			</template>
 			<template v-else>
 				<el-table-column prop="deviceName"
@@ -174,7 +191,7 @@
 <script>
 import {getCache} from '@/utils/auth'
 import {formatDate} from '@/utils/index'
-import { groupStatusText,judgeVtype,judgeRecordStatus,judgeRecordStatus1 } from '@/utils/common'
+import { groupStatusText,judgeVtype,judgeRecordStatus,judgeRecordStatus1,downloadKeyListDoc } from '@/utils/common'
 export default {
   data () {
   	return {
@@ -193,12 +210,15 @@ export default {
         deviceCode: '',
         vtype: '',
         vname: '',
-        status: '1'
+        status: '1',
+        company: ''
   	  },
   	  empWorkNoCheck: process.env.empWorkNoCheck,
   	  date: [formatDate(new Date(),'yyyy-MM-dd'),formatDate(new Date(),'yyyy-MM-dd')],
   	  areaEquipShow: process.env.areaEquipShow || false,
-  	  deptidToString: process.env.deptidToString || false
+  	  deptidToString: process.env.deptidToString || false,
+  	  keyListExport: process.env.keyListExport || false,
+  	  openStatusShow: process.env.openStatusShow || false
   	}
   },
   filters: {
@@ -274,6 +294,20 @@ export default {
         vtype: this.form.vtype,
         vname: this.form.vname,
   	  }
+  	  if (this.empWorkNoCheck) {
+  	  	nform = {
+	  	  	userid: getCache('userid'),
+	  	  	startDate: this.form.startDate,
+	        endDate: this.form.endDate,
+	        startIndex: this.form.startIndex,
+	        requestedCount: this.requestedCount,
+	        mobile: this.form.mobile,
+	        deviceCode: this.form.deviceCode,
+	        vtype: this.form.vtype,
+	        vname: this.form.vname,
+	        company: this.form.company
+	  	}
+  	  }
   	  this.$store.dispatch('getOpendoorInfo',nform).then(res => {
   	  	let {status,result} = res
   	  	if (status === 0) {
@@ -281,6 +315,10 @@ export default {
           this.total = result.count
   	  	}
   	  })
+  	},
+  	getExport () {
+  	   let params = '?userid=' + getCache('userid') + '&status=' + this.checkList.join(',') +'&startDate=' + this.form.startDate +'&endDate=' + this.form.endDate + '&token=' + getCache('token')
+  	   downloadKeyListDoc(params)
   	},
   	getRfidRecords () {
   	  let nform = {

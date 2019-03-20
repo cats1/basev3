@@ -9,8 +9,6 @@ import router from '@/router'
 import store from '@/store'
 import i18n from '@/lang'
 import Print from 'vue-print-nb'
-
-//import 'babel-polyfill'
 //import promise from 'es6-promise'
 //promise.polyfill()
 //import NProgress from 'nprogress'
@@ -21,17 +19,14 @@ Vue.use(ElementUI, {
 })
 Vue.use(Print)
 Vue.config.productionTip = false
-/*router.beforeEach((to, from, next) => {
-  NProgress.start()
-  if (to.meta.title) {
-    //document.title = to.meta.title
+router.beforeEach((to, from, next) => {
+  let token = sessionStorage.getItem('token')
+  if (token) {
+    next()
+  } else {
+    window.location.href = 'signin.html'
   }
-  next()
 })
-
-router.afterEach(() => {
-  NProgress.done()
-})*/
 new Vue({
   el: '#app',
   store,

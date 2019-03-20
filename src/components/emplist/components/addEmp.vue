@@ -418,7 +418,6 @@ export default {
       }
       if (!isEmptyObject(val)) {
         this.form = val
-        if (val.empPhone.length) {}
         this.getDeptByEmpid()
         if (val.defaultNotify == 2) {
           this.defaultnotify = true
@@ -536,9 +535,9 @@ export default {
       this.$store.dispatch('getDeptByEmpid',nform).then(res => {
         let {status,result} = res
         if (status === 0) {
-          if (result.length > 0) {
-            this.parentObj = result
-            let darray = []
+          this.parentObj = result
+          let darray = []
+          if (result.length > 0) {            
             result.forEach(function(element, index) {
               let nobj = {
                 label: element['deptName'],// + '(' + element[count] + ')',
@@ -553,9 +552,23 @@ export default {
                 strdid: element['strDeptid']
               }
               darray.push(nobj)
-            })
-            this.departArray = darray
+            })            
+          } else {
+              let nobj = {
+                label: getCache('company'),// + '(' + element[count] + ')',
+                name: getCache('company'),
+                pid: '',
+                pcount: 0,
+                dp: 'root',
+                children: [],
+                id: 0,
+                dpno: 0,
+                dpRole: 'root',
+                strdid: 0
+              }
+              darray.push(nobj)
           }
+          this.departArray = darray
         }
       })
     },

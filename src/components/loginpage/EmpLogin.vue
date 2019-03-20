@@ -8,11 +8,14 @@
               </span>
              <el-input type="text" auto-complete="off" v-model="loginForm.phone" :placeholder="$t('login.username')" />
           </el-form-item>
-          <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="goEpsonLogin">{{$t('login.logIn')}}</el-button>
-          <el-alert
-            title="员工请在IE浏览器中登录，请启用ActiveX，具体配置步骤：工具>Internet选项>安全>Internet>自定义级别>ActiveX控件和插件>对没有标记为安全的ActiveX控件进行初始化和脚本运行>选择启用"
-            type="error" :center="false" :closable="false" v-show="tips">
-          </el-alert>
+          <template v-if="autoLogin">
+            <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="goEpsonLogin">{{$t('login.logIn')}}</el-button>
+            <el-alert
+              title="员工请在IE浏览器中登录，请启用ActiveX，具体配置步骤：工具>Internet选项>安全>Internet>自定义级别>ActiveX控件和插件>对没有标记为安全的ActiveX控件进行初始化和脚本运行>选择启用"
+              type="error" :center="false" :closable="false" v-show="tips">
+            </el-alert>
+          </template>
+          
       </template>
       <template v-else>
           <el-form-item prop="username">
@@ -136,7 +139,8 @@ export default {
       empPwdShow: process.env.empPwdShow || false,
       empPointEpson: process.env.empPointEpson || false,
       empUserName: '',
-      tips: false
+      tips: false,
+      autoLogin: true
     }
   },
   created () {
@@ -154,6 +158,8 @@ export default {
       try{
         let wshNetwork = new ActiveXObject("WScript.Network")
         this.loginForm.phone = wshNetwork.UserName
+        this.autoLogin = false
+        this.goEpsonLogin()
       } catch (e) {
         if (e.name == 'Error') {
           this.tips = true

@@ -10,8 +10,7 @@
           <el-button class="right" @click="goDot">
             <i class="fa fa-list"></i>{{$t('moban.dot')}}
           </el-button></p>
-        </template>
-        
+        </template>        
       </el-row>
     </template>
 		  <div class="boxshadow bgwhite paddinglr30 paddingtb20">
@@ -21,8 +20,7 @@
           </template>
           <template v-else>
             <h3 class="marginbom20">{{$t('moban.visitMess')}}</h3>
-          </template>
-	    	  
+          </template>	    	  
           <template v-if="inviteMoreShow">             
               <template v-if="form.vType == '普通访客'">
                 <template v-for="(item,index) in formMore">
@@ -94,13 +92,13 @@
                 <el-row :gutter="20" class="marginbom20" style="text-align:right;">
                   <el-button type="primary" @click="insertVip"><img :src="inputImg" alt="" style="margin-right:10px;" >填写VIP贵宾单</el-button>
                 </el-row>
-                <vip :clock-show="vipShow" :clear-form="clearForm" @getf="getVip" v-show="vipShow"></vip>
+                <vip :vform="vipForm" :clock-show="vipShow" :plate-num="plateNum" :clear-form="clearForm" @getf="getVip" v-show="vipShow"></vip>
               </template>
               <template v-else-if="form.vType == '文涛仓'">
                 <el-row :gutter="20" class="marginbom20" style="text-align:right;">
                   <el-button type="primary" @click="insertEsl"><img :src="inputImg" alt="" style="margin-right:10px;" >填写文书仓库依赖票</el-button>
                 </el-row>
-                <esl :esl-show="eslShow" :clear-form="clearForm" @eslform="getEsl" v-show="eslShow"></esl>
+                <esl :eform="bookForm" :esl-show="eslShow" :clear-form="clearForm" @eslform="getEsl" v-show="eslShow"></esl>
               </template>
           </template>
           <template v-else>
@@ -112,7 +110,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item :label="$t('visitTypeText')" >
+                  <el-form-item :label="$t('visitTypeText')" prop="vType">
                     <el-select class="block" v-model="form.vType" >
                       <el-option v-for="item in typelist" :key="item.vType" :label="item.vType" :value="item.vType"></el-option>
                     </el-select>
@@ -131,7 +129,7 @@
               </el-form-item>
             </template>
             <template v-else>
-              <el-row :gutter="20">
+              <el-row :gutter="20" style="padding-left:10px;padding-right:10px;">
                 <el-form-item :label="$t('sendType')" prop="sendValue">
                   <el-row class="block" :gutter="20">
                     <el-col :span="6">
@@ -159,16 +157,17 @@
             </template>      
           </template>
           <template v-if="(inviteMoreShow&&form.vType=='普通访客')||!inviteMoreShow">
-            <el-row :gutter="20">
+            <el-row :gutter="20" style="padding-left:10px;padding-right:10px;">
               <el-form-item :label="$t('form.time.text6')" prop="appointmentDate">
                 <el-date-picker
                   v-model="form.appointmentDate" style="width:100%"
-                  type="datetime" class="block" :placeholder="$t('form.time.text3')" 
-                  :picker-options="options" :default-time="['14:00:00', '18:00:00']">
+                  type="datetime" class="block" :placeholder="$t('form.time.text3')" value-format="yyyy-MM-dd HH:mm"
+                  :picker-options="options" :default-time="['14:00', '18:00']">
                 </el-date-picker>
               </el-form-item>
             </el-row>
-            <el-form-item :label="$t('form.visitType.text')">
+            <el-form-item :label="$t('form.visitType.text')" prop="visitType">
+
               <template v-if="customTemplateShow">
                 <el-select v-model="visitType" class="block" style="width:100%" @change="getVtypeTemp">
                   <el-option
@@ -190,6 +189,18 @@
                 </el-select>
               </template>
             </el-form-item>
+            <template v-if="tagShow">            
+              <el-form-item label="标签">
+                <el-select class="block" v-model="tagValue" multiple placeholder="请选择">
+                  <el-option
+                    v-for="item in tagList"
+                    :key="item.tagName"
+                    :label="item.tagName"
+                    :value="item.tagName">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </template>
             <template v-if="empSendComRequired">
               <el-form-item :label="$t('form.company.text')" prop="vcompany">
                 <el-input v-model="form.vcompany" :placeholder="$t('visitor.vcom')"></el-input>
@@ -203,6 +214,34 @@
             <el-form-item :label="$t('form.remark.text')">
               <el-input v-model="form.remark" :placeholder="$t('form.remark.text')"></el-input>
             </el-form-item>
+            <template v-if="tagShow">
+              <template v-if="form.vType == 'VVIP'">
+                <el-form-item label="抄送人员">
+                  <el-select class="block" v-model="empValue"
+                    multiple
+                    filterable
+                    remote
+                    reserve-keyword
+                    placeholder="请输入抄送人员姓名"
+                    :remote-method="remoteMethod"
+                    :loading="loading" @change="getSearchEmp">
+                    <el-option
+                      v-for="item in empList"
+                      :key="item.empid"
+                      :label="item.empName"
+                      :value="item.empid">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="接待事项">
+                  <el-input type="textarea"
+                    :autosize="{ minRows: 2, maxRows: 4}"
+                    placeholder="请输入接待事项"
+                    v-model="form.ccRemark">
+                  </el-input>
+                </el-form-item>
+              </template>
+            </template>
             <el-form-item :label="$t('form.time.text7')" prop="qrcodeType">
               <el-row class="block" :gutter="20">
                 <el-col :span="6">
@@ -305,11 +344,16 @@ export default {
       	vcompany: '',
       	visitType: '',
         sendValue: '',
-        vType: ''
+        vType: '',
+        tag: '',
+        ccNotify: '',
+        ccRemark: '',
+        plateNum: ''
       },
       rules: {
       	name: [{ required: true, message: this.$t('formCheck.validName.tip1'), trigger: 'blur' }],
         vType: [{ required: true, message: this.$t('pleaseSelectVtype'), trigger: 'blur' }],
+        visitType:[{ required: true, message: this.$t('pleaseSelectVisittype'), trigger: 'blur' }],
       	sendValue: [{ required: true, message: this.$t('sendTypeIsNull'), trigger: 'blur' }],
         phone: [{ required: true, message: this.$t('formCheck.validphone.tip2'), trigger: 'blur' }],
       	appointmentDate: [{ required: true, message: this.$t('formCheck.time.tip1'), trigger: 'blur' }],
@@ -349,11 +393,46 @@ export default {
       mobanObj: {},
       visitList: [],
       inviteMoreShow: process.env.inviteMoreShow || false,
-      vipForm: {},
-      bookForm: {},
+      vipForm: {
+        empid: getCache('empid'),
+        empName: getCache('empName'),
+        deptid: '',
+        deptName: '',
+        submitDate: new Date(),
+        receptionDate: '',
+        receptionPlace: '',
+        vCount: '',
+        subReason: '',
+        typeA: '',
+        typeB: '',
+        typeC: '',
+        dependenceItem: ''
+      },
+      bookForm: {
+        empid:getCache('empid'),
+        empName:getCache('empName'),
+        empPhone:getCache('empPhone'),
+        deptid:'',
+        deptName:'',
+        floor:'',
+        pCount:0,
+        appEntryDate:'',
+        personInfo:'',
+        opType:'',
+        dataInfo:'',
+        checkName:'',
+        checkOutputName:''
+      },
       empEmailSendClose: process.env.empEmailSendClose || false,
       clearForm: false,
-      empSendComRequired: process.env.empSendComRequired || false
+      empSendComRequired: process.env.empSendComRequired || false,
+      tagShow: process.env.tagShow || false,
+      tagList: [],
+      tagValue: [],
+      empValue: [],
+      empList: [],
+      loading: false,
+      plateNum: ''
   	}
   },
   computed: {
@@ -392,13 +471,20 @@ export default {
         if (_self.customTemplateShow) {
           if (!_self.inviteMoreShow) {
             _self.GetAllTemplateType()
+          } else {
+            _self.form.vType = 'VIP'
+            _self.vipShow = true
           }
         } else {
           _self.visitType = 1
         }
+        if (_self.tagShow) {
+          _self.getTags()
+        }
     })
   },
   methods: {
+    formatDate: formatDate,
     setFormName (val) {
       this.form.name = val
     },
@@ -411,11 +497,45 @@ export default {
     },
     insertVip () {
       this.vipShow = !this.vipShow
+      if (this.vipShow) {
+        this.vipForm = {
+          empid: getCache('empid'),
+          empName: getCache('empName'),
+          deptid: '',
+          deptName: '',
+          submitDate: new Date(),
+          receptionDate: '',
+          receptionPlace: '',
+          vCount: '',
+          subReason: '',
+          typeA: '',
+          typeB: '',
+          typeC: '',
+          dependenceItem: ''
+        }
+      }
       this.eslShow = false
     },
     insertEsl () {
       this.vipShow = false
       this.eslShow = !this.eslShow
+      if (this.eslShow) {
+        this.bookForm = {
+          empid:getCache('empid'),
+          empName:getCache('empName'),
+          empPhone:getCache('empPhone'),
+          deptid:'',
+          deptName:'',
+          floor:'',
+          pCount:0,
+          appEntryDate:'',
+          personInfo:'',
+          opType:'',
+          dataInfo:'',
+          checkName:'',
+          checkOutputName:''
+        }
+      }
     },
     getUpload (result) {
       let _self = this
@@ -441,8 +561,9 @@ export default {
     getEsl (val) {
       this.bookForm = val
     },
-    getVip (val) {
+    getVip (val,num) {
       this.vipForm = val
+      this.form.plateNum = num
     },
     deleteVisitor (index) {
       this.formMore.splice(index,1)
@@ -462,6 +583,7 @@ export default {
     },
     getVtypeTemp (val) {
       this.visitType = val
+      this.form.visitType = val
     },
     setSendValue (val) {},
     getPhoneNumberMore (first,code,phone) {
@@ -469,6 +591,43 @@ export default {
     },
     getPhoneNumber (first,code,phone) {
       this.form.sendValue = first + code + phone
+    },
+    getTags () {
+      let nform = {
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getTags',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.tagList = result
+        }
+      })
+    },
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.searchEmp(query)
+        }, 200);
+      } else {
+        this.empList = []
+      }
+    },
+    getSearchEmp (val) {
+      this.form.ccNotify = val.join(',')
+    },
+    searchEmp (val) {
+      let nform = {
+        name: val,
+        userid: getCache('userid')
+      }
+      this.$store.dispatch('getEmpByName',nform).then(res => {
+        let {status,result} = res
+        if (status === 0) {
+          this.empList = result
+        }
+      })
     },
     getTypeList () {
       let nform = {
@@ -548,6 +707,7 @@ export default {
               _self.editableTabsValue = index.toString()
               _self.tabIndex = index
               _self.visitType = '面试'
+              _self.form.visitType = '面试'
             } else if (element.templateType == '商务') {
               idName = 'bus'
               closable = false
@@ -622,7 +782,7 @@ export default {
               this.form.phone = ''
               this.form.vemail = this.form.sendValue
             }
-            let date = formatDate(this.form.appointmentDate,'yyyy-MM-dd hh:mm:ss')
+            let date = this.formatDate(new Date(this.form.appointmentDate),'yyyy-MM-dd hh:mm')
             let visitType
             let _self = this
             if (this.customTemplateShow) {
@@ -639,25 +799,54 @@ export default {
                 df: {}
               }
               if (this.form.vType == 'VIP') {
+                
+                if (this.vipForm.receptionPlace == '') {
+                  this.$message({
+                    showClose: true,
+                    message: '接待地点不能为空',
+                    type: 'warning'
+                  })
+                  return false
+                }
+                if (this.vipForm.receptionDate == '') {
+                  this.$message({
+                    showClose: true,
+                    message: '接待日期不能为空',
+                    type: 'warning'
+                  })
+                  return false
+                }
+                if (this.vipForm.vCount == '') {
+                  this.$message({
+                    showClose: true,
+                    message: '接待人数不少于1人',
+                    type: 'warning'
+                  })
+                  return false
+                }
+                if (this.vipForm.typeA == '' && this.vipForm.typeB == '' && this.vipForm.typeC == '') {
+                  this.$message({
+                    showClose: true,
+                    message: '请选择贵宾类型',
+                    type: 'warning'
+                  })
+                  return false
+                }
+                date = this.formatDate(this.vipForm.receptionDate,'yyyy-MM-dd hh:mm')
                 nform = {
                   atlist: [],
-                  vf: {
-                    empid: getCache('empid'),
-                    empName: getCache('empName'),
-                    deptid: this.vipForm.deptid,
-                    deptName: this.vipForm.deptName,
-                    submitDate: new Date(this.vipForm.submitDate),
-                    receptionDate: new Date(this.vipForm.receptionDate),
-                    receptionPlace: this.vipForm.receptionPlace,
-                    vCount: this.vipForm.vCount,
-                    subReason: this.vipForm.subReason,
-                    typeA: this.vipForm.typeA,
-                    typeB: this.vipForm.typeB,
-                    typeC: this.vipForm.typeC,
-                    dependenceItem: this.vipForm.dependenceItem
-                  }
+                  vf: this.vipForm
                 }
               } else if (this.form.vType == '文涛仓') {
+                if (this.bookForm.appEntryDate == '') {
+                  this.$message({
+                    showClose: true,
+                    message: '接待日期不能为空',
+                    type: 'warning'
+                  })
+                  return false
+                }
+                date = this.formatDate(this.bookForm.appEntryDate,'yyyy-MM-dd hh:mm')
                 nform = {
                   atlist: [],
                   df: this.bookForm
@@ -691,7 +880,8 @@ export default {
                     traffic: replaceQuotation(_self.demoban.traffic),
                     userid: getCache('userid'),
                     vcompany: _self.form.vcompany,
-                    visitType: visitType
+                    visitType: visitType,
+                    plateNum: _self.form.plateNum
                   }
                   if (_self.vTypeShow) {              
                     nobj = {
@@ -705,14 +895,15 @@ export default {
                       name: element.name,
                       phone: element.phone,
                       vemail: element.vemail,
-                      qrcodeConf: _self.form.qrcodeType,
+                      qrcodeConf: _self.form.qrcodeType || 1,
                       qrcodeType: _self.timetype === 0 ? '0' : '1',
                       remark: _self.form.remark,
                       traffic: replaceQuotation(_self.demoban.traffic),
                       userid: getCache('userid'),
                       vcompany: _self.form.vcompany,
                       visitType: visitType,
-                      vType: _self.form.vType
+                      vType: _self.form.vType,
+                      plateNum: _self.form.plateNum
                     }
                   }
                   farray.push(nobj)
@@ -731,7 +922,7 @@ export default {
                 name: this.form.name,
                 phone: this.form.phone,
                 vemail: this.form.vemail,
-                qrcodeConf: this.form.qrcodeType,
+                qrcodeConf: this.form.qrcodeType || 1,
                 qrcodeType: this.timetype === 0 ? '0' : '1',
                 remark: this.form.remark,
                 traffic: replaceQuotation(this.demoban.traffic),
@@ -751,7 +942,7 @@ export default {
                   name: this.form.name,
                   phone: this.form.phone,
                   vemail: this.form.vemail,
-                  qrcodeConf: this.form.qrcodeType,
+                  qrcodeConf: this.form.qrcodeType || 1,
                   qrcodeType: this.timetype === 0 ? '0' : '1',
                   remark: this.form.remark,
                   traffic: replaceQuotation(this.demoban.traffic),
@@ -759,6 +950,31 @@ export default {
                   vcompany: this.form.vcompany,
                   visitType: visitType,
                   vType: this.form.vType
+                }]
+              }
+              if (this.tagShow) {           
+                nform = [{
+                  address: this.demoban.address,
+                  appointmentDate: new Date(Date.parse(date.replace(/-/g, '/'))),
+                  companyProfile: replaceQuotation(this.demoban.companyProfile),
+                  empid: getCache('empid'),
+                  inviteContent: replaceQuotation(this.demoban.inviteContent),
+                  latitude: this.demoban.latitude,
+                  longitude: this.demoban.longitude,
+                  name: this.form.name,
+                  phone: this.form.phone,
+                  vemail: this.form.vemail,
+                  qrcodeConf: this.form.qrcodeType || 1,
+                  qrcodeType: this.timetype === 0 ? '0' : '1',
+                  remark: this.form.remark,
+                  traffic: replaceQuotation(this.demoban.traffic),
+                  userid: getCache('userid'),
+                  vcompany: this.form.vcompany,
+                  visitType: visitType,
+                  vType: this.form.vType,
+                  tag: this.tagValue.join(','),
+                  ccNotify: this.form.ccNotify,
+                  ccRemark: this.form.ccRemark
                 }]
               }
             }
@@ -842,6 +1058,9 @@ export default {
               vType: nform.vType
             }
           }
+          this.tagValue = []
+          this.form.ccNotify = ''
+          this.form.ccRemark = ''
           this.$refs.danform.resetFields()
           this.$refs.danform.clearValidate()
           if (this.inviteMoreShow) {

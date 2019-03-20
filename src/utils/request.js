@@ -13,7 +13,7 @@ var baseURL = getBaseUrl()
 // create an axios instance
 const service = axios.create({
   baseURL: baseURL, // api的base_url
-  timeout: 10000 // request timeout
+  timeout: 60000 // request timeout
 })
 // request interceptor
 service.interceptors.request.use(config => {

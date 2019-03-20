@@ -21,7 +21,12 @@
         <el-input name="company" type="text" v-model="form.company" autoComplete="on" :placeholder="$t('yourCompany')" />
       </el-form-item>
       <el-form-item prop="password">
-        <el-input name="password" type="password" v-model="form.password" autoComplete="on" :placeholder="$t('passText')" />
+        <template v-if='checkPassword'>
+          <check-password :p-value="form.password" @sendv="getNewpwd" :placeholder="$t('passText')"></check-password>
+        </template>
+        <template v-else>
+          <el-input type="password" autoComplete="on" v-model="form.password" :placeholder="$t('passText')"></el-input>
+        </template>
       </el-form-item>
       <el-form-item prop="repassword">
         <el-input name="repassword" type="password" v-model="form.repassword" autoComplete="on" :placeholder="$t('comfirmPassText')" />
@@ -36,8 +41,9 @@
 import { smsCode } from '@/components/SendCode'
 import { isvalidEmail, isvalidatPhone, validatePSD } from '@/utils/validate'
 import OrLine from '@/components/or/OrLine'
+import checkPassword from '@/components/checkpwd/checkPassword'
 export default {
-  components: { smsCode, OrLine },
+  components: { smsCode, OrLine, checkPassword },
   data () {
     const validateEmail = (rule, value, callback) => {
       if (!isvalidEmail(value)) {
@@ -106,10 +112,16 @@ export default {
         repassword: [{ required: true, trigger: 'blur', validator: validatePassword }],
         smscode: [{ required: true, trigger: 'blur', validator: validateCode }]
       },
-      loading: false
+      loading: false,
+      pwdStrong: 0,
+      checkPassword: process.env.checkPassword || false
     }
   },
   methods: {
+    getNewpwd (val,num) {
+      this.form.newpwd = val
+      this.pwdStrong = num
+    },
     goLogin () {
       window.location.href = 'signin.html'
     },

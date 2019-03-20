@@ -86,32 +86,32 @@ export default {
   	  this.dialogVisible = true
   	},
   	syncSet () {
-        if (getCache('ddnotify') === 1) {
+        if (getCache('ddnotify') == 1) {
           this.$message({
               message: this.$t('exporttype.tip3'),
               type: 'error'
           })
-          this.checked = !this.checked
-        } else if (getCache('rtxip')&&getCache('rtxport')) {
-          let nform = {
-            userid: getCache('userid')
-          }
-          this.$store.dispatch('getEmployeeFromRtx',nform).then(res => {
-            let {status} = res
-            if (status === 0) {
-                this.$emit('syncrtx')
-            }
-          })
+          return false
         } else {
-          this.$message({
-              message: this.$t('exporttype.tip4'),
-              type: 'error'
-          })
-          this.checked = !this.checked
-        }
+          if (getCache('rtxip')&&getCache('rtxport')) {
+            let nform = {
+              userid: getCache('userid')
+            }
+            this.$store.dispatch('getEmployeeFromRtx',nform).then(res => {
+              let {status} = res
+              if (status === 0) {
+                  this.$emit('syncrtx')
+              }
+            })
+          } else {
+            this.$message({
+                message: this.$t('exporttype.tip4'),
+                type: 'error'
+            })
+          }
+        } 
   	},
   	autoSyncSet (val) {
-    		console.log(val)
     	  let nform = {
     		  userid: getCache('userid'),
     		  rtxAuto: booleanToNumber(val)
@@ -124,7 +124,6 @@ export default {
               this.checked = !this.checked
   		  } else if (getCache('rtxip')&&getCache('rtxport')) {
   		    this.$store.dispatch('UpdateRtxRefresh',nform).then(res => {
-  	  	    	console.log(88888)
     				let {status} = res
     				if (status === 0) {
     				    this.$emit('autosyncrtx')

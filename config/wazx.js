@@ -30,6 +30,9 @@ module.exports = {
   sendSmsType: 2, //0手机号1邮箱2手机号和邮箱二选一
   areaEquipShow: true,//网安中心区域设备配置
   wazxFlag: true,
+  firstAndLastRoomTime: true,
+  keyListExport: true,
+  checkPassword: true,
   BASE_API: '"http://www.coolvisit.top/qcvisit"',//'"http://120.79.239.109/qcvisit"',//
   BASE_LINK: '"http://www.coolvisit.top/wazx/"',//'"http://120.79.239.109/"',//
   BASE_VERSION: '"v2.2.3"',

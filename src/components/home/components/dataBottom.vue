@@ -3,7 +3,7 @@
 		<h3 class="marginbom20 margintop20">{{$t('record')}}{{total}}{{$t('record1')}}{{$t('record2')}}
 		  <template v-show="data.length > 0">
 		  	<template v-if="this.nform.vType !== '文涛仓'">
-		  		<export-set :extend-show="extendShow" style="float:right;" :vtype="vtype" :nform="nform"></export-set>
+		  		<export-set :extend-show="extendShow" style="float:right;" :vtype="vtype" :nform="nform" :extend-list="extendArrayList"></export-set>
 		  	</template>
 		  </template>
 		</h3>
@@ -95,27 +95,43 @@
 			        </template>
 			      </el-table-column>
 			    </template>
-			    <template v-show="extendShow">
-			    	<template v-for="extend in extendArray">
+			    <template v-if="extendShow">
+			    	<template v-for="extend in extendArrayList">			    		
 			    		<el-table-column align="center"
-				        prop="signInGate"
-				        :label="$t('notice.doorset.signinDoor')"
-				        width="180" v-if="extend.fieldName === 'gatein'">
-				        </el-table-column>
-				        <el-table-column align="center"
-				        prop="signOutGate"
-				        :label="$t('notice.doorset.signoutDoor')"
-				        width="180" v-else-if="extend.fieldName === 'gateout'">
-				        </el-table-column>
-				        <el-table-column align="center"
-				        prop="signInOpName"
-				        :label="$t('notice.doorset.signinGuard')"
-				        width="180" v-else-if="extend.fieldName === 'guardin'">
-				        </el-table-column>
-				        <el-table-column align="center"
-				        prop="signOutOpName"
-				        :label="$t('notice.doorset.signoutGuard')"
-				        width="180" v-else-if="extend.fieldName === 'guardout'">
+				        :label="extend.displayName"
+				        width="180" >
+				        <template slot-scope="scope">
+				        	<template v-if="extend.fieldName == 'gatein'">
+			    			    {{scope.row.signInGate}}
+				    		</template>
+				    		<template v-else-if="extend.fieldName == 'gateout'">
+				    			<template v-if="scope.row.signOutGate&&scope.row.signOutGate!=''">
+				    				{{scope.row.signOutGate}}
+				    			</template>
+			    			    <template v-else>
+				    				{{filterExtendValue(scope.$index,extend)}}
+				    			</template>
+				    		</template>
+				    		<template v-else-if="extend.fieldName == 'guardin'">
+				    			<template v-if="scope.row.signInOpName&&scope.row.signInOpName!=''">
+				    				{{scope.row.signInOpName}}
+				    			</template>
+			    			    <template v-else>
+				    				{{filterExtendValue(scope.$index,extend)}}
+				    			</template>
+				    		</template>
+				    		<template v-else-if="extend.fieldName == 'guardout'">
+				    			<template v-if="scope.row.signOutOpName&&scope.row.signOutOpName!=''">
+				    				{{scope.row.signOutOpName}}
+				    			</template>
+			    			    <template v-else>
+				    				{{filterExtendValue(scope.$index,extend)}}
+				    			</template>
+				    		</template>
+				    		<template v-else>
+				    			{{filterExtendValue(scope.$index,extend)}}
+				    		</template>
+				        </template>
 				        </el-table-column>
 			    	</template>
 			    </template>
@@ -158,6 +174,24 @@
 			        :label="$t('form.remark.text')"
 			        width="180">
 			    </el-table-column>
+			    <template v-if="firstAndLastRoomTime">
+			    	<el-table-column align="center"
+				        prop="minTime"
+				        label="第一次经过机房时间"
+				        width="180">
+				        <template slot-scope="scope">
+					        {{scope.row.minTime | formatDate}}
+					    </template>
+				    </el-table-column>
+				    <el-table-column align="center"
+				        prop="maxTime"
+				        label="最后一次经过机房时间"
+				        width="180">
+				        <template slot-scope="scope">
+					        {{scope.row.maxTime | formatDate}}
+					    </template>
+				    </el-table-column>
+			    </template>
 			    <template v-if="!dataError">
 				    <el-table-column align="center"
 				        prop="visitdate"
@@ -262,14 +296,14 @@
 			        label="进入总务仓库楼层" ></el-table-column>
 			    <el-table-column align="center"
 			        prop="pCount"
-			        label="进入仓库人数" ></el-table-column> -->
+			        label="进入仓库人数" ></el-table-column
 			    <el-table-column align="center"
 			        prop="appEntryDate"
 			        label="预约进入仓库日期" >
 			        	<template slot-scope="scope">
 					        {{scope.row.appEntryDate | formatDate}}
 					    </template>
-			    </el-table-column> -->
+			    </el-table-column>
 			    <el-table-column align="center"
 					:label="$t('visitTypeText')" >
 					<template slot-scope="scope">
@@ -288,8 +322,7 @@
 			      :total="total">
 			    </el-pagination>
 			</div>
-		</template>
-		
+		</template>		
 		<lightbox :img-src="showUrl" :box-show="show" @closekit="show = false"></lightbox>
 		<esl-form :v-show="eslShow" :e-form="eslFrom" :e-record="eslRecord" @eslform="getEslFormChange"></esl-form>
 	</div>
@@ -312,18 +345,30 @@ export default {
   	nform: {
   	  type: Object,
   	  default: {}
+  	},
+  	extendItemArray: {
+  	  type: Array,
+  	  default: function () {
+  	  	return []
+  	  }
+  	},
+  	extendArray: {
+  	  type: Array,
+  	  default: function () {
+  	  	return []
+  	  }
   	}
   },
   data () {
   	return {
-  	  data: this.vdata,
+  	  data: [],
   	  list: [],
   	  size: [10, 20, 30, 40],
   	  page: 10,
   	  total: this.vdata.length,
   	  current: 1,
-  	  extendShow: false,
-  	  extendArray: [],
+  	  extendShow: process.env.extendShow || false,
+  	  extendArrayList: this.extendArray,
   	  showUrl: '',
   	  show: false,
   	  vTypeShow: process.env.vTypeShow || false,
@@ -336,7 +381,12 @@ export default {
   	  eslShow: false,
   	  eslFlag: false,
   	  eslList: [],
-  	  ieWidth: '100%'
+  	  ieWidth: '100%',
+  	  extendColArray: [],
+  	  extendColItemArray: this.extendItemArray,
+  	  extendColItemObj: {},
+  	  firstAndLastRoomTime: process.env.firstAndLastRoomTime || false,
+  	  defaultVsetIsDisplayShow: process.env.defaultVsetIsDisplayShow || false
   	}
   },
   filters:{
@@ -357,10 +407,12 @@ export default {
           this.setEslPage()
   	  	}
   	  } else {
-	  	this.current = 1
+  	  	this.current = 1
 	  	this.data = val
 	  	this.total = val.length
 	  	this.setPage()
+  	  	this.data = val
+	  	
   	  }
   	},
   	nform (val) {
@@ -369,6 +421,12 @@ export default {
   	  } else {
   	  	this.eslFlag = false
   	  }
+  	},
+  	extendItemArray (val) {
+      this.extendColItemArray = val
+  	},
+  	extendArray (val) {
+      this.extendArrayList = val
   	}
   },
   created () {
@@ -383,7 +441,6 @@ export default {
       this.data = this.vdata.list
       this.setEslPage()
   	} else {
-	  this.GetExtendVisitor()
   	  this.data = this.vdata
   	  this.setPage()
   	}
@@ -391,6 +448,14 @@ export default {
   methods: {
   	stringToArray:stringToArray,
   	downloadPDF: downloadPDF,
+  	filterExtendValue (index,obj) {
+  	  let currentIndex = (this.current-1) * this.page + index
+  	  let key = obj.fieldName
+  	  let kObj = this.extendColItemArray[currentIndex]
+  	  if (kObj && kObj[key]) {
+  	  	return kObj[key]['extendValue']
+  	  }
+  	},
   	setEslPage () {
   	  let _self = this
   	  let vArray = []
@@ -489,28 +554,6 @@ export default {
       let end = (this.current-1) * this.page + this.page
       this.list = this.data.slice(start,end)
     },
-    GetExtendVisitor () {
-      let nform = {
-      	userid: getCache('userid')
-      }
-      this.$store.dispatch('GetExtendVisitor',nform).then(res => {
-        let {status,result} = res
-        if (status === 0) {
-          let local_fieldname_arr = ['name', 'visitType', 'empid', 'phone']
-          let local_add_arr = ['email', 'vcompany']
-          let extendArray = []
-          for (let i=0;i<result.length;i++) {
-          	if ($.inArray(result[i].fieldName, local_fieldname_arr) == -1) {
-                if ($.inArray(result[i].fieldName, local_add_arr) == -1) {
-                    extendArray.push(result[i])
-                }
-            }
-          }
-          this.extendArray = extendArray
-        }
-      })
-    },
-    exportSet () {},
     getEslFormChange (val) {
       this.eslShow = val
     },

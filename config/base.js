@@ -5,14 +5,14 @@ module.exports = {
   conference: false,
   BASE_ISTRUE: true,
   loginShow: false,
-  signupShow: false,
-  stageLink: true,
-  signPdf: true,
-  empLogin: true,
-  empPwdShow: true,
-  empActiveShow: true,
-  empPhoneCheck: true,
-  empWorkNoCheck: false,
+  signupShow: false,//注册显示
+  stageLink: true,//前台跳转
+  signPdf: true,//安全协议
+  empLogin: true,//员工登录
+  empPwdShow: true,//员工密码显示
+  empActiveShow: true,//员工激活显示
+  empPhoneCheck: true,//员工手机号强制检测
+  empWorkNoCheck: false,//员工工号强制检测
   workbayCheck: false,
   agentShow: true,
   agentCheck: true,
@@ -46,8 +46,16 @@ module.exports = {
   defaultInterviewSet: false,//加班管理人
   tableFormShow: true,
   approveIsMore: true,
+  defaultVsetIsDisplayShow: true,
+  checkPassword: true,
+  extendShow: true,
+  extendExportShow: true,
+  calendarShow: false,
+  calendarLRShow: false,
+  empSendComRequired: true,
+  openStatusShow: true,//访客记录openstatus
   BASE_API: '"http://www.coolvisit.top/qcvisitBase"',//'"http://visit.eastech.com/qcvisit"',//
   BASE_LINK: '"http://www.coolvisit.top/"',//'"http://visit.eastech.com/"',//
-  BASE_VERSION: '"v2.3.0"',
+  BASE_VERSION: '"v2.3.1"',
   HOST: '"www.coolvisit.top"'//'"visit.eastech.com"'
 }
