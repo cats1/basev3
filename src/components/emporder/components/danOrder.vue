@@ -305,7 +305,7 @@ import countryNumber from '@/components/countrynumber/countryNumber'
 import {mobanDialog,previewDialog} from '@/components/dialog'
 import { getCache } from '@/utils/auth'
 import bomMoban from './bomMoban'
-import { mobile_device_detect,replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation,checkIsNull } from '@/utils/common'
+import { mobile_device_detect,replaceQuotation,replaceRemoveQuotation,replaceRemoveReserveQuotation,checkIsNull,isIE } from '@/utils/common'
 import { formatDate } from '@/utils/index'
 export default {
   components: { bomMoban,mobanDialog,previewDialog,countryNumber,downInviteMoban,uploadInvite,esl,vip },
@@ -930,7 +930,10 @@ export default {
                 vcompany: this.form.vcompany,
                 visitType: visitType
               }]
-              if (this.vTypeShow) {           
+              if (this.vTypeShow) {
+                if(isIE()){
+                  date = this.form.appointmentDate
+                }           
                 nform = [{
                   address: this.demoban.address,
                   appointmentDate: new Date(Date.parse(date.replace(/-/g, '/'))),

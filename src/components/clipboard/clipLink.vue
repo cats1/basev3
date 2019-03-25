@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     checkLink (type,encryption) {
-      if (type === '商务') {
+      if (type !== '面试') {
         return getBaseUrl() + '/bus?id=' + encryption
       } else {
         return getBaseUrl() + '/show?id=' + encryption

@@ -1,5 +1,8 @@
 'use strict'
 const merge = require('webpack-merge')
+console.log(process.env)
+let args = process.env.npm_config_env
+console.log(args)
 //const base = require('./base')
 //const base = require('./wazx')//网安中心
 //const base = require('./eastbase')//东威
@@ -15,7 +18,8 @@ const merge = require('webpack-merge')
 //const base = require('./shzl')//上海震亮
 //const base = require('./dannahe')//丹纳赫
 //const base = require('./zto')//中通
-const base = require('./senma')
+//const base = require('./senma')
+const base = require('./'+ args)
 module.exports = merge(base, {
   NODE_ENV: '"production"',
   /*BASE_API: '"http://www.coolvisit.top/qcvisitBase"',

@@ -34,7 +34,7 @@ module.exports = {
   papernew: true,
   visitAvatarRequired: false,
   idCardNum: 0,
-  photoShow: false,
+  photoShow: true,
   comAddEmpShow: true,
   printType: 0,//0新贴纸1旧贴纸
   empNoSearchShow: false,
