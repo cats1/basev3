@@ -4,19 +4,12 @@
   </div>
 </template>
 <script>
-import { layOut } from '@/components/loginpage'
+import { layOut } from '@/components/active'
 export default {
   components: { layOut },
   name: 'App',
   data () {
-  	return {
-      loginType: 0
-    }
-  },
-  methods: {
-    changeLogin (type) {
-      this.loginType = type
-    }
+  	return {}
   }
 }
 </script>
