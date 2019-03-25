@@ -1,8 +1,6 @@
 'use strict'
 const merge = require('webpack-merge')
-console.log(process.env)
 let args = process.env.npm_config_env
-console.log(args)
 //const base = require('./base')
 //const base = require('./wazx')//网安中心
 //const base = require('./eastbase')//东威
