@@ -62,6 +62,7 @@ service.interceptors.response.use(
         }
       } else {
         if (status) {
+          console.log(status)
           const noticeMessages = i18n.messages[getLanguage()].responseNote
           let messages = ''
           if (getLanguage() === 'zh') {

@@ -39,3 +39,11 @@ export function epsonLogin(data) {
     data
   })
 }
+//getCardInfo
+export function getCardInfo(data) {
+  return request({
+    url: '/getCardInfo',
+    method: 'post',
+    data
+  })
+}

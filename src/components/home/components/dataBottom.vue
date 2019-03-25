@@ -104,8 +104,8 @@
 			        	<template v-else>
 			        		<template v-if="scope.row.resPhoto">
 			        			<template v-for="item in stringToArray(scope.row.resPhoto)">
-			        			  <img class="showPhotoPic" :src="item" alt="" @click="setResPhotoUrl(item)">
-			        		    </template>
+			        			  <img class="showPhotoPic" :src="item" alt="" @click="setResPhotoUrl(item)" />
+			        		  </template>
 			        		</template>
 			        	</template>
 			        </template>
@@ -493,10 +493,27 @@ export default {
   	setResPhotoUrl (url) {
   	  this.showUrl = url
   	  this.show = true
-  	},
+		},
+		getCardInfo (cardid) {
+			let nform = {
+      	cardId: cardid
+      }
+      this.$store.dispatch('getCardInfo',nform).then(res => {
+				let result = res.result
+				if(result.status){
+					this.$message({
+						showClose: true,
+						message: result.reason,
+						type: 'warning'
+					})
+					return false
+				}
+				this.showUrl = result.photo
+  	    this.show = true
+			})
+		},
   	setShowUrl (row) {
-  	  this.showUrl = row.vphoto
-  	  this.show = true
+			this.getCardInfo(row.cardId)
   	},
   	setVphoto (val) {
   	  if (val && val !== '') {

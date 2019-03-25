@@ -1,4 +1,4 @@
-import { getVipForm,getDepotForm,getDepotFormList,getProcessRecord,epsonLogin } from '@/api/epson'
+import { getVipForm,getDepotForm,getDepotFormList,getProcessRecord,epsonLogin,getCardInfo } from '@/api/epson'
 import { getToken, setToken, setCache, getCache } from '@/utils/auth'
 import i18n from '@/lang'
 import 'babel-polyfill'
@@ -25,7 +25,16 @@ const user = {
 	          reject(error)
 	        })
 	      })
-	    },
+			},
+			getCardInfo({ commit }, info) {
+	      return new Promise((resolve, reject) => {
+	        getCardInfo(info).then(response => {
+	          resolve(response)
+	        }).catch(error => {
+	          reject(error)
+	        })
+	      })
+			},
 	    getDepotFormList({ commit }, info) {
 	      return new Promise((resolve, reject) => {
 	        getDepotFormList(info).then(response => {
