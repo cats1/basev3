@@ -52,7 +52,7 @@
           <template v-else>
             <div class="borderstyle" style="position:relative;">
               <input type="text" class="inputnoborder" :placeholder="$t('form.name.text')" v-model="sform.name" @keydown="searchEmpNo($event)">
-              <i slot="prefix" class="el-input__icon el-icon-search" style="position:absolute;top:0;right:0;"></i>
+              <i slot="prefix" class="el-input__icon el-icon-search" style="position:absolute;top:0;right:0;" @click="searchEmpNo($event)"></i>
             </div>
             <!-- <el-input v-model="sform.name" @change="searchEmp" >
               <i slot="prefix" class="el-input__icon el-icon-search"></i>

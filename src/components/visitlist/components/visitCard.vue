@@ -3,7 +3,7 @@
 		<div class="pagecardleft">
             <span class="cardpic">
             	<!-- <img :src="avatarSrc" alt=""> -->
-              <img :src="cards.avatar" alt="">
+              <img :src="avatarSrc" alt="">
             </span>
             <span class="logopic">{{company}}</span>
         </div>
@@ -15,7 +15,7 @@
             <p><img :src="areaUrl" alt="">{{cards.area}}</p>
             <p><img :src="dateUrl" alt="">{{cards.endDate}}</p>
             <div class="cardcodewrap">
-            	<qr-code :mid="codeString" :ctype="1" :width="196" :height="196"></qr-code>
+            	<qr-code :mindex="index" :mid="codeString" :ctype="1" :width="196" :height="196"></qr-code>
             </div>
         </div>
 	</div>
@@ -74,7 +74,7 @@ export default {
   },
   watch: {
   	vitem (val) {
-  	  this.cards = val
+      this.cards = val
       if (checkIsNull(val.avatar) !== '') {
         this.avatarSrc = val.avatar
       } else {
@@ -122,8 +122,7 @@ export default {
         newImg.src = require('@/assets/img/default.png')
       }
       newImg.onload = () => { // 图片加载成功后把地址给原来的img
-        this.avatarSrc = newImg.src
-        console.log(888888888)
+        _self.avatarSrc = newImg.src
         flag = true
         _self.makeCard()
         callback && callback(true)

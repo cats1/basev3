@@ -14,6 +14,10 @@ import Qrcode from 'qrcodejs2'
 export default {
   props: {
     mid: null,
+    mindex:{
+      type: Number,
+      default: -1
+    },
     link: {
       type: String,
       default: ''
@@ -41,7 +45,7 @@ export default {
   },
   data () {
   	return {
-      id: 'qrcode'+ this.mid,
+      id: 'qrcode' + this.mindex,
       url: '',
       code: this.mid
   	}
@@ -49,7 +53,11 @@ export default {
   watch: {
     mid (val) {
       this.code = val
+      this.id = 'qrcode'+ this.mindex
       this.initQrcode(val)
+    },
+    mindex (val) {
+      console.log(val)
     },
     link (val) {
       this.initQrcode(val)
