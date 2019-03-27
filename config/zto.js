@@ -51,7 +51,7 @@ module.exports = {
   extendShow: true,
   extendExportShow: true,
   calendarShow: false,
-  calendarLRShow: true,
+  calendarLRShow: false,
   empSendComRequired: true,
   openStatusShow: true,//访客记录openstatus
   visitTimeShow: false,

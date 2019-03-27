@@ -16,7 +16,7 @@
     <code-time class="bgwhite"></code-time>
     <code-sign class="bgwhite"></code-sign>
     <approve-set class="bgwhite"></approve-set>
-    <template v-show="calendarShow">
+    <template v-if="calendarShow">
       <set-calendar class="bgwhite"></set-calendar>
     </template>
   </div>

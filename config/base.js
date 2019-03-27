@@ -3,7 +3,7 @@ module.exports = {
   Door: true,
   homepage: false,
   conference: false,
-  BASE_ISTRUE: true,
+  BASE_ISTRUE: false,
   loginShow: false,
   signupShow: false,//注册显示
   stageLink: true,//前台跳转
@@ -52,8 +52,9 @@ module.exports = {
   extendExportShow: true,
   calendarShow: false,
   calendarLRShow: false,
-  empSendComRequired: true,
-  openStatusShow: true,//访客记录openstatus
+  empSendComRequired: false,
+  openStatusShow: false,//访客记录openstatus
+  visitTimeShow: false,
   BASE_API: '"http://www.coolvisit.top/qcvisitBase"',//'"http://visit.eastech.com/qcvisit"',//
   BASE_LINK: '"http://www.coolvisit.top/"',//'"http://visit.eastech.com/"',//
   BASE_VERSION: '"v2.3.1"',
